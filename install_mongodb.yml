@@ -1,6 +1,8 @@
 ---
 - name: Mongo Base Install
-  hosts: {{ target }}
+  hosts: "{{ target }}"
+  gather_facts: yes
+  strategy: "{{ set_strategy | default(lookup('config', 'DEFAULT_STRATEGY')) }}"  
   tasks:
 
     - name: create a working directory
