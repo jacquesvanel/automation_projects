@@ -10,7 +10,7 @@
 
     - name: copy mongo files into place
       unarchive:
-        src: /home/gabriel.larios/work/mongodb/mongo.tar.gz
+        remote_src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongo.tar.gz
         dest: /opt/scripts/
 
     - name: install the RPM key
