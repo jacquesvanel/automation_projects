@@ -1,7 +1,6 @@
 ---
 - name: Mongo Base Install
-  hosts: all
-  become: yes
+  hosts: {{ target }}
   tasks:
 
     - name: create a working directory
