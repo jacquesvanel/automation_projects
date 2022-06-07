@@ -1,0 +1,3 @@
+[submodule "community.mongodb"]
+	path = community.mongodb
+	url = https://github.com/ansible-collections/community.mongodb.git
