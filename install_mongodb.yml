@@ -1,7 +1,8 @@
 ---
 - name: Mongo Base Install
-  hosts: all
-  become: yes
+  hosts: "{{ target }}"
+  gather_facts: yes
+  strategy: "{{ set_strategy | default(lookup('config', 'DEFAULT_STRATEGY')) }}"  
   tasks:
 
     - name: create a working directory
@@ -11,8 +12,9 @@
 
     - name: copy mongo files into place
       unarchive:
-        src: /home/gabriel.larios/work/mongodb/mongo.tar.gz
+        src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongo.tar.gz
         dest: /opt/scripts/
+        remote_src: yes
 
     - name: install the RPM key
       rpm_key:
