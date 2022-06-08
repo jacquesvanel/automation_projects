@@ -1,0 +1,5 @@
+---
+    - hosts: "{{target}}"
+      roles:
+         - mongodb_repository
+         - mongodb_install
