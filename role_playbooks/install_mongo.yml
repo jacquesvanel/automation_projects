@@ -1,5 +1,5 @@
 ---
-    - hosts: "{{target}}"
+    - hosts: "{{ target }}"
       roles:
-         - mongodb_repository
-         - mongodb_install
+        - mongodb_repository
+        - mongodb_install
