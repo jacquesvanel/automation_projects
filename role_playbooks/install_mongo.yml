@@ -1,5 +1,7 @@
 ---
-- hosts: "{{ target }}"
-  roles:
-    - mongodb_repository
-    - mongodb_install
+ - hosts: "{{target}}"
+   gather_facts: no
+   strategy: "{{ set_strategy | default(lookup('config', 'DEFAULT_STRATEGY')) }}"
+   roles:
+     - roles/mongodb_repository
+     - roles/mongodb_install
