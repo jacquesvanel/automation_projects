@@ -38,7 +38,7 @@
         password: 12345
         state: present
         update_password: on_create    
-  pre_tasks:
+#  pre_tasks:
     # ensure this is done
     # - name: ensure hosts can connect to each other via hostnames
     #   template:
