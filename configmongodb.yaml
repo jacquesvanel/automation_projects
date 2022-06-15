@@ -1,6 +1,8 @@
 ---
-  hosts:
-    - "{{target}}"
+- name: Mongo config Install
+  hosts: "{{ target }}"
+  gather_facts: yes
+  strategy: "{{ set_strategy | default(lookup('config', 'DEFAULT_STRATEGY')) }}"
       #- host_mongo_primary
       #- host_mongo_secondary
       #- host_mongo_arbiter
