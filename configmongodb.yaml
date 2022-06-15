@@ -1,4 +1,5 @@
-- hosts:
+---
+  hosts:
     - "{{target}}"
       #- host_mongo_primary
       #- host_mongo_secondary
