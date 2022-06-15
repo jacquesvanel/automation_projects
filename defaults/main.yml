@@ -36,12 +36,14 @@ mongo_processmanagement:
   timeZoneInfo: /usr/share/zoneinfo
 
 # The keyfile is automatically generated
-mongo_security: ''
+mongo_security: 
+	keyfile: /data/pet/keyfile.pem
 
 mongo_operationprofiling: ''
 
-mongo_replication: ''
-
+mongo_replication: 
+	replSetName: sh1_pet
+    
 mongo_sharding: ''
 
 mongo_auditlog: ''
@@ -59,7 +61,13 @@ mongo_replication_role: ''
 
 # Define databases and users
 # See readme for examples
-mongo_user: []
+mongo_user: 
+	- database: 
+      name: glarios
+      update_password: on_create
+      password: ")OKMNBVCXZAQ!@"
+      roles: 'readWrite,dbAdmin,userAdmin'
+      state: present
 
 # Backup via cronjob, executed with mongodump
 # When there is replication, only active on one secondary
