@@ -43,8 +43,16 @@ mongo_operationprofiling: ''
 
 mongo_replication: 
 	replSetName: sh1_pet
+    members:
+    	- ae1rsbxlmdb001
+		- ae1rsbxlmdb002
+		- ae1rsbxlmdb003
     
-mongo_sharding: ''
+mongo_sharding: 
+	shard: sh1_pet/ae1rsbxlmdb001.opr.afsiep.net:37040
+    shard: sh1_pet/ae1rsbxlmdb002.opr.afsiep.net:37041
+    shard: sh1_pet/ae1rsbxlmdb003.opr.afsiep.net:37042
+	
 
 mongo_auditlog: ''
 
