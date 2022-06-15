@@ -1,16 +1,16 @@
 ---
 mongo_repo: true
 mongo_version: 5.0
-mongo_edition: org  # org or enterprise
+mongo_edition: enterprise  # org or enterprise
 mongo_pymongo_version: 3.12.3
 
 # Apply production recommendations, see readme
 mongo_thp: true
 mongo_numa: true
 
-mongo_admin_pass: 'change_me'
+mongo_admin_pass: password1 #change me
 mongo_adminuser_name: adminuser
-mongo_adminuser_pass: 'change_me'
+mongo_adminuser_pass: password1 #'change_me'
 
 # --- Defaults for mongod.conf
 # See readme
@@ -22,7 +22,7 @@ mongo_net:
 mongo_systemlog:
   destination: file
   logAppend: true
-  path: /var/log/mongodb/mongod.log
+  path: /var/log/mongodb//pet/mongoS1.log
 
 mongo_storage:
   dbPath: /var/lib/mongo
@@ -36,13 +36,23 @@ mongo_processmanagement:
   timeZoneInfo: /usr/share/zoneinfo
 
 # The keyfile is automatically generated
-mongo_security: ''
+mongo_security: 
+	keyfile: /data/pet/keyfile.pem
 
 mongo_operationprofiling: ''
 
-mongo_replication: ''
-
-mongo_sharding: ''
+mongo_replication: 
+	replSetName: sh1_pet
+    members:
+    	- ae1rsbxlmdb001
+		- ae1rsbxlmdb002
+		- ae1rsbxlmdb003
+    
+mongo_sharding: 
+	shard: sh1_pet/ae1rsbxlmdb001.opr.afsiep.net:37040
+    shard: sh1_pet/ae1rsbxlmdb002.opr.afsiep.net:37041
+    shard: sh1_pet/ae1rsbxlmdb003.opr.afsiep.net:37042
+	
 
 mongo_auditlog: ''
 
@@ -59,7 +69,13 @@ mongo_replication_role: ''
 
 # Define databases and users
 # See readme for examples
-mongo_user: []
+mongo_user: 
+	- database: 
+      name: glarios
+      update_password: on_create
+      password: ")OKMNBVCXZAQ!@"
+      roles: 'readWrite,dbAdmin,userAdmin'
+      state: present
 
 # Backup via cronjob, executed with mongodump
 # When there is replication, only active on one secondary
