@@ -22,7 +22,7 @@ mongo_net:
 mongo_systemlog:
   destination: file
   logAppend: true
-  path: /var/log/mongodb/mongod.log
+  path: /var/log/mongodb//pet/mongoS1.log
 
 mongo_storage:
   dbPath: /var/lib/mongo
