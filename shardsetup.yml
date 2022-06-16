@@ -23,7 +23,7 @@
         - "{{ mongodb1 }}" : "{{ shard1port }}"
         - "{{ mongodb2 }}" : "{{ shard2port }}"
         - "{{ mongodb3 }}" : "{{ shard3port }}"
-        when: groups.mongod.index(inventory_hostname) == 0
+    when: groups.mongod.index(inventory_hostname) == 0
 
 - name: Add a replicaset shard 
   community.mongodb.mongodb_shard:
