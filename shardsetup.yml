@@ -20,28 +20,28 @@
     login_password: admin
     replica_set: "{{ replica_set }}"
     members:
-        - "{{ mongodb1 }}" : "{{ shard1port }}"
-        - "{{ mongodb2 }}" : "{{ shard2port }}"
-        - "{{ mongodb3 }}" : "{{ shard3port }}"
+        - "{{ mongodb1 }}:{{ shard1port }}"
+        - "{{ mongodb2 }}:{{ shard2port }}"
+        - "{{ mongodb3 }}:{{ shard3port }}"
     when: groups.mongod.index(inventory_hostname) == 0
 
 - name: Add a replicaset shard 
   community.mongodb.mongodb_shard:
     login_user: admin
     login_password: admin
-    shard: "{{ replica_set }}" / "{{ mongodb1 }}":"{{ shard1port }}"
+    shard: "{{ replica_set }}/{{ mongodb1 }}:{{ shard1port }}"
     state: present
 
 - name: Add a replicaset shard 
   community.mongodb.mongodb_shard:
     login_user: admin
     login_password: admin
-    shard: "{{ replica_set }}" / "{{ mongodb2 }}":"{{ shard2port }}"
+    shard: "{{ replica_set }}/{{ mongodb2 }}:{{ shard2port }}"
     state: present
 
 - name: Add a replicaset shard 
   community.mongodb.mongodb_shard:
     login_user: admin
     login_password: admin
-    shard: "{{ replica_set }}"/ "{{ mongodb3 }}":"{{ shard3port }}"
+    shard: "{{ replica_set }}/{{ mongodb3 }}:{{ shard3port }}"
     state: present
