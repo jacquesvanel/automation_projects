@@ -4,14 +4,14 @@
   gather_facts: yes
   strategy: "{{ set_strategy | default(lookup('config', 'DEFAULT_STRATEGY')) }}"
   vars:
-  	env: pet
-  	replica_set: sh1_pet
-  	mongodb1: ae1rsbxlmdb001
-  	mongodb2: ae1rsbxlmdb002
-  	mongodb3: ae1rsbxlmdb003
-  	shard1port: 37040
-  	shard2port: 37041
-  	shard3port: 37042
+    env: pet
+    replica_set: sh1_pet
+    mongodb1: ae1rsbxlmdb001
+    mongodb2: ae1rsbxlmdb002
+    mongodb3: ae1rsbxlmdb003
+    shard1port: 37040
+    shard2port: 37041
+    shard3port: 37042
 
 - name: Ensure replicaset rs0 exists
   community.mongodb.mongodb_replicaset:
