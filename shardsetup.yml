@@ -13,7 +13,7 @@
     shard2port: 37041
     shard3port: 37042
 
-- name: Ensure replicaset rs0 exists
+- name: Ensure replicaset exists
   community.mongodb.mongodb_replicaset:
     login_host: localhost
     login_user: admin
