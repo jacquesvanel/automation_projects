@@ -1,0 +1,19 @@
+systemLog:
+  destination: file
+  path: "/var/log/mongodb/dsit/sh2-rs_a.log"
+processManagement:
+  fork: true
+security:
+  keyFile: "/data/dsit/keyfile.pem"
+net:
+  port: 43  
+  bindIp: localhost,"{{ ansible_hostname }}"
+sharding:
+  clusterRole: shardsvr
+replication:
+  replSetName: repl1
+storage:
+  dbPath: /data/dsit/shard2/rs_a
+  wiredTiger:
+    engineConfig:
+      cacheSizeGB: 2
