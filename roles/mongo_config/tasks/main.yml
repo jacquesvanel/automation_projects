@@ -1,9 +1,9 @@
 ---
 # tasks file for mongo_config
-- name: layout template for etc/mongo.conf
+- name: layout template for etc/mongod.conf
   template:
     src: mongodb.conf.j2
-    dest: /etc/mongodb.conf
+    dest: /etc/mongod.conf
     owner: root
     group: root
     mode: 0755
