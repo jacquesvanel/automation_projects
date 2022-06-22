@@ -1,0 +1,50 @@
+---
+- name: Mongo Base Install
+  hosts: "{{ target }}"
+  gather_facts: yes
+  strategy: "{{ set_strategy | default(lookup('config', 'DEFAULT_STRATEGY')) }}"  
+  tasks:
+
+    - name: create a working directory
+      file:
+        path: /opt/scripts/
+        state: directory
+
+    - name: copy mongo files into place
+      unarchive:
+        src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongo.tar.gz
+        dest: /opt/scripts/
+        remote_src: yes
+
+    - name: install the RPM key
+      rpm_key:
+        state: present
+        key: /opt/scripts/mongodb/server-5.0.asc
+
+    - name: install cryptd
+      yum:
+        name: /opt/scripts/mongodb/mongodb-enterprise-cryptd-5.0.8-1.el8.x86_64.rpm
+        state: latest
+
+    - name: install mongosh
+      yum:
+        name: /opt/scripts/mongodb/mongodb-enterprise-shell-5.0.8-1.el8.x86_64.rpm
+        state: latest
+
+    - name: install mongod
+      yum:
+        name: /opt/scripts/mongodb/mongodb-enterprise-server-5.0.8-1.el8.x86_64.rpm
+        state: latest
+
+    - name: install mongos
+      yum:
+        name: /opt/scripts/mongodb/mongodb-enterprise-mongos-5.0.8-1.el8.x86_64.rpm
+        state: latest
+
+
+    - name: enable and start the service
+      systemd:
+        name: mongod
+        enabled: no
+        state: stopped
+
