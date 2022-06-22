@@ -7,7 +7,7 @@ security:
   keyFile: "/data/"{{ env }}"/keyfile.pem"
 net:
   port: "{{ port[0] }}"
-  bindIp: localhost,"{{ host }}"
+  bindIp: localhost,"{{ ansible_hostname }}"
 sharding:
   clusterRole: "{{ servertype }}"
 replication:
