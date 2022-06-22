@@ -2,7 +2,8 @@
 # tasks file for mongo_config
 - name: layout template for etc/mongod.conf
   template:
-    src: mongod.conf.j2
+    src:  mongod_shard.conf.j2
+    #src: mongod.conf.j2
     dest: "/etc/mongod.conf"
     owner: root
     group: root
