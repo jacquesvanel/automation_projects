@@ -4,16 +4,16 @@ systemLog:
 processManagement:
   fork: {{ fork }}
 security:
-  keyFile: "/data/"{{ env }}"/keyfile.pem"
+  keyFile: "/data/{{ env }}/keyfile.pem"
 net:
-  port: "{{ port[0] }}"
-  bindIp: localhost,"{{ ansible_hostname }}"
+  port: {{ port[0] }}
+  bindIp: localhost,{{ ansible_hostname }}
 sharding:
-  clusterRole: "{{ servertype }}"
+  clusterRole: {{ servertype }}
 replication:
-  replSetName: "{{ replName }}"
+  replSetName: {{ replName }}
 storage:
-  dbPath: /data/"{{ env }}/{{shard[0]}}"/rs_a
+  dbPath: /data/{{ env }}/{{shard[0]}}/rs_a
   wiredTiger:
     engineConfig:
       cacheSizeGB: 2
