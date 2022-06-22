@@ -1,0 +1,20 @@
+systemLog:
+  destination: file
+  path: "/var/log/mongodb/{{ env }}/{{ syslog[0] }}"
+processManagement:
+  fork: {{ fork }}
+security:
+  keyFile: "/data/"{{ env }}"/keyfile.pem"
+net:
+  port: "{{ port[0] }}"
+  bindIp: localhost,"{{ host }}"
+sharding:
+  clusterRole: "{{ servertype }}"
+replication:
+  replSetName: "{{ replName }}"
+storage:
+  dbPath: /data/"{{ env }}/{{shard[0]}}"/rs_a
+  wiredTiger:
+    engineConfig:
+      cacheSizeGB: 2
+

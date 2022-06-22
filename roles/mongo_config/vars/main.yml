@@ -1,2 +1,19 @@
 ---
 # vars file for mongo_config
+env: pet
+fork: true
+port:
+   - 37040
+   - 37041
+   - 37042
+#host: "{{ansible_host}}"
+servertype: shardsvr
+replName: sh1_pet 
+syslog:
+   - sh1-rs_a.log
+   - sh2-rs_a.log
+   - sh3-rs_a.log
+shard:
+   - shard1
+   - shard2
+   - shard3
