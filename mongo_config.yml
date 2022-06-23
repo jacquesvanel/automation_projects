@@ -1,6 +1,8 @@
 ---
 - name: create keyfile
-  shell: openssl rand -base64 107 > /data/{{ env }}/keyfile.pem
+  hosts: all
+  tasks:
+    shell: openssl rand -base64 107 > /data/{{ env }}/keyfile.pem
   
 - name: Configure MongoDB
   hosts: "{{ configsvr }}"
