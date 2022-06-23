@@ -14,7 +14,7 @@
   roles:
     - role: shard2_config
 
-      #- name: configure shard3
-      #  hosts: "{{ shard3 }}"
-      #  roles:
-      #    - role: shard3_config
+- name: configure shard3
+  hosts: "{{ shard3 }}"
+  roles:
+    - role: shard3_config
