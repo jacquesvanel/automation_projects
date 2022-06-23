@@ -9,7 +9,7 @@
   roles:
     - role: shard_config
 
-      #- name: configure shard2
-      #  hosts: "{{ shard2 }}"
-      #  roles:
-      #    - role: shard_config      
+- name: configure shard2
+  hosts: "{{ shard2 }}"
+  roles:
+    - role: shard_config      
