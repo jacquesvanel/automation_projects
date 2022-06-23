@@ -1,6 +1,6 @@
 ---
 # tasks file for mongo_config
-- hosts: config
+- hosts: configsvr
 - name: layout template for etc/mongod.conf on the config server
   template:
     src:  mongod_config1.conf.j2
