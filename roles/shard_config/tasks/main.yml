@@ -1,10 +1,10 @@
 ---
 # tasks file for shard_config
 - include_tasks: shard1_template.yml
-  when: {{ shard1 }}
+  when: "{{ shard1 }}"
 
 - include_tasks: shard2_template.yml
-  when: {{ shard2 }}
+  when: "{{ shard2 }}"
 
 - include_tasks: shard3_template.yml
-  when: {{ shard3 }}
+  when: "{{ shard3 }}"
