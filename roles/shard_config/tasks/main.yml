@@ -1,0 +1,4 @@
+---
+# tasks file for shard_config
+---
+- include_tasks: shard1_template.yml

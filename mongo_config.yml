@@ -1,5 +1,10 @@
 ---
 - name: Configure MongoDB
-  hosts: "{{target}}"
+  hosts: {{ configsvr }}
   roles:
     - role: mongo_config
+
+- name: configure shard1
+  hosts: {{ shard1 }}
+  roles:
+    - role: shard_config
