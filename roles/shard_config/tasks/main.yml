@@ -1,10 +1,11 @@
 ---
 # tasks file for shard_config
+{% if ansible_hostname == shard1 %}
 - include_tasks: shard1_template.yml
-  when: inventory_hostname == 'shard1'
+{% endif %}
 
 - include_tasks: shard2_template.yml
-  when: hosts == 'shard2'
+  when: ansible_hostname == 'shard2'
 
-- include_tasks: shard3_template.yml
-  when: hosts == 'shard3'
+  #- include_tasks: shard3_template.yml
+  #  when: hosts == 'shard3'
