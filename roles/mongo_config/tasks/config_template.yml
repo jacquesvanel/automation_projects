@@ -1,11 +1,37 @@
 ---
 # tasks file for mongo_config
-- name: layout template for etc/mongod.conf
+- hosts: config
+- name: layout template for etc/mongod.conf on the config server
   template:
-    src:  mongod_shard.conf.j2
-    #src: mongod.conf.j2
+    src:  mongod_config1.conf.j2
     dest: "/etc/mongod.conf"
     owner: root
     group: root
     mode: '0644'
 
+- hosts: shard1
+- name: layout template for etc/mongod.conf on the shard1 server
+  template:
+    src:  mongod_shard1.conf.j2
+    dest: "/etc/mongod.conf"
+    owner: root
+    group: root
+    mode: '0644'
+
+- hosts: shard2
+- name: layout template for etc/mongod.conf on the shard2 server
+  template:
+    src:  mongod_shard2.conf.j2
+    dest: "/etc/mongod.conf"
+    owner: root
+    group: root
+    mode: '0644'
+
+- hosts: shard3
+- name: layout template for etc/mongod.conf on the shard3 server
+  template:
+    src:  mongod_shard3.conf.j2
+    dest: "/etc/mongod.conf"
+    owner: root
+    group: root
+    mode: '0644'
