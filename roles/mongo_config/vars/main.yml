@@ -7,12 +7,18 @@ port:
    - 37041
    - 37042
 #host: "{{ansible_host}}"
-servertype: shardsvr
-replName: sh1_pet 
-syslog:
-   - sh1-rs_a.log
-   - sh2-rs_a.log
-   - sh3-rs_a.log
+servertype: 
+   - shardsvr
+   - configsvr  
+replName: 
+   - sh1
+   - sh2
+   - sh3
+   - config  
+sys:
+   - rs_a
+   - rs_b
+   - rs_c
 shard:
    - shard1
    - shard2

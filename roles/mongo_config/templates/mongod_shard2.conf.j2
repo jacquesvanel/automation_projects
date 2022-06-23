@@ -1,0 +1,20 @@
+systemLog:
+  destination: file
+  path: "/var/log/mongodb/{{ env }}/{{ replName }}-{{ sys[1] }}.log"
+processManagement:
+  fork: {{ fork }}
+security:
+  keyFile: "/data/{{ env }}/keyfile.pem"
+net:
+  port: {{ port[1] }}
+  bindIp: localhost,{{ ansible_hostname }}
+sharding:
+  clusterRole: {{ servertype }}
+replication:
+  replSetName: {{ replName }}_{{ env }}
+storage:
+  dbPath: /data/{{ env }}/{{ shard[0] }}/{{ sys[1] }}
+  wiredTiger:
+    engineConfig:
+      cacheSizeGB: 2
+
