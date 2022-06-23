@@ -1,7 +1,7 @@
 ---
 # tasks file for shard_config
 - include_tasks: shard1_template.yml
-  when: hosts == 'shard1'
+  when: inventory_hostname == 'shard1'
 
 - include_tasks: shard2_template.yml
   when: hosts == 'shard2'
