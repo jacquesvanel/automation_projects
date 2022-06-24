@@ -1,0 +1,11 @@
+---
+# tasks file for mongo_config
+- name: layout template for etc/mongod.conf on the shard3 server
+  template:
+    src:  mongod_shard3.conf.j2
+    dest: "/etc/mongod.conf"
+    owner: root
+    group: root
+    mode: '0644'
+
+
