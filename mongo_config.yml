@@ -1,20 +1,20 @@
 ---
 - name: Configure MongoDB
-  hosts: "{{ configsvr }}"
+  hosts: "{{ all }}"
   roles:
     - role: mongo_config
 
-- name: configure shard1
-  hosts: "{{ shard1 }}"
-  roles:
-    - role: shard1_config
+      #- name: configure shard1
+      #  hosts: "{{ shard1 }}"
+      #  roles:
+      #    - role: shard1_config
 
-- name: configure shard2
-  hosts: "{{ shard2 }}"
-  roles:
-    - role: shard2_config
+      #- name: configure shard2
+      #  hosts: "{{ shard2 }}"
+      #  roles:
+      #    - role: shard2_config
 
-- name: configure shard3
-  hosts: "{{ shard3 }}"
-  roles:
-    - role: shard3_config
+      #- name: configure shard3
+      #  hosts: "{{ shard3 }}"
+      #  roles:
+      #    - role: shard3_config
