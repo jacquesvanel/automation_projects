@@ -1,3 +1,32 @@
 ---
 - name: make log file directory
+  ansible.builtin.file:
+    path: /var/log/mongo/{{ env }}/
+    state: directory
+    mode: '0755'
+    owner: mongod
+    group: mongod
 
+- name: make pid file directory
+  ansible.builtin.file:
+    path: /var/run/mongo/{{ env }}/
+    state: directory
+    mode: '0755'
+    owner: mongod
+    group: mongod
+
+- name: make keyfile directory
+  ansible.builtin.file:
+    path: /data/{{ env }}/
+    state: directory
+    mode: '0755'
+    owner: mongod
+    group: mongod
+
+- name: make dbpath file directory
+  ansible.builtin.file:
+    path: /data/{{ env }}/{{ shard[0] }}/{{ repset }}
+    state: directory
+    mode: '0755'
+    owner: mongod
+    group: mongod

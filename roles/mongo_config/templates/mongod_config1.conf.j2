@@ -1,20 +1,25 @@
 systemLog:
   destination: file
-  path: "/var/log/mongodb/{{ env }}/{{ replName[3] }}-{{ sys[0] }}.log"
+  path: "/var/log/mongo/{{ env }}/{{ repname[0] }}-{{ repset[0] }}.log"
 processManagement:
   fork: {{ fork }}
+  pidFilePath: "/var/run/mongo/mongod-{{ repname[0] }}-{{ repset[0] }}.pid"
 security:
   keyFile: "/data/{{ env }}/keyfile.pem"
 net:
   port: {{ port[0] }}
   bindIp: localhost,{{ ansible_hostname }}
+  tls:
+   mode: allowTLS
+   certificateKeyFile: /var/lib/mongo/cert/KeyWCert.pem
+   certificateKeyFilePassword: 22w#SBR5nfvZOt23
 sharding:
   clusterRole: {{ servertype[1] }}
 replication:
-  replSetName: {{ replName[3] }}_{{ env }}
+  replSetName: {{ repname[0] }}_{{ env }}
 storage:
-  dbPath: /data/{{ env }}/{{ shard[0] }}/{{ sys[0] }}
+  dbPath: /data/{{ env }}/{{ repname[0] }}/{{ repset[0] }}
   wiredTiger:
     engineConfig:
-      cacheSizeGB: 2
+      cacheSizeGB: {{ cachesize }}
 
