@@ -1,2 +1,7 @@
 ---
 # handlers file for install_mongodb
+- name: enable and start the service
+  systemd:
+    name: mongod
+    enabled: yes
+    state: start

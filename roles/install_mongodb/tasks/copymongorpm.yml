@@ -1,0 +1,6 @@
+---
+- name: copy mongo files into place
+  unarchive:
+    src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongo.tar.gz
+    dest: /opt/scripts/
+    remote_src: yes
