@@ -15,7 +15,7 @@ repname:
    - sh2
    - sh3
    - config  
-sys:
+repset:
    - rs_a
    - rs_b
    - rs_c
