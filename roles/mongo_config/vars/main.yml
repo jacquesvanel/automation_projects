@@ -6,7 +6,7 @@ port:
    - 37040
    - 37041
    - 37042
-#host: "{{ansible_host}}"
+     #host: "{{ ansible_hostname }}"
 servertype: 
    - shardsvr
    - configsvr  
