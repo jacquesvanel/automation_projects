@@ -1,27 +1,30 @@
 systemLog:
   destination: file
-  path: "/var/log/mongodb/dsit/sh2-rs_a.log"
+  path: "/var/log/mongo/{{ env }}/{{ repname[0] }}-{{ repset[0] }}.log"
 processManagement:
-  fork: true
+  fork: {{ fork }}
+  pidFilePath: "/var/run/mongo/mongod-{{ repname[0] }}-{{ repset[0] }}.pid"
 security:
-  keyFile: "/data/dsit/keyfile.pem"
+  keyFile: "/data/{{ env }}/keyfile.pem"
 net:
-{% if ansible_hostname == target %}
-  port: 1
-{% endif %} 
-{% if ansible_hostname == shard1 %}
-  port: 2
-{% endif %}
-{% if ansible_hostname == shard2 %}
-  port: 3
-{% endif %}
+  port: {{ configsvr_port }}
   bindIp: localhost,{{ ansible_hostname }}
+  tls:
+   mode: allowTLS
+   certificateKeyFile: /var/lib/mongo/cert/KeyWCert.pem
+   certificateKeyFilePassword: {{ tlspass }}
 sharding:
+{% if ansible_hostname == configsvr %}
+  clusterRole: configsvr
+{% endif %}
+{% if ansible_hostname == shard[1-3] %}
   clusterRole: shardsvr
+{% endif %}
 replication:
-  replSetName: repl1
+  replSetName: {{ repname[0] }}_{{ env }}
 storage:
-  dbPath: /data/dsit/shard2/rs_a
+  dbPath: /data/{{ env }}/{{ repname[0] }}/{{ repset[0] }}
   wiredTiger:
     engineConfig:
-      cacheSizeGB: 2
+      cacheSizeGB: {{ cachesize }}
+
