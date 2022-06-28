@@ -1,6 +1,6 @@
 ---
 - name: Configure MongoDB
-  hosts: all
+  hosts: {{ configsvr }} 
   roles:
     - role: mongo_config
 

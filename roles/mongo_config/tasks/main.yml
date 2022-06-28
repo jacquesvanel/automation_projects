@@ -3,13 +3,13 @@
   when: configsvr is defined
 
 - include_tasks: shard1_template.yml
-  when: "'shard1' is defined" 
+  when: shard1 is defined 
 
 - include_tasks: shard2_template.yml
-  when: "'shard2' is defined"
+  when: shard2 is defined
 
 - include_tasks: shard3_template.yml
-  when: "'shard3' is defined"  
+  when: shard3 is defined  
 
 - include_tasks: makedir.yml
 
