@@ -26,12 +26,12 @@
 
 - name: get key file
   ansible.builtin.get_url:
-    url: {{ keyfile }}
+    url: "{{ keyfile }}"
     dest: /data/{{ env }}/keyfile.pem
 
 - name: get keycert file
   ansible.builtin.get_url:
-    url: {{ keycert }}
+    url: "{{ keycert }}"
     dest: /var/lib/mongo/cert/KeyWCert.pem
 
 - name: make dbpath file directory
