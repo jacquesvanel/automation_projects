@@ -5,7 +5,7 @@
     dest: "/etc/systemd/system/mongodb-hugepage-fix.service"
     owner: root
     group: root
-    mode: '0644'
+    mode: '0755'
 
 - name: daemon-reload
   shell: systemctl daemon-reload
