@@ -1,15 +1,15 @@
 ---
 - include_tasks: config_template.yml
-  when: 'configsvr' == inventory_hostname
+  when: "'configsvr' == inventory_hostname"
 
 - include_tasks: shard1_template.yml
-  when: 'shard1' == inventory_hostname 
+  when: "'shard1' == inventory_hostname" 
 
 - include_tasks: shard2_template.yml
-  when: 'shard2' == inventory_hostname
+  when: "'shard2' == inventory_hostname"
 
 - include_tasks: shard3_template.yml
-  when: 'shard3' == inventory_hostname  
+  when: "'shard3' == inventory_hostname"  
 
 - include_tasks: makedir.yml
 
