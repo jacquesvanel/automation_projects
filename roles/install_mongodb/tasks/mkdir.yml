@@ -1,5 +1,7 @@
 ---
 - name: create a working directory
-    file:
+    ansible.builtin.file:
       path: /opt/scripts/
       state: directory
+      owner: root
+      group: root
