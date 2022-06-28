@@ -3,7 +3,7 @@
 - name: layout template for etc/mongod.conf on the config server
   template:
     src:  mongod_config1.conf.j2
-    dest: "/etc/mongod.conf"
+    dest: "/etc/mongo/{{ env }}/mongod_config.conf"
     owner: root
     group: root
     mode: '0644'

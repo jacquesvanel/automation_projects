@@ -3,7 +3,7 @@
 - name: layout template for etc/mongod.conf on the shard2 server
   template:
     src:  shard2.conf.j2
-    dest: "/etc/mongod.conf"
+    dest: "/etc/mongo/{{ env }}/shard2.conf"
     owner: root
     group: root
     mode: '0644'
