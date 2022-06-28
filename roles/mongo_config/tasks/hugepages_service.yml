@@ -11,7 +11,7 @@
   shell: systemctl daemon-reload
 
 - name: start and enable hugepages_service
-  systemcd:
+  systemd:
     name: mongodb-hugepage-fix
     state: started
     enabled: yes
