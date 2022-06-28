@@ -38,3 +38,11 @@
     mode: '2750'
     owner: mongod
     group: opr-db-admin
+
+- name: make cert directory
+  ansible.builtin.file:
+    path: /var/lib/mongo/cert/
+    state: directory
+    mode: '2750'
+    owner: mongod
+    group: opr-db-admin
