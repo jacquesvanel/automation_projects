@@ -4,4 +4,4 @@
   
 - include_tasks: copymongorpm.yml
 
-- install_tasks: install.yml
+- include_tasks: install.yml
