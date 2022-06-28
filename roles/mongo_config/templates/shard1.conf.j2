@@ -17,7 +17,7 @@ sharding:
 {% if ansible_hostname == configsvr %}
   clusterRole: configsvr
 {% endif %}
-{% if ansible_hostname == shard['1-3'] %}
+{% if ansible_hostname == 'shard[1-3]' %}
   clusterRole: shardsvr
 {% endif %}
 replication:
