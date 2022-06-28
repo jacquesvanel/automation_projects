@@ -1,5 +1,13 @@
 ---
 # tasks file for mongo_config
+- name: create /etc/mongo/{{ env }}
+  file: 
+    path: "/etc/mongo/{{ env }}/"
+    owner: root
+    group: root
+    mode: '0755'
+    state: directory
+    
 - name: layout template for etc/mongod.conf on the config server
   template:
     src:  mongod_config1.conf.j2
