@@ -13,6 +13,6 @@
 - name: start and enable hugepages_service
   systemd:
     name: mongodb-hugepage-fix
-    state: started
+    state: restarted
     enabled: yes
 
