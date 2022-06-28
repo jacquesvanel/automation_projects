@@ -1,0 +1,8 @@
+---
+- name: layout template for logrotate on the  server
+  template:
+    src:  logrotate.conf.j2
+    dest: "/etc/logrotate.d/"
+    owner: root
+    group: root
+    mode: '0644'

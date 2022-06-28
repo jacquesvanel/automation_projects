@@ -7,7 +7,7 @@ processManagement:
 security:
   keyFile: "/data/{{ env }}/keyfile.pem"
 net:
-  port: {{ shard1_port }}
+  port: {{ shard3_port }}
   bindIp: localhost,{{ ansible_hostname }}
   tls:
    mode: allowTLS

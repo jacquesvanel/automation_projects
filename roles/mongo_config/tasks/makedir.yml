@@ -5,15 +5,15 @@
     state: directory
     mode: '0755'
     owner: mongod
-    group: mongod
+    group: opr-db-admin
 
 - name: make pid file directory
   ansible.builtin.file:
     path: /var/run/mongo/{{ env }}/
     state: directory
-    mode: '0755'
+    mode: '2770'
     owner: mongod
-    group: mongod
+    group: opr-db-admin
 
 - name: make keyfile directory
   ansible.builtin.file:
@@ -21,12 +21,20 @@
     state: directory
     mode: '0755'
     owner: mongod
-    group: mongod
+    group: opr-db-admin
 
 - name: make dbpath file directory
   ansible.builtin.file:
     path: /data/{{ env }}/{{ shard[0] }}/{{ repset }}
     state: directory
-    mode: '0755'
+    mode: '0750'
     owner: mongod
-    group: mongod
+    group: opr-db-admin
+
+- name: make config file directory
+  ansible.builtin.file:
+    path: /etc/mongo/{{ env }}/
+    state: directory
+    mode: '2750'
+    owner: mongod
+    group: opr-db-admin
