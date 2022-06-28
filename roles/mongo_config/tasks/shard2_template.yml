@@ -8,7 +8,7 @@
     mode: '0755'
     state: directory
 
-- name: layout template for etc/mongod.conf on the shard2 server
+- name: layout template for /etc/mongo/{{ env }}/shard2.conf on the shard2 server
   template:
     src:  shard2.conf.j2
     dest: "/etc/mongo/{{ env }}/shard2.conf"

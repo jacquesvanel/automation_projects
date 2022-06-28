@@ -1,0 +1,86 @@
+---
+- name: make log file directory
+  ansible.builtin.file:
+    path: /var/log/mongodb/{{ env }}/
+    state: directory
+    mode: '0755'
+    owner: mongod
+    group: opr-db-admin
+
+- name: make pid file directory
+  ansible.builtin.file:
+    path: /var/run/mongodb/{{ env }}/
+    state: directory
+    mode: '2770'
+    owner: mongod
+    group: opr-db-admin
+
+### section for keyfile###
+- name: make keyfile directory
+  ansible.builtin.file:
+    path: /data/{{ env }}/
+    state: directory
+    mode: '0755'
+    owner: mongod
+    group: opr-db-admin
+
+- name: get key file
+  ansible.builtin.get_url:
+    url: {{ keyfile }}
+    dest: /data/{{ env }}/keyfile.pem
+
+- name: get keycert file
+  ansible.builtin.get_url:
+    url: {{ keycert }}
+    dest: /var/lib/mongo/cert/KeyWCert.pem
+
+- name: make dbpath file directory
+  ansible.builtin.file:
+    path: /data/{{ env }}/{{ shard[0] }}/{{ repset }}
+    state: directory
+    mode: '0750'
+    owner: mongod
+    group: opr-db-admin
+
+- name: make config file directory
+  ansible.builtin.file:
+    path: /etc/mongo/{{ env }}/
+    state: directory
+    mode: '2750'
+    owner: mongod
+    group: opr-db-admin
+
+- name: make cert directory
+  ansible.builtin.file:
+    path: /var/lib/mongo/cert/
+    state: directory
+    mode: '2750'
+    owner: mongod
+    group: opr-db-admin
+
+###section for logrotate###
+- name: layout template for logrotate on the  server
+  template:
+    src:  logrotate.conf.j2
+    dest: "/etc/logrotate.d/logrotate.conf"
+    owner: root
+    group: root
+    mode: '0644'
+
+###section for hugepages###
+- name: layout template for added hugepages_service on the server
+  template:
+    src: hugepages_service.j2
+    dest: "/etc/systemd/system/mongodb-hugepage-fix.service"
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: daemon-reload
+  shell: systemctl daemon-reload
+
+- name: start and enable hugepages_service
+  systemd:
+    name: mongodb-hugepage-fix
+    state: restarted
+    enabled: yes

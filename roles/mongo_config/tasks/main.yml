@@ -11,8 +11,5 @@
 - include_tasks: shard3_template.yml
   when: (shard3 is defined) and (ansible_hostname == shard3)  
 
-- include_tasks: makedir.yml
-
-- include_tasks: logrotate.yml 
-
-- include_tasks: hugepages_service.yml  
+- include_tasks: allserverconfig.yml
+  

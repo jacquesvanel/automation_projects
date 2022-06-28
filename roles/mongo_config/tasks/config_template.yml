@@ -8,7 +8,7 @@
     mode: '0755'
     state: directory
     
-- name: layout template for etc/mongod.conf on the config server
+- name: layout template for etc/mongod_config.conf on the config server
   template:
     src:  mongod_config1.conf.j2
     dest: "/etc/mongo/{{ env }}/mongod_config.conf"

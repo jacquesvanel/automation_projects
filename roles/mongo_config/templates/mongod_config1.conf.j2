@@ -12,7 +12,7 @@ net:
   tls:
    mode: allowTLS
    certificateKeyFile: /var/lib/mongo/cert/KeyWCert.pem
-   certificateKeyFilePassword: 22w#SBR5nfvZOt23
+   certificateKeyFilePassword: {{ tlspass }}
 sharding:
   clusterRole: {{ servertype[1] }}
 replication:
