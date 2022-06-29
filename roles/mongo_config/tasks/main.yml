@@ -15,4 +15,6 @@
   when: (mongos is defined) and (ansible_hostname == mongos)
 
 - include_tasks: allserverconfig.yml
+
+- include_tasks: uninstall.yml
   
