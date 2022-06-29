@@ -23,7 +23,7 @@ sharding:
 replication:
   replSetName: {{ repname[0] }}_{{ env }}
 storage:
-  dbPath: /data/{{ env }}/{{ repname[0] }}/{{ repset[0] }}
+  dbPath: /data/{{ env }}/config/{{ repset[0] }}
   wiredTiger:
     engineConfig:
       cacheSizeGB: {{ cachesize }}
