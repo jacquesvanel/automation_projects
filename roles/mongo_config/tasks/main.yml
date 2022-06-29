@@ -16,5 +16,5 @@
 
 - include_tasks: allserverconfig.yml
 
-- include_tasks: uninstall.yml
+  #- include_tasks: uninstall.yml
   
