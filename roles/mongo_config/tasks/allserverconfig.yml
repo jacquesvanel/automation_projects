@@ -1,4 +1,12 @@
 ---
+- name: make config file directory /etc/mongo/{{ env }}/
+  ansible.builtin.file:
+    path: /etc/mongo/{{ env }}/
+    state: directory
+    mode: '2770'
+    owner: mongod
+    group: opr-db-admin
+
 - name: make log file directory /var/log/mongodb/{{ env }}/
   ansible.builtin.file:
     path: /var/log/mongodb/{{ env }}/
@@ -32,6 +40,14 @@
     group: opr-db-admin
     mode: '0600'
 
+- name: make cert directory /var/lib/mongo/cert/
+  ansible.builtin.file:
+    path: /var/lib/mongo/cert/
+    state: directory
+    mode: '2770'
+    owner: mongod
+    group: opr-db-admin
+    
 - name: get keycert file from artifactory and place it in /var/lib/mongo/cert/KeyWCert.pem
   ansible.builtin.get_url:
     url: "{{ keycert }}"
@@ -44,22 +60,6 @@
     #mode: '2770'
     #owner: mongod
     #group: opr-db-admin
-
-- name: make config file directory /etc/mongo/{{ env }}/
-  ansible.builtin.file:
-    path: /etc/mongo/{{ env }}/
-    state: directory
-    mode: '2770'
-    owner: mongod
-    group: opr-db-admin
-
-- name: make cert directory /var/lib/mongo/cert/
-  ansible.builtin.file:
-    path: /var/lib/mongo/cert/
-    state: directory
-    mode: '2770'
-    owner: mongod
-    group: opr-db-admin
 
 ###section for logrotate###
 - name: layout template for logrotate on the server and place it in /etc/logrotate.d/mongo
