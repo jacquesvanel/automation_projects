@@ -1,6 +1,5 @@
 ---
 # vars file for mongo_config
-#env: pet
 fork: true
 servertype: 
    - shardsvr
@@ -22,5 +21,6 @@ cachesize: 5
 keyfile: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/keys/keyfile.pem
 keycert: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/keys/KeyWCert.pem
 tlspass: 22w#SBR5nfvZOt23
+cluster: 10.149.84.212:57040,10.149.85.77:57041,10.149.86.45:57042 
 
 

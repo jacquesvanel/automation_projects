@@ -7,12 +7,12 @@ processManagement:
 security:
   keyFile: "/data/{{ env }}/keyfile.pem"
 net:
-  port: {{ port[0] }}
+  port: {{ mongos_port }}
   bindIp: localhost,{{ ansible_hostname }}
   tls:
    mode: allowTLS
    certificateKeyFile: /var/lib/mongo/cert/KeyWCert.pem
-   certificateKeyFilePassword: 22w#SBR5nfvZOt23
+   certificateKeyFilePassword: {{ tlspass }}
 sharding:
-  configDB: {{ replname }}/10.149.84.212:57040,10.149.85.77:57041,10.149.86.45:57042
+  configDB: {{ replname }}/{{ cluster }}
 

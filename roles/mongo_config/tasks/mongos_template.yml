@@ -8,10 +8,10 @@
     mode: '0755'
     state: directory
     
-- name: layout template for etc/mongod_config.conf on the config server
+- name: layout template for etc/mongo/{{ env }}/mongos_config.conf on the config server
   template:
-    src:  mongod_config1.conf.j2
-    dest: "/etc/mongo/{{ env }}/config.conf"
+    src:  mongos_config.conf.j2
+    dest: "/etc/mongo/{{ env }}/mongos_config.conf"
     owner: root
     group: root
     mode: '0644'
