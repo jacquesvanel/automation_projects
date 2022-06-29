@@ -1,0 +1,79 @@
+---
+- name: Stop mongod service
+  systemd:
+    name: mongod
+    state: stopped
+    enabled: no
+
+- name: delete log file directory /var/log/mongodb/{{ env }}/
+  ansible.builtin.file:
+    path: /var/log/mongodb/{{ env }}/
+    state: absent
+    mode: '2755'
+    owner: mongod
+    group: opr-db-admin
+
+- name: delete pid file directory /var/run/mongodb/{{ env }}/
+  ansible.builtin.file:
+    path: /var/run/mongodb/{{ env }}/
+    state: absent
+    mode: '2750'
+    owner: mongod
+    group: opr-db-admin
+
+### section for keyfile###
+- name: delete keyfile directory /data/{{ env }}/
+  ansible.builtin.file:
+    path: /data/{{ env }}/
+    state: absent
+    mode: '2770'
+    owner: mongod
+    group: opr-db-admin
+
+- name: delete cert directory /var/lib/mongo/cert/
+  ansible.builtin.file:
+    path: /var/lib/mongo/cert/
+    state: absent
+    mode: '2770'
+    owner: mongod
+    group: opr-db-admin
+
+- name: delete dbpath file directory /data/{{ env }}/
+  ansible.builtin.file:
+    path: /data/{{ env }}/
+    state: absent
+    mode: '2770'
+    owner: mongod
+    group: opr-db-admin
+
+- name: delete config file directory /etc/mongo/
+  ansible.builtin.file:
+    path: /etc/mongo/
+    state: absent
+    mode: '2770'
+    owner: mongod
+    group: opr-db-admin
+
+###section for logrotate###
+- name: delete template for logrotate on the server and place it in /etc/logrotate.d/mongo
+  ansible.builtin.file:
+    path: "/etc/logrotate.d/mongo"
+    owner: root
+    group: root
+    mode: '0640'
+
+- name: delete template for added hugepages_service on the server and place it in /etc/systemd/system/mongodb-hugepage-fix.service
+  ansible.builtin.file:
+    path: "/etc/systemd/system/mongodb-hugepage-fix.service"
+    owner: root
+    group: root
+    mode: '0640'
+
+- name: stop and disable hugepages_service
+  systemd:
+    name: mongodb-hugepage-fix
+    state: stopped
+    enabled: no
+    daemon_reload: yes
+
+
