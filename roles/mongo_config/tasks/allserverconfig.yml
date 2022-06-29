@@ -1,5 +1,5 @@
 ---
-- name: make log file directory
+- name: make log file directory /var/log/mongodb/{{ env }}/
   ansible.builtin.file:
     path: /var/log/mongodb/{{ env }}/
     state: directory
@@ -7,7 +7,7 @@
     owner: mongod
     group: opr-db-admin
 
-- name: make pid file directory
+- name: make pid file directory /var/run/mongodb/{{ env }}/
   ansible.builtin.file:
     path: /var/run/mongodb/{{ env }}/
     state: directory
@@ -16,7 +16,7 @@
     group: opr-db-admin
 
 ### section for keyfile###
-- name: make keyfile directory
+- name: make keyfile directory /data/{{ env }}/
   ansible.builtin.file:
     path: /data/{{ env }}/
     state: directory
@@ -24,7 +24,7 @@
     owner: mongod
     group: opr-db-admin
 
-- name: get key file
+- name: get key file from artifactory and place it in /data/{{ env }}/keyfile.pem
   ansible.builtin.get_url:
     url: "{{ keyfile }}"
     dest: /data/{{ env }}/keyfile.pem
@@ -32,7 +32,7 @@
     group: opr-db-admin
     mode: '0600'
 
-- name: get keycert file
+- name: get keycert file from artifactory and place it in /var/lib/mongo/cert/KeyWCert.pem
   ansible.builtin.get_url:
     url: "{{ keycert }}"
     dest: /var/lib/mongo/cert/KeyWCert.pem
@@ -45,7 +45,7 @@
     #owner: mongod
     #group: opr-db-admin
 
-- name: make config file directory
+- name: make config file directory /etc/mongo/{{ env }}/
   ansible.builtin.file:
     path: /etc/mongo/{{ env }}/
     state: directory
@@ -53,7 +53,7 @@
     owner: mongod
     group: opr-db-admin
 
-- name: make cert directory
+- name: make cert directory /var/lib/mongo/cert/
   ansible.builtin.file:
     path: /var/lib/mongo/cert/
     state: directory
@@ -62,7 +62,7 @@
     group: opr-db-admin
 
 ###section for logrotate###
-- name: layout template for logrotate on the  server
+- name: layout template for logrotate on the server and place it in /etc/logrotate.d/mongo
   template:
     src:  logrotate.conf.j2
     dest: "/etc/logrotate.d/mongo"
@@ -71,7 +71,7 @@
     mode: '0640'
 
 ###section for hugepages###
-- name: layout template for added hugepages_service on the server
+- name: layout template for added hugepages_service on the server and place it in /etc/systemd/system/mongodb-hugepage-fix.service
   template:
     src: hugepages_service.j2
     dest: "/etc/systemd/system/mongodb-hugepage-fix.service"

@@ -1,6 +1,6 @@
 ---
 # tasks file for mongo_config
-- name: make dbpath file directory
+- name: make dbpath file directory /data/{{ env }}/config/{{ repset[0] }}
   ansible.builtin.file:
     path: /data/{{ env }}/config/{{ repset[0] }}
     state: directory
@@ -8,7 +8,7 @@
     owner: mongod
     group: opr-db-admin
 
-- name: create /etc/mongo/{{ env }}
+- name: create directory /etc/mongo/{{ env }}
   file: 
     path: "/etc/mongo/{{ env }}/"
     owner: root
@@ -16,7 +16,7 @@
     mode: '0755'
     state: directory
     
-- name: layout template for etc/mongod_config.conf on the config server
+- name: layout template for /etc/mongo/{{ env }}/config.conf on the config server
   template:
     src:  mongod_config1.conf.j2
     dest: "/etc/mongo/{{ env }}/config.conf"
@@ -35,7 +35,7 @@
 - name: start and enable mongod.service
   systemd:
     name: mongod
-    state: restarted
+    state: stopped 
     enabled: yes
     daemon_reload: yes
 

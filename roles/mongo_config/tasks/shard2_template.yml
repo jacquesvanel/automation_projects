@@ -1,6 +1,6 @@
 ---
 # tasks file for mongo_config
-- name: make dbpath file directory
+- name: make dbpath file directory /data/{{ env }}/{{ shard[1] }}/{{ repset[0] }}
   ansible.builtin.file:
     path: /data/{{ env }}/{{ shard[1] }}/{{ repset[0] }}
     state: directory
