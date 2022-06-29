@@ -2,7 +2,7 @@
 # tasks file for mongo_config
 - name: make dbpath file directory
   ansible.builtin.file:
-    path: /data/{{ env }}/config/{{ repset }}
+    path: /data/{{ env }}/config/{{ repset[0] }}
     state: directory
     mode: '2770'
     owner: mongod
@@ -24,6 +24,19 @@
     group: root
     mode: '0644'
 
+- name: layout template for added mongod.service on the server
+  template:
+    src: mongod.service.j2 
+    dest: "/usr/lib/systemd/system/mongod.service"
+    owner: root
+    group: root
+    mode: '0640'
 
+- name: start and enable mongod.service
+  systemd:
+    name: mongod
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
 
 

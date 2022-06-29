@@ -2,7 +2,7 @@
 Description="Disable Transparent Hugepage before MongoDB boots"
 #WARN: check service name on your system
 # If you are using MongoDB Cloud, service name is "mongodb-mms-automation-agent.service"
-Before=mongodb.service      
+Before=mongod.service      
 
 [Service]
 Type=oneshot
@@ -12,4 +12,4 @@ ExecStart=/bin/bash -c 'echo never > /sys/kernel/mm/transparent_hugepage/defrag'
 [Install]
 #WARN: check service name on your system
 # If you are using MongoDB Cloud, service name is "mongodb-mms-automation-agent.service"
-RequiredBy=mongodb.service
+RequiredBy=mongod.service

@@ -14,7 +14,7 @@ ExecStartPre=/usr/bin/mkdir -p /var/run/mongodb
 ExecStartPre=/usr/bin/chown mongod:mongod /var/run/mongodb
 ExecStartPre=/usr/bin/chmod 0755 /var/run/mongodb
 PermissionsStartOnly=true
-PIDFile=/var/run/mongo/mongod-{{ repname[0] }}-{{ repset[0] }}.pid
+PIDFile=/var/run/mongo/mongod-config-{{ repset[0] }}.pid
 Type=forking
 # file size
 LimitFSIZE=infinity
