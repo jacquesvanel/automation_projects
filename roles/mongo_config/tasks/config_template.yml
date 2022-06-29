@@ -1,5 +1,13 @@
 ---
 # tasks file for mongo_config
+- name: make dbpath file directory
+  ansible.builtin.file:
+    path: /data/{{ env }}/config/{{ repset }}
+    state: directory
+    mode: '2770'
+    owner: mongod
+    group: opr-db-admin
+
 - name: create /etc/mongo/{{ env }}
   file: 
     path: "/etc/mongo/{{ env }}/"
@@ -15,5 +23,7 @@
     owner: root
     group: root
     mode: '0644'
+
+
 
 
