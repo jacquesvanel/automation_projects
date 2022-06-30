@@ -7,22 +7,33 @@ processManagement:
 security:
   keyFile: "/data/{{ env }}/keyfile.pem"
 net:
+{% shard1 is defined and ansible_hostname == shard1 %}
   port: {{ shard1_port }}
+{% endif %}
+{% shard2 is defined and ansible_hostname == shard2 %}
+  port: {{ shard2_port }}
+{% endif %}
+{% shard3 is defined and ansible_hostname == shard3 %}
+  port: {{ shard3_port }}
+{% endif %}  
   bindIp: localhost,{{ ansible_hostname }}
   tls:
    mode: allowTLS
    certificateKeyFile: /var/lib/mongo/cert/KeyWCert.pem
    certificateKeyFilePassword: {{ tlspass }}
 sharding:
-{% if ansible_hostname == configsvr %}
-  clusterRole: configsvr
-{% else %}
   clusterRole: shardsvr
-{% endif %}
 replication:
   replSetName: {{ repname[0] }}_{{ env }}
 storage:
+{% shard1 is defined and ansible_hostname == shard1 %}
   dbPath: /data/{{ env }}/shard1/{{ repset[0] }}
+{% endif %}
+  dbPath: /data/{{ env }}/shard2/{{ repset[0] }}
+{% endif %}
+{% shard3 is defined and ansible_hostname == shard3 %}
+  dbPath: /data/{{ env }}/shard3/{{ repset[0] }}
+{% endif %}
   wiredTiger:
     engineConfig:
       cacheSizeGB: {{ cachesize }}
