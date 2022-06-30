@@ -14,5 +14,5 @@ net:
    certificateKeyFile: /var/lib/mongo/cert/KeyWCert.pem
    certificateKeyFilePassword: {{ tlspass }}
 sharding:
-  configDB: {{ repname[0] }}/{{ cluster }}
+  configDB: {{ repname[0] }}_{{ env }}/{{ cluster }}
 
