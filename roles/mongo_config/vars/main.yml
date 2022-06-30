@@ -1,6 +1,6 @@
 ---
 # vars file for mongo_config
-fork: true
+fork: true 
 servertype: 
    - shardsvr
    - configsvr  
