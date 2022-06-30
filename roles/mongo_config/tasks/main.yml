@@ -4,12 +4,15 @@
 
 - include_tasks: shard1_template.yml
   when: (shard1 is defined) and (ansible_hostname == shard1) 
+  delegate_to: "{{ shard1 }}"
 
 - include_tasks: shard1_template.yml
   when: (shard2 is defined) and (ansible_hostname == shard2)
+  delegate_to: "{{ shard2 }}"
 
 - include_tasks: shard1_template.yml
   when: (shard3 is defined) and (ansible_hostname == shard3)  
+  delegate_to: "{{ shard3 }}"
 
 - include_tasks: mongos_template.yml
   when: (mongos is defined) and (ansible_hostname == mongos)
