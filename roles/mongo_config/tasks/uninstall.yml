@@ -5,6 +5,15 @@
     state: stopped
     enabled: no
 
+- name: uninstall mongo services
+  yum:
+    name:
+      - /opt/scripts/mongodb/mongodb-enterprise-cryptd-5.0.8-1.el8.x86_64.rpm
+      - /opt/scripts/mongodb/mongodb-enterprise-shell-5.0.8-1.el8.x86_64.rpm
+      - /opt/scripts/mongodb/mongodb-enterprise-server-5.0.8-1.el8.x86_64.rpm
+      - /opt/scripts/mongodb/mongodb-enterprise-mongos-5.0.8-1.el8.x86_64.rpm
+    state: latest
+
 - name: delete log file directory /var/log/mongodb/{{ env }}/
   ansible.builtin.file:
     path: /var/log/mongodb/{{ env }}/

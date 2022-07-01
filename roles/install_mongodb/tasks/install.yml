@@ -4,29 +4,33 @@
     state: present
     key: /opt/scripts/mongodb/server-5.0.asc
 
-- name: install cryptd
+- name: install mongo services
   yum:
-    name: /opt/scripts/mongodb/mongodb-enterprise-cryptd-5.0.8-1.el8.x86_64.rpm
+    name: 
+      - /opt/scripts/mongodb/mongodb-enterprise-cryptd-5.0.8-1.el8.x86_64.rpm
+      - /opt/scripts/mongodb/mongodb-enterprise-shell-5.0.8-1.el8.x86_64.rpm
+      - /opt/scripts/mongodb/mongodb-enterprise-server-5.0.8-1.el8.x86_64.rpm
+      - /opt/scripts/mongodb/mongodb-enterprise-mongos-5.0.8-1.el8.x86_64.rpm  
     state: latest
 
-- name: install mongosh
-  yum:
-    name: /opt/scripts/mongodb/mongodb-enterprise-shell-5.0.8-1.el8.x86_64.rpm
-    state: latest
+    #- name: install mongosh
+    #yum:
+    #name: /opt/scripts/mongodb/mongodb-enterprise-shell-5.0.8-1.el8.x86_64.rpm
+    #state: latest
 
-- name: install mongod
-  yum:
-    name: /opt/scripts/mongodb/mongodb-enterprise-server-5.0.8-1.el8.x86_64.rpm
-    state: latest
+    #- name: install mongod
+    #yum:
+    #name: /opt/scripts/mongodb/mongodb-enterprise-server-5.0.8-1.el8.x86_64.rpm
+    #state: latest
 
-- name: install mongos
-  yum:
-    name: /opt/scripts/mongodb/mongodb-enterprise-mongos-5.0.8-1.el8.x86_64.rpm
-    state: latest
+    #- name: install mongos
+    #yum:
+    #name: /opt/scripts/mongodb/mongodb-enterprise-mongos-5.0.8-1.el8.x86_64.rpm
+    #state: latest
 
 - name: Start mongod service
   systemd:
     name: mongod
-    state: started
-    enabled: yes
+    state: stopped
+    enabled: no
  
