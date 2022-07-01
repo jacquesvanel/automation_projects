@@ -16,5 +16,5 @@
 - include_tasks: mongos_template.yml
   when: (mongos is defined) and (ansible_hostname == mongos)
 
-  #- include_tasks: uninstall.yml
+- include_tasks: uninstall.yml
   
