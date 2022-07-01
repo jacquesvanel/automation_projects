@@ -1,8 +1,8 @@
 ---
 # tasks file for mongo_config
-- name: make dbpath file directory /data/{{ env }}/config/{{ repset[0] }}
+- name: make dbpath file directory /data/{{ env }}/config/{{ repset }}
   ansible.builtin.file:
-    path: /data/{{ env }}/config/{{ repset[0] }}
+    path: /data/{{ env }}/config/{{ repset }}
     state: directory
     mode: '2770'
     owner: mongod
@@ -10,8 +10,8 @@
 
 - name: layout template for /etc/mongo/{{ env }}/config.conf on the config server
   template:
-    src:  mongod_config1.conf.j2
-    dest: "/etc/mongo/{{ env }}/{{ repset[0] }}.cfg"
+    src:  mongod_config.conf.j2
+    dest: "/etc/mongo/{{ env }}/{{ repset }}.cfg"
     owner: mongod
     group: opr-db-admin
     mode: '0644'

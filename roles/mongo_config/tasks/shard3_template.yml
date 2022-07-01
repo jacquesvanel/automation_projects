@@ -1,28 +1,20 @@
 ---
 # tasks file for mongo_config
-- name: make dbpath file directory /data/{{ env }}/{{ shard[2] }}/{{ repset[0] }}
+- name: make dbpath file directory /data/{{ env }}/shard3/{{ repset }}
   ansible.builtin.file:
-    path: /data/{{ env }}/{{ shard[2] }}/{{ repset[0] }}
+    path: /data/{{ env }}/shard3/{{ repset }}
     state: directory
     mode: '2770'
     owner: mongod
     group: opr-db-admin
 
-- name: create /etc/mongo/{{ env }}
-  file:
-    path: "/etc/mongo/{{ env }}/"
-    owner: root
-    group: root
-    mode: '0755'
-    state: directory
-
-- name: layout template for /etc/mongo/{{ env }}/shard3.conf on the shard3 server
+- name: layout template for /etc/mongo/{{ env }}/shard3_{{ repset }}.cfg on the shard1 server
   template:
-    src:  shard3.conf.j2
-    dest: "/etc/mongo/{{ env }}/shard3.conf"
+    src:  shard.conf.j2
+    dest: "/etc/mongo/{{ env }}/shard3_{{ repset }}.cfg"
     owner: root
     group: root
     mode: '0644'
-  delegate_to: "{{ shard3 }}"
+    #  delegate_to: "{{ shard1 }}"
 
 
