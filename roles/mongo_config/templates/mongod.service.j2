@@ -7,14 +7,36 @@ Wants=network-online.target
 [Service]
 User=mongod
 Group=opr-db-admin
-Environment="OPTIONS=-f /etc/mongo/{{ env }}/config.conf"
+{% if configsvr is defined and ansible_hostname == configsvr %}
+Environment="OPTIONS=-f /etc/mongo/{{ env }}/rs_a.cfg"
+{% endif %}
+{% if shard1 is defined and ansible_hostname == shard1 %}
+Environment="OPTIONS=-f /etc/mongo/{{ env }}/shard1_{{ repset }}.cfg"
+{% endif %}
+{% if shard2 is defined and ansible_hostname == shard2 %}
+Environment="OPTIONS=-f /etc/mongo/{{ env }}/shard2_{{ repset }}.cfg"
+{% endif %}
+{% if shard3 is defined and ansible_hostname == shard3 %}
+Environment="OPTIONS=-f /etc/mongo/{{ env }}/shard1_{{ repset }}cfg"
+{% endif %}
 EnvironmentFile=-/etc/sysconfig/mongod
 ExecStart=/usr/bin/mongod $OPTIONS
-ExecStartPre=/usr/bin/mkdir -p /var/run/mongodb
-ExecStartPre=/usr/bin/chown mongod:mongod /var/run/mongodb
-ExecStartPre=/usr/bin/chmod 0755 /var/run/mongodb
+ExecStartPre=/usr/bin/mkdir -p /var/run/mongo
+ExecStartPre=/usr/bin/chown mongod:mongod /var/run/mongo
+ExecStartPre=/usr/bin/chmod 0755 /var/run/mongo
 PermissionsStartOnly=true
-PIDFile=/var/run/mongo/mongod-config-{{ repset[0] }}.pid
+{% if configsvr is defined and ansible_hostname == configsvr %}
+PIDFile=/var/run/mongo/mongod-config-{{ repset }}.pid
+{% endif %}
+{% if shard1 is defined and ansible_hostname == shard1 %}
+PIDFile=/var/run/mongo/mongod-sh1-{{ repset }}.pid
+{% endif %}
+{% if shard2 is defined and ansible_hostname == shard2 %}
+PIDFile=/var/run/mongo/mongod-sh2-{{ repset }}.pid
+{% endif %}
+{% if shard3 is defined and ansible_hostname == shard3 %}
+PIDFile=/var/run/mongo/mongod-sh3-{{ repset }}.pid
+{% endif %}
 Type=forking
 # file size
 LimitFSIZE=infinity

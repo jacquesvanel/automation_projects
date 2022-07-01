@@ -27,7 +27,7 @@
 - name: start and enable mongod.service
   systemd:
     name: mongod
-    state: stopped 
+    state: restarted 
     enabled: yes
     daemon_reload: yes
 

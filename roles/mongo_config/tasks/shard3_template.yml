@@ -17,4 +17,17 @@
     mode: '0644'
     #  delegate_to: "{{ shard1 }}"
 
+- name: layout template for added mongod.service on the server
+  template:
+    src: mongod.service.j2
+    dest: "/usr/lib/systemd/system/mongod.service"
+    owner: root
+    group: root
+    mode: '0640'
 
+- name: start and enable mongod.service
+  systemd:
+    name: mongod
+    state: restarted
+    enabled: yes
+    daemon_reload: yes

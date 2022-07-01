@@ -3,7 +3,7 @@ systemLog:
   path: "/var/log/mongo/{{ env }}/mongoS1.log"
 processManagement:
   fork: true
-  pidFilePath: "/var/run/mongo/mongod-config-{{ repset }}.pid"
+  pidFilePath: "/var/run/mongo/mongos-{{ mongos_port }}.pid"
 security:
   keyFile: "/data/{{ env }}/keyfile.pem"
 net:
@@ -14,5 +14,5 @@ net:
    certificateKeyFile: /var/lib/mongo/cert/KeyWCert.pem
    certificateKeyFilePassword: {{ tlspass }}
 sharding:
-  configDB: sh1_{{ env }}/{{ cluster }}
+  configDB: config_{{ env }}/{{ cluster }}
 
