@@ -1,9 +1,25 @@
 systemLog:
   destination: file
-  path: "/var/log/mongo/{{ env }}/{{ repname[0] }}-{{ repset[0] }}.log"
+{% if shard1 is defined and ansible_hostname == shard1 %}
+  path: "/var/log/mongo/{{ env }}/sh1-{{ repset }}.log"
+{% endif %}
+{% if shard2 is defined and ansible_hostname == shard2 %}
+  path: "/var/log/mongo/{{ env }}/sh2-{{ repset }}.log"
+{% endif %}
+{% if shard3 is defined and ansible_hostname == shard3 %}
+  path: "/var/log/mongo/{{ env }}/sh3-{{ repset }}.log"
+{% endif %}
 processManagement:
   fork: true 
-  pidFilePath: "/var/run/mongo/mongod-{{ repname[0] }}-{{ repset[0] }}.pid"
+{% if shard1 is defined and ansible_hostname == shard1 %}
+  pidFilePath: "/var/run/mongo/mongod-sh1-{{ repset }}.pid"
+{% endif %}
+{% if shard2 is defined and ansible_hostname == shard2 %}
+  pidFilePath: "/var/run/mongo/mongod-sh2-{{ repset }}.pid"
+{% endif %}
+{% if shard3 is defined and ansible_hostname == shard3 %}
+  pidFilePath: "/var/run/mongo/mongod-sh3-{{ repset }}.pid"
+{% endif %}
 security:
   keyFile: "/data/{{ env }}/keyfile.pem"
 net:
@@ -24,18 +40,26 @@ net:
 sharding:
   clusterRole: shardsvr
 replication:
-  replSetName: {{ repname[0] }}_{{ env }}
-storage:
 {% if shard1 is defined and ansible_hostname == shard1 %}
-  dbPath: /data/{{ env }}/shard1/{{ repset[0] }}
+  replSetName: sh1_{{ env }}
 {% endif %}
 {% if shard2 is defined and ansible_hostname == shard2 %}
-  dbPath: /data/{{ env }}/shard2/{{ repset[0] }}
+  replSetName: sh2_{{ env }}
 {% endif %}
 {% if shard3 is defined and ansible_hostname == shard3 %}
-  dbPath: /data/{{ env }}/shard3/{{ repset[0] }}
+  replSetName: sh3_{{ env }}
+{% endif %}
+storage:
+{% if shard1 is defined and ansible_hostname == shard1 %}
+  dbPath: /data/{{ env }}/shard1/{{ repset }}
+{% endif %}
+{% if shard2 is defined and ansible_hostname == shard2 %}
+  dbPath: /data/{{ env }}/shard2/{{ repset }}
+{% endif %}
+{% if shard3 is defined and ansible_hostname == shard3 %}
+  dbPath: /data/{{ env }}/shard3/{{ repset }}
 {% endif %}
   wiredTiger:
     engineConfig:
-      cacheSizeGB: {{ cachesize }}
+      cacheSizeGB: 2 
 

@@ -1,23 +1,6 @@
 ---
 # vars file for mongo_config
-fork: true 
-servertype: 
-   - shardsvr
-   - configsvr  
-repname: 
-   - sh1
-   - sh2
-   - sh3
-   - config  
-repset:
-   - rs_a
-   - rs_b
-   - rs_c
-shard:
-   - shard1
-   - shard2
-   - shard3
-cachesize: 5 
+repset: rs_a
 keyfile: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/keys/keyfile.pem
 keycert: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/keys/KeyWCert.pem
 tlspass: 22w#SBR5nfvZOt23

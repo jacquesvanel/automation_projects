@@ -1,9 +1,9 @@
 systemLog:
   destination: file
-  path: "/var/log/mongo/{{ env }}/{{ repname[3] }}-{{ repset[0] }}.log"
+  path: "/var/log/mongo/{{ env }}/config-{{ repset }}.log"
 processManagement:
   fork: true 
-  pidFilePath: "/var/run/mongo/mongod-{{ repname[3] }}-{{ repset[0] }}.pid"
+  pidFilePath: "/var/run/mongo/mongod-config-{{ repset }}.pid"
 security:
   keyFile: "/data/{{ env }}/keyfile.pem"
 net:
@@ -16,10 +16,10 @@ net:
 sharding:
   clusterRole: configsvr
 replication:
-  replSetName: {{ repname[3] }}_{{ env }}
+  replSetName: config_{{ env }}
 storage:
-  dbPath: /data/{{ env }}/config/{{ repset[0] }}
+  dbPath: /data/{{ env }}/config/{{ repset }}
   wiredTiger:
     engineConfig:
-      cacheSizeGB: {{ cachesize }}
+      cacheSizeGB: 5
 
