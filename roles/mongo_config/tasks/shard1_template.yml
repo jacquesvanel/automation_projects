@@ -8,18 +8,10 @@
     owner: mongod
     group: opr-db-admin
 
-- name: create directory /etc/mongo/{{ env }}
-  file:
-    path: "/etc/mongo/{{ env }}/"
-    owner: root
-    group: root
-    mode: '0755'
-    state: directory
-
-- name: layout template for /etc/mongo/{{ env }}/shard1.conf on the shard1 server
+- name: layout template for /etc/mongo/{{ env }}/{{ shard[0] }}_{{ repset[0] }}.cfg on the shard1 server
   template:
     src:  shard1.conf.j2
-    dest: "/etc/mongo/{{ env }}/shard1.conf"
+    dest: "/etc/mongo/{{ env }}/{{ shard[0] }}_{{ repset[0] }}.cfg"
     owner: root
     group: root
     mode: '0644'

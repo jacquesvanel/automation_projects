@@ -8,20 +8,12 @@
     owner: mongod
     group: opr-db-admin
 
-- name: create directory /etc/mongo/{{ env }}
-  file: 
-    path: "/etc/mongo/{{ env }}/"
-    owner: root
-    group: root
-    mode: '0755'
-    state: directory
-    
 - name: layout template for /etc/mongo/{{ env }}/config.conf on the config server
   template:
     src:  mongod_config1.conf.j2
-    dest: "/etc/mongo/{{ env }}/config.conf"
-    owner: root
-    group: root
+    dest: "/etc/mongo/{{ env }}/{{ repset[0] }}.cfg"
+    owner: mongod
+    group: opr-db-admin
     mode: '0644'
 
 - name: layout template for added mongod.service on the server
