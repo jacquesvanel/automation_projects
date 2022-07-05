@@ -21,9 +21,9 @@
     enabled: no
     daemon_reload: yes
 
-- name: delete directory {{ items }}
+- name: delete directory {{ item }}
   file:
-    path: "{{ item }}"
+    path: {{ item }}
     state: absent
     with_items: 
       - /var/log/mongo/{{ env }}
