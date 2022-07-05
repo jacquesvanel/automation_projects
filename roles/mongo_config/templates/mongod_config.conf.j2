@@ -2,7 +2,7 @@ systemLog:
   destination: file
   path: "/var/log/mongo/{{ env }}/config-{{ repset }}.log"
 processManagement:
-  fork: true 
+  fork: true
   pidFilePath: "/var/run/mongo/mongod-config-{{ repset }}.pid"
 security:
   keyFile: "/data/{{ env }}/keyfile.pem"
