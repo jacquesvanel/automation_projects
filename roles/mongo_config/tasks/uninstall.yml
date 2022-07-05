@@ -25,13 +25,13 @@
   file:
     path: "{{ item }}"
     state: absent
-    with_items: 
-      - "/var/log/mongo/{{ env }}"
-      - "/var/run/mongo/{{ env }}"
-      - "/data/{{ env }}"
-      - "/var/lib/mongo/cert"
-      - "/etc/mongo"
-      - "/etc/logrotate.d/mongo"
-      - "/etc/systemd/system/mongodb-hugepage-fix.service"
+  with_items: 
+    - /var/log/mongo/{{ env }}
+    - /var/run/mongo/{{ env }}
+    - /data/{{ env }}
+    - /var/lib/mongo/cert
+    - /etc/mongo
+    - /etc/logrotate.d/mongo
+    - /etc/systemd/system/mongodb-hugepage-fix.service
 
 
