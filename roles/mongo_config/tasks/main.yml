@@ -1,20 +1,7 @@
 ---
-- include_tasks: allserverconfig.yml
-
-- include_tasks: config_template.yml
-  when: (configsvr is defined) and (ansible_hostname == configsvr)
-
-- include_tasks: shard1_template.yml
-  when: (shard1 is defined) and (ansible_hostname == shard1) 
+- include_tasks: install.yml
+  when: install_state == 'install' 
   
-- include_tasks: shard2_template.yml
-  when: (shard2 is defined) and (ansible_hostname == shard2)
-  
-- include_tasks: shard3_template.yml
-  when: (shard3 is defined) and (ansible_hostname == shard3)  
-  
-- include_tasks: mongos_template.yml
-  when: (mongos is defined) and (ansible_hostname == mongos)
-
-  #- include_tasks: uninstall.yml
+- include_tasks: uninstall.yml
+  when: install_state == 'uninstall'
   
