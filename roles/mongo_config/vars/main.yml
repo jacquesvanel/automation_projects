@@ -5,5 +5,9 @@ keyfile: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/Mongo
 keycert: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/keys/KeyWCert.pem
 tlspass: 22w#SBR5nfvZOt23
 cluster: 10.149.84.212:57040,10.149.85.77:57041,10.149.86.45:57042 
-
+packages:
+  - mongodb-enterprise-cryptd-5.0.8-1.el8.x86_64
+  - mongodb-enterprise-shell-5.0.8-1.el8.x86_64
+  - mongodb-enterprise-server-5.0.8-1.el8.x86_64
+  - mongodb-enterprise-mongos-5.0.8-1.el8.x86_64
 

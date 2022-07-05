@@ -7,76 +7,12 @@
 
 - name: uninstall mongo services
   yum:
-    name:
-      - mongodb-enterprise-cryptd-5.0.8-1.el8.x86_64
-      - mongodb-enterprise-shell-5.0.8-1.el8.x86_64
-      - mongodb-enterprise-server-5.0.8-1.el8.x86_64
-      - mongodb-enterprise-mongos-5.0.8-1.el8.x86_64
+    name: "{{ packages }}"
+    #  - mongodb-enterprise-cryptd-5.0.8-1.el8.x86_64
+    #  - mongodb-enterprise-shell-5.0.8-1.el8.x86_64
+    #  - mongodb-enterprise-server-5.0.8-1.el8.x86_64
+    #  - mongodb-enterprise-mongos-5.0.8-1.el8.x86_64
     state: absent
-
-- name: delete log file directory /var/log/mongodb/{{ env }}/
-  ansible.builtin.file:
-    path: /var/log/mongodb/{{ env }}/
-    state: absent
-    mode: '2755'
-    owner: mongod
-    group: opr-db-admin
-
-- name: delete pid file directory /var/run/mongodb/{{ env }}/
-  ansible.builtin.file:
-    path: /var/run/mongodb/{{ env }}/
-    state: absent
-    mode: '2750'
-    owner: mongod
-    group: opr-db-admin
-
-### section for keyfile###
-- name: delete keyfile directory /data/{{ env }}/
-  ansible.builtin.file:
-    path: /data/{{ env }}/
-    state: absent
-    mode: '2770'
-    owner: mongod
-    group: opr-db-admin
-
-- name: delete cert directory /var/lib/mongo/cert/
-  ansible.builtin.file:
-    path: /var/lib/mongo/cert/
-    state: absent
-    mode: '2770'
-    owner: mongod
-    group: opr-db-admin
-
-- name: delete dbpath file directory /data/{{ env }}/
-  ansible.builtin.file:
-    path: /data/{{ env }}/
-    state: absent
-    mode: '2770'
-    owner: mongod
-    group: opr-db-admin
-
-- name: delete config file directory /etc/mongo/
-  ansible.builtin.file:
-    path: /etc/mongo/
-    state: absent
-    mode: '2770'
-    owner: mongod
-    group: opr-db-admin
-
-###section for logrotate###
-- name: delete template for logrotate on the server and place it in /etc/logrotate.d/mongo
-  ansible.builtin.file:
-    path: "/etc/logrotate.d/mongo"
-    owner: root
-    group: root
-    mode: '0640'
-
-- name: delete template for added hugepages_service on the server and place it in /etc/systemd/system/mongodb-hugepage-fix.service
-  ansible.builtin.file:
-    path: "/etc/systemd/system/mongodb-hugepage-fix.service"
-    owner: root
-    group: root
-    mode: '0640'
 
 - name: stop and disable hugepages_service
   systemd:
@@ -84,5 +20,18 @@
     state: stopped
     enabled: no
     daemon_reload: yes
+
+- name: delete directory {{ items }}
+  file:
+    path: "{{ item }}"
+    state: absent
+    with_items: 
+      - /var/log/mongo/{{ env }}
+      - /var/run/mongo/{{ env }}
+      - /data/{{ env }}
+      - /var/lib/mongo/cert
+      - /etc/mongo
+      - /etc/logrotate.d/mongo
+      - /etc/systemd/system/mongodb-hugepage-fix.service  
 
 

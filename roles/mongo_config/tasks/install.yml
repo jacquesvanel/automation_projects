@@ -1,6 +1,6 @@
 ---
 - name: create a working directory
-  ansible.builtin.file:
+  file:
     path: /opt/scripts/
     state: directory
     owner: root
@@ -11,12 +11,14 @@
     src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongo.tar.gz
     dest: /opt/scripts/
     remote_src: yes
+    list_files: yes
 
 - name: copy mongo database tools into /usr/local/bin
   unarchive:
     src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongodb-database-tools-rhel80-x86_64-100.5.3.tgz
     dest: /usr/local/bin 
     remote_src: yes
+    list_files: yes
 
 - name: install the RPM key
   rpm_key:
@@ -25,11 +27,11 @@
 
 - name: install mongo services
   yum:
-    name: 
-      - /opt/scripts/mongodb/mongodb-enterprise-cryptd-5.0.8-1.el8.x86_64.rpm
-      - /opt/scripts/mongodb/mongodb-enterprise-shell-5.0.8-1.el8.x86_64.rpm
-      - /opt/scripts/mongodb/mongodb-enterprise-server-5.0.8-1.el8.x86_64.rpm
-      - /opt/scripts/mongodb/mongodb-enterprise-mongos-5.0.8-1.el8.x86_64.rpm  
+    name: "{{ packages }}" 
+    #  - /opt/scripts/mongodb/mongodb-enterprise-cryptd-5.0.8-1.el8.x86_64.rpm
+    #  - /opt/scripts/mongodb/mongodb-enterprise-shell-5.0.8-1.el8.x86_64.rpm
+    #  - /opt/scripts/mongodb/mongodb-enterprise-server-5.0.8-1.el8.x86_64.rpm
+    #  - /opt/scripts/mongodb/mongodb-enterprise-mongos-5.0.8-1.el8.x86_64.rpm  
     state: latest
 
 - name: Temporarily disabling mongod service
