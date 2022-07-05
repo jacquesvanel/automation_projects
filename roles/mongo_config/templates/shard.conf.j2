@@ -21,7 +21,7 @@ processManagement:
   pidFilePath: "/var/run/mongo/mongod-sh3-{{ repset }}.pid"
 {% endif %}
 security:
-  keyFile: "/data/{{ env }}/keyfile.pem"
+#  keyFile: "/data/{{ env }}/keyfile.pem"
 net:
 {% if shard1 is defined and ansible_hostname == shard1 %}
   port: {{ shard1_port }}
@@ -59,7 +59,7 @@ storage:
 {% if shard3 is defined and ansible_hostname == shard3 %}
   dbPath: /data/{{ env }}/shard3/{{ repset }}
 {% endif %}
-  wiredTiger:
-    engineConfig:
-      cacheSizeGB: 2 
+#  wiredTiger:
+#    engineConfig:
+#      cacheSizeGB: 2 
 

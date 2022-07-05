@@ -5,7 +5,7 @@ processManagement:
   fork: true
   pidFilePath: "/var/run/mongo/mongod-config-{{ repset }}.pid"
 security:
-  keyFile: "/data/{{ env }}/keyfile.pem"
+#  keyFile: "/data/{{ env }}/keyfile.pem"
 net:
   port: {{ configsvr_port }}
   bindIp: localhost,{{ ansible_hostname }}
@@ -19,7 +19,7 @@ replication:
   replSetName: config_{{ env }}
 storage:
   dbPath: /data/{{ env }}/config/{{ repset }}
-  wiredTiger:
-    engineConfig:
-      cacheSizeGB: 5
+#  wiredTiger:
+#    engineConfig:
+#      cacheSizeGB: 5
 

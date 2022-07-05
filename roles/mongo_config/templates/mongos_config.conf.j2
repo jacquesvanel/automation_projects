@@ -5,7 +5,7 @@ processManagement:
   fork: true
   pidFilePath: "/var/run/mongo/mongos-{{ mongos_port }}.pid"
 security:
-  keyFile: "/data/{{ env }}/keyfile.pem"
+#  keyFile: "/data/{{ env }}/keyfile.pem"
 net:
   port: {{ mongos_port }}
   bindIp: localhost,{{ ansible_hostname }}
