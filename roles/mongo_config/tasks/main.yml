@@ -4,4 +4,7 @@
   
 - include_tasks: uninstall.yml
   when: install_state == 'uninstall'
+
+- include_tasks: reinstall.yml
+  when: install_state == 'reinstall'
   
