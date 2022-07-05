@@ -36,9 +36,6 @@
     - /usr/local/bin/
     - /opt/scripts/
 
-- name: install the RPM key
-  rpm_key:
-    state: absent
-    key: /opt/scripts/mongodb/server-5.0.asc  
+ 
 
 
