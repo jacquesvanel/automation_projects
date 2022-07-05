@@ -1,9 +1,9 @@
 ---
-- name: Stop mongod service
-  systemd:
-    name: mongod
-    state: stopped
-    enabled: no
+#- name: Stop mongod service
+#  systemd:
+#    name: mongod
+#    state: stopped
+#    enabled: no
 
 - name: uninstall mongo services
   yum:
