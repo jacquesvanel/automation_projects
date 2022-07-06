@@ -9,4 +9,17 @@
     group: root
     mode: '0644'
 
+- name: layout template for added mongos.service on the server
+  template:
+    src: mongod.service.j2
+    dest: "/usr/lib/systemd/system/mongos.service"
+    owner: root
+    group: root
+    mode: '0640'
 
+- name: start and enable mongos.service
+  systemd:
+    name: mongos
+    state: stopped
+    enabled: yes
+    daemon_reload: yes

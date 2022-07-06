@@ -19,6 +19,9 @@ Environment="OPTIONS=-f /etc/mongo/{{ env }}/shard2_{{ repset }}.cfg"
 {% if shard3 is defined and ansible_hostname == shard3 %}
 Environment="OPTIONS=-f /etc/mongo/{{ env }}/shard3_{{ repset }}cfg"
 {% endif %}
+{% if mongos is defined and ansible_hostname == mongos %}
+Environment="OPTIONS=-f /etc/mongo/{{ env }}/mongoS1.cfg"
+{% endif %}
 EnvironmentFile=-/etc/sysconfig/mongod
 ExecStart=/usr/bin/mongod $OPTIONS
 ExecStartPre=/usr/bin/mkdir -p /var/run/mongo
@@ -36,6 +39,9 @@ PIDFile=/var/run/mongo/mongod-sh2-{{ repset }}.pid
 {% endif %}
 {% if shard3 is defined and ansible_hostname == shard3 %}
 PIDFile=/var/run/mongo/mongod-sh3-{{ repset }}.pid
+{% endif %}
+{% if mongos is defined and ansible_hostname == mongos %}
+PIDFile=/var/run/mongo/mongos-{{ mongos_port }}.pid
 {% endif %}
 Type=forking
 # file size
