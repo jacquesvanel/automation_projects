@@ -1,5 +1,11 @@
 ---
 # tasks file for initiate_mongo
+- name: make directory for /etc/mongo/{{ env }}/scripts/
+  file:
+    dest: /etc/mongo/{{ env }}/scripts/
+    owner: mongod
+    group: opr-db-admin
+    
 - name: layout template for /etc/mongo/{{ env }}/shard1_{{ repset }}.cfg on the shard1 server
   template:
     src:  initiate.config.js.j2
