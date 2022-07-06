@@ -1,13 +1,14 @@
 ---
 # tasks file for initiate_mongo
 - name: initiate shard replica set
-  shell: >
-         mongo {{ host1 }}.opr.afsiep.net:{{ host1_port }} << 'EOF'
-         config = { _id: "{{ repset }}_{{ env }}", members:[
-         { _id : 0, host : "{{ host1 }}.opr.afsiep.net:{{ host1_port }}", priority: 100 },
-         { _id : 1, host : "{{ host2 }}.opr.afsiep.net:{{ host2_port }}" },
-         { _id : 2, host : "{{ host3 }}.opr.afsiep.net:{{ host3_port }}" }]};
-         rs.initiate(config)
-         EOF
+  shell: 
+    cmd: >
+       mongo {{ host1 }}.opr.afsiep.net:{{ host1_port }} << 'EOF'
+       config = { _id: "{{ repset }}_{{ env }}", members:[
+       { _id : 0, host : "{{ host1 }}.opr.afsiep.net:{{ host1_port }}", priority: 100 },
+       { _id : 1, host : "{{ host2 }}.opr.afsiep.net:{{ host2_port }}" },
+       { _id : 2, host : "{{ host3 }}.opr.afsiep.net:{{ host3_port }}" }]};
+       rs.initiate(config)
+       EOF
   delegate_to: "{{ host1 }}"
 
