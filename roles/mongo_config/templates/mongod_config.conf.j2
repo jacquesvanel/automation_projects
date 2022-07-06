@@ -4,7 +4,7 @@ systemLog:
 processManagement:
   fork: true
   pidFilePath: "/var/run/mongo/mongod-config-{{ repset }}.pid"
-security:
+#security:
 #  keyFile: "/data/{{ env }}/keyfile.pem"
 net:
   port: {{ configsvr_port }}
