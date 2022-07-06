@@ -3,6 +3,7 @@
 - name: make directory for /etc/mongo/{{ env }}/scripts/
   file:
     dest: /etc/mongo/{{ env }}/scripts/
+    state: directory
     owner: mongod
     group: opr-db-admin
     
