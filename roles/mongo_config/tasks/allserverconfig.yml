@@ -69,6 +69,7 @@
     owner: root
     group: root
     mode: '0640'
+    force: yes
 
 ###section for hugepages###
 - name: layout template for added hugepages_service on the server and place it in /etc/systemd/system/mongodb-hugepage-fix.service
@@ -78,6 +79,7 @@
     owner: root
     group: root
     mode: '0640'
+    force: yes
 
 - name: start and enable hugepages_service
   systemd:

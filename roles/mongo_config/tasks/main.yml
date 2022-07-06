@@ -7,4 +7,6 @@
 
 - include_tasks: reinstall.yml
   when: install_state == 'reinstall'
+
+- include_tasks: restart_services.yml
   
