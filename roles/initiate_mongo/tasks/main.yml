@@ -17,7 +17,7 @@
     force: yes
 
 - name: initiate shard replica set
-  shell: mongo "{{ host1 }}.opr.afsiep.net:{{ host1_port }}" /etc/mongo/{{ env }}/scripts/initiate.config.js
+  shell: mongo --eval "{{ host1 }}.opr.afsiep.net:{{ host1_port }}" /etc/mongo/{{ env }}/scripts/initiate.config.js
   register: shell_result
 
 - debug:
