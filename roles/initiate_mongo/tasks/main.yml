@@ -1,41 +1,12 @@
 ---
 # tasks file for initiate_mongo
 - name: initiate shard replica set
-  shell: mongo {{ shard1a }}.opr.afsiep.net:{{ shard1a_port }} << 'EOF'
-         config = { _id: "sh1_{{ env }}", members:[
-         { _id : 0, host : "{{ shard1a }}.opr.afsiep.net:{{ shard1a_port }}", priority: 100 },
-         { _id : 1, host : "{{ shard1b }}.opr.afsiep.net:{{ shard1b_port }}" },
-         { _id : 2, host : "{{ shard1c }}.opr.afsiep.net:{{ shard1c_port }}" }]};
+  shell: mongo "{{ host1 }}.opr.afsiep.net:{{ host1_port }}" << 'EOF'
+         config = { _id: "{{ repset }}_{{ env }}", members:[
+         { _id : 0, host : "{{ host1 }}.opr.afsiep.net:{{ host1_port }}", priority: 100 },
+         { _id : 1, host : "{{ host2 }}.opr.afsiep.net:{{ host2_port }}" },
+         { _id : 2, host : "{{ host3 }}.opr.afsiep.net:{{ host3_port }}" }]};
          rs.initiate(config)
          EOF
-  delegate_to: "{{ shard1a }}"
+  delegate_to: "{{ host1 }}"
 
-- name: initiate shard replica set
-  shell: mongo {{ shard2a }}.opr.afsiep.net:{{ shard2a_port }} << 'EOF'
-         config = { _id: "sh2_{{ env }}", members:[
-         { _id : 0, host : "{{ shard2a }}.opr.afsiep.net:{{ shard2a_port }}", priority: 100 },
-         { _id : 1, host : "{{ shard2b }}.opr.afsiep.net:{{ shard2b_port }}" },
-         { _id : 2, host : "{{ shard2c }}.opr.afsiep.net:{{ shard2c_port }}" }]};
-         rs.initiate(config)
-         EOF
-  delegate_to: "{{ shard2a }}"
-
-- name: initiate shard replica set
-  shell: mongo {{ shard3a }}.opr.afsiep.net:{{ shard3a_port }} << 'EOF'
-         config = { _id: "sh3_{{ env }}", members:[
-         { _id : 0, host : "{{ shard3a }}.opr.afsiep.net:{{ shard3a_port }}", priority: 100 },
-         { _id : 1, host : "{{ shard3b }}.opr.afsiep.net:{{ shard3b_port }}" },
-         { _id : 2, host : "{{ shard3c }}.opr.afsiep.net:{{ shard3c_port }}" }]};
-         rs.initiate(config)
-         EOF
-  delegate_to: "{{ shard3a }}"
-
-- name: initiate config replica set
-  shell: mongo {{ config1 }}.opr.afsiep.net:37040 << 'EOF'
-         config = { _id: "config_{{ env }}", members:[
-         { _id : 0, host : "{{ config1 }}.opr.afsiep.net:{{ config1_port }}", priority: 100 },
-         { _id : 1, host : "{{ config2 }}.opr.afsiep.net:{{ config2_port }}" },
-         { _id : 2, host : "{{ config3 }}.opr.afsiep.net:{{ config3_port }}" }]};
-         rs.initiate(config)
-         EOF
-  delegate_to: "{{ config1 }}"  
