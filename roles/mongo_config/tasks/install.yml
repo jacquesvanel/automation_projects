@@ -6,6 +6,13 @@
     owner: root
     group: root
 
+- name: create a working directory
+  file:
+    path: /usr/local/bin/
+    state: directory
+    owner: root
+    group: root
+
 - name: copy mongo package into /opt/scripts/
   unarchive:
     src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongo.tar.gz
@@ -16,7 +23,7 @@
 - name: copy mongo database tools into /usr/local/bin
   unarchive:
     src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongodb-database-tools-rhel80-x86_64-100.5.3.tgz
-    dest: /usr/local/bin 
+    dest: /usr/local/bin/ 
     remote_src: yes
     list_files: yes
 
