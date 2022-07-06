@@ -16,6 +16,6 @@
     force: yes
 
 - name: initiate shard replica set
-  shell: mongo {{ host1 }}.opr.afsiep.net:{{ host1_port }} /etc/mongo/{{ env }}/scripts/initiate.config.js
-  delegate_to: "{{ host1 }}"
+  shell: mongo "{{ host1 }}.opr.afsiep.net:{{ host1_port }}" /etc/mongo/{{ env }}/scripts/initiate.config.js
+  
 
