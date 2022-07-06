@@ -8,14 +8,16 @@
     owner: root
     group: root
     mode: '0644'
+    force: yes
 
 - name: layout template for added mongos.service on the server
   template:
-    src: mongod.service.j2
+    src: mongos.service.j2
     dest: "/usr/lib/systemd/system/mongos.service"
     owner: root
     group: root
     mode: '0640'
+    force: yes
 
 - name: start and enable mongos.service
   systemd:

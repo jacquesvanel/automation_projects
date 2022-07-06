@@ -1,7 +1,7 @@
 ---
 # tasks file for mongo_config
 - name: make dbpath file directory /data/{{ env }}/shard2/{{ repset }}
-  ansible.builtin.file:
+  file:
     path: /data/{{ env }}/shard2/{{ repset }}
     state: directory
     mode: '2770'
@@ -15,6 +15,7 @@
     owner: root
     group: root
     mode: '0644'
+    force: yes
     #  delegate_to: "{{ shard1 }}"
 
 - name: layout template for added mongod.service on the server
@@ -24,6 +25,7 @@
     owner: root
     group: root
     mode: '0640'
+    force: yes
 
 - name: start and enable mongod.service
   systemd:
