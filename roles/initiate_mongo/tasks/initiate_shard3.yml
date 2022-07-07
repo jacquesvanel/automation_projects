@@ -17,9 +17,9 @@
     force: yes
 
 - name: initiate shard replica set
-  shell: mongo {{ shard3 }}.opr.afsiep.net:57017 /etc/mongo/{{ env }}/scripts/initiate.shard3.js
+  shell: mongo {{ shard3a }}.opr.afsiep.net:57017 /etc/mongo/{{ env }}/scripts/initiate.shard3.js
   register: shell_result
-  delegate_to: "{{ shard3 }}"
+  delegate_to: "{{ shard3a }}"
 
 - debug:
     var: shell_result.stdout_lines
