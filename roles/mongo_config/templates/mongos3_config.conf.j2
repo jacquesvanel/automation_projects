@@ -1,17 +1,17 @@
 systemLog:
   destination: file
-  path: "/var/log/mongo/{{ env }}/mongoS1.log"
+  path: "/var/log/mongodb/{{ env }}/mongoS3.log"
 processManagement:
   fork: true
-  pidFilePath: "/var/run/mongo/mongos-{{ mongos_port }}.pid"
+  pidFilePath: "/var/run/mongodb/mongos-37017.pid"
 #security:
 #  keyFile: "/data/{{ env }}/keyfile.pem"
 net:
-  port: {{ mongos_port }}
-  bindIp: localhost,{{ ansible_hostname }}
+  port: 37017 
+  bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
   tls:
    mode: allowTLS
-   certificateKeyFile: /var/lib/mongo/cert/KeyWCert.pem
+   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
    certificateKeyFilePassword: {{ tlspass }}
 sharding:
   configDB: config_{{ env }}/{{ cluster }}

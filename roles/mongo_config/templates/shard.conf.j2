@@ -1,24 +1,24 @@
 systemLog:
   destination: file
 {% if shard1 is defined and ansible_hostname == shard1 %}
-  path: "/var/log/mongo/{{ env }}/sh1-{{ repset }}.log"
+  path: "/var/log/mongodb/{{ env }}/sh1-{{ repset }}.log"
 {% endif %}
 {% if shard2 is defined and ansible_hostname == shard2 %}
-  path: "/var/log/mongo/{{ env }}/sh2-{{ repset }}.log"
+  path: "/var/log/mongodb/{{ env }}/sh2-{{ repset }}.log"
 {% endif %}
 {% if shard3 is defined and ansible_hostname == shard3 %}
-  path: "/var/log/mongo/{{ env }}/sh3-{{ repset }}.log"
+  path: "/var/log/mongodb/{{ env }}/sh3-{{ repset }}.log"
 {% endif %}
 processManagement:
   fork: true 
 {% if shard1 is defined and ansible_hostname == shard1 %}
-  pidFilePath: "/var/run/mongo/mongod-sh1-{{ repset }}.pid"
+  pidFilePath: "/var/run/mongodb/mongod-sh1-{{ repset }}.pid"
 {% endif %}
 {% if shard2 is defined and ansible_hostname == shard2 %}
-  pidFilePath: "/var/run/mongo/mongod-sh2-{{ repset }}.pid"
+  pidFilePath: "/var/run/mongodb/mongod-sh2-{{ repset }}.pid"
 {% endif %}
 {% if shard3 is defined and ansible_hostname == shard3 %}
-  pidFilePath: "/var/run/mongo/mongod-sh3-{{ repset }}.pid"
+  pidFilePath: "/var/run/mongodb/mongod-sh3-{{ repset }}.pid"
 {% endif %}
 #security:
 #  keyFile: "/data/{{ env }}/keyfile.pem"
@@ -32,10 +32,10 @@ net:
 {% if shard3 is defined and ansible_hostname == shard3 %}
   port: {{ shard3_port }}
 {% endif %}
-  bindIp: localhost,{{ ansible_hostname }}
+  bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
   tls:
    mode: allowTLS
-   certificateKeyFile: /var/lib/mongo/cert/KeyWCert.pem
+   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
    certificateKeyFilePassword: {{ tlspass }}
 sharding:
   clusterRole: shardsvr

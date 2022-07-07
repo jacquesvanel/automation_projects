@@ -9,7 +9,7 @@
 
 - name: make log file directory /var/log/mongodb/{{ env }}/
   ansible.builtin.file:
-    path: /var/log/mongo/{{ env }}/
+    path: /var/log/mongodb/{{ env }}/
     state: directory
     mode: '2755'
     owner: mongod
@@ -17,7 +17,7 @@
 
 - name: make pid file directory /var/run/mongodb/{{ env }}/
   ansible.builtin.file:
-    path: /var/run/mongo/{{ env }}/
+    path: /var/run/mongodb/{{ env }}/
     state: directory
     mode: '2750'
     owner: mongod
@@ -42,7 +42,7 @@
 
 - name: make cert directory /var/lib/mongo/cert/
   ansible.builtin.file:
-    path: /var/lib/mongo/cert/
+    path: /var/lib/mongodb/cert/
     state: directory
     mode: '2770'
     owner: mongod
@@ -51,7 +51,7 @@
 - name: get keycert file from artifactory and place it in /var/lib/mongo/cert/KeyWCert.pem
   ansible.builtin.get_url:
     url: "{{ keycert }}"
-    dest: /var/lib/mongo/cert/KeyWCert.pem
+    dest: /var/lib/mongodb/cert/KeyWCert.pem
 
     #- name: make dbpath file directory
     #ansible.builtin.file:

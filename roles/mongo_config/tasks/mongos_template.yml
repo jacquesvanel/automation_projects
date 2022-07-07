@@ -3,25 +3,53 @@
     
 - name: layout template for etc/mongo/{{ env }}/mongoS1.cfg on the config server
   template:
-    src:  mongos_config.conf.j2
+    src:  mongos1_config.conf.j2
     dest: "/etc/mongo/{{ env }}/mongoS1.cfg"
     owner: root
     group: root
     mode: '0644'
     force: yes
 
-- name: layout template for added mongos.service on the server
+- name: layout template for etc/mongo/{{ env }}/mongoS2.cfg on the config server
   template:
-    src: mongos.service.j2
-    dest: "/usr/lib/systemd/system/mongos.service"
+    src:  mongos2_config.conf.j2
+    dest: "/etc/mongo/{{ env }}/mongoS2.cfg"
     owner: root
     group: root
-    mode: '0640'
+    mode: '0644'
+    force: yes    
+
+- name: layout template for etc/mongo/{{ env }}/mongoS3.cfg on the config server
+  template:
+    src:  mongos3_config.conf.j2
+    dest: "/etc/mongo/{{ env }}/mongoS3.cfg"
+    owner: root
+    group: root
+    mode: '0644'
     force: yes
 
-- name: start and enable mongos.service
-  systemd:
-    name: mongos
-    state: reloaded
-    enabled: yes
-    daemon_reload: yes
+- name: start mongos config 1
+  shell: /usr/bin/mongos --quiet --config /etc/mongo/prod/mongoS1.cfg
+  
+- name: start mongos config 2
+  shell: /usr/bin/mongos --quiet --config /etc/mongo/prod/mongoS2.cfg
+
+- name: start mongos config 3
+  shell: /usr/bin/mongos --quiet --config /etc/mongo/prod/mongoS3.cfg
+
+  
+  #- name: layout template for added mongos.service on the server
+    #  template:
+    #    src: mongos.service.j2
+    #    dest: "/usr/lib/systemd/system/mongos.service"
+    #owner: root
+    #group: root
+    #mode: '0640'
+    #force: yes
+
+    #- name: start and enable mongos.service
+    #  systemd:
+    #    name: mongos
+    #    state: reloaded
+    #    enabled: yes
+    #    daemon_reload: yes

@@ -1,0 +1,18 @@
+systemLog:
+  destination: file
+  path: "/var/log/mongodb/{{ env }}/mongoS2.log"
+processManagement:
+  fork: true
+  pidFilePath: "/var/run/mongodb/mongos-37019.pid"
+#security:
+#  keyFile: "/data/{{ env }}/keyfile.pem"
+net:
+  port: 37019 
+  bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
+  tls:
+   mode: allowTLS
+   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
+   certificateKeyFilePassword: {{ tlspass }}
+sharding:
+  configDB: config_{{ env }}/{{ cluster }}
+

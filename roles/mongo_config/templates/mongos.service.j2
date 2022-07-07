@@ -6,7 +6,7 @@ After=network.target
 [Service]
 User=mongod
 Group=opr-db-admin
-PIDFile=/var/run/mongo/mongos-{{ mongos_port }}.pid
+PIDFile=/var/run/mongo/mongos-37018.pid
 PermissionsStartOnly=true
 #ExecStartPre=/opt/OmniMongoDB/ansible/mongos_pre.sh
 ExecStart=/usr/bin/mongos --quiet \
