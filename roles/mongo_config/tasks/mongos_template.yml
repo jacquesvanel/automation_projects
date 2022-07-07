@@ -22,6 +22,6 @@
 - name: start and enable mongos.service
   systemd:
     name: mongos
-    state: stopped
+    state: reloaded
     enabled: yes
     daemon_reload: yes
