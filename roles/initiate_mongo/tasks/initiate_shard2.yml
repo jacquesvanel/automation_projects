@@ -7,7 +7,7 @@
     owner: mongod
     group: opr-db-admin
 
-- name: layout template for /etc/mongo/{{ env }}/scripts/initiate.shard1.json the shard2 server
+- name: layout template for /etc/mongo/{{ env }}/scripts/initiate.shard2.js the shard2 server
   template:
     src:  initiate.shard2.js.j2
     dest: "/etc/mongo/{{ env }}/scripts/initiate.shard2.js"
