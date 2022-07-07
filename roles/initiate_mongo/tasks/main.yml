@@ -1,26 +1,15 @@
 ---
-# tasks file for initiate_mongo
-- name: make directory for /etc/mongo/{{ env }}/scripts/
-  file:
-    dest: /etc/mongo/{{ env }}/scripts/
-    state: directory
-    owner: mongod
-    group: opr-db-admin
-    
-- name: layout template for /etc/mongo/{{ env }}/shard1_{{ repset }}.cfg on the shard1 server
-  template:
-    src:  initiate.config.js.j2
-    dest: "/etc/mongo/{{ env }}/scripts/initiate.config.js"
-    owner: root
-    group: root
-    mode: '0644'
-    force: yes
+- include_tasks: initiate_config.yml
+  when: (config1 is defined) and (ansible_hostname == config1)
 
-- name: initiate shard replica set
-  shell: mongo {{ host1 }}.opr.afsiep.net:{{ host1_port }} /etc/mongo/{{ env }}/scripts/initiate.config.js
-  register: shell_result
+- include_tasks: initiate_shard1.yml
+  when: (shard1a is defined) and (ansible_hostname == shard1a)
 
-- debug:
-    var: shell_result.stdout_lines
-  
+- include_tasks: initiate_shard2.yml
+  when: (shard2a is defined) and (ansible_hostname == shard2a)
 
+- include_tasks: initiate_shard3.yml  
+  when: (shard3a is defined) and (ansible_hostname == shard3a)
+
+- include_tasks: add_shards_to_cluster.yml
+  when: (config1 is defined) and (ansible_hostname == config1)  
