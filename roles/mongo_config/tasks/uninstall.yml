@@ -21,11 +21,6 @@
     enabled: no
     daemon_reload: yes
 
-- name: uninstall the RPM key
-  rpm_key:
-    state: absent
-    key: /opt/scripts/mongodb/server-5.0.asc
-
 - name: delete directory "{{ item }}"
   file:
     path: "{{ item }}"
