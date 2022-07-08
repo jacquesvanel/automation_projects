@@ -14,5 +14,5 @@ net:
    certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
    certificateKeyFilePassword: {{ tlspass }}
 sharding:
-  configDB: config_{{ env }}/{{ cluster }}
+  configDB: config_{{ env }}/{{ cluster1 }}.opr.afsiep.net:57040,{{ cluster2 }}.opr.afsiep.net:57041,{{ cluster3 }}.opr.afsiep.net:57042
 
