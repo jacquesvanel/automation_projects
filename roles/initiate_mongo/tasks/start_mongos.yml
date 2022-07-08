@@ -1,0 +1,9 @@
+---
+- name: start mongos config 0
+  shell: /usr/bin/mongos --quiet --config /etc/mongo/prod/mongoS0.cfg
+
+- name: start mongos config 1
+  shell: /usr/bin/mongos --quiet --config /etc/mongo/prod/mongoS1.cfg
+
+- name: start mongos config 2
+  shell: /usr/bin/mongos --quiet --config /etc/mongo/prod/mongoS2.cfg

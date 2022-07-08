@@ -53,14 +53,6 @@
     url: "{{ keycert }}"
     dest: /var/lib/mongodb/cert/KeyWCert.pem
 
-    #- name: make dbpath file directory
-    #ansible.builtin.file:
-    #path: /data/{{ env }}/{{ shard[0] }}/{{ repset }}
-    #state: directory
-    #mode: '2770'
-    #owner: mongod
-    #group: opr-db-admin
-
 ###section for logrotate###
 - name: layout template for logrotate on the server and place it in /etc/logrotate.d/mongo
   template:

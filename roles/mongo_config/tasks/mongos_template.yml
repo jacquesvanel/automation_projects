@@ -3,8 +3,8 @@
     
 - name: layout template for etc/mongo/{{ env }}/mongoS1.cfg on the config server
   template:
-    src:  mongos1_config.conf.j2
-    dest: "/etc/mongo/{{ env }}/mongoS1.cfg"
+    src:  mongos0_config.conf.j2
+    dest: "/etc/mongo/{{ env }}/mongoS0.cfg"
     owner: root
     group: root
     mode: '0644'
@@ -12,8 +12,8 @@
 
 - name: layout template for etc/mongo/{{ env }}/mongoS2.cfg on the config server
   template:
-    src:  mongos2_config.conf.j2
-    dest: "/etc/mongo/{{ env }}/mongoS2.cfg"
+    src:  mongos1_config.conf.j2
+    dest: "/etc/mongo/{{ env }}/mongoS1.cfg"
     owner: root
     group: root
     mode: '0644'
@@ -21,35 +21,20 @@
 
 - name: layout template for etc/mongo/{{ env }}/mongoS3.cfg on the config server
   template:
-    src:  mongos3_config.conf.j2
-    dest: "/etc/mongo/{{ env }}/mongoS3.cfg"
+    src:  mongos2_config.conf.j2
+    dest: "/etc/mongo/{{ env }}/mongoS2.cfg"
     owner: root
     group: root
     mode: '0644'
     force: yes
 
-- name: start mongos config 1
-  shell: /usr/bin/mongos --quiet --config /etc/mongo/prod/mongoS1.cfg
+    #- name: start mongos config 1
+    #  shell: /usr/bin/mongos --quiet --config /etc/mongo/prod/mongoS1.cfg
   
-- name: start mongos config 2
-  shell: /usr/bin/mongos --quiet --config /etc/mongo/prod/mongoS2.cfg
+    #- name: start mongos config 2
+    # shell: /usr/bin/mongos --quiet --config /etc/mongo/prod/mongoS2.cfg
 
-- name: start mongos config 3
-  shell: /usr/bin/mongos --quiet --config /etc/mongo/prod/mongoS3.cfg
+    #- name: start mongos config 3
+    # shell: /usr/bin/mongos --quiet --config /etc/mongo/prod/mongoS3.cfg
 
   
-  #- name: layout template for added mongos.service on the server
-    #  template:
-    #    src: mongos.service.j2
-    #    dest: "/usr/lib/systemd/system/mongos.service"
-    #owner: root
-    #group: root
-    #mode: '0640'
-    #force: yes
-
-    #- name: start and enable mongos.service
-    #  systemd:
-    #    name: mongos
-    #    state: reloaded
-    #    enabled: yes
-    #    daemon_reload: yes

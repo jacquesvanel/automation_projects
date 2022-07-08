@@ -1,9 +1,9 @@
 systemLog:
   destination: file
-  path: "/var/log/mongodb/{{ env }}/mongoS3.log"
+  path: "/var/log/mongodb/{{ env }}/mongoS0.log"
 processManagement:
   fork: true
-  pidFilePath: "/var/run/mongodb/mongos-37017.pid"
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongos-37017.pid"
 #security:
 #  keyFile: "/data/{{ env }}/keyfile.pem"
 net:

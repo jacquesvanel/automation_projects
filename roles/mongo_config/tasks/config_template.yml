@@ -26,11 +26,4 @@
     mode: '0640'
     force: yes
 
-    #- name: start and enable mongod.service
-    #systemd:
-    #name: mongod
-    #state: restarted 
-    #enabled: yes
-    #daemon_reload: yes
-
 

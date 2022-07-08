@@ -3,7 +3,7 @@ systemLog:
   path: "/var/log/mongodb/{{ env }}/mongoS1.log"
 processManagement:
   fork: true
-  pidFilePath: "/var/run/mongodb/mongos-37018.pid"
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongos-37018.pid"
 #security:
 #  keyFile: "/data/{{ env }}/keyfile.pem"
 net:
