@@ -12,7 +12,7 @@
   template:
     src:  shard.conf.j2
     dest: "/etc/mongo/{{ env }}/shard1_{{ repset }}.cfg"
-    owner: root
+    owner: mongod
     group: root
     mode: '0644'
     force: yes
@@ -22,7 +22,7 @@
   template:
     src: mongod.service.j2
     dest: "/usr/lib/systemd/system/mongod.service"
-    owner: root
+    owner: mongod
     group: root
     mode: '0640'
     force: yes
