@@ -12,13 +12,13 @@ systemLog:
 processManagement:
   fork: true 
 {% if shard1 is defined and ansible_hostname == shard1 %}
-  pidFilePath: "/var/run/mongodb/mongod-sh1-{{ repset }}.pid"
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh1-{{ repset }}.pid"
 {% endif %}
 {% if shard2 is defined and ansible_hostname == shard2 %}
-  pidFilePath: "/var/run/mongodb/mongod-sh2-{{ repset }}.pid"
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh2-{{ repset }}.pid"
 {% endif %}
 {% if shard3 is defined and ansible_hostname == shard3 %}
-  pidFilePath: "/var/run/mongodb/mongod-sh3-{{ repset }}.pid"
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh3-{{ repset }}.pid"
 {% endif %}
 #security:
 #  keyFile: "/data/{{ env }}/keyfile.pem"
