@@ -7,7 +7,7 @@ processManagement:
 #security:
 #  keyFile: "/data/{{ env }}/keyfile.pem"
 net:
-  port: {{ configsvr_port }}
+  port: 57040 
   bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
   tls:
    mode: allowTLS
