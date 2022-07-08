@@ -16,7 +16,7 @@
     force: yes
 
 - name: add shards to cluster
-  shell: mongo {{ config1 }}.opr.afsiep.net:37018 /etc/mongo/{{ env }}/scripts/add_shards_to_cluster.js
+  shell: mongo {{ config1 }}.opr.afsiep.net:57040 /etc/mongo/{{ env }}/scripts/add_shards_to_cluster.js
   register: shell_result
   delegate_to: "{{ config1 }}"
 
