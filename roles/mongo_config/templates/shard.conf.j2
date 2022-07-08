@@ -25,37 +25,37 @@ processManagement:
 net:
 {% if shard1 is defined and ansible_hostname == shard1 and repset == rs_a %}
    port: 37040
-{% endif }}
+{% endif %}
 {% if shard1 is defined and ansible_hostname == shard1 and repset == rs_b %}
    port: 37041
-{% endif }}
+{% endif %}
 {% if shard1 is defined and ansible_hostname == shard1 and repset == rs_c %}
    port: 37042
-{% endif }}
+{% endif %}
 #{% if shard1 is defined and ansible_hostname == shard1 %}
 #  port: {{ shard1_port }}
 #{% endif %}
 {% if shard2 is defined and ansible_hostname == shard2 and repset == rs_a %}
    port: 47017
-{% endif }}
+{% endif %}
 {% if shard2 is defined and ansible_hostname == shard2 and repset == rs_b %}
    port: 47018
-{% endif }}
+{% endif %}
 {% if shard2 is defined and ansible_hostname == shard2 and repset == rs_c %}
    port: 47019
-{% endif }}
+{% endif %}
 #{% if shard2 is defined and ansible_hostname == shard2 %}
 #  port: {{ shard2_port }}
 #{% endif %}
 {% if shard3 is defined and ansible_hostname == shard3 and repset == rs_a %}
    port: 57017
-{% endif }}
+{% endif %}
 {% if shard3 is defined and ansible_hostname == shard3 and repset == rs_b %}
    port: 57018
-{% endif }}
+{% endif %}
 {% if shard3 is defined and ansible_hostname == shard3 and repset == rs_c %}
    port: 57019
-{% endif }}
+{% endif %}
 #{% if shard3 is defined and ansible_hostname == shard3 %}
 #  port: {{ shard3_port }}
 #{% endif %}
