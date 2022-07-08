@@ -1,12 +1,12 @@
 ---
-- name: create a working directory
+- name: create a working directory /opt/scripts/
   file:
     path: /opt/scripts/
     state: directory
     owner: root
     group: root
 
-- name: create a working directory
+- name: create a working directory /usr/local/bin/
   file:
     path: /usr/local/bin/
     state: directory
