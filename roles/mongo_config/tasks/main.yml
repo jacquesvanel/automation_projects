@@ -9,4 +9,8 @@
   when: install_state == 'reinstall'
 
 - include_tasks: restart_services.yml
+  when: install_state == 'install'
+
+- include_tasks: restart_services.yml
+  when: install_state == 'reinstall'
   
