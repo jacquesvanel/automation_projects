@@ -15,4 +15,10 @@
   when: (config1 is defined) and (ansible_hostname == config1) 
 
 - include_tasks: start_mongos.yml
-  when: (mongos is defined) and (ansible_hostname == mongos)  
+  when: (config1 is defined) and (ansible_hostname == config1)
+
+- include_tasks: start_mongos.yml
+  when: (config2 is defined) and (ansible_hostname == config2)
+
+- include_tasks: start_mongos.yml
+  when: (config3 is defined) and (ansible_hostname == config3)
