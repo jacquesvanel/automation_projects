@@ -4,7 +4,7 @@
   file:
     path: /data/{{ env }}/shard1/{{ repset }}
     state: directory
-    mode: '2770'
+    mode: '2775'
     owner: mongod
     group: opr-db-admin
 
@@ -13,7 +13,7 @@
     src:  shard.conf.j2
     dest: "/etc/mongo/{{ env }}/shard1_{{ repset }}.cfg"
     owner: mongod
-    group: root
+    group: opr-db-admin
     mode: '0644'
     force: yes
     #  delegate_to: "{{ shard1 }}"
@@ -23,7 +23,7 @@
     src: mongod.service.j2
     dest: "/usr/lib/systemd/system/mongod.service"
     owner: mongod
-    group: root
+    group: opr-db-admin
     mode: '0640'
     force: yes
 

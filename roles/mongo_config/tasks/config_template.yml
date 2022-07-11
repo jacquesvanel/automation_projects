@@ -4,7 +4,7 @@
   file:
     path: /data/{{ env }}/config/{{ repset }}
     state: directory
-    mode: '2770'
+    mode: '2775'
     owner: mongod
     group: opr-db-admin
 
@@ -21,8 +21,8 @@
   template:
     src: mongod.service.j2 
     dest: "/usr/lib/systemd/system/mongod.service"
-    owner: root
-    group: root
+    owner: mongod
+    group: opr-db-admin 
     mode: '0640'
     force: yes
 
