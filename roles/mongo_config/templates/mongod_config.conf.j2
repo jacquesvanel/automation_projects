@@ -3,7 +3,7 @@ systemLog:
   path: "/var/log/mongodb/{{ env }}/config-{{ repset }}.log"
 processManagement:
   fork: true
-  pidFilePath: "/var/run/mongodb/mongod-config-{{ repset }}.pid"
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-config-{{ repset }}.pid"
 #security:
 #  keyFile: "/data/{{ env }}/keyfile.pem"
 net:
