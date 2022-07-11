@@ -52,4 +52,9 @@
     path: /opt/scripts/mongodb
     state: absent
 
+- name: remove old socket files from /tmp/
+  file:
+    path: /tmp/mongo*
+    state: absent
+
 - include_tasks: config_all.yml 
