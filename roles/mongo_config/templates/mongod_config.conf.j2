@@ -7,7 +7,15 @@ processManagement:
 #security:
 #  keyFile: "/data/{{ env }}/keyfile.pem"
 net:
-  port: {{ configsvr_port }} 
+{% if repset is defined and repset == 'rs_a' %}
+  port: 57040
+{% endif %}
+{% if repset is defined and repset == 'rs_b' %}
+  port: 57041
+{% endif %}
+{% if repset is defined and repset == 'rs_c' %}
+  port: 57042
+{% endif %}
   bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
   tls:
    mode: allowTLS

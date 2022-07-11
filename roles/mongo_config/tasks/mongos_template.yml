@@ -5,8 +5,8 @@
   template:
     src:  mongos0_config.conf.j2
     dest: "/etc/mongo/{{ env }}/mongoS0.cfg"
-    owner: root
-    group: root
+    owner: mongod
+    group: opr-db-admin
     mode: '0644'
     force: yes
 
@@ -14,8 +14,8 @@
   template:
     src:  mongos1_config.conf.j2
     dest: "/etc/mongo/{{ env }}/mongoS1.cfg"
-    owner: root
-    group: root
+    owner: mongodb
+    group: opr-db-admin
     mode: '0644'
     force: yes    
 
@@ -23,8 +23,8 @@
   template:
     src:  mongos2_config.conf.j2
     dest: "/etc/mongo/{{ env }}/mongoS2.cfg"
-    owner: root
-    group: root
+    owner: mongod
+    group: opr-db-admin
     mode: '0644'
     force: yes
 
