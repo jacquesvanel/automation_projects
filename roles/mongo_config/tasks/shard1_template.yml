@@ -10,7 +10,8 @@
 
 - name: layout template for /etc/mongo/{{ env }}/shard1_{{ repset }}.cfg on the shard1 server
   template:
-    src:  shard.conf.j2
+    src: testshard.conf.j2
+    #src:  shard.conf.j2
     dest: "/etc/mongo/{{ env }}/shard1_{{ repset }}.cfg"
     owner: mongod
     group: opr-db-admin

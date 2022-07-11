@@ -57,4 +57,7 @@
     path: /tmp/mongo*
     state: absent
 
-- include_tasks: config_all.yml 
+- include_tasks: 
+    file: config_all.yml
+    apply:
+      tags: config
