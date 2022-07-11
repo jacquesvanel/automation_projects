@@ -36,29 +36,29 @@ net:
   port: 37042
 {% endif %}
 {% if ( (shard2 is defined and ansible_hostname == shard2) and
-        (repset is defined and repset == rs_a) ) %}
+        (repset is defined and repset == 'rs_a') ) %}
   port: 47017
 {% endif %}
 {% if ( (shard2 is defined and ansible_hostname == shard2) and
-        (repset is defined and repset == rs_b) ) %}
+        (repset is defined and repset == 'rs_b') ) %}
   port: 47018
 {% endif %}
 {% if ( (shard2 is defined and ansible_hostname == shard2) and
-        (repset is defined and repset == rs_c) ) %}
+        (repset is defined and repset == 'rs_c') ) %}
   port: 47019
 {% endif %}
 {% if ( (shard3 is defined and ansible_hostname == shard3) and
-        (repset is defined and repset == rs_a) ) %}
+        (repset is defined and repset == 'rs_a') ) %}
   port: 57017
 {% endif %}
 {% if ( (shard3 is defined and ansible_hostname == shard3) and
-        (repset is defined and repset == rs_b) ) %}
+        (repset is defined and repset == 'rs_b') ) %}
   port: 57018
 {% endif %}
 {% if ( (shard3 is defined and ansible_hostname == shard3) and
-        (repset is defined and repset == rs_c) ) %}
+        (repset is defined and repset == 'rs_c') ) %}
   port: 57019
-{% endif %}  
+{% endif %}
   bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
   tls:
    mode: allowTLS
