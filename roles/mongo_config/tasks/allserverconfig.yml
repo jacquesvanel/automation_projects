@@ -52,6 +52,9 @@
   ansible.builtin.get_url:
     url: "{{ keycert }}"
     dest: /var/lib/mongodb/cert/KeyWCert.pem
+    owner: mongod
+    group: opr-db-admin
+    mode: '0600'
 
 ###section for logrotate###
 - name: layout template for logrotate on the server and place it in /etc/logrotate.d/mongo
