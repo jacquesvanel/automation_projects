@@ -24,15 +24,15 @@ processManagement:
 #  keyFile: "/data/{{ env }}/keyfile.pem"
 net:
 {% if ( (shard1 is defined and ansible_hostname == shard1) and
-        (repset is defined and repset == rs_a) ) %}
+        (repset is defined and repset == 'rs_a') ) %}
   port: 37040
 {% endif %}
 {% if ( (shard1 is defined and ansible_hostname == shard1) and
-        (repset is defined and repset == rs_b) ) %}
+        (repset is defined and repset == 'rs_b') ) %}
   port: 37041
 {% endif %}
 {% if ( (shard1 is defined and ansible_hostname == shard1) and
-        (repset is defined and repset == rs_c) ) %}
+        (repset is defined and repset == 'rs_c') ) %}
   port: 37042
 {% endif %}
 {% if ( (shard2 is defined and ansible_hostname == shard2) and
