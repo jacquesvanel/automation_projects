@@ -1,7 +1,7 @@
 ---
 # tasks file for mongo_config
     
-- name: layout template for etc/mongo/{{ env }}/mongoS1.cfg on the config server
+- name: layout template for etc/mongo/{{ env }}/mongoS0.cfg on the config server
   template:
     src:  mongos0_config.conf.j2
     dest: "/etc/mongo/{{ env }}/mongoS0.cfg"
@@ -10,16 +10,16 @@
     mode: '0644'
     force: yes
 
-- name: layout template for etc/mongo/{{ env }}/mongoS2.cfg on the config server
+- name: layout template for etc/mongo/{{ env }}/mongoS1.cfg on the config server
   template:
     src:  mongos1_config.conf.j2
     dest: "/etc/mongo/{{ env }}/mongoS1.cfg"
-    owner: mongodb
+    owner: mongod
     group: opr-db-admin
     mode: '0644'
     force: yes    
 
-- name: layout template for etc/mongo/{{ env }}/mongoS3.cfg on the config server
+- name: layout template for etc/mongo/{{ env }}/mongoS2.cfg on the config server
   template:
     src:  mongos2_config.conf.j2
     dest: "/etc/mongo/{{ env }}/mongoS2.cfg"
