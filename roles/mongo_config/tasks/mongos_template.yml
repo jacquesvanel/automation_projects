@@ -28,13 +28,29 @@
     mode: '0644'
     force: yes
 
-    #- name: start mongos config 1
-    #  shell: /usr/bin/mongos --quiet --config /etc/mongo/prod/mongoS1.cfg
-  
-    #- name: start mongos config 2
-    # shell: /usr/bin/mongos --quiet --config /etc/mongo/prod/mongoS2.cfg
+- name: Ensure mongos0.service file exists
+  template:
+    src: mongos0.service.j2
+    dest: "/etc/systemd/system/mongoS0.service"
+    owner: mongod
+    group: opr-db-admin
+    mode: '0640'
+    force: yes
 
-    #- name: start mongos config 3
-    # shell: /usr/bin/mongos --quiet --config /etc/mongo/prod/mongoS3.cfg
+- name: Ensure mongos1.service file exists
+  template:
+    src: mongos1.service.j2
+    dest: "/etc/systemd/system/mongoS1.service"
+    owner: mongod
+    group: opr-db-admin
+    mode: '0640'
+    force: yes
 
-  
+- name: Ensure mongos2.service file exists
+  template:
+    src: mongos2.service.j2
+    dest: "/etc/systemd/system/mongoS2.service"
+    owner: mongod
+    group: opr-db-admin
+    mode: '0640'
+    force: yes
