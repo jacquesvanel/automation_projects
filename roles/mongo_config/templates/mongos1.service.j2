@@ -7,6 +7,9 @@ After=network.target
 User=mongod
 Group=opr-db-admin
 PIDFile=/var/run/mongodb/{{ env }}/mongos-37018.pid
+ExecStartPre=/usr/bin/mkdir -p /var/run/mongodb
+ExecStartPre=/usr/bin/chown mongod:mongod /var/run/mongodb/{{ env }}
+ExecStartPre=/usr/bin/chmod 0755 /var/run/mongodb/{{ env }}
 PermissionsStartOnly=true
 ExecStart=/usr/bin/mongos --quiet \
     --config /etc/mongo/{{ env }}/mongoS1.cfg 
