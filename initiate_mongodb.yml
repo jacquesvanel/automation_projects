@@ -2,4 +2,4 @@
 - name: Configure MongoDB
   hosts: "{{ target }}"
   roles:
-    - role: initiate_mongo
+    - role: initiate_mongodb
