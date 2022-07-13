@@ -8,7 +8,7 @@ User=mongod
 Group=opr-db-admin
 {% for port in portlist %}
 PIDFile=/var/run/mongodb/{{ env }}/mongos-{{ port }}.pid
-{% endif %}
+{% endfor %}
 ExecStartPre=/usr/bin/mkdir -p /var/run/mongodb
 ExecStartPre=/usr/bin/chown mongod:mongod /var/run/mongodb/{{ env }}
 ExecStartPre=/usr/bin/chmod 0755 /var/run/mongodb/{{ env }}
@@ -16,7 +16,7 @@ PermissionsStartOnly=true
 ExecStart=/usr/bin/mongos --quiet \
 {% for name in item %}
     --config /etc/mongo/{{ env }}/{{ name }}.cfg
-{% endif %}
+{% endfor %}
 LimitFSIZE=infinity
 LimitCPU=infinity
 LimitAS=infinity
