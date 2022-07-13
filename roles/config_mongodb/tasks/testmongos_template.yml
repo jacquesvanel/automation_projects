@@ -1,7 +1,7 @@
 ---
 - name: layout template for etc/mongo/{{ env }}/mongoS0.cfg on the config server
   template:
-    src:  {{ item }}_config.conf.j2
+    src:  "{{ item }}_config.conf.j2"
     dest: "/etc/mongo/{{ env }}/{{ item }}.cfg"
     owner: mongod
     group: opr-db-admin
@@ -14,7 +14,7 @@
 
 - name: Ensure mongos0.service file exists
   template:
-    src: {{ item }}.service.j2
+    src: "{{ item }}.service.j2"
     dest: "/etc/systemd/system/{{ item }}.service"
     owner: mongod
     group: opr-db-admin
