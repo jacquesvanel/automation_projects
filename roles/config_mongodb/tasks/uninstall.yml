@@ -37,7 +37,7 @@
     - /opt/scripts/
     - /var/log/mongodb
     - /var/run/mongodb  
-    - /tmp/mongodb*
+    - /tmp/mongodb*.sock
  
 
 

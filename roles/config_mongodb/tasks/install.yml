@@ -54,10 +54,8 @@
 
 - name: remove old socket files from /tmp/
   file:
-    path: /tmp/mongo*
+    path: /tmp/mongo*.sock
     state: absent
 
-- include_tasks: 
-    file: config_all.yml
-    apply:
-      tags: config
+- include_tasks: config_all.yml
+    
