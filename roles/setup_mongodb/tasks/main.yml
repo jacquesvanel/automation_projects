@@ -11,12 +11,12 @@
 - include_tasks: config_all.yml
   when: install_state == 'run_configs_only'
 
-- include_tasks: restart_services.yml
-  when: install_state == 'install'
+  #- include_tasks: restart_services.yml
+  #  when: install_state == 'install'
 
-- include_tasks: restart_services.yml
-  when: install_state == 'reinstall'
+  #- include_tasks: restart_services.yml
+  #  when: install_state == 'reinstall'
 
-- include_tasks: restart_services.yml
-  when: install_state == 'run_configs_only'
+  #- include_tasks: restart_services.yml
+  #  when: install_state == 'run_configs_only'
 

@@ -1,5 +1,5 @@
 ---
-# tasks file for mongo_config
+# tasks file for shard_config
 - block:
   - name: make dbpath file directory /data/{{ env }}/shard1/{{ repset }}
     file:
@@ -26,7 +26,13 @@
       group: opr-db-admin
       mode: '0640'
       force: yes
-    notify: start mongod
+
+  - name: start mongod
+    systemd:
+      name: mongod
+      state: restarted
+      enabled: yes
+      daemon_reload: yes
   when: (shard1 is defined) and (ansible_hostname == shard1)
 
 - block:
@@ -55,7 +61,13 @@
       group: opr-db-admin
       mode: '0640'
       force: yes
-    notify: start mongod
+  
+  - name: start mongod
+    systemd:
+      name: mongod
+      state: restarted
+      enabled: yes
+      daemon_reload: yes
   when: (shard2 is defined) and (ansible_hostname == shard2)
 
 - block:
@@ -84,5 +96,11 @@
       group: opr-db-admin
       mode: '0640'
       force: yes
-    notify: start mongod
+  
+  - name: start mongod
+    systemd:
+      name: mongod
+      state: restarted
+      enabled: yes
+      daemon_reload: yes
   when: (shard3 is defined) and (ansible_hostname == shard3)

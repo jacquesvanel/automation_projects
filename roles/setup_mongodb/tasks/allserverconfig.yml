@@ -75,6 +75,11 @@
     group: root
     mode: '0640'
     force: yes
-  notify: start hugepagesfix
 
+- name: start hugepagesfix
+  systemd:
+    name: mongodb-hugepage-fix
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
 

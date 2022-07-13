@@ -25,5 +25,10 @@
     group: opr-db-admin
     mode: '0640'
     force: yes
-  notify: start mongod
 
+- name: start mongod
+  systemd:
+    name: mongod
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
