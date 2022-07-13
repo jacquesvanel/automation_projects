@@ -1,6 +1,5 @@
 ---
 # vars file for mongo_config
-repset: rs_a
 keyfile: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/keys/keyfile.pem
 keycert: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/keys/KeyWCert.pem
 tlspass: 22w#SBR5nfvZOt23
@@ -10,4 +9,7 @@ packages:
   - mongodb-enterprise-shell-5.0.8-1.el8.x86_64
   - mongodb-enterprise-server-5.0.8-1.el8.x86_64
   - mongodb-enterprise-mongos-5.0.8-1.el8.x86_64
-
+portlist: 
+  - 37017
+  - 37018
+  - 37019

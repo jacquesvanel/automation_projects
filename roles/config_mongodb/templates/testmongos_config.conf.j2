@@ -1,0 +1,23 @@
+systemLog:
+  destination: file
+{% for name in item %}
+  path: "/var/log/mongodb/{{ env }}/{{ name }}.log"
+{% endif %}
+processManagement:
+  fork: true
+{% for port in portlist %}
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongos-{{ port }}.pid"
+{% endif %}
+#security:
+#  keyFile: "/data/{{ env }}/keyfile.pem"
+net:
+{% for port in portlist %}
+  port: {{ port }}
+{% endif %}
+  bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
+  tls:
+   mode: allowTLS
+   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
+   certificateKeyFilePassword: {{ tlspass }}
+sharding:
+  configDB: config_{{ env }}/{{ cluster1 }}.opr.afsiep.net:57040,{{ cluster2 }}.opr.afsiep.net:57041,{{ cluster3 }}.opr.afsiep.net:57042
