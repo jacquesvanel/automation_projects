@@ -9,7 +9,4 @@ packages:
   - mongodb-enterprise-shell-5.0.8-1.el8.x86_64
   - mongodb-enterprise-server-5.0.8-1.el8.x86_64
   - mongodb-enterprise-mongos-5.0.8-1.el8.x86_64
-portlist: 
-  - 37017
-  - 37018
-  - 37019
+portlist: [ '37017','37018','37019' ]

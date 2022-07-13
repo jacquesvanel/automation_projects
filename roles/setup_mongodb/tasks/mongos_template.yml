@@ -7,12 +7,12 @@
     group: opr-db-admin
     mode: '0644'
     force: yes
-  loop:
+  with_items:
     - mongos0
     - mongos1
     - mongos2
 
-- name: Ensure mongos0.service file exists
+- name: Ensure mongos.service file exists
   template:
     src: mongos.service.j2
     dest: "/etc/systemd/system/{{ item }}.service"
@@ -20,7 +20,7 @@
     group: opr-db-admin
     mode: '0640'
     force: yes
-  loop:
+  with_items:
     - mongos0
     - mongos1
     - mongos2

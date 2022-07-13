@@ -35,6 +35,7 @@
       - /var/log/mongodb
       - /var/run/mongodb
       - /tmp/mongodb*.sock
+      - /etc/systemd/system/mongo*.service  
   ignore_errors: yes
 
 
