@@ -7,7 +7,7 @@
     group: opr-db-admin
     mode: '0644'
     force: yes
-  with_items:
+  loop:
     - mongos0
     - mongos1
     - mongos2
@@ -20,7 +20,7 @@
     group: opr-db-admin
     mode: '0640'
     force: yes
-  with_items:
+  loop:
     - mongos0
     - mongos1
     - mongos2
