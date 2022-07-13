@@ -47,9 +47,9 @@
 #cleans up directories and removes unwanted files#
 - name: remove unwanted files
   file:
-    path: "{{ items }}"
+    path: "{{ item }}"
     state: absent
-  with_items:
+  loop:
     - /opt/scripts/mongodb
     - /tmp/mongo*.sock
     - /etc/mongod.conf
