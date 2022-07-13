@@ -37,7 +37,7 @@
       owner: mongod
       group: opr-db-admin
 
-  - name: layout template for /etc/mongo/{{ env }}/shard2_{{ repset }}.cfg on the shard1 server
+  - name: layout template for /etc/mongo/{{ env }}/shard2_{{ repset }}.cfg on the shard2 server
     template:
       src:  shard.conf.j2
       dest: "/etc/mongo/{{ env }}/shard2_{{ repset }}.cfg"
@@ -65,7 +65,7 @@
       owner: mongod
       group: opr-db-admin
 
-  - name: layout template for /etc/mongo/{{ env }}/shard3_{{ repset }}.cfg on the shard1 server
+  - name: layout template for /etc/mongo/{{ env }}/shard3_{{ repset }}.cfg on the shard3 server
     template:
       src:  shard.conf.j2
       dest: "/etc/mongo/{{ env }}/shard3_{{ repset }}.cfg"

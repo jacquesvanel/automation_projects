@@ -13,5 +13,5 @@
 - include_tasks: shard_template.yml
   when: (shard3 is defined) and (ansible_hostname == shard3)
 
-- include_tasks: mongos_template.yml
+- include_tasks: testmongos_template.yml
   when: (mongos is defined) and (ansible_hostname == mongos)
