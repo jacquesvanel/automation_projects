@@ -26,6 +26,7 @@
       group: opr-db-admin
       mode: '0640'
       force: yes
+    notify: start mongod
   when: (shard1 is defined) and (ansible_hostname == shard1)
 
 - block:
@@ -54,9 +55,10 @@
       group: opr-db-admin
       mode: '0640'
       force: yes
+    notify: start mongod
   when: (shard2 is defined) and (ansible_hostname == shard2)
 
-- block:      
+- block:
   - name: make dbpath file directory /data/{{ env }}/shard3/{{ repset }}
     file:
       path: /data/{{ env }}/shard3/{{ repset }}
@@ -82,4 +84,5 @@
       group: opr-db-admin
       mode: '0640'
       force: yes
+    notify: start mongod
   when: (shard3 is defined) and (ansible_hostname == shard3)

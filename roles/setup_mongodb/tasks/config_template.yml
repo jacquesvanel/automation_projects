@@ -1,5 +1,5 @@
 ---
-# tasks file for mongo_config
+# creates directory for config server database #
 - name: make dbpath file directory /data/{{ env }}/config/{{ repset }}
   file:
     path: /data/{{ env }}/config/{{ repset }}
@@ -19,11 +19,11 @@
 
 - name: layout template for added mongod.service on the server
   template:
-    src: mongod.service.j2 
+    src: mongod.service.j2
     dest: "/usr/lib/systemd/system/mongod.service"
     owner: mongod
-    group: opr-db-admin 
+    group: opr-db-admin
     mode: '0640'
     force: yes
-
+  notify: start mongod
 

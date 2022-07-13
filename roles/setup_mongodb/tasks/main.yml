@@ -1,7 +1,7 @@
 ---
 - include_tasks: install.yml
-  when: install_state == 'install' 
-  
+  when: install_state == 'install'
+
 - include_tasks: uninstall.yml
   when: install_state == 'uninstall'
 
@@ -19,4 +19,4 @@
 
 - include_tasks: restart_services.yml
   when: install_state == 'run_configs_only'
-  
+

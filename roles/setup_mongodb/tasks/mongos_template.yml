@@ -1,7 +1,7 @@
 ---
-- name: layout template for etc/mongo/{{ env }}/mongoS0.cfg on the config server
+- name: layout template for etc/mongo/{{ env }}/{{ item }}.cfg on the config server
   template:
-    src:  "{{ item }}_config.conf.j2"
+    src:  mongos_config.conf.j2
     dest: "/etc/mongo/{{ env }}/{{ item }}.cfg"
     owner: mongod
     group: opr-db-admin
@@ -10,11 +10,11 @@
   loop:
     - mongos0
     - mongos1
-    - mongos2  
+    - mongos2
 
 - name: Ensure mongos0.service file exists
   template:
-    src: "{{ item }}.service.j2"
+    src: mongos.service.j2
     dest: "/etc/systemd/system/{{ item }}.service"
     owner: mongod
     group: opr-db-admin

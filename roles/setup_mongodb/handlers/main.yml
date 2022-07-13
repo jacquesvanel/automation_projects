@@ -1,0 +1,21 @@
+---
+# handlers file for mongo_config
+- name: start hugepagesfix
+  systemd:
+    name: mongodb-hugepage-fix
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+
+- name: start mongod
+  systemd:
+    name: mongod
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+
+- name: stop mongod
+  systemd:
+    name: mongod
+    state: stopped
+    enabled: no

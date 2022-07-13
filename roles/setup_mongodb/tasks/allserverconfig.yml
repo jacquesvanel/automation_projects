@@ -1,6 +1,6 @@
 ---
 - name: make config file directory /etc/mongo/{{ env }}/
-  ansible.builtin.file:
+  file:
     path: /etc/mongo/{{ env }}/
     state: directory
     mode: '2770'
@@ -8,7 +8,7 @@
     group: opr-db-admin
 
 - name: make log file directory /var/log/mongodb/{{ env }}/
-  ansible.builtin.file:
+  file:
     path: /var/log/mongodb/{{ env }}/
     state: directory
     mode: '2755'
@@ -16,7 +16,7 @@
     group: opr-db-admin
 
 - name: make pid file directory /var/run/mongodb/{{ env }}/
-  ansible.builtin.file:
+  file:
     path: /var/run/mongodb/{{ env }}/
     state: directory
     mode: '2750'
@@ -25,7 +25,7 @@
 
 ### section for keyfile###
 - name: make keyfile directory /data/{{ env }}/
-  ansible.builtin.file:
+  file:
     path: /data/{{ env }}/
     state: directory
     mode: '2770'
@@ -33,7 +33,7 @@
     group: opr-db-admin
 
 - name: get key file from artifactory and place it in /data/{{ env }}/keyfile.pem
-  ansible.builtin.get_url:
+  get_url:
     url: "{{ keyfile }}"
     dest: /data/{{ env }}/keyfile.pem
     owner: mongod
@@ -41,15 +41,15 @@
     mode: '0600'
 
 - name: make cert directory /var/lib/mongo/cert/
-  ansible.builtin.file:
+  file:
     path: /var/lib/mongodb/cert/
     state: directory
     mode: '2770'
     owner: mongod
     group: opr-db-admin
-    
+
 - name: get keycert file from artifactory and place it in /var/lib/mongo/cert/KeyWCert.pem
-  ansible.builtin.get_url:
+  get_url:
     url: "{{ keycert }}"
     dest: /var/lib/mongodb/cert/KeyWCert.pem
     owner: mongod
@@ -75,12 +75,6 @@
     group: root
     mode: '0640'
     force: yes
-
-- name: start and enable hugepages_service
-  systemd:
-    name: mongodb-hugepage-fix
-    state: restarted
-    enabled: yes
-    daemon_reload: yes
+  notify: start hugepagesfix
 
 

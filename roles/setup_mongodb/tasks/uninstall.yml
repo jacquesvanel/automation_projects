@@ -22,7 +22,7 @@
     file:
       path: "{{ item }}"
       state: absent
-    with_items: 
+    with_items:
       - /var/log/mongo
       - /var/run/mongo
       - /data/{{ env }}
@@ -33,7 +33,7 @@
       - /usr/local/bin/
       - /opt/scripts/
       - /var/log/mongodb
-      - /var/run/mongodb  
+      - /var/run/mongodb
       - /tmp/mongodb*.sock
   ignore_errors: yes
 
