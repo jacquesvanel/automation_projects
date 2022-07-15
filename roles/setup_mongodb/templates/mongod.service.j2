@@ -21,7 +21,7 @@ Environment="OPTIONS=-f /etc/mongo/{{ env }}/shard3_{{ repset }}.cfg"
 {% endif %}
 EnvironmentFile=-/etc/sysconfig/mongod
 ExecStart=/usr/bin/mongod $OPTIONS
-ExecStartPre=/usr/bin/mkdir -p /var/run/mongodb
+ExecStartPre=/usr/bin/mkdir -p /var/run/mongodb/{{ env }}
 ExecStartPre=/usr/bin/chown mongod:mongod /var/run/mongodb/{{ env }}
 ExecStartPre=/usr/bin/chmod 0755 /var/run/mongodb/{{ env }}
 PermissionsStartOnly=true
