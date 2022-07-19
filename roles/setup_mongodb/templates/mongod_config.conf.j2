@@ -1,6 +1,8 @@
 systemLog:
   destination: file
   path: "/var/log/mongodb/{{ env }}/config-{{ repset }}.log"
+  logAppend: true
+  logRotate: reopen
 processManagement:
   fork: true
   pidFilePath: "/var/run/mongodb/{{ env }}/mongod-config-{{ repset }}.pid"

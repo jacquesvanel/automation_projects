@@ -9,6 +9,8 @@ systemLog:
 {% if shard3 is defined and ansible_hostname == shard3 %}
   path: "/var/log/mongodb/{{ env }}/sh3-{{ repset }}.log"
 {% endif %}
+  logAppend: true
+  logRotate: reopen
 processManagement:
   fork: true 
 {% if shard1 is defined and ansible_hostname == shard1 %}

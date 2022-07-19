@@ -9,6 +9,8 @@ systemLog:
 {% if item is defined and item == 'mongos2' %}
   path: "/var/log/mongodb/{{ env }}/mongos2.log"
 {% endif %}
+  logAppend: true
+  logRotate: reopen
 processManagement:
   fork: true
 {% if item is defined and item == 'mongos0' %}
