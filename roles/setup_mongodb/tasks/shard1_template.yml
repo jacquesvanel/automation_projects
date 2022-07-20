@@ -75,7 +75,7 @@
 - block:
   - name: make dbpath file directory /data/{{ env }}/shard1/rs_c
     file:
-      path: /data/{{ env }}/shard1/rs_a
+      path: /data/{{ env }}/shard1/rs_c
       state: directory
       mode: '2775'
       owner: mongod
