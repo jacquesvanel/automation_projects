@@ -4,70 +4,70 @@
     systemd:
       name: mongod_config
       state: restarted
-    delegate_to: {{ item }}
+    delegate_to: "{{ item }}"
     loop:
-      - {{ configsvr_rsa }}
-      - {{ configsvr_rsb }}
-      - {{ configsvr_rsc }}
+      - "{{ configsvr_rsa }}"
+      - "{{ configsvr_rsb }}"
+      - "{{ configsvr_rsc }}"
 
   - name: restart mongod_shard1.service
     systemd:
       name: mongod_shard1
       state: restarted
-    delegate_to: {{ item }}
+    delegate_to: "{{ item }}"
     loop:
-      - {{ shard1a }}
-      - {{ shard1b }}
-      - {{ shard1c }}
+      - "{{ shard1a }}"
+      - "{{ shard1b }}"
+      - "{{ shard1c }}"
   
   - name: restart mongod_shard2.service
     systemd:
       name: mongod_shard2
       state: restarted
-    delegate_to: {{ item }}
+    delegate_to: "{{ item }}"
     loop:
-      - {{ shard2a }}
-      - {{ shard2b }}
-      - {{ shard2c }}
+      - "{{ shard2a }}"
+      - "{{ shard2b }}"
+      - "{{ shard2c }}"
   
   - name: restart mongod_shard3.service
     systemd:
       name: mongod_shard3
       state: restarted
-    delegate_to: {{ item }}
+    delegate_to: "{{ item }}"
     loop:
-      - {{ shard3a }}
-      - {{ shard3b }}
-      - {{ shard3c }}
+      - "{{ shard3a }}"
+      - "{{ shard3b }}"
+      - "{{ shard3c }}"
 
   - name: restart mongos0.service
     systemd:
       name: mongos0
       state: restarted
-    delegate_to: {{ item }}
+    delegate_to: "{{ item }}"
     loop:
-      - {{ configsvr_rsa }}
-      - {{ configsvr_rsb }}
-      - {{ configsvr_rsc }}
+      - "{{ configsvr_rsa }}"
+      - "{{ configsvr_rsb }}"
+      - "{{ configsvr_rsc }}"
 
   - name: restart mongos1.service
     systemd:
       name: mongos1
       state: restarted
-    delegate_to: {{ item }}
+    delegate_to: "{{ item }}"
     loop:
-      - {{ configsvr_rsa }}
-      - {{ configsvr_rsb }}
-      - {{ configsvr_rsc }}
+      - "{{ configsvr_rsa }}"
+      - "{{ configsvr_rsb }}"
+      - "{{ configsvr_rsc }}"
 
   - name: restart mongos2.service
     systemd:
       name: mongos2
       state: restarted
-    delegate_to: {{ item }}
+    delegate_to: "{{ item }}"
     loop:
-      - {{ configsvr_rsa }}
-      - {{ configsvr_rsb }}
-      - {{ configsvr_rsc }}
+      - "{{ configsvr_rsa }}"
+      - "{{ configsvr_rsb }}"
+      - "{{ configsvr_rsc }}"
   ignore_errors: yes
 

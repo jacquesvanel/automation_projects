@@ -1,7 +1,19 @@
 ---
-- include_tasks: install_mongodb.yml
+- name: install tasks for mongodb
+  include_tasks: install_mongodb.yml
 
-- include_tasks: config_tasks.yml
+- name: setup configs for servers 
+  include_tasks: config_tasks.yml
 
-- include_tasks: initiate_tasks.yml 
+- name: initiate clusters
+  include_tasks: testinitiate_tasks.yml 
+
+- name: stop mongod instances
+  include_tasks: stop_services.yml 
+
+- name: edit config files
+  include_tasks: edit_config.yml
+
+- name: start mongod instances
+  include_tasks: start_services.yml
 

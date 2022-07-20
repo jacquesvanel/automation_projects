@@ -1,71 +1,73 @@
 ---
 - block: 
-  - name: shutdown config servers 
-    shell: mongo localhost:37018 /etc/mongo/{{ env }}/scripts/shutdown.js
-    delegate_to: {{ item }}
+  - name: stop mongod on config servers 
+    systemd:
+      name: mongod_config
+      state: stopped
+    delegate_to: "{{ item }}"
     loop:
-      - {{ configsvr_rsa }}
-      - {{ configsvr_rsb }}
-      - {{ configsvr_rsc }}
+      - "{{ configsvr_rsa }}"
+      - "{{ configsvr_rsb }}"
+      - "{{ configsvr_rsc }}"
 
   - name: stop mongos0.service
     systemd:
       name: mongos0
       state: stopped 
-    delegate_to: {{ item }}
+    delegate_to: "{{ item }}"
     loop:
-      - {{ configsvr_rsa }}
-      - {{ configsvr_rsb }}
-      - {{ configsvr_rsc }}
+      - "{{ configsvr_rsa }}"
+      - "{{ configsvr_rsb }}"
+      - "{{ configsvr_rsc }}"
 
   - name: stop mongos1.service
     systemd:
       name: mongos1
       state: stopped
-    delegate_to: {{ item }}
+    delegate_to: "{{ item }}"
     loop:
-      - {{ configsvr_rsa }}
-      - {{ configsvr_rsb }}
-      - {{ configsvr_rsc }}
+      - "{{ configsvr_rsa }}"
+      - "{{ configsvr_rsb }}"
+      - "{{ configsvr_rsc }}"
 
   - name: stop mongos2.service
     systemd:
       name: mongos2
       state: stopped
-    delegate_to: {{ item }}
+    delegate_to: "{{ item }}"
     loop:
-      - {{ configsvr_rsa }}
-      - {{ configsvr_rsb }}
-      - {{ configsvr_rsc }}
+      - "{{ configsvr_rsa }}"
+      - "{{ configsvr_rsb }}"
+      - "{{ configsvr_rsc }}"
 
   - name: stop mongod_shard1.service
     systemd:
       name: mongod_shard1
       state: stopped
-    delegate_to: {{ item }}
+    delegate_to: "{{ item }}"
     loop:
-      - {{ shard1a }}
-      - {{ shard1b }}
-      - {{ shard1c }}
+      - "{{ shard1a }}"
+      - "{{ shard1b }}"
+      - "{{ shard1c }}"
   
   - name: stop mongod_shard2.service
     systemd:
       name: mongod_shard2
       state: stopped
-    delegate_to: {{ item }}
+    delegate_to: "{{ item }}"
     loop:
-      - {{ shard2a }}
-      - {{ shard2b }}
-      - {{ shard2c }}
+      - "{{ shard2a }}"
+      - "{{ shard2b }}"
+      - "{{ shard2c }}"
   
   - name: stop mongod_shard3.service
     systemd:
       name: mongod_shard3
       state: stopped
-    delegate_to: {{ item }}
+    delegate_to: "{{ item }}"
     loop:
-      - {{ shard3a }}
-      - {{ shard3b }}
-      - {{ shard3c }}
+      - "{{ shard3a }}"
+      - "{{ shard3b }}"
+      - "{{ shard3c }}"
   ignore_errors: yes
 

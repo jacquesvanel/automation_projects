@@ -1,5 +1,5 @@
 #/etc/logrotate.d/
-/var/log/mongodb/{{ env }}/*.log {
+/var/log/mongodb/*/*.log {
 daily
 rotate 5
 compress
@@ -10,6 +10,6 @@ notifempty
 sharedscripts
 copytruncate
 postrotate
-/bin/kill -SIGUSR1 `cat /var/run/mongodb/{{ env }}/*.pid 2> /dev/null|xargs` 2> /dev/null || true
+/bin/kill -SIGUSR1 `cat /var/run/mongodb/*/*.pid 2> /dev/null|xargs` 2> /dev/null || true
 endscript
 }
