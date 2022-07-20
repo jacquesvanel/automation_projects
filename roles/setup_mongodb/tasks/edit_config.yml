@@ -1,0 +1,26 @@
+---
+- name: Remove existing security line
+  lineinfile:
+    path: "/etc/mongo/{{ env }}/*.cfg"
+    regexp: '#security:'
+    state: absent
+
+- name: Add security line 
+  lineinfile:
+    insertbefore: '#  keyFile: "/data/{{ env }}/keyfile.pem"'
+    path: "/etc/mongo/{{ env }}/*.cfg"
+    line: 'security:'
+    state: present
+
+- name: Remove existing keyfile line
+  lineinfile:
+    path: /etc/mongo/{{ env }}/*.cfg
+    regexp: '#  keyFile: "/data/{{ env }}/keyfile.pem"'
+    state: absent
+
+- name: Add keyfile line
+  lineinfile:
+    insertafter: 'security:'
+    path: "/etc/mongo/{{ env }}/*.cfg"
+    line: '  keyFile: "/data/{{ env }}/keyfile.pem"'
+    state: present

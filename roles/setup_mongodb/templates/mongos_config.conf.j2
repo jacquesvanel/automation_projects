@@ -40,4 +40,4 @@ net:
    certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
    certificateKeyFilePassword: {{ tlspass }}
 sharding:
-  configDB: config_{{ env }}/{{ cluster1 }}.opr.afsiep.net:57040,{{ cluster2 }}.opr.afsiep.net:57041,{{ cluster3 }}.opr.afsiep.net:57042
+  configDB: config_{{ env }}/{{ configsvr_rsa }}.opr.afsiep.net:57040,{{ configsvr_rsb }}.opr.afsiep.net:57041,{{ configsvr_rsc }}.opr.afsiep.net:57042

@@ -1,21 +1,37 @@
 systemLog:
   destination: file
-  path: "/var/log/mongodb/{{ env }}/config-{{ repset }}.log"
+{% if configsvr_rsa is defined and ansible_hostname == configsvr_rsa %}
+  path: "/var/log/mongodb/{{ env }}/config-rs_a.log"
+{% endif %}
+{% if configsvr_rsb is defined and ansible_hostname == configsvr_rsb %}
+  path: "/var/log/mongodb/{{ env }}/config-rs_b.log"
+{% endif %}
+{% if configsvr_rsc is defined and ansible_hostname == configsvr_rsc %}
+  path: "/var/log/mongodb/{{ env }}/config-rs_c.log"
+{% endif %}
   logAppend: true
   logRotate: reopen
 processManagement:
   fork: true
-  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-config-{{ repset }}.pid"
+{% if configsvr_rsa is defined and ansible_hostname == configsvr_rsa %}
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-config-rs_a.pid"
+{% endif %}
+{% if configsvr_rsb is defined and ansible_hostname == configsvr_rsb %}
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-config-rs_b.pid"
+{% endif %}
+{% if configsvr_rsc is defined and ansible_hostname == configsvr_rsc %}
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-config-rs_c.pid"
+{% endif %}
 #security:
 #  keyFile: "/data/{{ env }}/keyfile.pem"
 net:
-{% if repset is defined and repset == 'rs_a' %}
+{% if configsvr_rsa is defined and ansible_hostname == configsvr_rsa %}
   port: 57040
 {% endif %}
-{% if repset is defined and repset == 'rs_b' %}
+{% if configsvr_rsb is defined and ansible_hostname == configsvr_rsb %}
   port: 57041
 {% endif %}
-{% if repset is defined and repset == 'rs_c' %}
+{% if configsvr_rsc is defined and ansible_hostname == configsvr_rsc %}
   port: 57042
 {% endif %}
   bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
@@ -28,7 +44,15 @@ sharding:
 replication:
   replSetName: config_{{ env }}
 storage:
-  dbPath: /data/{{ env }}/config/{{ repset }}
+{% if configsvr_rsa is defined and ansible_hostname == configsvr_rsa %}
+  dbPath: /data/{{ env }}/config/rs_a
+{% endif %}
+{% if configsvr_rsb is defined and ansible_hostname == configsvr_rsb %}
+  dbPath: /data/{{ env }}/config/rs_b
+{% endif %}
+{% if configsvr_rsc is defined and ansible_hostname == configsvr_rsc %}
+  dbPath: /data/{{ env }}/config/rs_c
+{% endif %}
 #  wiredTiger:
 #    engineConfig:
 #      cacheSizeGB: 5

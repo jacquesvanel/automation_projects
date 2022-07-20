@@ -1,0 +1,59 @@
+systemLog:
+  destination: file
+{% if shard3a is defined and ansible_hostname == shard3a %}
+  path: "/var/log/mongodb/{{ env }}/sh3-rs_a.log"
+{% endif %}
+{% if shard3b is defined and ansible_hostname == shard3b %}
+  path: "/var/log/mongodb/{{ env }}/sh3-rs_b.log"
+{% endif %}
+{% if shard3c is defined and ansible_hostname == shard3c %}
+  path: "/var/log/mongodb/{{ env }}/sh3-rs_c.log"
+{% endif %}
+  logAppend: true
+  logRotate: reopen
+processManagement:
+  fork: true 
+{% if shard3a is defined and ansible_hostname == shard3a %}
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh3-rs_a.pid"
+{% endif %}
+{% if shard3b is defined and ansible_hostname == shard3b %}
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh3-rs_b.pid"
+{% endif %}
+{% if shard3c is defined and ansible_hostname == shard3c %}
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh3-rs_c.pid"
+{% endif %}
+#security:
+#  keyFile: "/data/{{ env }}/keyfile.pem"
+net:
+{% if shard3a is defined and ansible_hostname == shard3a %}
+  port: 57017
+{% endif %}
+{% if shard3b is defined and ansible_hostname == shard3b %}
+  port: 57018
+{% endif %}
+{% if shard3c is defined and ansible_hostname == shard3c %}
+  port: 57019
+{% endif %}
+  bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
+  tls:
+   mode: allowTLS
+   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
+   certificateKeyFilePassword: {{ tlspass }}
+sharding:
+  clusterRole: shardsvr
+replication:
+  replSetName: sh3_{{ env }}
+storage:
+{% if shard3a is defined and ansible_hostname == shard3a %}
+  dbPath: /data/{{ env }}/shard3/rs_a
+{% endif %}
+{% if shard3b is defined and ansible_hostname == shard3b %}
+  dbPath: /data/{{ env }}/shard3/rs_b
+{% endif %}
+{% if shard3c is defined and ansible_hostname == shard3c %}
+  dbPath: /data/{{ env }}/shard3/rs_c
+{% endif %}
+#  wiredTiger:
+#    engineConfig:
+#      cacheSizeGB: 2 
+

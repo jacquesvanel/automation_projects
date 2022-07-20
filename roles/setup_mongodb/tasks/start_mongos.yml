@@ -1,0 +1,22 @@
+---
+- name: start and enable mongos0.service
+  systemd:
+    name: mongoS0
+    state: reloaded
+    enabled: yes
+    daemon_reload: yes
+
+- name: start and enable mongos1.service
+  systemd:
+    name: mongoS1
+    state: reloaded
+    enabled: yes
+    daemon_reload: yes
+
+- name: start and enable mongos2.service
+  systemd:
+    name: mongoS2
+    state: reloaded
+    enabled: yes
+    daemon_reload: yes
+

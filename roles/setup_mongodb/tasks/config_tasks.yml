@@ -1,0 +1,47 @@
+---
+- include_tasks: allserverconfig.yml
+#starts install of config files
+- include_tasks: config_srv_template.yml
+  when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
+
+- include_tasks: config_srv_template.yml
+  when: (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)
+
+- include_tasks: config_srv_template.yml
+  when: (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)
+
+- include_tasks: shard1_template.yml
+  when: (shard1a is defined) and (ansible_hostname == shard1a)
+
+- include_tasks: shard1_template.yml
+  when: (shard1b is defined) and (ansible_hostname == shard1b)
+
+- include_tasks: shard1_template.yml
+  when: (shard1c is defined) and (ansible_hostname == shard1c)
+
+- include_tasks: shard2_template.yml
+  when: (shard2a is defined) and (ansible_hostname == shard2a)
+
+- include_tasks: shard2_template.yml
+  when: (shard2b is defined) and (ansible_hostname == shard2b)
+
+- include_tasks: shard2_template.yml
+  when: (shard2c is defined) and (ansible_hostname == shard2c)
+
+- include_tasks: shard3_template.yml
+  when: (shard3a is defined) and (ansible_hostname == shard3a)
+
+- include_tasks: shard3_template.yml
+  when: (shard3b is defined) and (ansible_hostname == shard3b)
+
+- include_tasks: shard3_template.yml
+  when: (shard3c is defined) and (ansible_hostname == shard3c)
+
+- include_tasks: mongos_template.yml
+  when: (mongos0 is defined) and (ansible_hostname == mongos0)
+
+- include_tasks: mongos_template.yml
+  when: (mongos1 is defined) and (ansible_hostname == mongos1)
+
+- include_tasks: mongos_template.yml
+  when: (mongos2 is defined) and (ansible_hostname == mongos2)
