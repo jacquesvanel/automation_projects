@@ -22,34 +22,9 @@
     
   - debug:
       var: shell_result.stdout_lines
-   when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
+  when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
 
-- block:
-  - name: make directory for /etc/mongo/{{ env }}/scripts/
-    file:
-      dest: /etc/mongo/{{ env }}/scripts/
-      state: directory
-      owner: mongod
-      group: opr-db-admin
-
-  - name: layout template for /etc/mongo/{{ env }}/scripts/user_setup.js the config server
-    template:
-      src:  user_setup.js.j2
-      dest: "/etc/mongo/{{ env }}/scripts/user_setup.js"
-      owner: mongod
-      group: opr-db-admin
-      mode: '0644'
-      force: yes
-
-  - name: set up users
-    shell: mongo {{ shard1a }}.opr.afsiep.net:37040 /etc/mongo/{{ env }}/scripts/user_setup.js
-    register: shell_result
-
-  - debug:
-      var: shell_result.stdout_lines
-   when: (shard1a is defined) and (ansible_hostname == shard1a)
-
-- block:
+- block:  
   - name: make directory for /etc/mongo/{{ env }}/scripts/
     file:
       dest: /etc/mongo/{{ env }}/scripts/
@@ -72,7 +47,7 @@
 
   - debug:
       var: shell_result.stdout_lines
-   when: (shard1a is defined) and (ansible_hostname == shard1a)
+  when: (shard1a is defined) and (ansible_hostname == shard1a)
 
 - block:
   - name: make directory for /etc/mongo/{{ env }}/scripts/
@@ -97,7 +72,7 @@
 
   - debug:
       var: shell_result.stdout_lines
-   when: (shard2a is defined) and (ansible_hostname == shard2a)
+  when: (shard2a is defined) and (ansible_hostname == shard2a)
 
 - block:
   - name: make directory for /etc/mongo/{{ env }}/scripts/
@@ -122,4 +97,4 @@
 
   - debug:
       var: shell_result.stdout_lines
-   when: (shard3a is defined) and (ansible_hostname == shard3a)
+  when: (shard3a is defined) and (ansible_hostname == shard3a)

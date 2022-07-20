@@ -17,9 +17,9 @@
     force: yes
 
 - name: initiate shard replica set
-  shell: mongo {{ config1 }}.opr.afsiep.net:57040 /etc/mongo/{{ env }}/scripts/initiate.config.js
+  shell: mongo {{ configsvr_rsa }}.opr.afsiep.net:57040 /etc/mongo/{{ env }}/scripts/initiate.config.js
   register: shell_result
-  delegate_to: "{{ config1 }}"
+  delegate_to: "{{ configsvr_rsa }}"
   
 - debug:
     var: shell_result.stdout_lines

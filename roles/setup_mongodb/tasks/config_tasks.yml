@@ -38,10 +38,10 @@
   when: (shard3c is defined) and (ansible_hostname == shard3c)
 
 - include_tasks: mongos_template.yml
-  when: (mongos0 is defined) and (ansible_hostname == mongos0)
+  when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
 
 - include_tasks: mongos_template.yml
-  when: (mongos1 is defined) and (ansible_hostname == mongos1)
+  when: (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)
 
 - include_tasks: mongos_template.yml
-  when: (mongos2 is defined) and (ansible_hostname == mongos2)
+  when: (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)
