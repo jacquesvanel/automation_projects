@@ -4,70 +4,68 @@
     systemd:
       name: mongod_config
       state: stopped
-    delegate_to: "{{ item }}"
-    loop:
-      - "{{ configsvr_rsa }}"
-      - "{{ configsvr_rsb }}"
-      - "{{ configsvr_rsc }}"
+  when: "{{ item }}"
+  loop:
+    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
+    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
+    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
 
-  - name: stop mongos0.service
+- block:      
+  - name: stop mongos0
     systemd:
       name: mongos0
-      state: stopped 
-    delegate_to: "{{ item }}"
-    loop:
-      - "{{ configsvr_rsa }}"
-      - "{{ configsvr_rsb }}"
-      - "{{ configsvr_rsc }}"
+      state: stopped
 
-  - name: stop mongos1.service
+  - name: stop mongos1
+    state: stopped 
     systemd:
       name: mongos1
       state: stopped
-    delegate_to: "{{ item }}"
-    loop:
-      - "{{ configsvr_rsa }}"
-      - "{{ configsvr_rsb }}"
-      - "{{ configsvr_rsc }}"
 
   - name: stop mongos2.service
     systemd:
       name: mongos2
       state: stopped
-    delegate_to: "{{ item }}"
-    loop:
-      - "{{ configsvr_rsa }}"
-      - "{{ configsvr_rsb }}"
-      - "{{ configsvr_rsc }}"
+  when: "{{ item }}"
+  loop:
+    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
+    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
+    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
+  ignore_errors: yes
 
+- block:      
   - name: stop mongod_shard1.service
     systemd:
       name: mongod_shard1
       state: stopped
-    delegate_to: "{{ item }}"
-    loop:
-      - "{{ shard1a }}"
-      - "{{ shard1b }}"
-      - "{{ shard1c }}"
-  
+  when: "{{ item }}"
+  loop:
+    - "(shard1a is defined) and (ansible_hostname == shard1a)"
+    - "(shard1b is defined) and (ansible_hostname == shard1b)"
+    - "(shard1c is defined) and (ansible_hostname == shard1c)"
+  ignore_errors: yes
+
+- block:
   - name: stop mongod_shard2.service
     systemd:
       name: mongod_shard2
       state: stopped
-    delegate_to: "{{ item }}"
-    loop:
-      - "{{ shard2a }}"
-      - "{{ shard2b }}"
-      - "{{ shard2c }}"
-  
+  when: "{{ item }}"
+  loop:
+    - "(shard2a is defined) and (ansible_hostname == shard2a)"
+    - "(shard2b is defined) and (ansible_hostname == shard2b)"
+    - "(shard2c is defined) and (ansible_hostname == shard2c)" 
+  ignore_errors: yes
+
+- block:
   - name: stop mongod_shard3.service
     systemd:
       name: mongod_shard3
       state: stopped
-    delegate_to: "{{ item }}"
-    loop:
-      - "{{ shard3a }}"
-      - "{{ shard3b }}"
-      - "{{ shard3c }}"
+  when: "{{ item }}"
+  loop:
+    - "(shard3a is defined) and (ansible_hostname == shard3a)"
+    - "(shard3b is defined) and (ansible_hostname == shard3b)"
+    - "(shard3c is defined) and (ansible_hostname == shard3c)"
   ignore_errors: yes
 
