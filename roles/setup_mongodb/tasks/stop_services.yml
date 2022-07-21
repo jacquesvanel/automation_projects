@@ -1,37 +1,45 @@
 ---
-- block: 
-  - name: stop mongod on config servers 
-    systemd:
-      name: mongod_config
-      state: stopped
+- name: stop mongod on config servers 
+  systemd:
+    name: mongod_config
+    state: stopped
   when: "{{ item }}"
   loop:
     - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
     - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
     - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
 
-- block:      
-  - name: stop mongos0
-    systemd:
-      name: mongos0
-      state: stopped
-
-  - name: stop mongos1
-    state: stopped 
-    systemd:
-      name: mongos1
-      state: stopped
-
-  - name: stop mongos2.service
-    systemd:
-      name: mongos2
-      state: stopped
+- name: stop mongos0
+  systemd:
+    name: mongos0
+    state: stopped
   when: "{{ item }}"
   loop:
     - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
     - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
     - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
-  ignore_errors: yes
+      
+- name: stop mongos1
+  state: stopped 
+  systemd:
+    name: mongos1
+    state: stopped
+  when: "{{ item }}"
+  loop:
+    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
+    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
+    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
+      
+- name: stop mongos2.service
+  systemd:
+    name: mongos2
+    state: stopped
+  when: "{{ item }}"
+  loop:
+    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
+    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
+    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
+
 
 - block:      
   - name: stop mongod_shard1.service
