@@ -20,7 +20,6 @@
     - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
       
 - name: stop mongos1
-  state: stopped 
   systemd:
     name: mongos1
     state: stopped
