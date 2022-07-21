@@ -14,11 +14,11 @@
     systemd:
       name: mongod_shard1
       state: restarted
-  when: "{{ item }}"
-  loop:
-    - "(shard1a is defined) and (ansible_hostname == shard1a)"
-    - "(shard1b is defined) and (ansible_hostname == shard1b)"
-    - "(shard1c is defined) and (ansible_hostname == shard1c)"
+    when: "{{ item }}"
+    loop:
+      - "(shard1a is defined) and (ansible_hostname == shard1a)"
+      - "(shard1b is defined) and (ansible_hostname == shard1b)"
+      - "(shard1c is defined) and (ansible_hostname == shard1c)"
   ignore_errors: yes
 
 - block:
@@ -26,11 +26,11 @@
     systemd:
       name: mongod_shard2
       state: restarted
-  when: "{{ item }}"
-  loop:
-    - "(shard2a is defined) and (ansible_hostname == shard2a)"
-    - "(shard2b is defined) and (ansible_hostname == shard2b)"
-    - "(shard2c is defined) and (ansible_hostname == shard2c)" 
+    when: "{{ item }}"
+    loop:
+      - "(shard2a is defined) and (ansible_hostname == shard2a)"
+      - "(shard2b is defined) and (ansible_hostname == shard2b)"
+      - "(shard2c is defined) and (ansible_hostname == shard2c)" 
   ignore_errors: yes
 
 - block:
@@ -38,11 +38,11 @@
     systemd:
       name: mongod_shard3
       state: restarted
-  when: "{{ item }}"
-  loop:
-    - "(shard3a is defined) and (ansible_hostname == shard3a)"
-    - "(shard3b is defined) and (ansible_hostname == shard3b)"
-    - "(shard3c is defined) and (ansible_hostname == shard3c)"
+    when: "{{ item }}"
+    loop:
+      - "(shard3a is defined) and (ansible_hostname == shard3a)"
+      - "(shard3b is defined) and (ansible_hostname == shard3b)"
+      - "(shard3c is defined) and (ansible_hostname == shard3c)"
   ignore_errors: yes
 
 - name: start mongos0
@@ -56,7 +56,6 @@
     - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
 
 - name: start mongos1
-  state: restarted
   systemd:
     name: mongos1
     state: restarted
