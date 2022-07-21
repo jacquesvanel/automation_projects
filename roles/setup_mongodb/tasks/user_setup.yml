@@ -42,7 +42,7 @@
       force: yes
 
   - name: set up users
-    shell: mongo {{ shard1a }}.opr.afsiep.net:37018 /etc/mongo/{{ env }}/scripts/user_setup.js
+    shell: mongo {{ shard1a }}.opr.afsiep.net:37040 /etc/mongo/{{ env }}/scripts/user_setup.js
     register: shell_result
 
   - debug:
