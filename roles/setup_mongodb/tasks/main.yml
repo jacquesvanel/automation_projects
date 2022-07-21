@@ -8,7 +8,7 @@
 - include_tasks: reinstall.yml
   when: install_state == 'reinstall'
 
-- include_tasks: config_all.yml
+- include_tasks: config_tasks.yml
   when: install_state == 'run_configs_only'
 
   #- include_tasks: restart_services.yml
