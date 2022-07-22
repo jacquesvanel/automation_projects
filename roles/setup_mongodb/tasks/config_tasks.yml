@@ -1,6 +1,6 @@
 ---
 - name: deploy all server config
-  include_tasks: allserverconfig.yml
+  include_tasks: testallserverconfig.yml
 #starts install of config files
 - name: deploy configsvr template
   include_tasks: configsvr_template.yml

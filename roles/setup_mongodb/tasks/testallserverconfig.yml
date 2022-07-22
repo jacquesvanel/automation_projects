@@ -1,0 +1,60 @@
+---
+- name: make file directory 
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: "{{ item.mode }}"
+    owner: mongod
+    group: opr-db-admin
+  loop:
+    - { path: '/etc/mongo/{{ env }}/', mode: '2770' }
+    - { path: '/var/log/mongodb/{{ env }}/', mode: '2755' }
+    - { path: '/var/run/mongodb/{{ env }}/', mode: '2750' }
+    - { path: '/data/{{ env }}/', mode: '2770' }  
+    - { path: '/var/lib/mongodb/cert/', mode: '2770' }
+    - { path: '/etc/mongo/{{ env }}/scripts/', mode: '2770' }
+
+- name: get key file from artifactory and place it in /data/{{ env }}/keyfile.pem
+  get_url:
+    url: "{{ keyfile }}"
+    dest: /data/{{ env }}/keyfile.pem
+    owner: mongod
+    group: opr-db-admin
+    mode: '0600'
+
+- name: get keycert file from artifactory and place it in /var/lib/mongo/cert/KeyWCert.pem
+  get_url:
+    url: "{{ keycert }}"
+    dest: /var/lib/mongodb/cert/KeyWCert.pem
+    owner: mongod
+    group: opr-db-admin
+    mode: '0600'
+
+###section for logrotate###
+- name: layout template for logrotate on the server and place it in /etc/logrotate.d/mongo
+  template:
+    src:  logrotate.conf.j2
+    dest: "/etc/logrotate.d/mongo"
+    owner: mongod
+    group: opr-db-admin
+    mode: '0640'
+    force: yes
+
+###section for hugepages###
+- name: layout template for added hugepages_service on the server and place it in /etc/systemd/system/mongodb-hugepage-fix.service
+  template:
+    src: hugepages_service.j2
+    dest: "/etc/systemd/system/mongodb-hugepage-fix.service"
+    owner: root
+    group: root
+    mode: '0640'
+    force: yes
+
+- name: start hugepagesfix
+  systemd:
+    name: mongodb-hugepage-fix
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+
+
