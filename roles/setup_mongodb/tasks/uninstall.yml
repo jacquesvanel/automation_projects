@@ -43,7 +43,8 @@
       - /usr/lib/systemd/system/mongod_shard3.service
       - /etc/systemd/system/mongos0.service
       - /etc/systemd/system/mongos1.service
-      - /etc/systemd/system/mongos2.service  
+      - /etc/systemd/system/mongos2.service 
+      - /etc/mongod.conf  
   ignore_errors: yes
 
 
