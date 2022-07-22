@@ -1,13 +1,13 @@
 ---
 # tasks file for initiate_mongo
-- block:
-  - name: make directory for /etc/mongo/{{ env }}/scripts/
-    file:
-      dest: /etc/mongo/{{ env }}/scripts/
-      state: directory
-      owner: mongod
-      group: opr-db-admin
+- name: make directory for /etc/mongo/{{ env }}/scripts/
+  file:
+    dest: /etc/mongo/{{ env }}/scripts/
+    state: directory
+    owner: mongod
+    group: opr-db-admin
 
+- block:
   - name: layout template for /etc/mongo/{{ env }}/scripts/initiate.shard1.js the shard1 server
     template:
       src:  initiate.shard1.js.j2
@@ -27,13 +27,6 @@
   when: (shard1a is defined) and (ansible_hostname == shard1a)
 
 - block:
-  - name: make directory for /etc/mongo/{{ env }}/scripts/
-    file:
-      dest: /etc/mongo/{{ env }}/scripts/
-      state: directory
-      owner: mongod
-      group: opr-db-admin
-
   - name: layout template for /etc/mongo/{{ env }}/scripts/initiate.shard2.js the shard2 server
     template:
       src:  initiate.shard2.js.j2
@@ -53,13 +46,6 @@
   when: (shard2a is defined) and (ansible_hostname == shard2a)
 
 - block: 
-  - name: make directory for /etc/mongo/{{ env }}/scripts/
-    file:
-      dest: /etc/mongo/{{ env }}/scripts/
-      state: directory
-      owner: mongod
-      group: opr-db-admin
-
   - name: layout template for /etc/mongo/{{ env }}/scripts/initiate.shard3.js the shard3 server
     template:
       src:  initiate.shard3.js.j2
@@ -79,13 +65,6 @@
   when: (shard3a is defined) and (ansible_hostname == shard3a)
 
 - block:
-  - name: make directory for /etc/mongo/{{ env }}/scripts/
-    file:
-      dest: /etc/mongo/{{ env }}/scripts/
-      state: directory
-      owner: mongod
-      group: opr-db-admin
-    
   - name: layout template for /etc/mongo/{{ env }}/scripts/initiate.config.js the config server
     template:
       src:  initiate.config.js.j2

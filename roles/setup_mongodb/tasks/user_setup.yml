@@ -1,12 +1,12 @@
 ---
-- block:
-  - name: make directory for /etc/mongo/{{ env }}/scripts/
-    file:
-      dest: /etc/mongo/{{ env }}/scripts/
-      state: directory
-      owner: mongod
-      group: opr-db-admin
+- name: make directory for /etc/mongo/{{ env }}/scripts/
+  file:
+    dest: /etc/mongo/{{ env }}/scripts/
+    state: directory
+    owner: mongod
+    group: opr-db-admin
 
+- block:
   - name: layout template for /etc/mongo/{{ env }}/scripts/user_setup.js the config server
     template:
       src:  user_setup.js.j2
@@ -25,13 +25,6 @@
   when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
 
 - block:  
-  - name: make directory for /etc/mongo/{{ env }}/scripts/
-    file:
-      dest: /etc/mongo/{{ env }}/scripts/
-      state: directory
-      owner: mongod
-      group: opr-db-admin
-
   - name: layout template for /etc/mongo/{{ env }}/scripts/user_setup.js the config server
     template:
       src:  user_setup.js.j2
@@ -50,13 +43,6 @@
   when: (shard1a is defined) and (ansible_hostname == shard1a)
 
 - block:
-  - name: make directory for /etc/mongo/{{ env }}/scripts/
-    file:
-      dest: /etc/mongo/{{ env }}/scripts/
-      state: directory
-      owner: mongod
-      group: opr-db-admin
-
   - name: layout template for /etc/mongo/{{ env }}/scripts/user_setup.js the config server
     template:
       src:  user_setup.js.j2
@@ -75,13 +61,6 @@
   when: (shard2a is defined) and (ansible_hostname == shard2a)
 
 - block:
-  - name: make directory for /etc/mongo/{{ env }}/scripts/
-    file:
-      dest: /etc/mongo/{{ env }}/scripts/
-      state: directory
-      owner: mongod
-      group: opr-db-admin
-
   - name: layout template for /etc/mongo/{{ env }}/scripts/user_setup.js the config server
     template:
       src:  user_setup.js.j2
