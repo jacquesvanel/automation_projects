@@ -34,13 +34,13 @@
       - /opt/scripts/
       - /var/log/mongodb
       - /var/run/mongodb
-      - "/tmp/mongo*.sock"
-      - "/usr/lib/systemd/system/mongo*.service"
+      - /tmp/mongo*.sock
+      - /usr/lib/systemd/system/mongod.service
       - /usr/lib/systemd/system/mongod_config.service
-      - /usr/lib/systemd/system/mongod_shard1.service
+      - /usr/lib/systemd/system/mongod_shard[1-3].service
       - /usr/lib/systemd/system/mongod_shard2.service
       - /usr/lib/systemd/system/mongod_shard3.service
-      - "/etc/systemd/system/mongo*.service"
+      - /etc/systemd/system/mongos[0-2].service
       - /etc/systemd/system/mongos1.service
       - /etc/systemd/system/mongos2.service  
   ignore_errors: yes
