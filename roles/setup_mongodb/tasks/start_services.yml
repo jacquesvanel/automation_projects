@@ -53,31 +53,38 @@
     loop_var: start_mongod_shard3
   ignore_errors: yes
 
-- name: start mongos
-  include_tasks: start_mongos.yml
-  when: "{{ start_mongos }}"
+- name: start mongos0
+  systemd:
+    name: mongos0
+    state: restarted
+  when: "{{ start_mongos0 }}"
   loop:
     - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
     - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
     - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
   loop_control:
-    loop_var: start_mongos
-  #- name: start mongos1
-  #  systemd:
-  #    name: mongos1
-  #    state: restarted
-  #  when: "{{ item }}"
-  #  loop:
-  #    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
-  #    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
-  #    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
+    loop_var: start_mongos0
 
-  #- name: start mongos2.service
-  #  systemd:
-  #    name: mongos2
-  #    state: restarted
-  #  when: "{{ item }}"
-  #  loop:
-  #    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
-  #    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
-  #    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
+- name: start mongos1
+  systemd:
+    name: mongos1
+    state: restarted
+  when: "{{ start_mongos1 }}"
+  loop:
+    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
+    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
+    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
+  loop_control:
+    loop_var: start_mongos1
+
+- name: start mongos2.service
+  systemd:
+    name: mongos2
+    state: restarted
+  when: "{{ start_mongos2 }}"
+  loop:
+    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
+    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
+    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
+  loop_control:
+    loop_var: start_mongos2
