@@ -43,11 +43,10 @@
 
 - name: deploy mongos_template
   include_tasks: mongos_template.yml
-  when: "{{ configsvr }}"
+  when: "{{ mongos }}"
+  loop:
+    - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
+    - (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)
+    - (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)
   loop_control:
-    loop_var: "{{ lookup('configsvr', ansible_loop_var) }}"
-  #  loop:
-  #    - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
-  #    - (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)
-  #    - (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)
-
+    loop_var: mongos
