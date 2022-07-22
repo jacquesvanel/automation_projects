@@ -6,7 +6,7 @@
   include_tasks: config_tasks.yml
 
 - name: initiate clusters
-  include_tasks: testinitiate_tasks.yml 
+  include_tasks: initiate_tasks.yml 
 
 - name: stop mongod instances
   include_tasks: stop_services.yml 

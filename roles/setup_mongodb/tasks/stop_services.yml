@@ -3,41 +3,41 @@
   systemd:
     name: mongod_config
     state: stopped
-  when: "{{ item }}"
-  loop:
-    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
-    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
-    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
+  when: "{{ lookup('configsvr', ansible_loop_var) }}"
+  #  loop:
+  #    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
+  #    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
+  #    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
 
 - name: stop mongos0
   systemd:
     name: mongos0
     state: stopped
-  when: "{{ item }}"
-  loop:
-    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
-    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
-    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
+  when: "{{ lookup('configsvr', ansible_loop_var) }}"
+  #  loop:
+  #    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
+  #    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
+  #    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
       
 - name: stop mongos1
   systemd:
     name: mongos1
     state: stopped
-  when: "{{ item }}"
-  loop:
-    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
-    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
-    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
+  when: "{{ lookup('configsvr', ansible_loop_var) }}"
+  #  loop:
+  #    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
+  #    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
+  #    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
       
 - name: stop mongos2.service
   systemd:
     name: mongos2
     state: stopped
-  when: "{{ item }}"
-  loop:
-    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
-    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
-    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
+  when: "{{ lookup('configsvr', ansible_loop_var) }}"
+  #  loop:
+  #    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
+  #    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
+  #    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
 
 
 - block:      
@@ -45,11 +45,11 @@
     systemd:
       name: mongod_shard1
       state: stopped
-    when: "{{ item }}"
-    loop:
-      - "(shard1a is defined) and (ansible_hostname == shard1a)"
-      - "(shard1b is defined) and (ansible_hostname == shard1b)"
-      - "(shard1c is defined) and (ansible_hostname == shard1c)"
+    when: "{{ lookup('shard1', ansible_loop_var) }}"
+    #    loop:
+    #      - "(shard1a is defined) and (ansible_hostname == shard1a)"
+    #      - "(shard1b is defined) and (ansible_hostname == shard1b)"
+    #      - "(shard1c is defined) and (ansible_hostname == shard1c)"
   ignore_errors: yes
 
 - block:
@@ -57,11 +57,11 @@
     systemd:
       name: mongod_shard2
       state: stopped
-    when: "{{ item }}"
-    loop:
-      - "(shard2a is defined) and (ansible_hostname == shard2a)"
-      - "(shard2b is defined) and (ansible_hostname == shard2b)"
-      - "(shard2c is defined) and (ansible_hostname == shard2c)" 
+    when: "{{ lookup('shard2', ansible_loop_var) }}"
+    #    loop:
+    #      - "(shard2a is defined) and (ansible_hostname == shard2a)"
+    #      - "(shard2b is defined) and (ansible_hostname == shard2b)"
+    #      - "(shard2c is defined) and (ansible_hostname == shard2c)" 
   ignore_errors: yes
 
 - block:
@@ -69,10 +69,10 @@
     systemd:
       name: mongod_shard3
       state: stopped
-    when: "{{ item }}"
-    loop:
-      - "(shard3a is defined) and (ansible_hostname == shard3a)"
-      - "(shard3b is defined) and (ansible_hostname == shard3b)"
-      - "(shard3c is defined) and (ansible_hostname == shard3c)"
+    when: "{{ lookup('shard3', ansible_loop_var) }}"
+    #    loop:
+    #      - "(shard3a is defined) and (ansible_hostname == shard3a)"
+    #      - "(shard3b is defined) and (ansible_hostname == shard3b)"
+    #      - "(shard3c is defined) and (ansible_hostname == shard3c)"
   ignore_errors: yes
 
