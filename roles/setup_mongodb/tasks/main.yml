@@ -1,21 +1,27 @@
 ---
-- include_tasks: install.yml
-  when: install_state == 'install'
+- name: full install
+  include_tasks: install.yml
+  when: install_state == 'full_install'
 
-- include_tasks: uninstall.yml
+- name: full uninstall
+  include_tasks: uninstall.yml
   when: install_state == 'uninstall'
 
-- include_tasks: reinstall.yml
+- name: reinstall
+  include_tasks: reinstall.yml
   when: install_state == 'reinstall'
 
-- include_tasks: config_tasks.yml 
+- name: install configs only
+  include_tasks: config_tasks.yml 
   when: install_state == 'run_configs_only'
 
-  #- include_tasks: restart_services.yml
-  #  when: install_state == 'install'
+- name: install base packages
+  include_tasks: install_mongodb.yml
+  when: install_state == 'install_base'
 
-  #- include_tasks: restart_services.yml
-  #  when: install_state == 'reinstall'
+- name: run initiate tasks only
+  include_tasks: initiate_tasks.yml
+  when: install_state == 'run_initiate_tasks'
 
   #- include_tasks: restart_services.yml
   #  when: install_state == 'run_configs_only'
