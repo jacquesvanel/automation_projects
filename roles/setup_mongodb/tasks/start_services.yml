@@ -21,8 +21,8 @@
       - "(shard1a is defined) and (ansible_hostname == shard1a)"
       - "(shard1b is defined) and (ansible_hostname == shard1b)"
       - "(shard1c is defined) and (ansible_hostname == shard1c)"
-  loop_control:
-    loop_var: start_mongod_shard1
+    loop_control:
+      loop_var: start_mongod_shard1
   ignore_errors: yes
 
 - block:
