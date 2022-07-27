@@ -1,4 +1,9 @@
 ---
+- name: stop mongo.service
+  systemd:
+    name: mongo
+    state: stopped
+    
 - name: find config files on server
   find:
     paths: "/etc/mongo/{{ env }}/"
@@ -19,3 +24,9 @@
     regexp: '#  keyFile: "/data/prod/keyfile.pem"'
     replace: '  keyFile: "/data/prod/keyfile.pem"'
   with_items: "{{cfgs.files | map(attribute='path')| list }}"
+
+- name: start mongo.service
+  systemd:
+    name: mongo
+    state: restarted
+    

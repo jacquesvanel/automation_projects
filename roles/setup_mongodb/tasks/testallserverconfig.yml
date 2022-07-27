@@ -7,48 +7,51 @@
     owner: mongod
     group: opr-db-admin
   loop:
+        # directory for config files #
     - { path: '/etc/mongo/{{ env }}/', mode: '2770' }
+        # directory for log files #
     - { path: '/var/log/mongodb/{{ env }}/', mode: '2755' }
+        # directory for pid files #
     - { path: '/var/run/mongodb/{{ env }}/', mode: '2750' }
-    - { path: '/data/{{ env }}/', mode: '2770' }  
+        # directory for data paths #
+    - { path: '/data/{{ env }}/', mode: '2770' }
+        # directory for certs #
     - { path: '/var/lib/mongodb/cert/', mode: '2770' }
+        # directory for js scripts #
     - { path: '/etc/mongo/{{ env }}/scripts/', mode: '2770' }
 
-- name: get key file from artifactory and place it in /data/{{ env }}/keyfile.pem
+- name: Get certs and place them in designated folders
   get_url:
-    url: "{{ keyfile }}"
-    dest: /data/{{ env }}/keyfile.pem
+    url: "{{ item.url }}"
+    dest: "{{ item.dest }}"
     owner: mongod
     group: opr-db-admin
     mode: '0600'
+  loop:
+        # placing keyfile cert #
+    - { url: '{{ keyfile }}', dest: '/data/{{ env }}/keyfile.pem' }
+        # placing keywcert cert #
+    - { url: '{{ keycert }}', dest: '/var/lib/mongodb/cert/KeyWCert.pem' }
+        # placing ieproot cert #
+        #    - { url: '{{ ieproot }}', dest: '/var/lib/mongodb/cert/iep_root_intermediate.pem' }
+        # placing ldap.conf #
+        #    - { url: '{{ ldap }}', dest: '/var/lib/mongodb/cert/ldap.conf' }
 
-- name: get keycert file from artifactory and place it in /var/lib/mongo/cert/KeyWCert.pem
-  get_url:
-    url: "{{ keycert }}"
-    dest: /var/lib/mongodb/cert/KeyWCert.pem
-    owner: mongod
-    group: opr-db-admin
-    mode: '0600'
-
-###section for logrotate###
-- name: layout template for logrotate on the server and place it in /etc/logrotate.d/mongo
+- name: layout templates 
   template:
-    src:  logrotate.conf.j2
-    dest: "/etc/logrotate.d/mongo"
+    src:  "{{ item.template }}"
+    dest: "{{ item.tempdest }}"
     owner: mongod
     group: opr-db-admin
     mode: '0640'
     force: yes
-
-###section for hugepages###
-- name: layout template for added hugepages_service on the server and place it in /etc/systemd/system/mongodb-hugepage-fix.service
-  template:
-    src: hugepages_service.j2
-    dest: "/etc/systemd/system/mongodb-hugepage-fix.service"
-    owner: root
-    group: root
-    mode: '0640'
-    force: yes
+  loop:
+        # placing logrotate script #
+    - { template: 'logrotate.conf.j2', tempdest: '/etc/logrotate.d/mongo' }
+        # placing hugepages.service file #
+    - { template: 'hugepages_service.j2', tempdest: '/etc/systemd/system/mongodb-hugepage-fix.service' }
+        # placing mongo.service file #
+    - { template: 'mongo.service.j2', tempdest: '/etc/systemd/system/mongo.service' }
 
 - name: start hugepagesfix
   systemd:
@@ -56,5 +59,3 @@
     state: restarted
     enabled: yes
     daemon_reload: yes
-
-

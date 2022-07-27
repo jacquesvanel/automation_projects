@@ -8,12 +8,12 @@
 - name: initiate clusters
   include_tasks: initiate_tasks.yml 
 
-- name: stop mongod instances
-  include_tasks: stop_services.yml 
+  #- name: stop mongod instances
+  #  include_tasks: stop_services.yml 
 
 - name: edit config files
   include_tasks: edit_config.yml
 
-- name: start mongod instances
-  include_tasks: start_services.yml
+  #- name: start mongod instances
+  #  include_tasks: start_services.yml
 

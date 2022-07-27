@@ -1,7 +1,8 @@
 ---
 - name: deploy all server config
   include_tasks: testallserverconfig.yml
-#starts install of config files
+
+  #starts install of config files
 - name: deploy configsvr template
   include_tasks: configsvr_template.yml
   when: "{{ configsvr }}" 
@@ -50,3 +51,10 @@
     - (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)
   loop_control:
     loop_var: mongos
+
+- name: start mongo.service
+  systemd:
+    name: mongo
+    state: started
+    enabled: yes
+    daemon_reload: yes

@@ -2,6 +2,8 @@
 Description=mongos
 After=syslog.target
 After=network.target
+After=mongo.service
+Requires=mongo.service
 
 [Service]
 User=mongod
