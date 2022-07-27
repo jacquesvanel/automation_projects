@@ -1,0 +1,15 @@
+---
+- name: Copy cert files to /var/lib/mongodb/cert
+  hosts: all
+  become: yes
+  tasks:
+    - name: Copy file with owner and permissions
+      ansible.builtin.copy:
+        src: "/home/gl-wsl/Projects/mongodb/roles/setup_mongodb/files/{{ item }}"
+        dest: "/var/lib/mongodb/cert/"
+        owner: mongod
+        group: opr-db-admin
+        mode: '0644'
+      with_items:
+        - ldap.conf
+        - iep_root_intermediate.pem
