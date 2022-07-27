@@ -33,9 +33,9 @@
         # placing keywcert cert #
     - { url: '{{ keycert }}', dest: '/var/lib/mongodb/cert/KeyWCert.pem' }
         # placing ieproot cert #
-        #    - { url: '{{ ieproot }}', dest: '/var/lib/mongodb/cert/iep_root_intermediate.pem' }
+    - { url: '{{ ieproot }}', dest: '/var/lib/mongodb/cert/iep_root_intermediate.pem' }
         # placing ldap.conf #
-        #    - { url: '{{ ldap }}', dest: '/var/lib/mongodb/cert/ldap.conf' }
+    - { url: '{{ ldap }}', dest: '/var/lib/mongodb/cert/ldap.conf' }
 
 - name: layout templates 
   template:
