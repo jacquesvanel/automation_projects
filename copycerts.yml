@@ -12,7 +12,8 @@
         mode: '0600'
 
     - name: get iep cert
-      get_url: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/iep_root_intermediate.pem
+      get_url: 
+        url: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/iep_root_intermediate.pem
         dest: /var/lib/mongodb/cert/iep_root_intermediate.pem
         owner: mongod
         group: opr-db-admin
