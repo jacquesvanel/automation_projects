@@ -1,6 +1,6 @@
 ---
 - name: Copy cert files to /var/lib/mongodb/cert
-  hosts: all
+  hosts: "{{ target }}"
   become: yes
   tasks:
     - name: Copy file with owner and permissions
