@@ -23,6 +23,7 @@
   - debug:
       var: shell_result.stdout_lines
   when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
+  ignore_errors: yes
 
 - block:  
   - name: layout template for /etc/mongo/{{ env }}/scripts/user_setup.js the config server
@@ -41,6 +42,7 @@
   - debug:
       var: shell_result.stdout_lines
   when: (shard1a is defined) and (ansible_hostname == shard1a)
+  ignore_errors: yes
 
 - block:
   - name: layout template for /etc/mongo/{{ env }}/scripts/user_setup.js the config server
@@ -59,6 +61,7 @@
   - debug:
       var: shell_result.stdout_lines
   when: (shard2a is defined) and (ansible_hostname == shard2a)
+  ignore_errors: yes
 
 - block:
   - name: layout template for /etc/mongo/{{ env }}/scripts/user_setup.js the config server
@@ -77,3 +80,4 @@
   - debug:
       var: shell_result.stdout_lines
   when: (shard3a is defined) and (ansible_hostname == shard3a)
+  ignore_errors: yes
