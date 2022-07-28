@@ -21,8 +21,8 @@
 - name: replace  line in config file
   replace:
     path: "{{ item }}"
-    regexp: '#  keyFile: "/data/prod/keyfile.pem"'
-    replace: '  keyFile: "/data/prod/keyfile.pem"'
+    regexp: '#  keyFile: "/data/"{{ env }}"/keyfile.pem"'
+    replace: '  keyFile: "/data/"{{ env }}"/keyfile.pem"'
   with_items: "{{cfgs.files | map(attribute='path')| list }}"
 
 - name: start mongo.service
