@@ -1,9 +1,10 @@
+use admin
 db.createUser(
-{       user: "admin.gmani",
+{       user: "gmani",
         pwd: "Qwerty#12345px",
 "roles" : [
     { "role" : "readWrite",
-      "db" : "irps_ar_prod"
+      "db" : "{{ dbname }}"
     },
     { "role" : "userAdminAnyDatabase",
       "db" : "admin"
@@ -17,11 +18,11 @@ db.createUser(
 ]});
 
 db.createUser(
-{       user: "admin.jcantu",
+{       user: "jcantu",
         pwd: "Qwerty#12345px",
 "roles" : [
     { "role" : "readWrite",
-      "db" : "irps_ar_prod"
+      "db" : "{{ dbname }}"
     },
     { "role" : "userAdminAnyDatabase",
       "db" : "admin"
@@ -35,7 +36,7 @@ db.createUser(
 ]});
 
 db.createUser(
-{       user: "admin.superUserAdmin",
+{       user: "superUserAdmin",
         pwd: "Qwerty#12345px",
 "roles" : [
     { "role" : "userAdminAnyDatabase",
@@ -44,11 +45,11 @@ db.createUser(
 ]});
 
 db.createUser(
-{       user: "admin.svc_monitoring",
+{       user: "svc_monitoring",
         pwd: "LiB13JbRhm#j!",
 "roles" : [
     { "role" : "read",
-      "db" : "irps_prod"
+      "db" : "{{ dbname }}"
     },
     { "role" : "clusterMonitor",
       "db" : "admin"
