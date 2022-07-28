@@ -7,7 +7,7 @@
     group: opr-db-admin
 
 - block:
-  - name: layout template for /etc/mongo/{{ env }}/scripts/user_setup.js the config server
+  - name: layout template for the config server
     template:
       src:  user_setup.js.j2
       dest: "/etc/mongo/{{ env }}/scripts/user_setup.js"
@@ -26,7 +26,7 @@
   ignore_errors: yes
 
 - block:  
-  - name: layout template for /etc/mongo/{{ env }}/scripts/user_setup.js the config server
+  - name: layout template for the shard1a server
     template:
       src:  user_setup.js.j2
       dest: "/etc/mongo/{{ env }}/scripts/user_setup.js"
@@ -45,7 +45,7 @@
   ignore_errors: yes
 
 - block:
-  - name: layout template for /etc/mongo/{{ env }}/scripts/user_setup.js the config server
+  - name: layout template for the shard2a server
     template:
       src:  user_setup.js.j2
       dest: "/etc/mongo/{{ env }}/scripts/user_setup.js"
@@ -64,7 +64,7 @@
   ignore_errors: yes
 
 - block:
-  - name: layout template for /etc/mongo/{{ env }}/scripts/user_setup.js the config server
+  - name: layout template for the shard3a server
     template:
       src:  user_setup.js.j2
       dest: "/etc/mongo/{{ env }}/scripts/user_setup.js"
