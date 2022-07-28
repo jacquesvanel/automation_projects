@@ -18,4 +18,11 @@
         owner: mongod
         group: opr-db-admin
         mode: '0600'
-      
+    
+    - name: get ca cert
+      get_url:
+        url: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/CA_Root_Inter.pem
+        dest: /var/lib/mongodb/cert/CA_Root_Inter.pem
+        owner: mongod
+        group: opr-db-admin
+        mode: '0600'    
