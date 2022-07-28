@@ -17,7 +17,7 @@
       force: yes
 
   - name: set up users
-    shell: mongo {{ configsvr_rsa }}.opr.afsiep.net:37018 /etc/mongo/{{ env }}/scripts/user_setup.js
+    shell: mongo {{ configsvr_rsa }}.opr.afsiep.net:57040 /etc/mongo/{{ env }}/scripts/user_setup.js
     register: shell_result
     
   - debug:
