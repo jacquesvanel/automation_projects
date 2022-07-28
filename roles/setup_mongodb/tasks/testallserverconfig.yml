@@ -8,7 +8,7 @@
     group: opr-db-admin
   loop:
         # directory for config files #
-    - { path: '/etc/mongo/{{ env }}/', mode: '2770' }
+    - { path: '/etc/mongo/{{ env }}/', mode: '2640' }
         # directory for log files #
     - { path: '/var/log/mongodb/{{ env }}/', mode: '2755' }
         # directory for pid files #
@@ -36,6 +36,8 @@
     - { url: '{{ ieproot }}', dest: '/var/lib/mongodb/cert/iep_root_intermediate.pem' }
         # placing ldap.conf #
     - { url: '{{ ldap }}', dest: '/var/lib/mongodb/cert/ldap.conf' }
+        # placing CA cert #
+    - { url: '{{ cacert }}', dest: '/var/lib/mongodb/cert/CA_Root_Inter.pem' }
 
 - name: layout templates 
   template:
