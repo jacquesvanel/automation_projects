@@ -23,8 +23,7 @@
 
   - debug:
       var: shell_result.stdout_lines
-  delegate_to: "{{ shard1a }}"
-      #when: (shard1a is defined) and (ansible_hostname == shard1a)
+  when: (shard1a is defined) and (ansible_hostname == shard1a)
 
 - block:
   - name: layout template for /etc/mongo/{{ env }}/scripts/initiate.shard2.js the shard2 server
@@ -42,8 +41,7 @@
 
   - debug:
       var: shell_result.stdout_lines
-  delegate_to: "{{ shard2a }}"
-      #when: (shard2a is defined) and (ansible_hostname == shard2a)
+  when: (shard2a is defined) and (ansible_hostname == shard2a)
 
 - block: 
   - name: layout template for /etc/mongo/{{ env }}/scripts/initiate.shard3.js the shard3 server
@@ -61,8 +59,7 @@
 
   - debug:
       var: shell_result.stdout_lines  
-  delegate_to: "{{ shard3a }}"
-      #when: (shard3a is defined) and (ansible_hostname == shard3a)
+  when: (shard3a is defined) and (ansible_hostname == shard3a)
 
 - block:
   - name: layout template for /etc/mongo/{{ env }}/scripts/initiate.config.js the config server
@@ -80,5 +77,4 @@
   
   - debug:
       var: shell_result.stdout_lines
-  delegate_to: "{{ configsvr_rsa }}"
-      #when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
+  when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
