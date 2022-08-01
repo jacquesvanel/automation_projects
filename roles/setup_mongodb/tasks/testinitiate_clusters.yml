@@ -43,7 +43,7 @@
       var: shell_result.stdout_lines
   when: (shard2a is defined) and (ansible_hostname == shard2a)
 
-- block: 
+- block:
   - name: layout template for /etc/mongo/{{ env }}/scripts/initiate.shard3.js the shard3 server
     template:
       src:  initiate.shard3.js.j2
@@ -58,7 +58,7 @@
     register: shell_result
 
   - debug:
-      var: shell_result.stdout_lines  
+      var: shell_result.stdout_lines
   when: (shard3a is defined) and (ansible_hostname == shard3a)
 
 - block:
@@ -74,7 +74,7 @@
   - name: initiate shard replica set
     shell: mongo {{ configsvr_rsa }}.opr.afsiep.net:57040/admin /etc/mongo/{{ env }}/scripts/initiate.config.js
     register: shell_result
-  
+
   - debug:
       var: shell_result.stdout_lines
   when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)

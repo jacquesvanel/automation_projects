@@ -1,7 +1,7 @@
 ---
 - name: initiate clusters
   include_tasks: testinitiate_clusters.yml
-  when: "primary"|bool
+  when: '"primary"|bool'
   loop:
     - (shard1a is defined) and (ansible_hostname == shard1a)
     - (shard2a is defined) and (ansible_hostname == shard2a)
@@ -12,7 +12,7 @@
 
 - name: start mongos
   include_tasks: start_mongos.yml
-  when: "start_mongos"|bool
+  when: '"start_mongos"|bool'
   loop:
     - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
     - (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)
@@ -26,7 +26,7 @@
 
 - name: setup users
   include_tasks: user_setup.yml
-  when: "setup_users"|bool
+  when: '"setup_users"|bool'
   loop:
     - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
     - (shard1a is defined) and (ansible_hostname == shard1a)

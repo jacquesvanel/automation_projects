@@ -10,7 +10,7 @@
   template:
     src:  add_shards_to_cluster.js.j2
     dest: "/etc/mongo/{{ env }}/scripts/add_shards_to_cluster.js"
-    owner: mongod 
+    owner: mongod
     group: opr-db-admin
     mode: '0644'
     force: yes
@@ -18,6 +18,6 @@
 - name: add shards to cluster
   shell: mongo {{ configsvr_rsa }}.opr.afsiep.net:37018/admin /etc/mongo/{{ env }}/scripts/add_shards_to_cluster.js
   register: shell_result
-  
+
 - debug:
     var: shell_result.stdout_lines
