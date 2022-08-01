@@ -1,5 +1,5 @@
 ---
-- name: make file directory 
+- name: make file directory
   file:
     path: "{{ item.path }}"
     state: directory
@@ -39,7 +39,7 @@
         # placing CA cert #
     - { url: '{{ cacert }}', dest: '/var/lib/mongodb/cert/CA_Root_Inter.pem' }
 
-- name: layout templates 
+- name: layout templates
   template:
     src:  "{{ item.template }}"
     dest: "{{ item.tempdest }}"
