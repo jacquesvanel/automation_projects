@@ -5,7 +5,7 @@
   #starts install of config files
 - name: deploy configsvr template
   include_tasks: configsvr_template.yml
-  when: 'configsvr|bool'
+  when: 'configsvr'
   loop:
     - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
     - (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)
@@ -15,7 +15,7 @@
 
 - name: deploy shard1_template
   include_tasks: shard1_template.yml
-  when: 'shard1|bool'
+  when: 'shard1'
   loop:
     - (shard1a is defined) and (ansible_hostname == shard1a)
     - (shard1b is defined) and (ansible_hostname == shard1b)
@@ -25,7 +25,7 @@
 
 - name: deploy shard2_template
   include_tasks: shard2_template.yml
-  when: 'shard2|bool'
+  when: 'shard2'
   loop:
     - (shard2a is defined) and (ansible_hostname == shard2a)
     - (shard2b is defined) and (ansible_hostname == shard2b)
@@ -35,7 +35,7 @@
 
 - name: deploy shard3 template
   include_tasks: shard3_template.yml
-  when: 'shard3|bool'
+  when: 'shard3'
   loop:
     - (shard3a is defined) and (ansible_hostname == shard3a)
     - (shard3b is defined) and (ansible_hostname == shard3b)
@@ -45,7 +45,7 @@
 
 - name: deploy mongos_template
   include_tasks: mongos_template.yml
-  when: 'mongos|bool'
+  when: 'mongos'
   loop:
     - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
     - (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)
