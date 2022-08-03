@@ -49,7 +49,7 @@
 
     - name: find config files on server
       find:
-        paths: "/etc/mongo/{{ env }}/"
+        paths: "/etc/mongo/prod/"
         patterns: "mongod*.cfg"
         recurse: yes
         register: cfgs1
@@ -95,7 +95,7 @@
 
     - name: find mongos config files on server
       find:
-        paths: "/etc/mongo/{{ env }}/"
+        paths: "/etc/mongo/prod/"
         patterns: "mongos*.cfg"
         recurse: yes
         register: cfgs2
