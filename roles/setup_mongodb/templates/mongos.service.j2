@@ -1,9 +1,19 @@
 [Unit]
-Description=mongos
+{% if item is defined and item == 'mongos0' %}
+Description=Mongos0 Service
+{% endif %}
+{% if item is defined and item == 'mongos1' %}
+Description=Mongos1 Service
+{% endif %}
+{% if item is defined and item == 'mongos2' %}
+Description=Mongos2 Service
+{% endif %}
 After=syslog.target
 After=network.target
-After=mongo.service
-Requires=mongo.service
+After=mongo.service mongod_config.service
+Requires=mongo.service mongod_config
+Wait=mongod_config.service
+
 
 [Service]
 User=mongod
