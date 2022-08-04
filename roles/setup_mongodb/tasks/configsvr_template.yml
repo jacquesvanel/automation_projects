@@ -9,7 +9,7 @@
       owner: mongod
       group: opr-db-admin
 
-  - name: layout template for /etc/mongo/{{ env }}/config.conf on the config server
+  - name: layout template for /etc/mongo/{{ env }}/rs_a.cfg on the config server
     template:
       src:  v2mongod_config.conf.j2
       dest: "/etc/mongo/{{ env }}/rs_a.cfg"
@@ -45,7 +45,7 @@
       owner: mongod
       group: opr-db-admin
 
-  - name: layout template for /etc/mongo/{{ env }}/config.conf on the config server
+  - name: layout template for /etc/mongo/{{ env }}/rs_b.cfg on the config server
     template:
       src: v2mongod_config.conf.j2
       dest: "/etc/mongo/{{ env }}/rs_b.cfg"
@@ -81,7 +81,7 @@
       owner: mongod
       group: opr-db-admin
 
-  - name: layout template for /etc/mongo/{{ env }}/config.conf on the config server
+  - name: layout template for /etc/mongo/{{ env }}/rs_c.cfg on the config server
     template:
       src:  v2mongod_config.conf.j2
       dest: "/etc/mongo/{{ env }}/rs_c.cfg"
