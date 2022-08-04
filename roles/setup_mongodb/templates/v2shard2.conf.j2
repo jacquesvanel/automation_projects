@@ -63,6 +63,8 @@ net:
    mode: preferTLS
    CAFile: /var/lib/mongodb/cert/CA_Root_Inter.pem
    allowConnectionsWithoutCertificates: true
+   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
+   certificateKeyFilePassword: 22w#SBR5nfvZOt23
 sharding:
   clusterRole: shardsvr
 replication:

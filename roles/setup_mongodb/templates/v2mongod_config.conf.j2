@@ -47,7 +47,8 @@ security:
          queryTemplate: "{USER}?memberOf?base"
 setParameter:
    authenticationMechanisms: PLAIN, SCRAM-SHA-1, SCRAM-SHA-256
-   ocspEnabled: falsenet:
+   ocspEnabled: false
+net:
 {% if configsvr_rsa is defined and ansible_hostname == configsvr_rsa %}
   port: 57040
 {% endif %}
@@ -62,6 +63,8 @@ setParameter:
    mode: preferTLS
    CAFile: /var/lib/mongodb/cert/CA_Root_Inter.pem
    allowConnectionsWithoutCertificates: true
+   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
+   certificateKeyFilePassword: 22w#SBR5nfvZOt23
 sharding:
   clusterRole: configsvr
 replication:

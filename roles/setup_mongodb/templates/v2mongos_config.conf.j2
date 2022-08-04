@@ -60,5 +60,7 @@ net:
    mode: preferTLS
    CAFile: /var/lib/mongodb/cert/CA_Root_Inter.pem
    allowConnectionsWithoutCertificates: true
+   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
+   certificateKeyFilePassword: 22w#SBR5nfvZOt23
 sharding:
   configDB: config_{{ env }}/{{ configsvr_rsa }}.opr.afsiep.net:57040,{{ configsvr_rsb }}.opr.afsiep.net:57041,{{ configsvr_rsc }}.opr.afsiep.net:57042
