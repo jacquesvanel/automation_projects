@@ -28,7 +28,7 @@ security:
    ldap:
       servers: "opr.afsiep.net:636"
       bind:
-{% if env is defined and env == prod %}
+{% if env is defined and env == 'prod' %}
          queryUser: "svc_mdbprd_ldap@opr.afsiep.net"
          queryPassword: "MI!iseji7ubope"
 {% else %}
