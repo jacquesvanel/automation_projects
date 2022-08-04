@@ -55,26 +55,24 @@
         register: cfgs1
 
     - name: replace security line in config file
-      replace:
+      blockinfile:
         path: "{{ item }}"
-        regexp: 'security'
-        replace: |- 
-          security:
-             authorization: \"enabled\"
+        block: |
+             authorization: "enabled"
              clusterAuthMode: x509
              ldap:
-                servers: \"opr.afsiep.net:636\"
+                servers: "opr.afsiep.net:636"
                 bind:
                    queryUser: \"svc_mdbprd_ldap@opr.afsiep.net\"
                    queryPassword: \"MI!iseji7ubope\"
                 transportSecurity: tls
                 userToDNMapping:
-                    \'[
+                    '[
                        {
                           match : \"(.+)\",
                           ldapQuery: \"ou=IEP,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})\"
                        }
-                     ]\' 
+                     ]' 
                 authz:
                    queryTemplate: \"{USER}?memberOf?base\"
            setParameter:

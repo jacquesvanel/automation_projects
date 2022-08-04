@@ -20,7 +20,7 @@
 
   - name: layout template for added mongod_config.service on the server
     template:
-      src: mongod_config.service.j2
+      src: v2mongod_config.service.j2
       dest: "/usr/lib/systemd/system/mongod_config.service"
       owner: mongod
       group: opr-db-admin
@@ -56,7 +56,7 @@
 
   - name: layout template for added mongod_config.service on the server
     template:
-      src: mongod_config.service.j2
+      src: v2mongod_config.service.j2
       dest: "/usr/lib/systemd/system/mongod_config.service"
       owner: mongod
       group: opr-db-admin
@@ -83,7 +83,7 @@
 
   - name: layout template for /etc/mongo/{{ env }}/config.conf on the config server
     template:
-      src:  mongod_config.conf.j2
+      src:  v2mongod_config.conf.j2
       dest: "/etc/mongo/{{ env }}/rs_c.cfg"
       owner: mongod
       group: opr-db-admin

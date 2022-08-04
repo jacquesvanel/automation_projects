@@ -19,6 +19,10 @@
     - { path: '/var/lib/mongodb/cert/', mode: '2770' }
         # directory for js scripts #
     - { path: '/etc/mongo/{{ env }}/scripts/', mode: '2770' }
+        # directory for ldap conf #
+    - { path: '/etc/openldap/', mode: '2770' }
+        # directory for ldap certs #
+    - { path: '/etc/openldap/certs/', mode: '2770' }
 
 - name: Get certs and place them in designated folders
   get_url:
@@ -33,9 +37,9 @@
         # placing keywcert cert #
     - { url: '{{ keycert }}', dest: '/var/lib/mongodb/cert/KeyWCert.pem' }
         # placing ieproot cert #
-    - { url: '{{ ieproot }}', dest: '/var/lib/mongodb/cert/iep_root_intermediate.pem' }
+    - { url: '{{ ieproot }}', dest: '/etc/openldap/certs/iep_root_intermediate.pem' }
         # placing ldap.conf #
-    - { url: '{{ ldap }}', dest: '/var/lib/mongodb/cert/ldap.conf' }
+    - { url: '{{ ldap }}', dest: '/etc/openldap/ldap.conf' }
         # placing CA cert #
     - { url: '{{ cacert }}', dest: '/var/lib/mongodb/cert/CA_Root_Inter.pem' }
 

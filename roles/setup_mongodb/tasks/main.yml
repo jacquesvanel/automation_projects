@@ -11,8 +11,18 @@
   include_tasks: reinstall.yml
   when: install_state == 'reinstall'
 
-- name: install configs only
-  include_tasks: config_tasks.yml 
+- block:  
+  - name: stop services
+    include_tasks: stop_services.yml
+
+  - name: install configs only
+    include_tasks: config_tasks.yml 
+
+  - name: create role
+    include_tasks: createrole.yml 
+
+  - name: change ldap interval
+    include_tasks: ldapintervalchange.yml  
   when: install_state == 'run_configs_only'
 
 - name: install base packages
@@ -22,6 +32,8 @@
 - name: run initiate tasks only
   include_tasks: initiate_tasks.yml
   when: install_state == 'run_initiate_tasks'
+
+
 
   #- include_tasks: restart_services.yml
   #  when: install_state == 'run_configs_only'

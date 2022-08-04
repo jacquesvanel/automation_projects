@@ -1,6 +1,6 @@
 ---
 - name: initiate clusters
-  include_tasks: testinitiate_clusters.yml
+  include_tasks: initiate_clusters.yml
   when: 'primary'
   loop:
     - (shard1a is defined) and (ansible_hostname == shard1a)
