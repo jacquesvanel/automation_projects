@@ -44,7 +44,7 @@ security:
          ]'
 setParameter:
    authenticationMechanisms: PLAIN, SCRAM-SHA-1, SCRAM-SHA-256
-   ocspEnabled: false
+   ocspEnabled: false
 net:
 {% if item is defined and item == 'mongos0' %}
   port: 37017

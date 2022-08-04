@@ -47,7 +47,7 @@ security:
          queryTemplate: "{USER}?memberOf?base"
 setParameter:
    authenticationMechanisms: PLAIN, SCRAM-SHA-1, SCRAM-SHA-256
-   ocspEnabled: false
+   ocspEnabled: false
 net:
 {% if shard3a is defined and ansible_hostname == shard3a %}
   port: 57017

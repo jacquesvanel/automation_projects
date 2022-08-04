@@ -47,7 +47,7 @@ security:
          queryTemplate: "{USER}?memberOf?base"
 setParameter:
    authenticationMechanisms: PLAIN, SCRAM-SHA-1, SCRAM-SHA-256
-   ocspEnabled: false
+   ocspEnabled: false
 net:
 {% if configsvr_rsa is defined and ansible_hostname == configsvr_rsa %}
   port: 57040
