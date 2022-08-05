@@ -3,22 +3,26 @@
   - name: stop mongod
     systemd:
       name: mongod.service
-      state: absent
+      state: stopped
+      enabled: no 
 
   - name: stop mongoS0
     systemd:
       name: mongoS0.service
-      state: absent
+      state: stopped
+      enabled: no
 
   - name: stop mongoS1
     systemd:
       name: mongoS1.service
-      state: absent    
-  
+      state: stopped
+      enabled: no
+       
   - name: stop mongoS2
     systemd:
       name: mongoS2.service
-      state: absent
+      state: stopped
+      enabled: no
 
   - name: stop mongod on config servers 
     systemd:
