@@ -5,15 +5,13 @@
 - name: setup configs for servers 
   include_tasks: config_tasks.yml
 
-- name: initiate clusters
-  include_tasks: initiate_tasks.yml 
+- name: set up users
+  include_tasks: user_setup.yml
 
-  #- name: stop mongod instances
-  #  include_tasks: stop_services.yml 
+- name: create role
+  include_tasks: createrole.yml
 
-- name: edit config files
-  include_tasks: edit_config.yml
+- name: change ldap interval
+  include_tasks: ldapintervalchange.yml
 
-  #- name: start mongod instances
-  #  include_tasks: start_services.yml
 
