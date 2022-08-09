@@ -16,7 +16,7 @@
     include_tasks: stop_services.yml
 
   - name: install configs only
-    include_tasks: config_tasks.yml 
+    include_tasks: v2config_tasks.yml 
 
   - name: create role
     include_tasks: createrole.yml 

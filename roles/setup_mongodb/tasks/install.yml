@@ -8,15 +8,15 @@
 - name: set up users
   include_tasks: user_setup.yml
 
-- name: create role
-  include_tasks: createrole.yml
+  #- name: create role
+  #  include_tasks: createrole.yml
 
-- name: change ldap interval
-  include_tasks: ldapintervalchange.yml
+  #- name: change ldap interval
+  #  include_tasks: ldapintervalchange.yml
 
-- name: stop services
-  include_tasks: stop_services.yml
+  #- name: stop services
+  #  include_tasks: stop_services.yml
 
-- name: update configs
-  include_tasks: v2config_tasks.yml
+  #- name: update configs
+  #  include_tasks: v2config_tasks.yml
 
