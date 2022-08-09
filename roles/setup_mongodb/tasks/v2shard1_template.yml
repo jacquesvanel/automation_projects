@@ -11,7 +11,7 @@
 
   - name: layout template for /etc/mongo/{{ env }}/shard1_rs_a.cfg on the shard1 server
     template:
-      src: shard1.conf.j2
+      src: v2shard1.conf.j2
       dest: "/etc/mongo/{{ env }}/shard1_rs_a.cfg"
       owner: mongod
       group: opr-db-admin
@@ -47,7 +47,7 @@
 
   - name: layout template for /etc/mongo/{{ env }}/shard1_rs_b.cfg on the shard1 server
     template:
-      src: shard1.conf.j2
+      src: v2shard1.conf.j2
       dest: "/etc/mongo/{{ env }}/shard1_rs_b.cfg"
       owner: mongod
       group: opr-db-admin
@@ -83,7 +83,7 @@
 
   - name: layout template for /etc/mongo/{{ env }}/shard1_rs_c.cfg on the shard1 server
     template:
-      src: shard1.conf.j2
+      src: v2shard1.conf.j2
       dest: "/etc/mongo/{{ env }}/shard1_rs_c.cfg"
       owner: mongod
       group: opr-db-admin

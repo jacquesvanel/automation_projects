@@ -1,7 +1,7 @@
 ---
 - name: layout template for etc/mongo/{{ env }}/{{ item }}.cfg on the config server
   template:
-    src:  mongos_config.conf.j2
+    src:  v2mongos_config.conf.j2
     dest: "/etc/mongo/{{ env }}/{{ item }}.cfg"
     owner: mongod
     group: opr-db-admin
