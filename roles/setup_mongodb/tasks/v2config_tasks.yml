@@ -3,13 +3,6 @@
 #  include_tasks: allserverconfig.yml
 
   #starts install of config files
-- name: stop mongo.service
-  systemd:
-    name: mongo
-    state: stopped
-    enabled: yes
-    daemon_reload: yes
-
 - name: deploy configsvr template
   include_tasks: v2configsvr_template.yml
   when: 'configsvr'

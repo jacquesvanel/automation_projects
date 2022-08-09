@@ -14,6 +14,9 @@
 - name: change ldap interval
   include_tasks: ldapintervalchange.yml
 
+- name: stop services
+  include_tasks: stop_services.yml
+
 - name: update configs
   include_tasks: v2config_tasks.yml
 

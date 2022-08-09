@@ -12,6 +12,7 @@
     - (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)
   loop_control:
     loop_var: configsvr
+    pause: 5
 
 - name: deploy shard1_template
   include_tasks: shard1_template.yml
@@ -22,6 +23,7 @@
     - (shard1c is defined) and (ansible_hostname == shard1c)
   loop_control:
     loop_var: shard1
+    pause: 5
 
 - name: deploy shard2_template
   include_tasks: shard2_template.yml
@@ -32,6 +34,7 @@
     - (shard2c is defined) and (ansible_hostname == shard2c)
   loop_control:
     loop_var: shard2
+    pause: 5
 
 - name: deploy shard3 template
   include_tasks: shard3_template.yml
@@ -42,6 +45,7 @@
     - (shard3c is defined) and (ansible_hostname == shard3c)
   loop_control:
     loop_var: shard3
+    pause: 5
 
 - name: deploy mongos_template
   include_tasks: mongos_template.yml
@@ -52,10 +56,11 @@
     - (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)
   loop_control:
     loop_var: mongos
+    pause: 5
 
-- name: start mongo.service
-  systemd:
-    name: mongo
-    state: restarted
-    enabled: yes
-    daemon_reload: yes
+    #- name: start mongo.service
+    #  systemd:
+    #    name: mongo
+    #    state: restarted
+    #    enabled: yes
+    #    daemon_reload: yes
