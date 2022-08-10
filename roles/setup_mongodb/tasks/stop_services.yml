@@ -24,6 +24,11 @@
       state: stopped
       enabled: no
 
+  - name: remove mongod.service
+    file:
+      path: /usr/lib/systemd/system/mongod.service
+      state: absent
+
   - name: stop mongod on config servers 
     systemd:
       name: mongod_config
