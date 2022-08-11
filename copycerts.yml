@@ -10,32 +10,35 @@
         state: directory
         owner: root
         group: root
-
+    
     - name: make ldap certs directory
       file:
         path: /etc/openldap/certs/
         state: directory
         owner: root
-        group: root          
-  
-    - name: Get certs and place them in designated folders
+        group: root
+
+    - name: get pem
       get_url:
-        url: "{{ item.url }}"
-        dest: "{{ item.dest }}"
+        url: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/ldap.conf
+        dest: /etc/openldap/ldap.conf
         owner: mongod
         group: opr-db-admin
         mode: '0600'
-      loop:
-        # placing keyfile cert #
-        - { url: '{{ keyfile }}', dest: '/data/{{ env }}/keyfile.pem' }
-        # placing keywcert cert #
-        - { url: '{{ keycert }}', dest: '/var/lib/mongodb/cert/KeyWCert.pem' }
-        # placing ieproot cert #
-        - { url: '{{ ieproot }}', dest: '/etc/openldap/certs/iep_root_intermediate.pem' }
-        # placing ldap.conf #
-        - { url: '{{ ldap }}', dest: '/etc/openldap/ldap.conf' }
-        # placing CA cert #
-        - { url: '{{ cacert }}', dest: '/var/lib/mongodb/cert/CA_Root_Inter.pem' }
-      
 
+    - name: get iep cert
+      get_url: 
+        url: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/iep_root_intermediate.pem
+        dest: /etc/openldap/certs/iep_root_intermediate.pem
+        owner: mongod
+        group: opr-db-admin
+        mode: '0600'
+    
+    - name: get ca cert
+      get_url:
+        url: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/CA_Root_Inter.pem
+        dest: /var/lib/mongodb/cert/CA_Root_Inter.pem
+        owner: mongod
+        group: opr-db-admin
+        mode: '0600'
 
