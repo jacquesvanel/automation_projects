@@ -18,7 +18,14 @@
         owner: root
         group: root
 
-    - name: get pem
+    - name: make ldap certs directory
+      file:
+        path: /var/lib/mongodb/cert/
+        state: directory
+        owner: root
+        group: root
+    
+    - name: get ldap.conf
       get_url:
         url: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/ldap.conf
         dest: /etc/openldap/ldap.conf
