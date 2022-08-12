@@ -30,7 +30,7 @@
   - name: start mongod_shard1
     systemd:
       name: mongod_shard1
-      state: restarted
+      state: stopped
       enabled: yes
       daemon_reload: yes
   when: (shard1a is defined) and (ansible_hostname == shard1a)
@@ -67,7 +67,7 @@
   - name: start mongod_shard1
     systemd:
       name: mongod_shard1
-      state: restarted
+      state: stopped
       enabled: yes
       daemon_reload: yes
   when: (shard1b is defined) and (ansible_hostname == shard1b)
@@ -103,7 +103,7 @@
   - name: start mongod_shard1
     systemd:
       name: mongod_shard1
-      state: restarted
+      state: stopped
       enabled: yes
       daemon_reload: yes
   when: (shard1c is defined) and (ansible_hostname == shard1c)

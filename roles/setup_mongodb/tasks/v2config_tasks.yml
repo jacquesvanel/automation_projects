@@ -53,9 +53,9 @@
   loop_control:
     loop_var: mongos
 
-- name: start mongo.service
-  systemd:
-    name: mongo
-    state: restarted
-    enabled: yes
-    daemon_reload: yes
+    #- name: start mongo.service
+    #  systemd:
+    #    name: mongo
+    #    state: restarted
+    #    enabled: yes
+    #    daemon_reload: yes

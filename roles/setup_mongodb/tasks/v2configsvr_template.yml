@@ -30,7 +30,7 @@
   - name: start mongod_config
     systemd:
       name: mongod_config
-      state: restarted
+      state: stopped
       enabled: yes
       daemon_reload: yes
   when: configsvr_rsa is defined and ansible_hostname == configsvr_rsa
@@ -67,7 +67,7 @@
   - name: start mongod_config
     systemd:
       name: mongod_config
-      state: restarted
+      state: stopped
       enabled: yes
       daemon_reload: yes
   when: configsvr_rsb is defined and ansible_hostname == configsvr_rsb
@@ -104,7 +104,7 @@
   - name: start mongod_config
     systemd:
       name: mongod_config
-      state: restarted
+      state: stopped
       enabled: yes
       daemon_reload: yes
   when: configsvr_rsc is defined and ansible_hostname == configsvr_rsc
