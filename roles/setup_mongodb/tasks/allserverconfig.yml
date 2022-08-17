@@ -24,7 +24,7 @@
         # directory for ldap certs #
     - { path: '/etc/openldap/certs/', mode: '2770' }
   tags:
-    - "make_file"
+  - make_file
 
 - name: Get certs and place them in designated folders
   get_url:
