@@ -36,7 +36,7 @@
   when: (shard1a is defined) and (ansible_hostname == shard1a)
   ignore_errors: yes
   tags:
-    - shard1a
+  - "shard1a"
 
 # block for shard1b
 - block:
