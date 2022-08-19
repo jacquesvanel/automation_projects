@@ -10,9 +10,9 @@
 
 - name: add cronjob 
   cron:
-    name: logrotate for mongodb logs
-    min: 23
-    job: /usr/sbin/logrotate -f /etc/logrotate.d/mongo
+    name: "logrotate for mongodb logs"
+    min: "23"
+    job: "/usr/sbin/logrotate -f /etc/logrotate.d/mongo"
 
 - name: remove files
   file:
