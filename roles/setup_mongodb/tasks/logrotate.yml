@@ -10,6 +10,7 @@
 
 - name: add cronjob 
   cron:
+    cron_file: "/etc/crontab"
     name: "logrotate for mongodb logs"
     minute: "23"
     job: "/usr/sbin/logrotate -f /etc/logrotate.d/mongo"
