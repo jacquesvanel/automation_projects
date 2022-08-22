@@ -28,7 +28,7 @@
   when: install_state == 'run_configs_only'
 
 - name: install base packages
-  include_tasks: install_mongodb.yml
+  include_tasks: testinstall_mongodb.yml
   when: install_state == 'install_base'
 
 - name: run initiate tasks only

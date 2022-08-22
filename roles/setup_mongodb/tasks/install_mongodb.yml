@@ -29,6 +29,13 @@
     remote_src: yes
     list_files: yes
 
+- name: copy mongo database BI into /usr/local/bin
+  unarchive:
+    src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongodb-bi-linux-x86_64-rhel80-v2.14.4.tgz
+    dest: /usr/local/bin/
+    remote_src: yes
+    list_files: yes
+
 - name: install the RPM key
   rpm_key:
     state: present
