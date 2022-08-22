@@ -15,6 +15,13 @@
       - mongodb-enterprise-tools.x86_64
     state: installed 
 
+- name: create a working directory /usr/local/bin/
+  file:
+    path: /usr/local/bin/
+    state: directory
+    owner: root
+    group: root
+
 - name: copy mongo database BI into /usr/local/bin
   unarchive:
     src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongodb-bi-linux-x86_64-rhel80-v2.14.4.tgz
