@@ -1,18 +1,10 @@
 ---
-- block:
-  - name: create a working directory /usr/local/bin/
-    file:
-      path: /usr/local/bin/
-      state: directory
-      owner: root
-      group: root
+- name: install mongodb base
+  include_tasks: install_mongodb_base.yml
+  tags: base
 
-  - name: copy mongo database tools into /usr/local/bin
-    unarchive:
-      src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongodb-database-tools-rhel80-x86_64-100.5.3.tgz
-      dest: /usr/local/bin/
-      remote_src: yes
-      list_files: yes
+- name: install mongodb tools
+  include_tasks: install_mongodb_tools.yml
   tags: dbtools
 
 

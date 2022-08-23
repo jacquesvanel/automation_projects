@@ -1,0 +1,44 @@
+---
+#creates a directory to copy mongodb-enterprise pkg into#
+- name: create a working directory /opt/scripts/
+  file:
+    path: /opt/scripts/
+    state: directory
+    owner: root
+    group: root
+
+- name: copy mongo package into /opt/scripts/
+  unarchive:
+    src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongo.tar.gz
+    dest: /opt/scripts/
+    remote_src: yes
+    list_files: yes
+
+- name: install the RPM key
+  rpm_key:
+    state: present
+    key: /opt/scripts/mongodb/server-5.0.asc
+
+- name: install mongo services
+  yum:
+    name:
+      - /opt/scripts/mongodb/mongodb-enterprise-cryptd-5.0.8-1.el8.x86_64.rpm
+      - /opt/scripts/mongodb/mongodb-enterprise-shell-5.0.8-1.el8.x86_64.rpm
+      - /opt/scripts/mongodb/mongodb-enterprise-server-5.0.8-1.el8.x86_64.rpm
+      - /opt/scripts/mongodb/mongodb-enterprise-mongos-5.0.8-1.el8.x86_64.rpm
+    state: installed
+#stops mongod.service so it wont look for the wrong conf file and fail#
+- name: stop mongod
+  systemd:
+    name: mongod
+    state: stopped
+    enabled: no
+#cleans up directories and removes unwanted files#
+- name: remove unwanted files
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /opt/scripts/mongodb
+    - /tmp/mongo*.sock
+    - /etc/mongod.conf
