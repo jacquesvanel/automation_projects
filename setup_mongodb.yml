@@ -3,23 +3,4 @@
   hosts: "{{ target }}"
   roles:
     - role: setup_mongodb
-      tags:
-        - base
-        - dbtools
-        - make_file
-        - add_certs
-        - logrotate
-        - hugepages
-        - mongo_service
-        - configsvr
-        - shard1
-        - shard2
-        - shard3
-        - mongos
-        - initiate_db
-        - start_mongos
-        - add_shards
-        - setup_users
-        - create_role
-        - ldap_interval_change
 
