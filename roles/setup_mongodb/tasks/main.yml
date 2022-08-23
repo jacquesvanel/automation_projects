@@ -1,40 +1,19 @@
 ---
-- name: full install
-  include_tasks: install.yml
-  when: install_state == 'full_install'
+- block:
+  - name: create a working directory /usr/local/bin/
+    file:
+      path: /usr/local/bin/
+      state: directory
+      owner: root
+      group: root
 
-- name: full uninstall
-  include_tasks: uninstall.yml
-  when: install_state == 'uninstall'
-
-- name: reinstall
-  include_tasks: reinstall.yml
-  when: install_state == 'reinstall'
-
-  #- block:  
-  #  - name: stop services
-  #    include_tasks: stop_services.yml
-
-  #  - name: install configs only
-  #    include_tasks: v2config_tasks.yml 
-
-  #  - name: create role
-  #    include_tasks: createrole.yml 
-
-  #  - name: change ldap interval
-  #include_tasks: ldapintervalchange.yml  
-- name: run logrotate update
-  include_tasks: logrotate.yml
-  when: install_state == 'run_configs_only'
-
-- name: install base packages
-  include_tasks: install_mongodb.yml
-  when: install_state == 'install_base'
-
-- name: run initiate tasks only
-  include_tasks: initiate_tasks.yml
-  when: install_state == 'run_initiate_tasks'
-
+  - name: copy mongo database tools into /usr/local/bin
+    unarchive:
+      src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongodb-database-tools-rhel80-x86_64-100.5.3.tgz
+      dest: /usr/local/bin/
+      remote_src: yes
+      list_files: yes
+  tags: dbtools
 
 
   #- include_tasks: restart_services.yml
