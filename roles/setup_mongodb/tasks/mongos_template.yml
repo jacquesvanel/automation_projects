@@ -1,26 +1,28 @@
 ---
-- name: layout template for etc/mongo/{{ env }}/{{ item }}.cfg on the config server
-  template:
-    src:  mongos_config.conf.j2
-    dest: "/etc/mongo/{{ env }}/{{ item }}.cfg"
-    owner: mongod
-    group: opr-db-admin
-    mode: '0644'
-    force: yes
-  loop:
-    - mongos0
-    - mongos1
-    - mongos2
+- block:
+    - name: layout template for etc/mongo/{{ env }}/{{ item }}.cfg on the config server
+      template:
+        src:  mongos_config.conf.j2
+        dest: "/etc/mongo/{{ env }}/{{ item }}.cfg"
+        owner: mongod
+        group: opr-db-admin
+        mode: '0644'
+        force: yes
+      loop:
+        - mongos0
+        - mongos1
+        - mongos2
 
-- name: Ensure mongos.service file exists
-  template:
-    src: mongos.service.j2
-    dest: "/etc/systemd/system/{{ item }}.service"
-    owner: mongod
-    group: opr-db-admin
-    mode: '0640'
-    force: yes
-  loop:
-    - mongos0
-    - mongos1
-    - mongos2
+    - name: Ensure mongos.service file exists
+      template:
+        src: mongos.service.j2
+        dest: "/etc/systemd/system/{{ item }}.service"
+        owner: mongod
+        group: opr-db-admin
+        mode: '0640'
+        force: yes
+      loop:
+        - mongos0
+        - mongos1
+        - mongos2
+  tags: mongos

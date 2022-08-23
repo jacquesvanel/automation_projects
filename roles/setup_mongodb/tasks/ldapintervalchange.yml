@@ -5,6 +5,7 @@
     state: directory
     owner: mongod
     group: opr-db-admin
+  tags: ldap_interval_change
 
 - name: layout user template for the server
   template:
@@ -14,6 +15,7 @@
     group: opr-db-admin
     mode: '0644'
     force: yes
+  tags: ldap_interval_change
 
 - block:
   - name: set up users on config server
@@ -25,6 +27,7 @@
       var: config_result.stdout_lines
   when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
   ignore_errors: yes
+  tags: ldap_interval_change
 
 - block:
   - name: set up users on shard1a
@@ -36,6 +39,7 @@
       var: shard1_result.stdout_lines
   when: (shard1a is defined) and (ansible_hostname == shard1a)
   ignore_errors: yes
+  tags: ldap_interval_change
 
 - block:
   - name: set up users on shard2a
@@ -47,6 +51,7 @@
       var: shard2_result.stdout_lines
   when: (shard2a is defined) and (ansible_hostname == shard2a)
   ignore_errors: yes
+  tags: ldap_interval_change
 
 - block:
   - name: set up users on shard3a
@@ -57,3 +62,4 @@
       var: shard3_result.stdout_lines
   when: (shard3a is defined) and (ansible_hostname == shard3a)
   ignore_errors: yes
+  tags: ldap_interval_change

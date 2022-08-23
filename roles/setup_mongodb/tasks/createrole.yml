@@ -5,6 +5,7 @@
     state: directory
     owner: mongod
     group: opr-db-admin
+  tags: create_role
 
 - name: layout role template for the server
   template:
@@ -14,6 +15,7 @@
     group: opr-db-admin
     mode: '0644'
     force: yes
+  tags: create_role
 
 - block:
   - name: set up role on config server
@@ -25,6 +27,7 @@
       var: config_result.stdout_lines
   when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
   ignore_errors: yes
+  tags: create_role
 
 - block:
   - name: set up role on shard1a
@@ -36,6 +39,7 @@
       var: shard1_result.stdout_lines
   when: (shard1a is defined) and (ansible_hostname == shard1a)
   ignore_errors: yes
+  tags: create_role
 
 - block:
   - name: set up role on shard2a
@@ -47,14 +51,16 @@
       var: shard2_result.stdout_lines
   when: (shard2a is defined) and (ansible_hostname == shard2a)
   ignore_errors: yes
+  tags: create_role
 
 - block:
   - name: set up role on shard3a
     shell: mongo {{ shard3a }}.opr.afsiep.net:57017/admin /etc/mongo/{{ env }}/scripts/createrole.js  -u superUserAdmin -p Qwerty#12345px
     register: shard3_result
+
   - name: show shard3 shell result
     debug:
       var: shard3_result.stdout_lines
   when: (shard3a is defined) and (ansible_hostname == shard3a)
   ignore_errors: yes
-
+  tags: create_role

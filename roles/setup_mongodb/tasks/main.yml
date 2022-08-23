@@ -25,6 +25,22 @@
     - shard3
     - mongos
 
+- name: initiate db
+  include_tasks: initiate_tasks.yml
+  tags: 
+    - initiate_db
+    - start_mongos
+    - add_shards
+    - setup_users
+
+- name: create role
+  include_tasks: createrole.yml
+  tags: create_role
+
+- name: change ldap interval
+  include_tasks: ldapintervalchange.yml
+  tags: ldap_interval_change
+
 
   #- include_tasks: restart_services.yml
   #  when: install_state == 'run_configs_only'

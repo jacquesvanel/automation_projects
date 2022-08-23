@@ -35,6 +35,8 @@
       daemon_reload: yes
   when: (shard2a is defined) and (ansible_hostname == shard2a)
   ignore_errors: yes
+  tags: shard2
+
 # block for shard2b
 - block:
   - name: make dbpath file directory /data/{{ env }}/shard2/rs_b
@@ -71,6 +73,8 @@
       daemon_reload: yes
   when: (shard2b is defined) and (ansible_hostname == shard2b)
   ignore_errors: yes
+  tags: shard2
+
 # block for shard2c
 - block:
   - name: make dbpath file directory /data/{{ env }}/shard2/rs_c
@@ -107,3 +111,4 @@
       daemon_reload: yes
   when: (shard2c is defined) and (ansible_hostname == shard2c)
   ignore_errors: yes
+  tags: shard2
