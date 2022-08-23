@@ -43,4 +43,6 @@
         - /opt/scripts/mongodb
         - /tmp/mongo*.sock
         - /etc/mongod.conf
-  tags: base
+  tags: 
+    - base
+    - install

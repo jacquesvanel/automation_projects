@@ -23,7 +23,9 @@
     - { path: '/etc/openldap/', mode: '2770' }
         # directory for ldap certs #
     - { path: '/etc/openldap/certs/', mode: '2770' }
-  tags: make_file
+  tags: 
+   - make_file
+   - install
 
 - name: Get certs and place them in designated folders
   get_url:
@@ -43,7 +45,9 @@
     - { url: '{{ ldap }}', dest: '/etc/openldap/ldap.conf' }
         # placing CA cert #
     - { url: '{{ cacert }}', dest: '/var/lib/mongodb/cert/CA_Root_Inter.pem' }
-  tags: add_certs
+  tags: 
+    - add_certs
+    - install
 
 # placing logrotate script #
 - name: layout logrotate template
@@ -54,7 +58,9 @@
     group: root
     mode: '0640'
     force: yes
-  tags: logrotate
+  tags: 
+    - logrotate
+    - install
 
 # placing hugepages.service file #
 - name: layout hugepages template
@@ -65,7 +71,9 @@
     group: root
     mode: '0640'
     force: yes
-  tags: hugepages
+  tags: 
+    - hugepages
+    - install
 
 # placing mongo.service file #        
 - name: layout hugepages template
@@ -76,7 +84,9 @@
     group: root
     mode: '0640'
     force: yes
-  tags: mongo_service  
+  tags: 
+    - mongo_service
+    - install  
    
 - name: start hugepagesfix
   systemd:
@@ -84,4 +94,6 @@
     state: restarted
     enabled: yes
     daemon_reload: yes
-  tags: hugepages
+  tags: 
+    - hugepages
+    - install

@@ -21,4 +21,7 @@
         dest: /usr/local/bin/
         remote_src: yes
         list_files: yes
-  tags: dbtools
+  tags: 
+    - dbtools
+    - install
+  

@@ -19,6 +19,7 @@
     - logrotate
     - hugepages
     - mongo_service
+    - install
     
 
 - name: install configs
