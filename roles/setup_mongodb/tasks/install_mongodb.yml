@@ -28,8 +28,7 @@
     dest: /usr/local/bin/
     remote_src: yes
     list_files: yes
-  tags:
-  - database_tools
+  tags: database_tools
 
 - name: copy mongo database BI into /usr/local/bin
   unarchive:
