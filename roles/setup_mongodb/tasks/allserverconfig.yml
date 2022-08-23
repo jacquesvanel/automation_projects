@@ -23,8 +23,7 @@
     - { path: '/etc/openldap/', mode: '2770' }
         # directory for ldap certs #
     - { path: '/etc/openldap/certs/', mode: '2770' }
-  tags:
-  - make_file
+  tags: make_file
 
 - name: Get certs and place them in designated folders
   get_url:
@@ -44,6 +43,7 @@
     - { url: '{{ ldap }}', dest: '/etc/openldap/ldap.conf' }
         # placing CA cert #
     - { url: '{{ cacert }}', dest: '/var/lib/mongodb/cert/CA_Root_Inter.pem' }
+  tags: add_certs
 
 - name: layout templates
   template:
@@ -53,17 +53,19 @@
     group: root
     mode: '0640'
     force: yes
+  tags: "{{ item.tags }}"
   loop:
         # placing logrotate script #
-    - { template: 'logrotate.conf.j2', tempdest: '/etc/logrotate.d/mongo' }
+    - { template: 'logrotate.conf.j2', tempdest: '/etc/logrotate.d/mongo', tags: 'logrotate' }
         # placing hugepages.service file #
-    - { template: 'hugepages_service.j2', tempdest: '/etc/systemd/system/mongodb-hugepage-fix.service' }
+    - { template: 'hugepages_service.j2', tempdest: '/etc/systemd/system/mongodb-hugepage-fix.service', tags: 'hugepages' }
         # placing mongo.service file #
-    - { template: 'mongo.service.j2', tempdest: '/etc/systemd/system/mongo.service' }
-
+    - { template: 'mongo.service.j2', tempdest: '/etc/systemd/system/mongo.service', tags: 'mongo_service' }
+   
 - name: start hugepagesfix
   systemd:
     name: mongodb-hugepage-fix
     state: restarted
     enabled: yes
     daemon_reload: yes
+  tags: hugepages

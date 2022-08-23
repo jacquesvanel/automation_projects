@@ -7,6 +7,24 @@
   include_tasks: install_mongodb_tools.yml
   tags: dbtools
 
+- name: configs for all servers
+  include_tasks: allserverconfig.yml
+  tags: 
+    - make_file
+    - add_certs
+    - logrotate
+    - hugepages
+    - mongo_service
+
+- name: install configs
+  include_tasks: v2config_tasks.yml
+  tags:
+    - configsvr
+    - shard1
+    - shard2
+    - shard3
+    - mongos
+
 
   #- include_tasks: restart_services.yml
   #  when: install_state == 'run_configs_only'
