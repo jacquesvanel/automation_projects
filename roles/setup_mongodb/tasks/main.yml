@@ -1,11 +1,15 @@
 ---
 - name: install mongodb base
   include_tasks: install_mongodb_base.yml
-  tags: base
+  tags: 
+    - base
+    - install
 
 - name: install mongodb tools
   include_tasks: install_mongodb_tools.yml
-  tags: dbtools
+  tags: 
+    - dbtools
+    - install
 
 - name: configs for all servers
   include_tasks: allserverconfig.yml
@@ -15,6 +19,7 @@
     - logrotate
     - hugepages
     - mongo_service
+    
 
 - name: install configs
   include_tasks: v2config_tasks.yml
