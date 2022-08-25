@@ -23,7 +23,7 @@
     
 
 - name: install configs
-  include_tasks: v2config_tasks.yml
+  include_tasks: config_tasks.yml
   tags:
     - configsvr
     - shard1

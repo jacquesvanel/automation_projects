@@ -34,6 +34,8 @@
       enabled: yes
       daemon_reload: yes
   when: configsvr_rsa is defined and ansible_hostname == configsvr_rsa
+  ignore_errors: yes
+  tags: configsvr
 
 #block for config server rs_b  
 - block:
@@ -70,6 +72,8 @@
       enabled: yes
       daemon_reload: yes
   when: configsvr_rsb is defined and ansible_hostname == configsvr_rsb
+  ignore_errors: yes
+  tags: configsvr
 
 #block for config server rs_c  
 - block:
@@ -106,3 +110,5 @@
       enabled: yes
       daemon_reload: yes
   when: configsvr_rsc is defined and ansible_hostname == configsvr_rsc
+  ignore_errors: yes
+  tags: configsvr

@@ -22,8 +22,32 @@ processManagement:
 {% if shard1c is defined and ansible_hostname == shard1c %}
   pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh1-rs_c.pid"
 {% endif %}
-#security:
-#  keyFile: "/data/{{ env }}/keyfile.pem"
+security:
+   authorization: "enabled"
+   clusterAuthMode: x509
+   ldap:
+      servers: "opr.afsiep.net:636"
+      bind:
+{% if env is defined and env == 'prod' %}
+         queryUser: "{{ prod_user }}" 
+         queryPassword: "{{ prod_pw }}"
+{% else %}
+         queryUser: "{{ nonprod_user }}"
+         queryPassword: "{{ nonprod_pw }}"
+{% endif %}
+      transportSecurity: tls
+      userToDNMapping:
+         '[
+            {
+               match : "(.+)",
+               ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
+            }
+         ]'
+      authz:
+         queryTemplate: "{USER}?memberOf?base"
+setParameter:
+   authenticationMechanisms: PLAIN, SCRAM-SHA-1, SCRAM-SHA-256
+   ocspEnabled: false
 net:
 {% if shard1a is defined and ansible_hostname == shard1a %}
   port: 37040
@@ -36,9 +60,11 @@ net:
 {% endif %}
   bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
   tls:
-   mode: allowTLS
+   mode: preferTLS
+   CAFile: /var/lib/mongodb/cert/CA_Root_Inter.pem
+   allowConnectionsWithoutCertificates: true
    certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
-   certificateKeyFilePassword: {{ tlspass }}
+   certificateKeyFilePassword: {{ cert_password }}
 sharding:
   clusterRole: shardsvr
 replication:
