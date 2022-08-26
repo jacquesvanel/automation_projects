@@ -2,7 +2,7 @@
 - block:
   - name: Stop mongod service
     systemd:
-      name: "{{ items.services }}"
+      name: "{{ services }}"
       state: stopped
       enabled: no
     loop:
