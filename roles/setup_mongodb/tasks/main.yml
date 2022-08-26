@@ -1,10 +1,21 @@
 ---
+- name: uninstall services
+  include_tasks: uninstall.yml
+  tags:
+    - never
+    - uninstall
+    - reinstall
+
 - name: install mongodb base
-  include_tasks: install_mongodb.yml
-  tags: 
-    - base
-    - dbtools
-    - install
+  include_tasks:
+    file: install_mongodb.yml
+    apply:
+      tags:
+        - base
+        - dbtools
+        - install
+        - reinstall
+    
 
 - name: configs for all servers
   include_tasks: allserverconfig.yml
@@ -14,7 +25,7 @@
     - logrotate
     - hugepages
     - mongo_service
-    - install
+    - reinstall
     
 - name: install configs
   include_tasks: config_tasks.yml
@@ -24,6 +35,7 @@
     - shard2
     - shard3
     - mongos
+    - reinstall
 
 - name: setup users
   include_tasks: user_setup.yml
@@ -35,17 +47,21 @@
     - (shard3a is defined) and (ansible_hostname == shard3a)
   loop_control:
     loop_var: setup_users
-  tags: setup_users
+  tags: 
+    - setup_users
+    - reinstall
 
 - name: create role
   include_tasks: createrole.yml
   tags: 
     - create_role
+    - reinstall
     
 - name: change ldap interval
   include_tasks: ldapintervalchange.yml
   tags: 
     - ldap_interval_change
+    - reinstall
 
 - name: initiate db
   include_tasks: initiate_tasks.yml
@@ -53,14 +69,6 @@
     - initiate_db
     - start_mongos
     - add_shards
+    - reinstall
 
-- name: uninstall services
-  include_tasks: uninstall.yml
-  tags: 
-    - never
-    - uninstall
-
-
-  #- include_tasks: restart_services.yml
-  #  when: install_state == 'run_configs_only'
 
