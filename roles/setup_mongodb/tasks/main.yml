@@ -7,14 +7,12 @@
     - reinstall
 
 - name: install mongodb base
-  include_tasks:
-    file: install_mongodb.yml
-    apply:
-      tags:
-        - base
-        - dbtools
-        - install
-        - reinstall
+  import_tasks: install_mongodb.yml
+  tags:
+    - base
+    - dbtools
+    - install
+    - reinstall
     
 
 - name: configs for all servers
