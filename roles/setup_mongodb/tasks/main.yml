@@ -1,6 +1,6 @@
 ---
 - name: uninstall services
-  include_tasks: uninstall.yml
+  import_tasks: uninstall.yml
   tags:
     - never
     - uninstall
@@ -10,13 +10,12 @@
   import_tasks: install_mongodb.yml
   tags:
     - base
-    - dbtools
     - install
     - reinstall
     
 
 - name: configs for all servers
-  include_tasks: allserverconfig.yml
+  import_tasks: allserverconfig.yml
   tags: 
     - make_file
     - add_certs
@@ -26,7 +25,7 @@
     - reinstall
     
 - name: install configs
-  include_tasks: config_tasks.yml
+  import_tasks: config_tasks.yml
   tags:
     - configsvr
     - shard1
@@ -36,7 +35,7 @@
     - reinstall
 
 - name: setup users
-  include_tasks: user_setup.yml
+  import_tasks: user_setup.yml
   when: 'setup_users'
   loop:
     - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
@@ -50,19 +49,19 @@
     - reinstall
 
 - name: create role
-  include_tasks: createrole.yml
+  import_tasks: createrole.yml
   tags: 
     - create_role
     - reinstall
     
 - name: change ldap interval
-  include_tasks: ldapintervalchange.yml
+  import_tasks: ldapintervalchange.yml
   tags: 
     - ldap_interval_change
     - reinstall
 
 - name: initiate db
-  include_tasks: initiate_tasks.yml
+  import_tasks: initiate_tasks.yml
   tags:
     - initiate_db
     - start_mongos
