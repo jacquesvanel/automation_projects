@@ -1,13 +1,8 @@
 ---
 - name: install mongodb base
-  include_tasks: install_mongodb_base.yml
+  include_tasks: install_mongodb.yml
   tags: 
     - base
-    - install
-
-- name: install mongodb tools
-  include_tasks: install_mongodb_tools.yml
-  tags: 
     - dbtools
     - install
 
@@ -21,7 +16,6 @@
     - mongo_service
     - install
     
-
 - name: install configs
   include_tasks: config_tasks.yml
   tags:
@@ -41,11 +35,19 @@
 
 - name: create role
   include_tasks: createrole.yml
-  tags: create_role
-
+  tags: 
+    - create_role
+    
 - name: change ldap interval
   include_tasks: ldapintervalchange.yml
-  tags: ldap_interval_change
+  tags: 
+    - ldap_interval_change
+
+- name: uninstall services
+  include_tasks: uninstall.yml
+  tags: 
+    - never
+    - uninstall
 
 
   #- include_tasks: restart_services.yml
