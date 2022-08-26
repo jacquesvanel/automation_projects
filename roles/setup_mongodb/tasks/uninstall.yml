@@ -2,7 +2,7 @@
 - block:
   - name: Stop mongod service
     systemd:
-      name: "{{ items }}"
+      name: "{{ items.services }}"
       state: stopped
       enabled: no
     loop:
@@ -15,6 +15,8 @@
       - mongos0
       - mongos1
       - mongos2
+    loop_control:
+     loop_var: services
 
   - name: uninstall mongo services
     yum:
