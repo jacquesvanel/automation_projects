@@ -119,7 +119,7 @@
     - initiate_clusters
 
 - name: start mongos
-  import_tasks: start_mongos.yml
+  include_tasks: start_mongos.yml
   when: 'start_mongos'
   loop:
     - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
