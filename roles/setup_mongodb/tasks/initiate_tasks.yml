@@ -27,14 +27,3 @@
   when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
   tags: add_shards
 
-- name: setup users
-  include_tasks: user_setup.yml
-  when: 'setup_users'
-  loop:
-    - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
-    - (shard1a is defined) and (ansible_hostname == shard1a)
-    - (shard2a is defined) and (ansible_hostname == shard2a)
-    - (shard3a is defined) and (ansible_hostname == shard3a)
-  loop_control:
-    loop_var: setup_users
-  tags: setup_users

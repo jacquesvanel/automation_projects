@@ -25,13 +25,17 @@
     - shard3
     - mongos
 
-- name: initiate db
-  include_tasks: initiate_tasks.yml
-  tags: 
-    - initiate_db
-    - start_mongos
-    - add_shards
-    - setup_users
+- name: setup users
+  include_tasks: user_setup.yml
+  when: 'setup_users'
+  loop:
+    - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
+    - (shard1a is defined) and (ansible_hostname == shard1a)
+    - (shard2a is defined) and (ansible_hostname == shard2a)
+    - (shard3a is defined) and (ansible_hostname == shard3a)
+  loop_control:
+    loop_var: setup_users
+  tags: setup_users
 
 - name: create role
   include_tasks: createrole.yml
@@ -42,6 +46,13 @@
   include_tasks: ldapintervalchange.yml
   tags: 
     - ldap_interval_change
+
+- name: initiate db
+  include_tasks: initiate_tasks.yml
+  tags:
+    - initiate_db
+    - start_mongos
+    - add_shards
 
 - name: uninstall services
   include_tasks: uninstall.yml
