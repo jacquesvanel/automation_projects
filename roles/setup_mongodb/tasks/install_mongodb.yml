@@ -45,6 +45,7 @@
       - /opt/scripts/mongodb
       - /tmp/mongo*.sock
       - /etc/mongod.conf
+  ignore_errors: yes
   tags:
     - base
 
