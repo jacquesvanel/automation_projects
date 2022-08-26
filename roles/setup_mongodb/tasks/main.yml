@@ -13,7 +13,7 @@
     - reinstall
     - base
 
-- name: install mongodb base
+- name: install mongo dbtools
   import_tasks: install_dbtools.yml
   tags:
     - install
@@ -55,67 +55,86 @@
     - reinstall
     - mongo
       
-#starts install of config files
-- name: deploy configsvr template
-  import_tasks: configsvr_template.yml
+- name: add configsvr config/service files 
+  import_tasks: configsvr.yml
   tags:
     - install
     - reinstall
     - configsvr
 
-- name: deploy shard1_template
-  import_tasks: shard1_template.yml
+- name: add shard1 config/service files
+  import_tasks: shard1.yml
   tags: 
     - install
     - reinstall
     - shard1
 
-- name: deploy shard2_template
-  import_tasks: shard2_template.yml
+- name: add shard2 config/service files
+  import_tasks: shard2.yml
   tags: 
     - install
     - reinstall
     - shard2
 
-- name: deploy shard3 template
-  import_tasks: shard3_template.yml
+- name: add shard3 config/service files
+  import_tasks: shard3.yml
   tags: 
     - install
     - reinstall
     - shard3
 
-- name: deploy mongos_template
-  import_tasks: mongos_template.yml
+- name: add mongos config/service files
+  import_tasks: mongos.yml
   tags: 
     - install
     - reinstall
     - mongos
 
 - name: setup users
-  import_tasks: user_setup.yml
+  import_tasks: setup_users.yml
   tags: 
     - install
-    - setup_users
     - reinstall
+    - setup_users
 
 - name: create role
-  import_tasks: createrole.yml
+  import_tasks: create_role.yml
   tags: 
-    - create_role
+    - install
     - reinstall
+    - create_role
     
 - name: change ldap interval
-  import_tasks: ldapintervalchange.yml
-  tags: 
-    - ldap_interval_change
-    - reinstall
-
-- name: initiate db
-  import_tasks: initiate_tasks.yml
+  import_tasks: ldap_interval.yml
   tags:
-    - initiate_db
-    - start_mongos
-    - add_shards
+    - install     
     - reinstall
+    - ldap_interval  
 
+- name: initiate clusters
+  import_tasks: initiate_clusters.yml
+  tags:
+    - install
+    - reinstall
+    - initiate_clusters
+
+- name: start mongos
+  import_tasks: start_mongos.yml
+  tags:
+    - install
+    - reinstall
+    - start_mongos
+
+- name: add shards to cluster
+  import_tasks: add_shards.yml
+  when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
+  tags: 
+    - install
+    - reinstall
+    - add_shards
+
+- name: start mongo
+  systemd:
+    name: mongo
+    state: restarted
 

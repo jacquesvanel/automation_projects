@@ -6,7 +6,6 @@
     state: directory
     owner: mongod
     group: opr-db-admin
-  tags: initiate_db
 
 - block:
   - name: layout template for /etc/mongo/{{ env }}/scripts/initiate.shard1.js the shard1 server
@@ -25,7 +24,6 @@
   - debug:
       var: shell_result.stdout_lines
   when: (shard1a is defined) and (ansible_hostname == shard1a)
-  tags: initiate_db
 
 - block:
   - name: layout template for /etc/mongo/{{ env }}/scripts/initiate.shard2.js the shard2 server
@@ -44,7 +42,6 @@
   - debug:
       var: shell_result.stdout_lines
   when: (shard2a is defined) and (ansible_hostname == shard2a)
-  tags: initiate_db
 
 - block:
   - name: layout template for /etc/mongo/{{ env }}/scripts/initiate.shard3.js the shard3 server
@@ -63,7 +60,6 @@
   - debug:
       var: shell_result.stdout_lines
   when: (shard3a is defined) and (ansible_hostname == shard3a)
-  tags: initiate_db
 
 - block:
   - name: layout template for /etc/mongo/{{ env }}/scripts/initiate.config.js the config server
@@ -82,4 +78,3 @@
   - debug:
       var: shell_result.stdout_lines
   when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
-  tags: initiate_db
