@@ -14,11 +14,11 @@
     minute: "23"
     job: "/usr/sbin/logrotate -f /etc/logrotate.d/mongo"
 
-- name: remove files
-  file:
-    path: "{{ item }}" 
-    state: absent
-  loop:
-    - "/var/log/mongodb/{{ env }}/mongoS0.log"
-    - "/var/log/mongodb/{{ env }}/mongoS1.log"
-    - "/var/log/mongodb/{{ env }}/mongoS2.log"
+    #- name: remove files
+    #  file:
+    #    path: "{{ item }}" 
+    #    state: absent
+    #  loop:
+    #    - "/var/log/mongodb/{{ env }}/mongoS0.log"
+    #    - "/var/log/mongodb/{{ env }}/mongoS1.log"
+    #    - "/var/log/mongodb/{{ env }}/mongoS2.log"
