@@ -12,7 +12,9 @@ partitions:
 # this will create the VG
 volume_groups:
     - name: VolGroup
-      devices: /dev/nvme0n1p3,/dev/nvme0n1p2,
+      devices: 
+        - /dev/nvme0n1p2
+        - /dev/nvme0n1p3
 # this will create the LV
 logical_volumes:
     - name: VolGroup-data
