@@ -24,3 +24,8 @@ logical_volumes:
       size: 10GIB
       v_group: VolGroup
       mount_path: /var/log
+
+    - name: VolGroup-test
+      size: 1GIB
+      v_group: VolGroup
+      mount_path: /var/test
