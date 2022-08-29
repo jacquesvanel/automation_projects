@@ -1,0 +1,26 @@
+---
+# vars file for manage_filesystem
+# this will create the partition
+partitions:
+    - numb: 1
+      start: 1MiB
+      end: 400MiB
+
+    - numb: 2
+      start: 400MiB
+      end: 600MiB
+# this will create the VG
+volume_groups:
+    - name: web-vg
+      devices: /dev/sdd1,/dev/sdd2
+# this will create the LV
+logical_volumes:
+    - name: web-lv
+      size: 100m
+      v_group: web-vg
+      mount_path: /web
+
+    - name: web2-lv
+      size: 150m
+      v_group: web-vg
+      mount_path: /web2

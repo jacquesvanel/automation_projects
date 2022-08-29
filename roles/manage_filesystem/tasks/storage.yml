@@ -1,0 +1,41 @@
+---
+- name: partition sdb to 1gb
+  parted:
+    device: /dev/sdb
+    number: 1
+    state: present
+    part_end: 1GB
+
+- name: partition sdb to 5gb
+  parted:
+    device: /dev/sdb
+    number: 1
+    state: present
+    part_end: 5GiB
+
+- name: create a VG on sdb1
+  lvg:
+    vg: tekneed-vg
+    pvs: /dev/sdb1
+    pesize: 32
+
+- name: create a LV on tekneed-vg
+  lvol:
+    vg: tekneed-vg
+    lv: tekneed-lv
+    size: 2GB
+
+- name: create filesystem
+  filesystem:
+    fstype: ext4
+    dev: /dev/sdb2
+
+- name: mount tekneed-lv on /tekneed    
+  mount:
+    path: /tekneed
+    src: /dev/tekneed-vg/tekneed-lv
+    fstype: ext3
+    state: present
+
+- name: create swap
+  command: mkswap /dev/vg/lv
