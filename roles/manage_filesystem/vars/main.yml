@@ -11,16 +11,16 @@ partitions:
       end: 600MiB
 # this will create the VG
 volume_groups:
-    - name: web-vg
-      devices: /dev/sdd1,/dev/sdd2
+    - name: VolGroup
+      devices: /dev/nvme0n1p3,/dev/nvme0n1p2,
 # this will create the LV
 logical_volumes:
-    - name: web-lv
-      size: 100m
-      v_group: web-vg
-      mount_path: /web
+    - name: VolGroup-data
+      size: 20GIB
+      v_group: VolGroup
+      mount_path: /data
 
-    - name: web2-lv
-      size: 150m
-      v_group: web-vg
-      mount_path: /web2
+    - name: VolGroup-var_log
+      size: 10GIB
+      v_group: VolGroup
+      mount_path: /var/log

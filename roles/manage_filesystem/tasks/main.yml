@@ -1,3 +1,55 @@
 ---
-# tasks file for manage_filesystem
+- name: create partitions
+  parted:
+    device: /dev/nvme0n1
+    state: present
+    number: "{{ item.numb }}"
+    part_start: "{{ item.start }}"
+    part_end: "{{ item.end }}"
+  loop: "{{ partitions }}"
+  tags: 
+    - partitions
+    - never
 
+- name: create volume groups
+  lvg:
+    vg: "{{ item.name }}"
+    pvs: "{{ item.devices }}"
+  loop: "{{ volume_groups }}"
+  tags: volgroup
+
+- name: create logical volume
+  lvol:
+    vg: "{{ item.v_group }}"
+    lv: "{{ item.name }}"
+    size: "{{ item.size }}"
+  loop: "{{ logical_volumes }}"
+  when: item.name not in ansible_lvm["lvs"]
+  tags: logvolume
+
+- name: create filesystem
+  filesystem:
+    dev: "/dev/{{ item.v_group }}/{{ item.name }}"
+    fstype: xfs
+  loop: "{{ logical_volumes }}"
+  tags: filesystem
+
+- name: ensure the correct size of LV and resize the filesystems
+  lvol:
+    vg: "{{ item.v_group }}"
+    lv: "{{ item.name }}"
+    size: "{{ item.size }}"
+    resizefs: yes
+    force: yes
+  loop: "{{ logical_volumes }}"
+  tags: resize
+
+- name: mount volumes
+  mount:
+    path: "{{ item.mount_path }}"
+    src: "/dev/{{ item.v_group }}/{{ item.name }}"
+    fstype: xfs
+    opts: noatime
+    state: mounted
+  loop: "{{ logical_volumes }}"
+  tags: mount
