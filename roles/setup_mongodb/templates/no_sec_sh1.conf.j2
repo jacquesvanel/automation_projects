@@ -9,24 +9,6 @@ systemLog:
 {% if shard1c is defined and ansible_hostname == shard1c %}
   path: "/var/log/mongodb/{{ env }}/sh1-rs_c.log"
 {% endif %}
-{% if shard2a is defined and ansible_hostname == shard2a %}
-  path: "/var/log/mongodb/{{ env }}/sh2-rs_a.log"
-{% endif %}
-{% if shard2b is defined and ansible_hostname == shard2b %}
-  path: "/var/log/mongodb/{{ env }}/sh2-rs_b.log"
-{% endif %}
-{% if shard2c is defined and ansible_hostname == shard2c %}
-  path: "/var/log/mongodb/{{ env }}/sh2-rs_c.log"
-{% endif %}
-{% if shard3a is defined and ansible_hostname == shard3a %}
-  path: "/var/log/mongodb/{{ env }}/sh3-rs_a.log"
-{% endif %}
-{% if shard3b is defined and ansible_hostname == shard3b %}
-  path: "/var/log/mongodb/{{ env }}/sh3-rs_b.log"
-{% endif %}
-{% if shard3c is defined and ansible_hostname == shard3c %}
-  path: "/var/log/mongodb/{{ env }}/sh3-rs_c.log"
-{% endif %}
   logAppend: true
   logRotate: reopen
 processManagement:
@@ -40,24 +22,6 @@ processManagement:
 {% if shard1c is defined and ansible_hostname == shard1c %}
   pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh1-rs_c.pid"
 {% endif %}
-{% if shard2a is defined and ansible_hostname == shard2a %}
-  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh2-rs_a.pid"
-{% endif %}
-{% if shard2b is defined and ansible_hostname == shard2b %}
-  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh2-rs_b.pid"
-{% endif %}
-{% if shard2c is defined and ansible_hostname == shard2c %}
-  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh2-rs_c.pid"
-{% endif %}
-{% if shard3a is defined and ansible_hostname == shard3a %}
-  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh3-rs_a.pid"
-{% endif %}
-{% if shard3b is defined and ansible_hostname == shard3b %}
-  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh3-rs_b.pid"
-{% endif %}
-{% if shard3c is defined and ansible_hostname == shard3c %}
-  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh3-rs_c.pid"
-{% endif %}
 security:
   keyFile: "/data/dsit/keyfile.pem"
 net:
@@ -70,24 +34,6 @@ net:
 {% if shard1c is defined and ansible_hostname == shard1c %}
   port: 37042
 {% endif %}
-{% if shard2a is defined and ansible_hostname == shard2a %}
-  port: 47017
-{% endif %}
-{% if shard2b is defined and ansible_hostname == shard2b %}
-  port: 47018
-{% endif %}
-{% if shard2c is defined and ansible_hostname == shard2c %}
-  port: 47019
-{% endif %}
-{% if shard3a is defined and ansible_hostname == shard3a %}
-  port: 57017
-{% endif %}
-{% if shard3b is defined and ansible_hostname == shard3b %}
-  port: 57018
-{% endif %}
-{% if shard3c is defined and ansible_hostname == shard3c %}
-  port: 57019
-{% endif %}
   bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
   tls:
    mode: allowTLS
@@ -96,21 +42,7 @@ net:
 sharding:
   clusterRole: shardsvr
 replication:
-{% if ( (shard1a is defined and ansible_hostname == shard1a) or
-        (shard1b is defined and ansible_hostname == shard1b) or
-        (shard1c is defined and ansible_hostname == shard1c) ) %}
   replSetName: sh1_{{ env }}
-{% endif %}
-{% if ( (shard2a is defined and ansible_hostname == shard2a) or
-        (shard2b is defined and ansible_hostname == shard2b) or
-        (shard2c is defined and ansible_hostname == shard2c) ) %}
-  replSetName: sh2_{{ env }}
-{% endif %}
-{% if ( (shard3a is defined and ansible_hostname == shard3a) or
-        (shard3b is defined and ansible_hostname == shard3b) or
-        (shard3c is defined and ansible_hostname == shard3c) ) %}
-  replSetName: sh3_{{ env }}
-{% endif %}
 storage:
 {% if shard1a is defined and ansible_hostname == shard1a %}
   dbPath: /data/{{ env }}/shard1/rs_a
@@ -120,24 +52,6 @@ storage:
 {% endif %}
 {% if shard1c is defined and ansible_hostname == shard1c %}
   dbPath: /data/{{ env }}/shard1/rs_c
-{% endif %}
-{% if shard2a is defined and ansible_hostname == shard2a %}
-  dbPath: /data/{{ env }}/shard2/rs_a
-{% endif %}
-{% if shard2b is defined and ansible_hostname == shard2b %}
-  dbPath: /data/{{ env }}/shard2/rs_b
-{% endif %}
-{% if shard2c is defined and ansible_hostname == shard2c %}
-  dbPath: /data/{{ env }}/shard2/rs_c
-{% endif %}
-{% if shard3a is defined and ansible_hostname == shard3a %}
-  dbPath: /data/{{ env }}/shard3/rs_a
-{% endif %}
-{% if shard3b is defined and ansible_hostname == shard3b %}
-  dbPath: /data/{{ env }}/shard3/rs_b
-{% endif %}
-{% if shard3c is defined and ansible_hostname == shard3c %}
-  dbPath: /data/{{ env }}/shard3/rs_c
 {% endif %}
 #  wiredTiger:
 #    engineConfig:
