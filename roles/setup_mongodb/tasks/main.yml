@@ -63,7 +63,7 @@
     - configsvr
 
 - name: add shard1 config/service files
-  import_tasks: testshard1.yml
+  import_tasks: shard1.yml
   tags: 
     - install
     - reinstall
@@ -152,3 +152,8 @@
     name: mongo
     state: restarted
 
+- name: test task
+  import_tasks: testshard1.yml
+  tags:
+    - test
+    - never    
