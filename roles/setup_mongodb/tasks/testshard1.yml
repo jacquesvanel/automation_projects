@@ -40,7 +40,6 @@
       daemon_reload: yes
   when: (shard1a is defined) and (ansible_hostname == shard1a)
   ignore_errors: yes
-  tags: shard1
 
 # block for shard1b
 - block:
@@ -78,7 +77,6 @@
       daemon_reload: yes
   when: (shard1b is defined) and (ansible_hostname == shard1b)
   ignore_errors: yes
-  tags: shard1
 
 # block for shard1c
 - block:
@@ -116,4 +114,3 @@
       daemon_reload: yes
   when: (shard1c is defined) and (ansible_hostname == shard1c)
   ignore_errors: yes
-  tags: shard1
