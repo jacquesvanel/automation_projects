@@ -1,5 +1,10 @@
 ---
 # block for shard1a
+- name: make file directory "/etc/mongo/{{ env }}/"
+  file:
+    path: "/etc/mongo/{{ env }}/"
+    state: directory
+    
 - block:
   - name: make dbpath file directory /data/{{ env }}/shard1/rs_a
     file:
