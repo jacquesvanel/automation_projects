@@ -63,7 +63,7 @@
     - configsvr
 
 - name: add shard1 config/service files
-  import_tasks: shard1.yml
+  import_tasks: testshard1.yml
   tags: 
     - install
     - reinstall
