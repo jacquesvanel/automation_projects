@@ -17,7 +17,7 @@
     enablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
     disablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
     skip_broken: yes
-    auto_remove: yes
+    autoremove: yes
   register: yum_result
   ignore_errors: yes
   
