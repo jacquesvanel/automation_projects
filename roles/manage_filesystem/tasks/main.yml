@@ -58,7 +58,7 @@
   tags: mount
 
 - debug:
-    msg: "{{ ansible_mounts }}"
+    var: "{{ ansible_mounts }}"
   tags: devices
     #- name: get devices
     #  import_task: devices.yml
