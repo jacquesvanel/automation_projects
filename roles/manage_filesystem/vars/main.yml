@@ -19,11 +19,13 @@ logical_volumes:
       size: 20G
       v_group: VolGroup
       mount_path: /data
+      devices: /dev/nvme0n1p2,/dev/nvme0n1p3
 
     - name: "var_log"
       size: 10G
       v_group: VolGroup
       mount_path: /var/log
+      devices: /dev/nvme0n1p2,/dev/nvme0n1p3
 
     - name: "test"
       size: 1G
