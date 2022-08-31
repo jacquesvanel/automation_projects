@@ -23,9 +23,9 @@
     vg: "{{ item.v_group }}"
     lv: "{{ item.name }}"
     size: "{{ item.size }}"
-    state: absent
+    #    state: absent
   loop: "{{ logical_volumes }}"
-  when: item.name not in ansible_lvm["lvs"]
+  #  when: item.name not in ansible_lvm["lvs"]
   tags: logvolume
 
 - name: create logical volume
