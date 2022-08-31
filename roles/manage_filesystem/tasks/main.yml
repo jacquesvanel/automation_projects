@@ -35,7 +35,7 @@
     size: "10g"
     state: present
     #  loop: "{{ logical_volumes }}"
-  when: item.name not in ansible_lvm["lvs"]
+    #  when: item.name not in ansible_lvm["lvs"]
   tags: logvolume
 
 - name: create filesystem
