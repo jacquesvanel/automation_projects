@@ -20,18 +20,18 @@ logical_volumes:
       v_group: VolGroup
       mount_path: /data
       devices: /dev/nvme0n1p2,/dev/nvme0n1p3
-      state: present
+      state: absent
 
     - name: "var_log"
       size: 10G
       v_group: VolGroup
       mount_path: /var/log
       devices: /dev/nvme0n1p2,/dev/nvme0n1p3
-      state: present
+      state: absent
 
     - name: "test"
       size: 1G
       v_group: VolGroup
       mount_path: /var/test
       devices: /dev/nvme0n1p2,/dev/nvme0n1p3
-      state: present
+      state: absent
