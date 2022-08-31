@@ -13,7 +13,7 @@
       - mongodb-database-tools.x86_64
       - mongodb-enterprise-database-tools-extra.x86_64
       - mongodb-enterprise-tools.x86_64
-    state: absent 
+    state: installed 
     enablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
     disablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
     skip_broken: yes
