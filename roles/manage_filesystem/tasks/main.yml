@@ -57,8 +57,9 @@
   loop: "{{ logical_volumes }}"
   tags: mount
 
-- debug:
-    var: "{{ ansible_mounts }}"
+- name: print facts
+  debug:
+    msg: "this is a mount point: {{ ansible_mounts }}"
   tags: devices
     #- name: get devices
     #  import_task: devices.yml
