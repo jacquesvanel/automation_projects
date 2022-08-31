@@ -13,7 +13,7 @@
   #         item.value.host.startswith('Non-Volatile memory controller:')"
 
 - name: show all values for selected devices
-  debug: "msg="{{ ansible_devices[item] }}""
+  debug: msg={{ ansible_devices[item] }}
   loop: "{{ storage_devices }}"
 
 - name: show devices names
