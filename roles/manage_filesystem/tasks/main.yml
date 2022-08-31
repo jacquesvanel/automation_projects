@@ -34,6 +34,7 @@
     lv: "test"
     size: "10g"
     state: absent
+    force: yes
     #  loop: "{{ logical_volumes }}"
     #  when: item.name not in ansible_lvm["lvs"]
   tags: logvolume
