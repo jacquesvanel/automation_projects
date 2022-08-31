@@ -17,17 +17,17 @@ volume_groups:
         - /dev/nvme0n1p3
 # this will create the LV
 logical_volumes:
-    - name: "VolGroup-data"
+    - name: "data"
       size: 20G
       v_group: VolGroup
       mount_path: /data
 
-    - name: "VolGroup-var_log"
+    - name: "var_log"
       size: 10G
       v_group: VolGroup
       mount_path: /var/log
 
-    - name: "VolGroup-test"
+    - name: "test"
       size: 1G
       v_group: VolGroup
       mount_path: /var/test

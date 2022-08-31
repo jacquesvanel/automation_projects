@@ -18,15 +18,15 @@
   loop: "{{ volume_groups }}"
   tags: volgroup
 
-  #- name: create logical volume
-  #  lvol:
-  #    vg: "{{ item.v_group }}"
-  #    lv: "{{ item.name }}"
-  #    size: "{{ item.size }}"
-  #    state: absent
-  #  loop: "{{ logical_volumes }}"
-  #  when: item.name not in ansible_lvm["lvs"]
-  #  tags: logvolume
+- name: create logical volume
+  lvol:
+    vg: "{{ item.v_group }}"
+    lv: "{{ item.name }}"
+    size: "{{ item.size }}"
+    state: absent
+  loop: "{{ logical_volumes }}"
+  when: item.name not in ansible_lvm["lvs"]
+  tags: logvolume
 
 - name: create logical volume
   lvol:
@@ -37,7 +37,7 @@
     force: yes
     #  loop: "{{ logical_volumes }}"
     #  when: item.name not in ansible_lvm["lvs"]
-  tags: logvolume
+    #tags: logvolume
 
 - name: create filesystem
   filesystem:
