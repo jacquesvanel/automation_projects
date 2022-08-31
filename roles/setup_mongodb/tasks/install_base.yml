@@ -35,12 +35,12 @@
     enabled: no
   ignore_errors: yes
 #cleans up directories and removes unwanted files#
-- name: remove unwanted files
-  file:
-    path: "{{ item }}"
-    state: absent
-  loop:
-    - /opt/scripts/mongodb
-    - /tmp/mongo*.sock
-    - /etc/mongod.conf
-  ignore_errors: yes
+#- name: remove unwanted files
+#  file:
+#    path: "{{ item }}"
+#    state: absent
+#  loop:
+#    - /opt/scripts/mongodb
+#    - /tmp/mongo*.sock
+#    - /etc/mongod.conf
+#  ignore_errors: yes
