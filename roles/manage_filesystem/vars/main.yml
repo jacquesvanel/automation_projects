@@ -34,4 +34,4 @@ logical_volumes:
       v_group: VolGroup
       mount_path: /var/test
       devices: /dev/nvme0n1p2,/dev/nvme0n1p3
-      state: absent
+      state: present
