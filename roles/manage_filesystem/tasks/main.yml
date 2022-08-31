@@ -58,5 +58,5 @@
   tags: mount
 
 - name: get devices
-  import_task: devices.yml
+  import_tasks: devices.yml
   tags: devices
