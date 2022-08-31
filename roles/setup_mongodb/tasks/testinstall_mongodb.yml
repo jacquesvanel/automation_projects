@@ -13,7 +13,9 @@
       - mongodb-database-tools.x86_64
       - mongodb-enterprise-database-tools-extra.x86_64
       - mongodb-enterprise-tools.x86_64
-    state: installed 
+    state: installed
+  ignore_errors: yes
+
 #
 #- name: create a working directory /usr/local/bin/
 #  file:
