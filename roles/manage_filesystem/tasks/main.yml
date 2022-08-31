@@ -24,7 +24,8 @@
     lv: "{{ item.name }}"
     size: "{{ item.size }}"
     pvs: "{{ item.devices }}"
-    #    state: absent
+    force: yes
+    state: "{{ item.state }}" 
   loop: "{{ logical_volumes }}"
   #  when: item.name not in ansible_lvm["lvs"]
   tags: logvolume
