@@ -12,16 +12,16 @@
   #  when: "item.value.host.startswith('SATA controller:') or
   #         item.value.host.startswith('Non-Volatile memory controller:')"
 
-- name: show all values for selected devices
-  debug: 
-  msg: "{{ ansible_mounts.devices }}"
+#- name: show all values for selected devices
+- debug: 
+    msg: "{{ ansible_mounts.devices }}"
   #  loop: "{{ storage_devices }}"
 
-- name: show devices names
-  debug: 
+    #- name: show devices names
+- debug: 
     var: storage_devices
 
-- name: show first SATA or NVMe device in the list
-  debug: 
+    #- name: show first SATA or NVMe device in the list
+- debug: 
     var: storage_devices[0]
   
