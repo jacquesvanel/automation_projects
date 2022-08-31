@@ -16,7 +16,7 @@
     state: installed
   ignore_errors: yes
   enablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
-  disablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
+  #  disablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
   skip_broken: yes
 
 #
