@@ -1,6 +1,6 @@
 ---
-- name: enable repo services
-  shell: subscription-manager repos --enable=AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
+#- name: enable repo services
+#  shell: subscription-manager repos --enable=AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
 
 - name: install mongo services
   yum:
@@ -15,6 +15,9 @@
       - mongodb-enterprise-tools.x86_64
     state: installed
   ignore_errors: yes
+  enablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
+  disablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
+  skip_broken: yes
 
 #
 #- name: create a working directory /usr/local/bin/
@@ -38,8 +41,8 @@
 #    state: stopped
 #    enabled: no
 
-- name: disable repo services
-  shell: subscription-manager repos --disable=AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64   
+  #- name: disable repo services
+  #  shell: subscription-manager repos --disable=AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64   
 
 #cleans up directories and removes unwanted files#
 #- name: remove unwanted files
