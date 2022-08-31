@@ -13,13 +13,13 @@
       - mongodb-database-tools.x86_64
       - mongodb-enterprise-database-tools-extra.x86_64
       - mongodb-enterprise-tools.x86_64
-    state: absent 
+    state: removed 
     enablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
     disablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
     skip_broken: yes
+    register: yum_result
   ignore_errors: yes
-  register: yum_result
-
+  
 - debug: 
     var: yum_result.stdout_lines 
 
