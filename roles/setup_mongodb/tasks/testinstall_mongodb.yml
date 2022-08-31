@@ -18,11 +18,10 @@
     disablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
     skip_broken: yes
   ignore_errors: yes
-  register: result
+  register: yum_result
 
-- name: result
-  debug:
-    var: result.stdout_lines 
+- debug: 
+    var: yum_result.stdout_lines 
 
 #
 #- name: create a working directory /usr/local/bin/
