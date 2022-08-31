@@ -18,16 +18,16 @@ volume_groups:
 # this will create the LV
 logical_volumes:
     - name: VolGroup-data
-      size: 20GB
+      size: 20G
       v_group: VolGroup
       mount_path: /data
 
     - name: VolGroup-var_log
-      size: 10GB
+      size: 10G
       v_group: VolGroup
       mount_path: /var/log
 
     - name: VolGroup-test
-      size: 1GB
+      size: 1G
       v_group: VolGroup
       mount_path: /var/test
