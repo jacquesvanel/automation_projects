@@ -1,6 +1,10 @@
 ---
 - name: show all values for selected devices
   debug: 
-    msg: "{{ item.device }}"
+    msg: 
+     - device is "{{ item.device }}"
+     - mount point is "{{ item.mount }}"
+     - filesystem used is "{{ item.fstype }}"
   loop: "{{ ansible_mounts }}"
+  no_log: yes
 
