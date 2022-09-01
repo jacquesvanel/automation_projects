@@ -15,15 +15,15 @@
 - name: show all values for selected devices
   debug: 
     msg: "{{ item.device }}"
-  loop: "{{ ansible_mounts }}"
+  loop: "{{ storage_devices }}"
 
 - name: show devices names
   debug: 
-    var: "{{ storage_devices }}"
+    msg: "{{ storage_devices }}"
 
 - name: show first SATA or NVMe device in the list
   debug: 
-    var: storage_devices[0]
+    var: storage_devices[device]
  
 - name:
   debug:
