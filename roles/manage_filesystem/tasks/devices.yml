@@ -13,5 +13,5 @@
      - pvs is "{{ item.pvs }}"
      - lvs is "{{ item.lvs }}"
      - vgs is "{{ item.vgs }}"
-  loop: "{{ ansible_lvm }}"
+       #  loop: "{{ ansible_lvm }}"
 
