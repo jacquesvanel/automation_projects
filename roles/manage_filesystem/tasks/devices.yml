@@ -2,26 +2,30 @@
 - name: initialize empty list for devices
   set_fact:
     storage_devices: []
-    no_log: false 
+    no_log: true 
 
 - name: get SATA and NVMe devices
   set_fact:
-    storage_devices: "{{ storage_devices + [item.devices] }}"
-  no_log: false
-  with_dict: "{{ ansible_mounts.device }}"
+    storage_devices: "{{ storage_devices + [item.key] }}"
+  no_log: true
+  with_dict: {{ ansible_mounts }}
   #  when: "item.value.host.startswith('SATA controller:') or
   #         item.value.host.startswith('Non-Volatile memory controller:')"
 
 - name: show all values for selected devices
   debug: 
-    msg: "ansible mount point {{ ansible_mounts }}"
+    msg: "{{ item.device }}"
   loop: "{{ storage_devices }}"
 
 - name: show devices names
   debug: 
-    var: storage_devices
+    var: "{{ storage_devices }}"
 
 - name: show first SATA or NVMe device in the list
   debug: 
     var: storage_devices[0]
-  
+ 
+- name:
+  debug:
+    msg: "device is {{item.device}}"
+  loop: "{{ ansible_mounts }}"
