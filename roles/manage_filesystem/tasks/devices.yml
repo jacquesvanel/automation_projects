@@ -13,5 +13,5 @@
     msg: "{{ansible_lvm | type_debug}}"
 
 - debug:
-    msg: "{{ansible.lvm.lvs}}"
+    msg: "{{item.lvs}}"
   with_dict: "{{ansible_lvm}}"
