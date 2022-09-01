@@ -12,3 +12,6 @@
   debug:
     msg: "{{ansible_lvm}}"
 
+- debug:
+    msg: "{{item.lvs}}"
+  loop: "{{ansible_lvm}}"
