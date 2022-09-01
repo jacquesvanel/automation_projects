@@ -10,6 +10,7 @@
 - name: show VGS
   debug:
     msg: 
+     - lvm is "{{ ansible_lvm | type_debug }}"
      - pvs is "{{ item.pvs }}"
      - lvs is "{{ item.lvs }}"
      - vgs is "{{ item.vgs }}"
