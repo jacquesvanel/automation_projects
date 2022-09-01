@@ -6,5 +6,4 @@
      - mount point is "{{ item.mount }}"
      - filesystem used is "{{ item.fstype }}"
   loop: "{{ ansible_mounts }}"
-  no_log: yes
 
