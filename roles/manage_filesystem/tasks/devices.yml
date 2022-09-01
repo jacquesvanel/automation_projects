@@ -15,7 +15,7 @@
 - name: show all values for selected devices
   debug: 
     msg: "{{ item.device }}"
-  loop: "{{ storage_devices }}"
+  loop: "{{ ansible_mounts }}"
 
 - name: show devices names
   debug: 
