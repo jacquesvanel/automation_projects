@@ -14,7 +14,7 @@
 
 - name: show all values for selected devices
   debug: 
-    msg: "{{ item.key.device }}"
+    msg: "{{ item.key[device] }}"
   loop: "{{ storage_devices }}"
 
 - name: show devices names
