@@ -7,3 +7,11 @@
      - filesystem used is "{{ item.fstype }}"
   loop: "{{ ansible_mounts }}"
 
+- name: show VGS
+  debug:
+    msg: 
+     - pvs is "{{ item.pvs }}"
+     - lvs is "{{ item.lvs }}"
+     - vgs is "{{ item.vgs }}"
+  loop: "{{ ansible_lvm }}"
+
