@@ -1,7 +1,7 @@
 ---
 - block:
   - name: shell
-    shell:  df -h | grep VolGroup*
+    shell:  df -h | grep VolGroup-var_log
     register: shell_output
 
   - debug:
