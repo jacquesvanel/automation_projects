@@ -22,6 +22,7 @@
 
 - name: delete old diagnostic files
   shell: "find /var/log/mongodb/*/*.diagnostic.data/  -type f -mtime +5 -delete"
+  ignore_errors: yes
 
 - name: delete old log files
   shell: "find /var/log/mongodb/*/*.log*  -type f -mtime +5 -delete"
