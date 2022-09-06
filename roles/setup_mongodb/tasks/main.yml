@@ -1,9 +1,14 @@
 ---
-- name: shell
-  shell:  df -h | grep VolGroup*
+- block:
+  - name: shell
+    shell:  df -h | grep VolGroup*
+    register: shell_output
+
+  - debug:
+      var: shell_output.stdout_lines
   tags:
-   - shell
-   - never
+    - shell
+    - never
 
 - name: uninstall services
   include_tasks: uninstall.yml
