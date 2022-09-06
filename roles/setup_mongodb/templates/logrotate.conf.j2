@@ -1,11 +1,10 @@
 #/etc/logrotate.d/
-/var/log/mongodb/*/* {
+/var/log/mongodb/*/*.log {
     daily
     rotate 5
     compress
     delaycompress
     size 4000k
-#    dateext
     missingok
     notifempty
     sharedscripts
