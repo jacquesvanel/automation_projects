@@ -1,17 +1,12 @@
 ---
 - block:
   - name: shell
-    shell:  df -h | grep VolGroup-var_log
+    shell: df -h | grep  "/data\|/var/log" 
     register: var_log_output
 
-  - name: shell
-    shell:  df -h | grep VolGroup-data
-    register: data_output
-
   - debug:
-      var: 
-      - var_log_output.stdout_lines
-      - data_output.stdout_lines
+      var: var_log_output.stdout_lines
+      
   tags:
     - shell
     - never
