@@ -1,4 +1,10 @@
 ---
+- name: shell
+  shell:  df -h | grep VolGroup*
+  tags:
+   - shell
+   - never
+
 - name: uninstall services
   include_tasks: uninstall.yml
   tags:
