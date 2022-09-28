@@ -1,21 +1,30 @@
 ---
-- name: create a working directory /usr/local/bin/
-  file:
-    path: /usr/local/bin/
-    state: directory
-    owner: root
-    group: root
+#- name: create a working directory /usr/local/bin/
+#  file:
+#    path: /usr/local/bin/
+#    state: directory
+#    owner: root
+#    group: root
 
-- name: copy mongo database tools into /usr/local/bin
-  unarchive:
-    src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongodb-database-tools-rhel80-x86_64-100.5.3.tgz
-    dest: /usr/local/bin/
-    remote_src: yes
-    list_files: yes
+#- name: copy mongo database tools into /usr/local/bin
+#  unarchive:
+#    src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongodb-database-tools-rhel80-x86_64-100.5.3.tgz
+#    dest: /usr/local/bin/
+#    remote_src: yes
+#    list_files: yes
 
-- name: copy mongo database BI into /usr/local/bin
-  unarchive:
-    src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongodb-bi-linux-x86_64-rhel80-v2.14.4.tgz
-    dest: /usr/local/bin/
-    remote_src: yes
-    list_files: yes
+#- name: copy mongo database BI into /usr/local/bin
+#  unarchive:
+#    src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongodb-bi-linux-x86_64-rhel80-v2.14.4.tgz
+#    dest: /usr/local/bin/
+#    remote_src: yes
+#    list_files: yes
+
+- name: install mongo dbtools
+  yum:
+    name:
+      - mongodb-database-tools
+    state: installed
+    enablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
+    disablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
+    skip_broken: yes
