@@ -9,14 +9,14 @@
 - name: copy mongo mms tools into /usr/local/bin
   unarchive:
     src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz
-    dest: /usr/local/bin/
+    dest: /tmp
     remote_src: yes
     list_files: yes
 
 - name: copy mongo cert files into temp
   get_url:
     url: "{{ items }}"
-    dest: /usr/local/bin/
+    dest: /tmp
   with_items:
     - https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/mongosh.asc
     - https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/opsmanager-5.0.asc  
