@@ -1,7 +1,7 @@
 ---
 - name: create a working directory /usr/local/bin/
   file:
-    path: /usr/local/bin/
+    path: /data/mongodb-tools/
     state: directory
     owner: root
     group: root
@@ -16,7 +16,7 @@
 - name: copy mongo cert files into temp
   get_url:
     url: "{{ item }}"
-    dest: /usr/local/bin/
+    dest: /data/mongodb-tools/
     tmp_dest: /data/
   with_items:
     - https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/mongosh.asc
@@ -35,8 +35,8 @@
 
 - name: unarchive mms tar file
   unarchive:
-    src: /usr/local/bin/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz
-    dest: /usr/local/bin/
+    src: /data/mongodb-tools/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz
+    dest: /data/mongodb-tools/
     remote_src: yes
 
 
