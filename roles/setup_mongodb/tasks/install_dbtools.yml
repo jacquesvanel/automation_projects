@@ -1,30 +1,40 @@
 ---
-#- name: create a working directory /usr/local/bin/
-#  file:
-#    path: /usr/local/bin/
-#    state: directory
-#    owner: root
-#    group: root
+- name: create a working directory /usr/local/bin/
+  file:
+    path: /usr/local/bin/
+    state: directory
+    owner: root
+    group: root
 
-#- name: copy mongo database tools into /usr/local/bin
-#  unarchive:
-#    src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongodb-database-tools-rhel80-x86_64-100.5.3.tgz
-#    dest: /usr/local/bin/
-#    remote_src: yes
-#    list_files: yes
+- name: copy mongo mms tools into /usr/local/bin
+  unarchive:
+    src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz
+    dest: /usr/local/bin/
+    remote_src: yes
+    list_files: yes
 
-#- name: copy mongo database BI into /usr/local/bin
-#  unarchive:
-#    src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongodb-bi-linux-x86_64-rhel80-v2.14.4.tgz
-#    dest: /usr/local/bin/
-#    remote_src: yes
-#    list_files: yes
+- name: copy mongo cert files into temp
+  get_url:
+    url: {{ items }}
+    dest: /usr/local/bin/
+  with_items:
+    - https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/mongosh.asc
+    - https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/opsmanager-5.0.asc  
 
 - name: install mongo dbtools
   yum:
     name:
       - mongodb-database-tools
+      - mongodb-mongosh
     state: installed
     enablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
     disablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
     skip_broken: yes
+
+
+
+#https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/mongosh.asc
+#https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/opsmanager-5.0.asc
+#https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/mongosh-1.5.4-linux-x64.tgz
+#https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz.sig
+#https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz
