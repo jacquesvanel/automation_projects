@@ -33,11 +33,11 @@
     disablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
     skip_broken: yes
 
-- name: unarchive mms tar file
-  unarchive:
-    src: /data/mongodb-tools/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz
-    dest: /data/mongodb-tools/
-    remote_src: yes
+    #- name: unarchive mms tar file
+    #  unarchive:
+    #    src: /data/mongodb-tools/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz
+    #    dest: /data/mongodb-tools/
+    #    remote_src: yes
 
 
 #https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/mongosh.asc
