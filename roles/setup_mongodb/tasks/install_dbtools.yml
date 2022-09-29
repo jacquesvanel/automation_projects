@@ -36,7 +36,8 @@
 - name: unarchive mms tar file
   unarchive:
     src: /usr/local/bin/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz
-    dest: /usr/local/bin/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64
+    dest: /usr/local/bin/
+    remote_src: yes
 
 
 #https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/mongosh.asc
