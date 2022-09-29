@@ -17,6 +17,7 @@
   get_url:
     url: "{{ item }}"
     dest: /usr/local/bin/
+    tmp_dest: /data/
   with_items:
     - https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/mongosh.asc
     - https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/opsmanager-5.0.asc  
