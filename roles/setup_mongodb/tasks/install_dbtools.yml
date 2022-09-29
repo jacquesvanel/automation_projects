@@ -15,7 +15,7 @@
 
 - name: copy mongo cert files into temp
   get_url:
-    url: {{ items }}
+    url: "{{ items }}"
     dest: /usr/local/bin/
   with_items:
     - https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/mongosh.asc
