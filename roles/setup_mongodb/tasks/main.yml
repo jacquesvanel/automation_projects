@@ -1,4 +1,5 @@
 ---
+#######  testing  ##########
 - block:
   - name: shell
     shell: df -h | grep  "/data\|/var/log" 
@@ -18,12 +19,18 @@
     - uninstall
     - reinstall
 
+- name: install netstat
+  include_tasks: install_netstat.yml
+  tags: 
+    - never
+    - netstat
+
 - name: install new base from repo
   import_tasks: testinstall_mongodb.yml
   tags: 
    - newbase
    - never
-
+############################################################################
 - name: install mongodb base
   import_tasks: install_base.yml
   tags:
