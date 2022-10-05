@@ -37,7 +37,7 @@
 - name: unarchive mms tar file
   unarchive:
     src: /data/mongodb-tools/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz
-    dest: /data/mongodb-tools/
+    dest: /data/mongodb-tools/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64
     remote_src: yes
 
 
