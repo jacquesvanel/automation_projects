@@ -20,7 +20,7 @@
     - reinstall
 
 - name: install netstat
-  include_tasks: install_netstat.yml
+  import_tasks: install_netstat.yml
   tags: 
     - never
     - netstat
