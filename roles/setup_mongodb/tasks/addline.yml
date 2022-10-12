@@ -38,7 +38,7 @@
 - name: insert block for config file
   blockinfile:
     path: "{{ item }}"
-    insertafter: "'[\n"
+    insertafter: "'["
     block: |-
       ## place holder      
                   {
