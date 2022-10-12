@@ -13,7 +13,7 @@
 
 - name: find config files on server
   find:
-    paths: "/etc/mongo/*/"
+    paths: "/etc/mongo/sbx/"
     patterns: "*.cfg"
     recurse: yes
   register: cfgs
