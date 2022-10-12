@@ -28,13 +28,10 @@
 - name: remove block for config file
   blockinfile:
     path: "{{ item }}"
-    marker: "{mark}"
-    marker_begin: "'{"
-    marker_end: "}'"
     state: absent
     block: |
-               match : "(.+)",
-               ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
+      match : "(.+)",
+      ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
             
   with_items: "{{cfgs.files | map(attribute='path')| list }}"
 
@@ -42,8 +39,6 @@
   blockinfile:
     path: "{{ item }}"
     insertafter: 'userToDNMapping:'
-    marker_begin: "'["
-    marker_end: "]'"
     block: |
             {
                match : "(.+)",
