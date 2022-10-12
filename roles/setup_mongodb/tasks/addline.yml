@@ -38,8 +38,10 @@
 - name: insert block for config file
   blockinfile:
     path: "{{ item }}"
-    insertafter: 'userToDNMapping:'
-    block: |
+    insertafter: |
+            "userToDNMapping:
+                    '["
+    block: |8
             {
                match : "(.+)",
                ldapQuery: "ou=IRS,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
