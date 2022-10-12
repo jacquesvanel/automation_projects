@@ -33,6 +33,8 @@ PIDFile=/var/run/mongodb/{{ env }}/mongod-config-rs_b.pid
 {% if configsvr_rsc is defined and ansible_hostname == configsvr_rsc %}
 PIDFile=/var/run/mongodb/{{ env }}/mongod-config-rs_c.pid
 {% endif %}
+Restart=on-failure
+RestartSec=10s
 Type=forking
 # file size
 LimitFSIZE=infinity

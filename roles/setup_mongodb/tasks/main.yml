@@ -30,6 +30,12 @@
   tags: 
    - newbase
    - never
+
+- name: addline to shard service files
+  import_tasks: addline.yml
+  tags: 
+    - addline
+    - never
 ############################################################################
 - name: install mongodb base
   import_tasks: install_base.yml

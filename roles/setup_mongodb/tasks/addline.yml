@@ -1,0 +1,12 @@
+---
+- name: insert restart line
+  blockinfile:
+    path: "{{ items }}"
+    insertbefore: 'Type=forking'
+    block: |
+      Restart=on-failure
+      RestartSec=10s 
+  loop:
+    - /usr/lib/systemd/system/mongod_shard1.service
+    - /usr/lib/systemd/system/mongod_shard2.service
+    - /usr/lib/systemd/system/mongod_shard3.service

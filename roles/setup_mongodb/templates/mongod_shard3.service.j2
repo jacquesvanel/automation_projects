@@ -33,6 +33,8 @@ PIDFile=/var/run/mongodb/{{ env }}/mongod-sh3-rs_b.pid
 {% if shard3c is defined and ansible_hostname == shard3c %}
 PIDFile=/var/run/mongodb/{{ env }}/mongod-sh3-rs_c.pid
 {% endif %}
+Restart=on-failure
+RestartSec=10s
 Type=forking
 # file size
 LimitFSIZE=infinity
