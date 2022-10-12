@@ -40,10 +40,10 @@
     path: "{{ item }}"
     insertafter: |
             "userToDNMapping:
-                    \'\["
+                    '["
     block: |
-            "\{
-               match : \"\(.+\)\"\,
-               ldapQuery: \"ou=IRS,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})\"
-            \}\,"
+            {
+               match : "(.+)",
+               ldapQuery: "ou=IRS,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
+            },
   with_items: "{{cfgs.files | map(attribute='path')| list }}"
