@@ -1,7 +1,7 @@
 ---
 - name: insert restart line
   blockinfile:
-    path: "{{ items }}"
+    path: "{{ item }}"
     insertbefore: 'Type=forking'
     block: |
       Restart=on-failure
