@@ -1,29 +1,10 @@
 ---
-#- name: insert restart line
-#  blockinfile:
-#    path: "{{ item }}"
-#    insertbefore: 'Type=forking'
-#    block: |
-#      Restart=on-failure
-#      RestartSec=10s 
-#  loop:
-#    - /usr/lib/systemd/system/mongod_shard1.service
-#    - /usr/lib/systemd/system/mongod_shard2.service
-#    - /usr/lib/systemd/system/mongod_shard3.service
-
 - name: find config files on server
   find:
     paths: "/etc/mongod/sbx/"
     patterns: "*.cfg"
     recurse: yes
   register: cfgs
-
-  #- name: replace security line in config file
-  #  replace:
-  #    path: "{{ item }}"
-  #    regexp: '#security'
-  #    replace: 'security'
-  #  with_items: "{{cfgs.files | map(attribute='path')| list }}"
 
 - name: remove block for config file
   shell: sed -i '/userToDNMapping:/g' "{{ item }}"
@@ -63,3 +44,12 @@
     insertafter: "transportSecurity: tls"
     block: "{{ lookup('template', 'addline.j2') }}"
   with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+- name: remove ansible managed lines
+  shell:  sed '/# BEGIN/d' "{{ item }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+- name: remove anisble managed lines
+  shell:  sed '/# END/d' "{{ item }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
