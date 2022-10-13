@@ -28,7 +28,13 @@
 - name: remove block for config file
   replace:
     path: "{{ item }}"
-    regexp: "/(match : \"\(\.\+\)\",)/gm"
+    regexp: '(userToDNMapping:)'
+    regexp: '(match : "\(\.\+\)",)'
+    regexp: "('\[)"
+    regexp: '(\{)'
+    regexp: '(ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net\?\?sub\?\(userPrincipalName=\{0\}\)")'
+    regexp: '(\})'
+    regexp: "(]')"
     replace: ""
   with_items: "{{cfgs.files | map(attribute='path')| list }}"
 
