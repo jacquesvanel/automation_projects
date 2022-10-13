@@ -46,10 +46,10 @@
   with_items: "{{ cfgs.files | map(attribute='path')| list }}"
 
 - name: remove ansible managed lines
-  shell:  sed '/# BEGIN/d' "{{ item }}"
+  shell:  sed -i '/# BEGIN/d' "{{ item }}"
   with_items: "{{ cfgs.files | map(attribute='path')| list }}"
 
 - name: remove anisble managed lines
-  shell:  sed '/# END/d' "{{ item }}"
+  shell:  sed -i '/# END/d' "{{ item }}"
   with_items: "{{ cfgs.files | map(attribute='path')| list }}"
 
