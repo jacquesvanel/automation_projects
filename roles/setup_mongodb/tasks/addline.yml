@@ -27,6 +27,7 @@
 
 - name: remove block for config file
   shell: sed -i '/userToDNMapping://g' "{{ item }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
 
 - name: remove char
   shell: sed -i "/'\[/g" "{{ item }}"
