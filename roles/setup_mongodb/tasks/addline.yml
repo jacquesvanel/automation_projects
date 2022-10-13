@@ -39,5 +39,5 @@
   blockinfile:
     path: "{{ item }}"
     insertafter: "transportSecurity: tls"
-    block: "{{ lookup('template', '/home/gl-wsl/Projects/mongodb/roles/setup_mongodb/templates/addline.j2') }}"
+    block: "{{ lookup('template', 'addline.j2') }}"
   with_items: "{{cfgs.files | map(attribute='path')| list }}"
