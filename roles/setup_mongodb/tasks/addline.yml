@@ -29,7 +29,7 @@
   #  shell: "sed -i /userToDNMapping://g {{ item }}"
 
 - name: remove char
-  shell: "(sed -i '/'\[/g' "{{ item }}")"
+  shell: sed -i "/\'\[/g" "{{ item }}"
   with_items: "{{ cfgs.files | map(attribute='path')| list }}"
 
 - name:  remove char
@@ -49,7 +49,7 @@
   with_items: "{{ cfgs.files | map(attribute='path')| list }}"
 
 - name:  remove char
-  shell: sed -i '/]'/g' "{{ item }}"
+  shell: sed -i "/\]\'/g" "{{ item }}"
   with_items: "{{ cfgs.files | map(attribute='path')| list }}"
 
   #- name: insert block for config file
