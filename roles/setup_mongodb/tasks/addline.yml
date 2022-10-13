@@ -26,7 +26,7 @@
   with_items: "{{ cfgs.files | map(attribute='path')| list }}"
 
 - name:  remove char
-  shell: sed -i '/{/g' "{{ item }}"
+  shell: sed -i '/authz:/g' "{{ item }}"
   with_items: "{{ cfgs.files | map(attribute='path')| list }}"
 
 - name:  remove char
