@@ -1,10 +1,16 @@
 ---
 - name: find config files on server
   find:
-    paths: "/etc/mongod/sbx/"
+    paths: "/etc/mongo/{{ env }}/"
     patterns: "*.cfg"
     recurse: yes
   register: cfgs
+
+- name: make backup
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/mongo/"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}" 
 
 - name: remove block for config file
   shell: sed -i '/userToDNMapping:/g' "{{ item }}"
