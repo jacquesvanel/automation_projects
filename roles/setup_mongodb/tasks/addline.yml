@@ -26,17 +26,31 @@
   #  with_items: "{{cfgs.files | map(attribute='path')| list }}"
 
   #- name: remove block for config file
-  #  shell: "sed -i s/userToDNMapping://g {{ item }}"
+  #  shell: "sed -i /userToDNMapping://g {{ item }}"
 
-- name:
-  shell: "sed -i 's/'\[/g' {{ item }}"
-  #    regexp: '(match : \"\(\.\+\)\"\,)'
-  #    regexp: '(\{)'
-  #    regexp: '(ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net\?\?sub\?\(userPrincipalName=\{0\}\)")'
-  #    regexp: '(\})'
-  #    regexp: "(]')"
-  #    replace: ""
-  with_items: "{{cfgs.files | map(attribute='path')| list }}"
+- name: remove char
+  shell: sed -i '/'\[/g' "{{ item }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+- name:  remove char
+  shell: sed -i '/{/g' "{{ item }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+- name:  remove char
+  shell: sed -i '/{/g' "{{ item }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+- name:  remove char
+  shell: sed -i '/match/g' "{{ item }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+- name:  remove char
+  shell: sed -i '/}/g' "{{ item }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+- name:  remove char
+  shell: sed -i '/]'/g' "{{ item }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
 
   #- name: insert block for config file
   #  blockinfile:
