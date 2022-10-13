@@ -54,7 +54,7 @@
   with_items: "{{ cfgs.files | map(attribute='path')| list }}"
 
 - name: remove empty lines
-  shell: sed '/^$/d' "{{ item }}"
+  shell: sed -i '/^$/d' "{{ item }}"
   with_items: "{{ cfgs.files | map(attribute='path')| list }}"
 
 - name: insert block for config file
