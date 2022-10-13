@@ -29,7 +29,7 @@
   #  shell: "sed -i s/userToDNMapping://g {{ item }}"
 
 - name:
-  shell: "sed -i s/\'\[//g {{ item }}"
+  shell: "sed -i s/\'\[\//g {{ item }}"
   #    regexp: '(match : \"\(\.\+\)\"\,)'
   #    regexp: '(\{)'
   #    regexp: '(ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net\?\?sub\?\(userPrincipalName=\{0\}\)")'
