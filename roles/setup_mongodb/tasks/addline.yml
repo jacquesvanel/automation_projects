@@ -25,15 +25,12 @@
   #    replace: 'security'
   #  with_items: "{{cfgs.files | map(attribute='path')| list }}"
 
-  #- name: remove block for config file
-  #  replace:
-  #    path: "{{ item }}"
-  #    regexp: |
-  #      match : "(.+)",
-  #      ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
-  #    replace: ""
-  #            
-  #  with_items: "{{cfgs.files | map(attribute='path')| list }}"
+- name: remove block for config file
+  replace:
+    path: "{{ item }}"
+    regexp: "{{ lookup('template', 'removeline.j2') }}"
+    replace: ""
+  with_items: "{{cfgs.files | map(attribute='path')| list }}"
 
 - name: insert block for config file
   blockinfile:
