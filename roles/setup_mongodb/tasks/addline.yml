@@ -25,8 +25,8 @@
   #    replace: 'security'
   #  with_items: "{{cfgs.files | map(attribute='path')| list }}"
 
-  #- name: remove block for config file
-  #  shell: "sed -i /userToDNMapping://g {{ item }}"
+- name: remove block for config file
+  shell: sed -i '/userToDNMapping://g' "{{ item }}"
 
 - name: remove char
   shell: sed -i "/'\[/g" "{{ item }}"
@@ -52,9 +52,9 @@
   shell: sed -i "/\]'/g" "{{ item }}"
   with_items: "{{ cfgs.files | map(attribute='path')| list }}"
 
-  #- name: insert block for config file
-  #  blockinfile:
-  #    path: "{{ item }}"
-  #    insertafter: "transportSecurity: tls"
-  #    block: "{{ lookup('template', 'addline.j2') }}"
-  #  with_items: "{{cfgs.files | map(attribute='path')| list }}"
+- name: insert block for config file
+  blockinfile:
+    path: "{{ item }}"
+    insertafter: "transportSecurity: tls"
+    block: "{{ lookup('template', 'addline.j2') }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
