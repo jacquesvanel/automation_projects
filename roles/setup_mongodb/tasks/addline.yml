@@ -28,13 +28,13 @@
 - name: remove block for config file
   replace:
     path: "{{ item }}"
-    regexp: "{{ lookup('template', 'removeline.j2') }}"
+    regexp: "'["
     replace: ""
   with_items: "{{cfgs.files | map(attribute='path')| list }}"
 
-- name: insert block for config file
-  blockinfile:
-    path: "{{ item }}"
-    insertafter: "transportSecurity: tls"
-    block: "{{ lookup('template', 'addline.j2') }}"
-  with_items: "{{cfgs.files | map(attribute='path')| list }}"
+  #- name: insert block for config file
+  #  blockinfile:
+  #    path: "{{ item }}"
+  #    insertafter: "transportSecurity: tls"
+  #    block: "{{ lookup('template', 'addline.j2') }}"
+  #  with_items: "{{cfgs.files | map(attribute='path')| list }}"
