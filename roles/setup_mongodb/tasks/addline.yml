@@ -26,7 +26,7 @@
   #  with_items: "{{cfgs.files | map(attribute='path')| list }}"
 
 - name: remove block for config file
-  shell: "'sed -i s/userToDNMapping://g' {{ item }}"
+  shell: "sed -i s/userToDNMapping://g {{ item }}"
   #    regexp: '(userToDNMapping:)'
   #    regexp: '(match : \"\(\.\+\)\"\,)'
   #    regexp: "(\'\[)"
