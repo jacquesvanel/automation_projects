@@ -28,7 +28,7 @@
 - name: remove block for config file
   replace:
     path: "{{ item }}"
-    regexp: "'\["
+    regexp: "/(match : \"\(\.\+\)\",)/gm"
     replace: ""
   with_items: "{{cfgs.files | map(attribute='path')| list }}"
 
