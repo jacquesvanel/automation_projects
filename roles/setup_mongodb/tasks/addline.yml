@@ -1,7 +1,7 @@
 ---
 - name: find config files on server
   find:
-    paths: "/etc/mongo/{{ env }}/"
+    paths: "/etc/mongod/{{ env }}/"
     patterns: "*.cfg"
     recurse: yes
   register: cfgs
@@ -9,7 +9,7 @@
 - name: make backup
   copy:
     src: "{{ item }}"
-    dest: "/etc/mongo/"
+    dest: "/etc/mongod/"
   with_items: "{{ cfgs.files | map(attribute='path')| list }}" 
 
 - name: remove block for config file
