@@ -29,8 +29,8 @@
   replace:
     path: "{{ item }}"
     regexp: '(userToDNMapping:)'
-    regexp: '(match : "\(\.\+\)",)'
-    regexp: "('\[)"
+    regexp: '(match : \"\(\.\+\)\"\,)'
+    regexp: "(\'\[)"
     regexp: '(\{)'
     regexp: '(ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net\?\?sub\?\(userPrincipalName=\{0\}\)")'
     regexp: '(\})'
