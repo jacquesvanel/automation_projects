@@ -60,3 +60,18 @@
   shell:  sed -i '/# END/d' "{{ item }}"
   with_items: "{{ cfgs.files | map(attribute='path')| list }}"
 
+- name: remove lines from mongos
+  shell: sed -i '/queryTemplate:/d' "{{ item }}"
+  with_items:
+    - "/etc/mongo/{{ env }}/mongos0.cfg"
+    - "/etc/mongo/{{ env }}/mongos1.cfg"
+    - "/etc/mongo/{{ env }}/mongos2.cfg"  
+
+- name: remove lines from mongos
+  shell: sed -i '/authz:/d' "{{ item }}"
+  with_items:
+    - "/etc/mongo/{{ env }}/mongos0.cfg"
+    - "/etc/mongo/{{ env }}/mongos1.cfg"
+    - "/etc/mongo/{{ env }}/mongos2.cfg"
+
+

@@ -1,5 +1,5 @@
 ---
-- hosts: "{{ my_hosts }}"
+- hosts: localhost 
   gather_facts: yes
   tasks:
           
@@ -21,16 +21,10 @@
     - name: show all values for selected devices
       debug: 
         msg: "{{ ansible_mounts }}"
-        #      loop: "{{ storage_devices }}"
 
     - name: show devices names
       debug: 
-        msg: "device is {{item.device}}"
+        msg: "{{item.device}}" 
       loop: "{{ ansible_mounts }}"
-      #msg: "{{ ansible_mounts[0] }}"
-        #var: storage_devices
 
-    - name: show first SATA or NVMe device in the list
-      debug: 
-        var: storage_devices[0]
   
