@@ -36,6 +36,12 @@
   tags: 
     - addline
     - never
+
+- name: addline to sysctl.conf
+  import_tasks: add_line_to_sys.yml
+  tags:
+    - addline1
+    - never
 ############################################################################
 - name: install mongodb base
   import_tasks: install_base.yml
