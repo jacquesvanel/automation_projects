@@ -8,15 +8,23 @@
     register: cfgs
 
   - name: add lines
-    blockinfile:
+    lineinfile:
       path: "{{ item }}"
-      block: |
-             ldapUserCacheInvalidationInterval: 86400
-             ldapConnectionPoolMaximumConnectionsPerHost: 2147483647
-             ldapConnectionPoolMaximumConnectionsInProgressPerHost: 2147483647
+      line: '   ldapConnectionPoolMaximumConnectionsInProgressPerHost: 2147483647'
       insertafter:    'ocspEnabled: false'
     with_items: "{{ cfgs.files | map(attribute='path')| list }}"
 
+  - name: add lines
+    lineinfile:
+      path: "{{ item }}"
+      line: '   ldapConnectionPoolMaximumConnectionsPerHost: 2147483647'
+      insertafter: 'ocspEnabled: false'
+
+  - name: add lines
+    lineinfile:
+      path: "{{ item }}"
+      line: '   ldapUserCacheInvalidationInterval: 86400'
+      insertafter:    'ocspEnabled: false'
 - block:
   - name: find mongos files on server
     find:
@@ -26,11 +34,14 @@
     register: cfgs1
 
   - name: add lines
-    blockinfile:
+    lineinfile:
       path: "{{ item }}"
-      block: |
-              ldapConnectionPoolMaximumConnectionsPerHost: 2147483647
-              ldapConnectionPoolMaximumConnectionsInProgressPerHost: 2147483647
-      insertafter:    'ocspEnabled: false'
+      line: '   ldapConnectionPoolMaximumConnectionsInProgressPerHost: 2147483647'
+      insertafter: 'ocspEnabled: false'
     with_items: "{{ cfgs1.files | map(attribute='path')| list }}"
-
+  - name: add lines
+    lineinfile:
+      path: "{{ item }}"
+      line: '   ldapConnectionPoolMaximumConnectionsPerHost: 2147483647'
+      insertafter: 'ocspEnabled: false'
+    with_items: "{{ cfgs1.files | map(attribute='path')| list }}"
