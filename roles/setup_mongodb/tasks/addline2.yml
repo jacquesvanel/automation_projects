@@ -32,7 +32,7 @@
   - name: find mongos files on server
     find:
       paths: "/etc/mongo/{{ env }}/"
-      patterns: "mongo[sS]*.cfg"
+      patterns: "*mongo[sS]*.cfg"
       recurse: yes
     register: cfgs1
 
