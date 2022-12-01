@@ -40,10 +40,6 @@ security:
          '[
             {
                match : "(.+)",
-               ldapQuery: "ou=IRS,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
-            },
-            {
-               match : "(.+)",
                ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
             }
          ]'

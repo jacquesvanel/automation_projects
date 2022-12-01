@@ -1,35 +1,10 @@
 ---
-#######  testing  ##########
-- block:
-  - name: shell
-    shell: df -h | grep  "/data\|/var/log" 
-    register: var_log_output
-
-  - debug:
-      var: var_log_output.stdout_lines
-      
-  tags:
-    - shell
-    - never
-
-- name: uninstall services
-  include_tasks: uninstall.yml
-  tags:
-    - never
-    - uninstall
-    - reinstall
-
+################################  testing  ################################
 - name: install netstat
   import_tasks: install_netstat.yml
   tags: 
     - never
     - netstat
-
-- name: install new base from repo
-  import_tasks: testinstall_mongodb.yml
-  tags: 
-   - newbase
-   - never
 
 - name: addline to shard service files
   import_tasks: addline2.yml
@@ -37,20 +12,27 @@
     - addline2
     - never
 
-- name: addline to sysctl.conf
-  import_tasks: add_line_to_sys.yml
+- name: test task
+  import_tasks: testshard.yml
   tags:
-    - addline1
+    - test
     - never
-############################################################################
-- name: install mongodb base
+###########################################################################
+- name: uninstall services
+  include_tasks: uninstall.yml
+  tags:
+    - never
+    - uninstall
+    - reinstall
+
+- name: install base mongodb
   import_tasks: install_base.yml
   tags:
     - install
     - reinstall
     - base
 
-- name: install mongo dbtools
+- name: install mongodb tools
   import_tasks: install_dbtools.yml
   tags:
     - install
@@ -90,31 +72,31 @@
   tags:
     - install
     - reinstall
-    - mongo
+    - mongo_service
       
 - name: add configsvr config/service files 
-  import_tasks: configsvr.yml
+  import_tasks: no_sec_configsvr.yml
   tags:
     - install
     - reinstall
     - configsvr
 
 - name: add shard1 config/service files
-  import_tasks: shard1.yml
+  import_tasks: no_sec_shard1.yml
   tags: 
     - install
     - reinstall
     - shard1
 
 - name: add shard2 config/service files
-  import_tasks: shard2.yml
+  import_tasks: no_sec_shard2.yml
   tags: 
     - install
     - reinstall
     - shard2
 
 - name: add shard3 config/service files
-  import_tasks: shard3.yml
+  import_tasks: no_sec_shard3.yml
   tags: 
     - install
     - reinstall
@@ -184,13 +166,43 @@
     - reinstall
     - add_shards
 
+- name: add configsvr config/service files
+  import_tasks: configsvr.yml
+  tags:
+    - install
+    - reinstall
+    - configsvr
+
+- name: add shard1 config/service files
+  import_tasks: shard1.yml
+  tags:
+    - install
+    - reinstall
+    - shard1
+
+- name: add shard2 config/service files
+  import_tasks: shard2.yml
+  tags:
+    - install
+    - reinstall
+    - shard2
+
+- name: add shard3 config/service files
+  import_tasks: shard3.yml
+  tags:
+    - install
+    - reinstall
+    - shard3
+
+- name: add keep alive line to sysctl.conf
+  import_tasks: add_line_to_sys.yml
+  tags:
+    - install
+    - reinstall
+    - keepalive
+
 - name: start mongo
   systemd:
     name: mongo
     state: restarted
 
-- name: test task
-  import_tasks: testshard.yml
-  tags:
-    - test
-    - never    

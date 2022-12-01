@@ -40,10 +40,6 @@ security:
          '[
             {
                match : "(.+)",
-               ldapQuery: "ou=IRS,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
-            },
-            {
-               match : "(.+)",
                ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
             }
          ]'
@@ -52,9 +48,6 @@ security:
 setParameter:
    authenticationMechanisms: PLAIN, SCRAM-SHA-1, SCRAM-SHA-256
    ocspEnabled: false
-   ldapUserCacheInvalidationInterval: 86400
-   ldapConnectionPoolMaximumConnectionsPerHost: 2147483647
-   ldapConnectionPoolMaximumConnectionsInProgressPerHost: 2147483647
 net:
 {% if shard3a is defined and ansible_hostname == shard3a %}
   port: 57017

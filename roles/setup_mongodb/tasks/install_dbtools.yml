@@ -13,7 +13,7 @@
     #    remote_src: yes
     #    list_files: yes
 
-- name: copy mongo cert files into temp
+- name: copy mongo mms and opsmanager files into temp
   get_url:
     url: "{{ item }}"
     dest: /data/mongodb-tools/

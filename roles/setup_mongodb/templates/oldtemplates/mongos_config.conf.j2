@@ -39,18 +39,12 @@ security:
          '[
             {
                match : "(.+)",
-               ldapQuery: "ou=IRS,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
-            },
-            {
-               match : "(.+)",
                ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
             }
          ]'
 setParameter:
    authenticationMechanisms: PLAIN, SCRAM-SHA-1, SCRAM-SHA-256
    ocspEnabled: false
-   ldapConnectionPoolMaximumConnectionsPerHost: 2147483647
-   ldapConnectionPoolMaximumConnectionsInProgressPerHost: 2147483647
 net:
 {% if item is defined and item == 'mongos0' %}
   port: 37017
