@@ -23,7 +23,7 @@ processManagement:
   pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh3-rs_c.pid"
 {% endif %}
 security:
-  keyFile: "/data/dsit/keyfile.pem"
+  keyFile: "/data/{{ env }}/keyfile.pem"
 net:
 {% if shard3a is defined and ansible_hostname == shard3a %}
   port: 57017

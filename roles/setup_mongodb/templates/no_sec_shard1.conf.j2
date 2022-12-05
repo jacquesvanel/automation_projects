@@ -23,7 +23,7 @@ processManagement:
   pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh1-rs_c.pid"
 {% endif %}
 security:
-  keyFile: "/data/dsit/keyfile.pem"
+  keyFile: "/data/{{ env }}/keyfile.pem"
 net:
 {% if shard1a is defined and ansible_hostname == shard1a %}
   port: 37040

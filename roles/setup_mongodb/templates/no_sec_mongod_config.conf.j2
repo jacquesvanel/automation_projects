@@ -23,7 +23,7 @@ processManagement:
   pidFilePath: "/var/run/mongodb/{{ env }}/mongod-config-rs_c.pid"
 {% endif %}
 security:
-  keyFile: "/data/dsit/keyfile.pem"
+  keyFile: "/data/{{ env }}/keyfile.pem"
 setParameter:
    authenticationMechanisms: PLAIN, SCRAM-SHA-1, SCRAM-SHA-256
    ocspEnabled: false
