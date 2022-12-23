@@ -31,6 +31,7 @@
     - install
     - reinstall
     - base
+    - ops
 
 - name: install mongodb tools
   import_tasks: install_dbtools.yml
@@ -38,6 +39,7 @@
     - install
     - reinstall
     - dbtools
+    - ops
 
 - name: make directories
   import_tasks: make_file.yml  
@@ -45,6 +47,7 @@
     - install
     - reinstall
     - make_file
+    - ops
 
 - name: add certs
   import_tasks: add_certs.yml
@@ -52,6 +55,7 @@
     - install
     - reinstall
     - add_certs
+    - ops
  
 - name: add logrotate file
   import_tasks: logrotate.yml

@@ -1,6 +1,6 @@
 ---
 - name: Configure MongoDB
-  hosts: "{{ target }}"
+  hosts:  target
   roles:
     - role: manage_filesystem
 
