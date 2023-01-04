@@ -1,7 +1,12 @@
 ---
 - name: list volume groups
   debug:
-    msg: "echo volume groups is  {{ item.key }}" #has {{ item.value.free_g }}"
+    msg: |
+       "echo volume groups is  {{ item.key }}" #has {{ item.value.free_g }}"
+       "free_g is {{ item.value.free_g }}"
+       "size is {{ item.value.size_g }}"
+       "num_lvs is {{ item.value.num_lvs }}"
+       "num_pvs is {{ item.value.num_pvs }}"
   with_dict: "{{ ansible_lvm.vgs }}"
   tags:
     - vgs
