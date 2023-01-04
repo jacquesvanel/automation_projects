@@ -1,4 +1,10 @@
 ---
+- name: show VGS
+  debug:
+    msg: "{{ansible_lvm }}"
+  tags:
+    - test
+
 - name: list volume groups
   debug:
     msg: |
@@ -10,6 +16,43 @@
   with_dict: "{{ ansible_lvm.vgs }}"
   tags:
     - vgs
+    - test
+
+- name: list lvs
+  debug:
+    msg: |
+       "lvs is  {{ item.key }}"
+#       "free_g is {{ item.value.free_g }}"
+#       "size is {{ item.value.size_g }}"
+#       "num_lvs is {{ item.value.num_lvs }}"
+#       "num_pvs is {{ item.value.num_pvs }}"
+  with_dict: "{{ ansible_lvm.lvs }}"
+  tags:
+    - lvs
+    - test
+
+- name: list physical volume groups
+  debug:
+    msg: |
+       "pvs is  {{ item.key }}"
+       #       "free_g is {{ item.value.free_g }}"
+       #       "size is {{ item.value.size_g }}"
+       #       "num_lvs is {{ item.value.num_lvs }}"
+       #       "num_pvs is {{ item.value.num_pvs }}"
+  with_dict: "{{ ansible_lvm.pvs }}"
+  tags:
+    - pvs
+    - test
+
+- name: show all values for selected devices
+  debug:
+    msg: |
+     device is "{{ item.device }}"
+     mount point is "{{ item.mount }}"
+     filesystem is "{{ item.fstype }}"
+  loop: "{{ ansible_mounts | list }}"
+  tags: never
+
       
 - name: create partitions
   parted:
