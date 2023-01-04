@@ -63,6 +63,7 @@
     - install
     - reinstall
     - logrotate
+    - ops
 
 - name: add hugepages fix
   import_tasks: hugepages.yml
@@ -70,6 +71,7 @@
     - install
     - reinstall
     - hugepages
+    - ops
 
 - name: add mongo service file
   import_tasks: mongo_service.yml
