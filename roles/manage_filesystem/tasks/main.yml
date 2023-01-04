@@ -8,7 +8,7 @@
 - name: list volume groups
   debug:
     msg: |
-       "echo volume groups is  {{ item.key }}"
+       "volume group is  {{ item.key }}"
        "free_g is {{ item.value.free_g }}"
        "size is {{ item.value.size_g }}"
        "num_lvs is {{ item.value.num_lvs }}"
@@ -21,11 +21,9 @@
 - name: list lvs
   debug:
     msg: |
-       "lvs is  {{ item.key }}"
-#       "free_g is {{ item.value.free_g }}"
-#       "size is {{ item.value.size_g }}"
-#       "num_lvs is {{ item.value.num_lvs }}"
-#       "num_pvs is {{ item.value.num_pvs }}"
+       "lvs is {{ item.key }}"
+       "size_g is {{ item.value.size_g }}"
+       "vg is {{ item.value.vg }}"
   with_dict: "{{ ansible_lvm.lvs }}"
   tags:
     - lvs
@@ -34,11 +32,10 @@
 - name: list physical volume groups
   debug:
     msg: |
-       "pvs is  {{ item.key }}"
-       #       "free_g is {{ item.value.free_g }}"
-       #       "size is {{ item.value.size_g }}"
-       #       "num_lvs is {{ item.value.num_lvs }}"
-       #       "num_pvs is {{ item.value.num_pvs }}"
+       "pvs is {{ item.key }}"
+       "free_g is {{ item.value.free_g }}"
+       "size_g is {{ item.value.size_g }}"
+       "vg is {{ item.value.vg }}"
   with_dict: "{{ ansible_lvm.pvs }}"
   tags:
     - pvs
