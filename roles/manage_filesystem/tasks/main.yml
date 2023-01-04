@@ -1,4 +1,11 @@
 ---
+- name: list volume groups
+  debug:
+    msg: "echo volume groups is  {{ item.key }}" #has {{ item.value.free_g }}"
+  with_dict: "{{ ansible_lvm.vgs }}"
+  tags:
+    - vgs
+      
 - name: create partitions
   parted:
     device: /dev/nvme0n1
