@@ -2,7 +2,7 @@
 - name: list volume groups
   debug:
     msg: |
-       "echo volume groups is  {{ item.key }}" #has {{ item.value.free_g }}"
+       "echo volume groups is  {{ item.key }}"
        "free_g is {{ item.value.free_g }}"
        "size is {{ item.value.size_g }}"
        "num_lvs is {{ item.value.num_lvs }}"

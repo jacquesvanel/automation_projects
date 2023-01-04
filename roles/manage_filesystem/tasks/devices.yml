@@ -15,6 +15,6 @@
 - debug:
     msg: |
       "{{ansible_lvm.lvs}}"
-      "{{ansible_lvm.pvs}}"
-      "{{ansible_lvm.vgs}}"
+      #      "{{ansible_lvm.pvs}}"
+      #      "{{ansible_lvm.vgs}}"
   with_dict: "{{ansible_lvm}}"
