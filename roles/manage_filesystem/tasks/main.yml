@@ -4,7 +4,7 @@
   register: list
 
 - debug:
-    msg: "{{ list.devices }}"  
+    msg: "{{ list_devices }}"  
 
 - name: Read device information (always use unit when probing)
   parted:
