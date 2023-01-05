@@ -1,15 +1,12 @@
 ---
 - debug:
-    msg: "{{ ansible_mounts }}"
-  register: list
-
-- debug:
-    msg: "{{ item.devices }}"
-  with_dict: "{{ list }}"  
+    msg: "{{ item.device }}"
+  loop: "{{ ansible_mounts | list }}"  
+  register: device
 
 - name: Read device information (always use unit when probing)
   parted:
-    device: "{{ item }}" 
+    device: "{{ device }}" 
     unit: GB
   register: sdb_info
   loop: "{{ ansible_devices | list }}"
