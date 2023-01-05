@@ -6,7 +6,7 @@
 
 - name: Read device information (always use unit when probing)
   parted:
-    device: "{{ item.device }}" 
+    device: "{{ item.value.device }}" 
     unit: GB
   register: sdb_info
   loop: "{{ device.results }}"
