@@ -1,7 +1,7 @@
 ---
 - debug:
     msg: "{{ item.device }}"
-  loop: "{{ ansible_mounts | list }}"  
+  loop: "{{ ansible_mounts }}"  
   register: device
 
 - name: Read device information (always use unit when probing)
