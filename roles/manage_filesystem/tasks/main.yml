@@ -1,6 +1,10 @@
 ---
 - debug:
-    msg: "{{ ansible_mounts.device | list }}"
+    msg: "{{ ansible_mounts | list }}"
+  register: list
+
+- debug:
+    msg: "{{ list.devices }}"  
 
 - name: Read device information (always use unit when probing)
   parted:
