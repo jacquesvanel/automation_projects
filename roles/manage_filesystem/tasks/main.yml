@@ -1,9 +1,10 @@
 ---
 - name: Read device information (always use unit when probing)
   parted:
-    device: /dev/nvme0n1
+    device: "{{ item }}" 
     unit: GB
   register: sdb_info
+  loop: "{{ ansible_devices }}"
 
 - debug:
-    msg: "{{ sdb_info }}"
+    msg: "{{ sdb_info.partitions }}"
