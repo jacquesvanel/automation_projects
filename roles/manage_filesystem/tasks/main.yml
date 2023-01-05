@@ -9,7 +9,7 @@
     device: "{{ item }}" 
     unit: GB
   register: sdb_info
-  loop: "{{ device.stdout }}"
+  loop: "{{ device.results }}"
 
   #- debug:
   #    msg: "{{ sdb_info.partitions }}"
