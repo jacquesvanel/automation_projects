@@ -1,7 +1,10 @@
 ---
+- debug:
+    msg: "{{ ansible_devices | list }}"
+
 - name: Read device information (always use unit when probing)
   parted:
-    device: "{{ item.key }}" 
+    device: "{{ item }}" 
     unit: GB
   register: sdb_info
   loop: "{{ ansible_devices | list }}"
