@@ -4,7 +4,7 @@
     device: "{{ item }}" 
     unit: GB
   register: sdb_info
-  loop: "{{ ansible_devices }}"
+  loop: "{{ ansible_devices | list }}"
 
 - debug:
     msg: "{{ sdb_info.partitions }}"
