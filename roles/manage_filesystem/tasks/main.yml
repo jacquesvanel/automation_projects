@@ -2,7 +2,7 @@
 - name: Read device information (always use unit when probing)
   parted:
     device: /dev/nvme0n1
-    unit: MiB
+    unit: GB
   register: sdb_info
 
 - debug:
