@@ -11,7 +11,6 @@ Environment="OPTIONS=-f /opt/mongodb/mms/bin/mongodb-mms"
 EnvironmentFile=-/etc/sysconfig/mongod-mms
 ExecStart=/usr/bin/mongod $OPTIONS
 PermissionsStartOnly=true
-#PIDFile=/var/run/mongodb/{{ env }}/mongod-config-{{ repset }}.pid
 Type=forking
 # file size
 LimitFSIZE=infinity
