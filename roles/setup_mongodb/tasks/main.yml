@@ -17,6 +17,12 @@
   tags:
     - test
     - never
+
+- name: mongo-mms service file
+  import_tasks: mongo_mms.yml
+  tags:
+    - mongomms
+    - never
 ###########################################################################
 - name: uninstall services
   include_tasks: uninstall.yml
