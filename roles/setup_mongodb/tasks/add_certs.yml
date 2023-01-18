@@ -8,12 +8,12 @@
     mode: '0600'
   loop:
         # placing keyfile cert #
-        #    - { url: '{{ keyfile }}', dest: '/data/{{ env }}/keyfile.pem' }
+    - { url: '{{ keyfile }}', dest: '/data/{{ env }}/keyfile.pem' }
         # placing keywcert cert #
-        #    - { url: '{{ keycert }}', dest: '/var/lib/mongodb/cert/KeyWCert.pem' }
+    - { url: '{{ keycert }}', dest: '/var/lib/mongodb/cert/KeyWCert.pem' }
         # placing ieproot cert #
     - { url: '{{ ieproot }}', dest: '/etc/openldap/certs/iep_root_intermediate.pem' }
         # placing ldap.conf #
-        #    - { url: '{{ ldap }}', dest: '/etc/openldap/ldap.conf' }
+    - { url: '{{ ldap }}', dest: '/etc/openldap/ldap.conf' }
         # placing CA cert #
-        #    - { url: '{{ cacert }}', dest: '/var/lib/mongodb/cert/CA_Root_Inter.pem' }
+    - { url: '{{ cacert }}', dest: '/var/lib/mongodb/cert/CA_Root_Inter.pem' }
