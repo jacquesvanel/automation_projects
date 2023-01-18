@@ -9,5 +9,5 @@ packages:
   - mongodb-enterprise-server-5.0.8-1.el8.x86_64
   - mongodb-enterprise-mongos-5.0.8-1.el8.x86_64
 ldap: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/ldap.conf
-ieproot: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/iep_root_intermediate.pem
+ieproot: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/iep_root_intermediate.pem 
 cacert: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/CA_Root_Inter.pem
