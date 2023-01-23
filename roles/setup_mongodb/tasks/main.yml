@@ -47,6 +47,12 @@
     - dbtools
     - ops
 
+- name: install mongomms
+  import_tasks: install_mongomms.yml
+  tags:
+    - ops
+    - never  
+
 - name: make directories
   import_tasks: make_file.yml  
   tags:
@@ -98,21 +104,21 @@
   tags: 
     - install
     - reinstall
-    - shard1
+    - no_sec_shard1
 
 - name: add shard2 config/service files
   import_tasks: no_sec_shard2.yml
   tags: 
     - install
     - reinstall
-    - shard2
+    - no_sec_shard2
 
 - name: add shard3 config/service files
   import_tasks: no_sec_shard3.yml
   tags: 
     - install
     - reinstall
-    - shard3
+    - no_sec_shard3
 
 - name: add mongos config/service files
   include_tasks: mongos.yml

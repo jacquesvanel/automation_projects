@@ -1,49 +1,13 @@
 ---
-- name: create a working directory /usr/local/bin/
-  file:
-    path: /data/mongodb-tools/
-    state: directory
-    owner: root
-    group: root
-
-    #- name: copy mongo mms tools into /usr/local/bin
-    #  unarchive:
-    #    src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz
-    #    dest: /tmp
-    #    remote_src: yes
-    #    list_files: yes
-
-- name: copy mongo mms and opsmanager files into temp
-  get_url:
-    url: "{{ item }}"
-    dest: /data/mongodb-tools/
-    tmp_dest: /data/
-    force: yes
-  with_items:
-    - https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz
-    - https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz.sig
-    - https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/opsmanager-5.0.asc
-
 - name: install mongo dbtools
   yum:
     name:
-      - mongodb-database-tools
+      - mongodb-enterprise-database-tools-extra.x86_64
+      - mongodb-enterprise-tools.x86_64
+      - mongodb-database-tools.x86_64  
       - mongodb-mongosh
     state: installed
     enablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
     disablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
     skip_broken: yes
 
-    #- name: unarchive mms tar file
-    #  unarchive:
-    #    src: /data/mongodb-tools/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz
-    #    dest: /data/mongodb-tools/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64
-    #    remote_src: yes
-    #    creates: /data/mongodb-tools/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64
-
-
-#https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/mongosh.asc
-#https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/opsmanager-5.0.asc
-#https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/mongosh-1.5.4-linux-x64.tgz
-#https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz.sig
-#https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz

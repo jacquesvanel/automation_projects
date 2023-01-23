@@ -25,7 +25,3 @@
         - mongos0
         - mongos1
         - mongos2
-  tags:
-    - install
-    - reinstall
-    - mongos
