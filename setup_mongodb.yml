@@ -3,4 +3,5 @@
   hosts: "{{ target }}"
   roles:
     - role: setup_mongodb
-  tags: setup
+  tags: 
+    - setup
