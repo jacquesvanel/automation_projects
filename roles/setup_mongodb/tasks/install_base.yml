@@ -22,40 +22,6 @@
   ignore_errors: yes
   
 - debug: 
-    var: yum_result.stdout_lines 
+    msg: yum_result.stdout_lines 
 
-#
-#- name: create a working directory /usr/local/bin/
-#  file:
-#    path: /usr/local/bin/
-#    state: directory
-#    owner: root
-#    group: root
-
-    #- name: copy mongo database BI into /usr/local/bin
-    #  unarchive:
-    #    src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/mongodb-bi-linux-x86_64-rhel80-v2.14.4.tgz
-    #    dest: /usr/local/bin/
-    #    remote_src: yes
-    #    list_files: yes    
-
-#stops mongod.service so it wont look for the wrong conf file and fail#
-#- name: stop mongod
-#  systemd:
-#    name: mongod
-#    state: stopped
-#    enabled: no
-
-  #- name: disable repo services
-  #  shell: subscription-manager repos --disable=AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64   
-
-#cleans up directories and removes unwanted files#
-#- name: remove unwanted files
-#  file:
-#    path: "{{ item }}"
-#    state: absent
-#  loop:
-#    - /opt/scripts/mongodb
-#    - /tmp/mongo*.sock
-#    - /etc/mongod.conf
 
