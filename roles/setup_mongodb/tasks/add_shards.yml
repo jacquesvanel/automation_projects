@@ -4,15 +4,15 @@
     file:
       dest: /etc/mongo/{{ env }}/scripts/
       state: directory
-      owner: mongod
-      group: opr-db-admin
+      owner: "{{ owner }}"
+      group: "{{ group }}"
 
   - name: layout template for /etc/mongo/{{ env }}/scripts/add_shards_to_cluster.js. the {{ configsvr_rsa }} server
     template:
       src:  add_shards_to_cluster.js.j2
       dest: "/etc/mongo/{{ env }}/scripts/add_shards_to_cluster.js"
-      owner: mongod
-      group: opr-db-admin
+      owner: "{{ owner }}"
+      group: "{{ group }}"
       mode: '0644'
       force: yes
 

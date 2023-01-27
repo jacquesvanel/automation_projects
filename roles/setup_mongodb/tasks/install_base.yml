@@ -4,14 +4,7 @@
 
 - name: install mongo services
   yum:
-    name:
-      - mongodb-enterprise.x86_64
-      - mongodb-enterprise-cryptd.x86_64
-      - mongodb-enterprise-shell.x86_64
-      - mongodb-enterprise-server.x86_64
-      - mongodb-enterprise-mongos.x86_64
-      - mongodb-enterprise-database.x86_64
-      - mongodb-mongosh.x86_64
+    name: '{{ base_packages }}'
     state: installed 
     enablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
     disablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
@@ -21,6 +14,6 @@
   ignore_errors: yes
   
 - debug: 
-    msg: yum_result.stdout_lines 
+    var: yum_result.stdout_lines 
 
 

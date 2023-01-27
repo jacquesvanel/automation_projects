@@ -3,8 +3,8 @@
   get_url:
     url: "{{ item.url }}"
     dest: "{{ item.dest }}"
-    owner: mongod
-    group: opr-db-admin
+    owner: "{{ owner }}"
+    group: "{{ group }}"
     mode: '0600'
   loop:
         # placing keyfile cert #

@@ -6,15 +6,15 @@
       path: /data/{{ env }}/shard2/rs_a
       state: directory
       mode: '2775'
-      owner: mongod
-      group: opr-db-admin
+      owner: "{{ owner }}"
+      group: "{{ group }}"
 
   - name: layout template for /etc/mongo/{{ env }}/shard2_rs_a.cfg on the shard2 server
     template:
       src:  no_sec_shard2.conf.j2
       dest: "/etc/mongo/{{ env }}/shard2_rs_a.cfg"
-      owner: mongod
-      group: opr-db-admin
+      owner: "{{ owner }}"
+      group: "{{ group }}"
       mode: '0644'
       force: yes
 
@@ -22,8 +22,8 @@
     template:
       src: mongod_shard2.service.j2
       dest: "/usr/lib/systemd/system/mongod_shard2.service"
-      owner: mongod
-      group: opr-db-admin
+      owner: "{{ owner }}"
+      group: "{{ group }}"
       mode: '0640'
       force: yes
 
@@ -44,15 +44,15 @@
       path: /data/{{ env }}/shard2/rs_b
       state: directory
       mode: '2775'
-      owner: mongod
-      group: opr-db-admin
+      owner: "{{ owner }}"
+      group: "{{ group }}"
 
   - name: layout template for /etc/mongo/{{ env }}/shard2_rs_b.cfg on the shard2 server
     template:
       src:  no_sec_shard2.conf.j2
       dest: "/etc/mongo/{{ env }}/shard2_rs_b.cfg"
-      owner: mongod
-      group: opr-db-admin
+      owner: "{{ owner }}"
+      group: "{{ group }}"
       mode: '0644'
       force: yes
 
@@ -60,8 +60,8 @@
     template:
       src: mongod_shard2.service.j2
       dest: "/usr/lib/systemd/system/mongod_shard2.service"
-      owner: mongod
-      group: opr-db-admin
+      owner: "{{ owner }}"
+      group: "{{ group }}"
       mode: '0640'
       force: yes
 
@@ -82,15 +82,15 @@
       path: /data/{{ env }}/shard2/rs_c
       state: directory
       mode: '2775'
-      owner: mongod
-      group: opr-db-admin
+      owner: "{{ owner }}"
+      group: "{{ group }}"
 
   - name: layout template for /etc/mongo/{{ env }}/shard2_rs_c.cfg on the shard2 server
     template:
       src:  no_sec_shard2.conf.j2
       dest: "/etc/mongo/{{ env }}/shard2_rs_c.cfg"
-      owner: mongod
-      group: opr-db-admin
+      owner: "{{ owner }}"
+      group: "{{ group }}"
       mode: '0644'
       force: yes
 
@@ -98,8 +98,8 @@
     template:
       src: mongod_shard2.service.j2
       dest: "/usr/lib/systemd/system/mongod_shard2.service"
-      owner: mongod
-      group: opr-db-admin
+      owner: "{{ owner }}"
+      group: "{{ group }}"
       mode: '0640'
       force: yes
 

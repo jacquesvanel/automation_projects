@@ -86,31 +86,31 @@ setParameter:
    ocspEnabled: false
 net:
 {% if shard1a is defined and ansible_hostname == shard1a %}
-  port: 37040
+  port: {{ shard1a_port }}
 {% endif %}
 {% if shard1b is defined and ansible_hostname == shard1b %}
-  port: 37041
+  port: {{ shard1b_port }}
 {% endif %}
 {% if shard1c is defined and ansible_hostname == shard1c %}
-  port: 37042
+  port: {{ shard1c_port }}
 {% endif %}
 {% if shard2a is defined and ansible_hostname == shard2a %}
-  port: 47017
+  port: {{ shard2a_port }}
 {% endif %}
 {% if shard2b is defined and ansible_hostname == shard2b %}
-  port: 47018
+  port: {{ shard2b_port }}
 {% endif %}
 {% if shard2c is defined and ansible_hostname == shard2c %}
-  port: 47019
+  port: {{ shard2c_port }}
 {% endif %}
 {% if shard3a is defined and ansible_hostname == shard3a %}
-  port: 57017
+  port: {{ shard3a_port }}
 {% endif %}
 {% if shard3b is defined and ansible_hostname == shard3b %}
-  port: 57018
+  port: {{ shard2b_port }}
 {% endif %}
 {% if shard3c is defined and ansible_hostname == shard3c %}
-  port: 57019
+  port: {{ shard3c_port }}
 {% endif %}
   bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
   tls:

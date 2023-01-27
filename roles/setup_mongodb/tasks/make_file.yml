@@ -4,8 +4,8 @@
     path: "{{ item.path }}"
     state: directory
     mode: "{{ item.mode }}"
-    owner: mongod
-    group: opr-db-admin
+    owner: "{{ owner }}"
+    group: "{{ group }}"
   loop:
         # directory for config files #
     - { path: '/etc/mongo/{{ env }}/', mode: '2770' }

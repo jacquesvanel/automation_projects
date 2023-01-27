@@ -4,8 +4,8 @@
   file:
     dest: /etc/mongo/{{ env }}/scripts/
     state: directory
-    owner: mongod
-    group: opr-db-admin
+    owner: "{{ owner }}"
+    group: "{{ group }}"
 
 - block:
   - name: layout template for /etc/mongo/{{ env }}/scripts/initiate.shard1.js the shard1 server
@@ -18,7 +18,7 @@
       force: yes
 
   - name: initiate shard replica set
-    shell: mongo {{ shard1a }}.opr.afsiep.net:37040/admin /etc/mongo/{{ env }}/scripts/initiate.shard1.js
+    shell: mongo {{ shard1a }}.opr.afsiep.net:{{ shard1a_port }}/admin /etc/mongo/{{ env }}/scripts/initiate.shard1.js
     register: shell_result
 
   - debug:
@@ -36,7 +36,7 @@
       force: yes
 
   - name: initiate shard replica set
-    shell: mongo {{ shard2a }}.opr.afsiep.net:47017/admin /etc/mongo/{{ env }}/scripts/initiate.shard2.js
+    shell: mongo {{ shard2a }}.opr.afsiep.net:{{ shard2a_port }}/admin /etc/mongo/{{ env }}/scripts/initiate.shard2.js
     register: shell_result
 
   - debug:
@@ -54,7 +54,7 @@
       force: yes
 
   - name: initiate shard replica set
-    shell: mongo {{ shard3a }}.opr.afsiep.net:57017/admin /etc/mongo/{{ env }}/scripts/initiate.shard3.js
+    shell: mongo {{ shard3a }}.opr.afsiep.net:{{ shard3a_port }}/admin /etc/mongo/{{ env }}/scripts/initiate.shard3.js
     register: shell_result
 
   - debug:
@@ -72,7 +72,7 @@
       force: yes
 
   - name: initiate shard replica set
-    shell: mongo {{ configsvr_rsa }}.opr.afsiep.net:57040/admin /etc/mongo/{{ env }}/scripts/initiate.config.js
+    shell: mongo {{ configsvr_rsa }}.opr.afsiep.net:{{ configsvr_rsa_port }}/admin /etc/mongo/{{ env }}/scripts/initiate.config.js
     register: shell_result
 
   - debug:

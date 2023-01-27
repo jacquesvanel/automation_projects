@@ -35,3 +35,10 @@ logical_volumes:
       mount_path: /var/test
       devices: /dev/nvme0n1p2,/dev/nvme0n1p3
       state: present
+
+partition_data:
+    - { device: '/dev/sda', partition: '1', filesystem: 'ext4', size: '100G' }
+    - { device: '/dev/sdb', partition: '1', filesystem: 'xfs', size: '50G' }
+vg_name: my_vg
+lv_name: my_lv
+lv_size: 100G

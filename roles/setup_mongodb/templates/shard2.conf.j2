@@ -29,11 +29,11 @@ security:
       servers: "opr.afsiep.net:636"
       bind:
 {% if env is defined and env == 'prod' %}
-         queryUser: "svc_mdbprd_ldap@opr.afsiep.net"
-         queryPassword: "MI!iseji7ubope"
+         queryUser: {{ prod_user }}
+         queryPassword: {{ prod_pw }} 
 {% else %}
-         queryUser: "svc_mdbnprd_ldap@opr.afsiep.net"
-         queryPassword: "36W=qR*AeoI0:h"
+         queryUser: {{ nonprod_user }}
+         queryPassword: {{ nonprod_pw }}
 {% endif %}
       transportSecurity: tls
       userToDNMapping:
@@ -57,13 +57,13 @@ setParameter:
    ldapConnectionPoolMaximumConnectionsInProgressPerHost: 2147483647
 net:
 {% if shard2a is defined and ansible_hostname == shard2a %}
-  port: 47017
+  port: {{ shard2a_port }}
 {% endif %}
 {% if shard2b is defined and ansible_hostname == shard2b %}
-  port: 47018
+  port: {{ shard2b_port }}
 {% endif %}
 {% if shard2c is defined and ansible_hostname == shard2c %}
-  port: 47019
+  port: {{ shard2c_port }}
 {% endif %}
   bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
   tls:
@@ -71,7 +71,7 @@ net:
    CAFile: /var/lib/mongodb/cert/CA_Root_Inter.pem
    allowConnectionsWithoutCertificates: true
    certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
-   certificateKeyFilePassword: 22w#SBR5nfvZOt23
+   certificateKeyFilePassword: {{ cert_password }}
 sharding:
   clusterRole: shardsvr
 replication:

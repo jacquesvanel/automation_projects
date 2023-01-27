@@ -26,19 +26,19 @@ security:
   keyFile: "/data/{{ env }}/keyfile.pem"
 net:
 {% if shard2a is defined and ansible_hostname == shard2a %}
-  port: 47017
+  port: {{ shard2a_port }}
 {% endif %}
 {% if shard2b is defined and ansible_hostname == shard2b %}
-  port: 47018
+  port: {{ shard2b_port }}
 {% endif %}
 {% if shard2c is defined and ansible_hostname == shard2c %}
-  port: 47019
+  port: {{ shard2c_port }}
 {% endif %}
   bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
   tls:
    mode: allowTLS
    certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
-   certificateKeyFilePassword: 22w#SBR5nfvZOt23
+   certificateKeyFilePassword: {{ cert_password }}
 sharding:
   clusterRole: shardsvr
 replication:

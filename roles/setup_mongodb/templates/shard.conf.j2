@@ -27,39 +27,39 @@ processManagement:
 net:
 {% if ( (shard1 is defined and ansible_hostname == shard1) and
         (repset is defined and repset == 'rs_a') ) %}
-  port: 37040
+  port: {{ shard1a_port }}
 {% endif %}
 {% if ( (shard1 is defined and ansible_hostname == shard1) and
         (repset is defined and repset == 'rs_b') ) %}
-  port: 37041
+  port: {{ shard1b_port }}
 {% endif %}
 {% if ( (shard1 is defined and ansible_hostname == shard1) and
         (repset is defined and repset == 'rs_c') ) %}
-  port: 37042
+  port: {{ shard1c_port }}
 {% endif %}
 {% if ( (shard2 is defined and ansible_hostname == shard2) and
         (repset is defined and repset == 'rs_a') ) %}
-  port: 47017
+  port: {{ shard2a_port }}
 {% endif %}
 {% if ( (shard2 is defined and ansible_hostname == shard2) and
         (repset is defined and repset == 'rs_b') ) %}
-  port: 47018
+  port: {{ shard2b_port }}
 {% endif %}
 {% if ( (shard2 is defined and ansible_hostname == shard2) and
         (repset is defined and repset == 'rs_c') ) %}
-  port: 47019
+  port: {{ shard2c_port }}
 {% endif %}
 {% if ( (shard3 is defined and ansible_hostname == shard3) and
         (repset is defined and repset == 'rs_a') ) %}
-  port: 57017
+  port: {{ shard3a_port }}
 {% endif %}
 {% if ( (shard3 is defined and ansible_hostname == shard3) and
         (repset is defined and repset == 'rs_b') ) %}
-  port: 57018
+  port: {{ shard2b_port }}
 {% endif %}
 {% if ( (shard3 is defined and ansible_hostname == shard3) and
         (repset is defined and repset == 'rs_c') ) %}
-  port: 57019
+  port: {{ shard3c_port }}
 {% endif %}
   bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
   tls:

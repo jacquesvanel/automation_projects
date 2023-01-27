@@ -4,8 +4,8 @@
       template:
         src:  mongos_config.conf.j2
         dest: "/etc/mongo/{{ env }}/{{ item }}.cfg"
-        owner: mongod
-        group: opr-db-admin
+        owner: "{{ owner }}"
+        group: "{{ group }}"
         mode: '0644'
         force: yes
       loop:
@@ -17,8 +17,8 @@
       template:
         src: mongos.service.j2
         dest: "/etc/systemd/system/{{ item }}.service"
-        owner: mongod
-        group: opr-db-admin
+        owner: "{{ owner }}"
+        group: "{{ group }}"
         mode: '0640'
         force: yes
       loop:

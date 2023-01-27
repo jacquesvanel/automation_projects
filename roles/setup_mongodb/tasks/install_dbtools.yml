@@ -1,11 +1,7 @@
 ---
 - name: install mongo dbtools
   yum:
-    name:
-      - mongodb-enterprise-database-tools-extra.x86_64
-      - mongodb-enterprise-tools.x86_64
-      - mongodb-database-tools.x86_64  
-      - mongodb-mongosh
+    name: '{{ dbtools }}'
     state: installed
     enablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
     disablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
