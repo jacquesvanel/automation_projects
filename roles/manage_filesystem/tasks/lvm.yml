@@ -1,39 +1,55 @@
 ---
-- name: Create and manage LVM volumes
-  vars:
-    vg_name: my_vg
-    lv_name: my_lv
-    lv_size: 100G
-  tasks:
-  - name: Create physical volume
-    command: pvcreate {{ device }}
-    register: pv_create
-    ignore_errors: yes
+- name: Create partitions
+  parted:
+    device: "{{ item.device }}"
+    number: "{{ item.partition }}"
+    flags: [ "{{ item.partition }}" ]
+    state: present
+  with_items: "{{ partition_data }}"
 
-  - name: Create volume group
-    command: vgcreate {{ vg_name }} {{ device }}
-    when: pv_create.changed
-    register: vg_create
-    ignore_errors: yes
+- name: Create physical volume
+  command: pvcreate {{ device }}p1
+  register: pv_create
+  ignore_errors: yes
 
-  - name: Create logical volume
-    command: lvcreate -L {{ lv_size }} -n {{ lv_name }} {{ vg_name }}
-    when: vg_create.changed
-    register: lv_create
-    ignore_errors: yes
+- name: Create volume group
+  command: vgcreate {{ vg_name }} {{ device }}
+  when: pv_create.changed
+  register: vg_create
+  ignore_errors: yes
 
-  - name: Format logical volume
-    command: mkfs.ext4 /dev/{{ vg_name }}/{{ lv_name }}
-    when: lv_create.changed
-    register: lv_format
-    ignore_errors: yes
+- name: Extend volume group
+  command: vgextend {{ vg_name }} {{ device }}p1
+  when: pv_create.changed
+  register: vg_extend
+  ignore_errors: yes
 
-  - name: Mount logical volume
-    mount:
-      path: /mnt/{{ lv_name }}
-      src: /dev/{{ vg_name }}/{{ lv_name }}
-      fstype: ext4
-      state: mounted
-    when: lv_format.changed
-    register: lv_mount
-    ignore_errors: yes
+- name: Create logical volume
+  command: lvcreate -L {{ lv_size }} -n {{ lv_name }} {{ vg_name }}
+  when: vg_create.changed
+  register: lv_create
+  ignore_errors: yes
+
+- name: Format logical volume
+  command: mkfs -t xfs /dev/{{ vg_name }}/{{ lv_name }}
+  when: lv_create.changed
+  register: lv_format
+  ignore_errors: yes
+
+- name: Mount logical volume
+  mount:
+    path: /mnt/{{ lv_name }}
+    src: /dev/{{ vg_name }}/{{ lv_name }}
+    fstype: ext4
+    state: mounted
+  when: lv_format.changed
+  register: lv_mount
+  ignore_errors: yes
+
+  #- name: Mount filesystems
+  #  mount:
+  #    path: "/mnt/{{ item.filesystem }}"
+  #    src: "{{ item.device }}{{ item.partition }}"
+  #    fstype: "{{ item.filesystem }}"
+  #    state: mounted
+  #  with_items: "{{ partition_data }}"

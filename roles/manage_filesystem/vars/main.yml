@@ -37,8 +37,11 @@ logical_volumes:
       state: present
 
 partition_data:
-    - { device: '/dev/sda', partition: '1', filesystem: 'ext4', size: '100G' }
-    - { device: '/dev/sdb', partition: '1', filesystem: 'xfs', size: '50G' }
-vg_name: my_vg
-lv_name: my_lv
+    - device: '/dev/nvme1n1'
+      partition: '1'
+      filesystem: 'xfs'
+      size: '100G' 
+      #    - { device: '/dev/sdb', partition: '1', filesystem: 'xfs', size: '50G' }
+vg_name: VolGroup 
+lv_name: data 
 lv_size: 100G
