@@ -1,0 +1,56 @@
+---
+# tasks file for mongodb-mms
+- name: install base mongodb
+  import_tasks: roles/setup_mongodb/tasks/install_base.yml
+  tags:
+    - install
+    - reinstall
+    - base
+    - ops
+
+- name: install mongodb tools
+  import_tasks: roles/setup_mongodb/tasks/install_dbtools.yml
+  tags:
+    - install
+    - reinstall
+    - dbtools
+    - ops
+
+- name: install mongomms
+  import_tasks: roles/setup_mongodb/tasks/install_mongomms.yml
+  tags:
+    - ops
+    - install
+    - mongomms
+
+- name: make directories
+  import_tasks: roles/setup_mongodb/tasks/make_file.yml
+  tags:
+    - install
+    - reinstall
+    - make_file
+    - ops
+
+- name: add certs
+  import_tasks: roles/setup_mongodb/tasks/add_certs.yml
+  tags:
+    - install
+    - reinstall
+    - add_certs
+    - ops
+
+- name: add logrotate file
+  import_tasks: roles/setup_mongodb/tasks/logrotate.yml
+  tags:
+    - install
+    - reinstall
+    - logrotate
+    - ops
+
+- name: add hugepages fix
+  import_tasks: roles/setup_mongodb/tasks/hugepages.yml
+  tags:
+    - install
+    - reinstall
+    - hugepages
+    - ops

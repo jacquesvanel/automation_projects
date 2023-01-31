@@ -1,0 +1,14 @@
+---
+# tasks file for mongodb-mms
+- name: import install tasks from mongodb role
+  import_role: 
+    name: setup_mongo
+    tasks_from:
+      - install_base.yml
+      - install_dbtools.yml
+      - install_mongomms.yml
+      - make_file.yml
+      - add_certs.yml
+      - logrotate.yml
+      - hugepages.yml
+
