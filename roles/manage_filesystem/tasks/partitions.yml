@@ -3,7 +3,7 @@
   parted:
     device: "{{ item.device }}"
     number: "{{ item.partition }}"
-    flags: [ "{{ item.partition }}" ]
+    flags: [ lvm ]
     state: present
   register: part_create
   with_items: "{{ partition_data }}"
