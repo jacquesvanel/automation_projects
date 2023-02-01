@@ -1,9 +1,9 @@
 ---
-partition_data:
-    - device: '/dev/nvme1n1'
-      partition: '1'
-      filesystem: 'xfs'
-      size: '100G' 
+#partition_data:
+device: '/dev/nvme1n1'
+partition: '1'
+      #      filesystem: 'xfs'
+      #      size: '100G' 
 
       #    - { device: '/dev/sdb', partition: '1', filesystem: 'xfs', size: '50G' }
 vg_name: VolGroup 
