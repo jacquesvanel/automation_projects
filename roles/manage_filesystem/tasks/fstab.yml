@@ -1,0 +1,5 @@
+---
+- name: line insert
+  lineinfile:
+    path: /etc/fstab
+    line: '/dev/mapper/VolGroup-data       /data   xfs     defaults        0 0'

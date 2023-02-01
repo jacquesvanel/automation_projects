@@ -1,0 +1,15 @@
+---
+- name: Create partitions
+  parted:
+    device: "{{ item.device }}"
+    number: "{{ item.partition }}"
+    flags: [ "{{ item.partition }}" ]
+    state: present
+  register: part_create
+  with_items: "{{ partition_data }}"
+
+- name: Create physical volume
+  command: pvcreate {{ device }}p1
+  when: part_create.changed
+  register: pv_create
+  ignore_errors: yes

@@ -1,0 +1,47 @@
+---
+# vars file for manage_filesystem
+# this will create the partition
+partitions:
+    - numb: 1
+      start: 1MiB
+      end: 400MiB
+
+    - numb: 2
+      start: 400MiB
+      end: 600MiB
+# this will create the VG
+volume_groups:
+    - name: VolGroup
+      devices: /dev/nvme0n1p2,/dev/nvme0n1p3
+# this will create the LV
+logical_volumes:
+    - name: "data"
+      size: 20G
+      v_group: VolGroup
+      mount_path: /data
+      devices: /dev/nvme0n1p2,/dev/nvme0n1p3
+      state: present
+
+    - name: "var_log"
+      size: 10G
+      v_group: VolGroup
+      mount_path: /var/log
+      devices: /dev/nvme0n1p2,/dev/nvme0n1p3
+      state: present
+
+    - name: "test"
+      size: 1G
+      v_group: VolGroup
+      mount_path: /var/test
+      devices: /dev/nvme0n1p2,/dev/nvme0n1p3
+      state: present
+
+partition_data:
+    - device: '/dev/nvme1n1'
+      partition: '1'
+      filesystem: 'xfs'
+      size: '100G' 
+      #    - { device: '/dev/sdb', partition: '1', filesystem: 'xfs', size: '50G' }
+vg_name: VolGroup 
+lv_name: data 
+lv_size: 100G

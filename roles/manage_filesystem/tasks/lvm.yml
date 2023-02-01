@@ -1,29 +1,4 @@
 ---
-- name: Create partitions
-  parted:
-    device: "{{ item.device }}"
-    number: "{{ item.partition }}"
-    flags: [ "{{ item.partition }}" ]
-    state: present
-  with_items: "{{ partition_data }}"
-
-- name: Create physical volume
-  command: pvcreate {{ device }}p1
-  register: pv_create
-  ignore_errors: yes
-
-- name: Create volume group
-  command: vgcreate {{ vg_name }} {{ device }}
-  when: pv_create.changed
-  register: vg_create
-  ignore_errors: yes
-
-- name: Extend volume group
-  command: vgextend {{ vg_name }} {{ device }}p1
-  when: pv_create.changed
-  register: vg_extend
-  ignore_errors: yes
-
 - name: Create logical volume
   command: lvcreate -L {{ lv_size }} -n {{ lv_name }} {{ vg_name }}
   when: vg_create.changed
@@ -36,11 +11,17 @@
   register: lv_format
   ignore_errors: yes
 
+- name: Creates directory
+  file:
+    path: /{{ lv_name }}
+    state: directory
+  when: lv_format.changed
+
 - name: Mount logical volume
   mount:
-    path: /mnt/{{ lv_name }}
+    path: /{{ lv_name }}
     src: /dev/{{ vg_name }}/{{ lv_name }}
-    fstype: ext4
+    fstype: xfs
     state: mounted
   when: lv_format.changed
   register: lv_mount
