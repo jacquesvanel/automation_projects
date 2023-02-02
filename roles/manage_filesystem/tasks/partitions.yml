@@ -9,7 +9,7 @@
     state: present
   register: part_create
   #  with_items: "{{ partition_data }}"
-
+  #test
 - name: Create physical volume
 #  command: pvcreate {{ device }}p1
   command: pvcreate /dev/nvme1n1p1
