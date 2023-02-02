@@ -6,7 +6,7 @@
 #  ignore_errors: yes
 
 - name: Extend volume group
-  command: vgextend {{ vg_name }} {{ device }}p1
+  command: "vgextend {{ vg_name }} {{ device }}p1"
 #  when: pv_create.changed
   register: vg_extend
   ignore_errors: yes
