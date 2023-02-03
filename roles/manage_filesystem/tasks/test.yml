@@ -7,6 +7,10 @@
   when: item.startswith('nvme')
   loop: "{{ ansible_devices.keys()|list }}"
 
+- name: debug
+  debug:
+    msg: "{{ part.partitions }}"
+
 - name: Find disk without partition
   debug:
     msg: "{{ item }} doesn't have a partition"
