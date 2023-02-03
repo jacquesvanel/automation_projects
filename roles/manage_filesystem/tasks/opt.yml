@@ -1,25 +1,12 @@
 ---
-- name: Extend Opt logical volume
+- name: Extend Opt and Data logical volume
   lvol:
-    vg: "{{ vg_name }}"
-    lv: opt 
-    size: 9G
-    resizefs: true
+    vg: "{{ item.vg_name }}"
+    lv: "{{ item.lv_name }}" 
+    size: "{{ item.size }}"
+    resizefs: "{{ item.resizefs }}"
+  with_items: "{{ extend_data }}"
     #  when: vg_create.changed
-    #  command: lvextend -L +{{ opt_size }} /dev/mapper/{{ vg_name }}-opt
     #  register: lv_extend
   ignore_errors: yes
 
-  #- name: Grow filesystem
-  #  command: xfs_growfs /dev/mapper/{{ vg_name }}-opt
-  #  when: lv_extend.changed
-  #  register: fs_grow
-  #  ignore_errors: yes
-  
-  #- name: Mount filesystems
-  #  mount:
-  #    path: "/mnt/{{ item.filesystem }}"
-  #    src: "{{ item.device }}{{ item.partition }}"
-  #    fstype: "{{ item.filesystem }}"
-  #    state: mounted
-  #  with_items: "{{ partition_data }}"

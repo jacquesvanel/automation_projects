@@ -3,21 +3,12 @@
   import_tasks: partitions.yml
   tags:
     - partition
-      
-      #- name: extend exisiting volgroup
-      #  import_tasks: volgroup.yml
-      #  tags: 
-      #    - volgroup
 
 - name: create logical volume
   import_tasks: lvm.yml
   tags:
     - lvm
 
-- name: add line to fstab
-  import_tasks: fstab.yml
-  tags:
-    - fstab
 ################################################################
 
 - name: extend opt volume
@@ -32,10 +23,9 @@
     - data
     - never
 
-  #- name: Mount filesystems
-  #  mount:
-  #    path: "/mnt/{{ item.filesystem }}"
-  #    src: "{{ item.device }}{{ item.partition }}"
-  #    fstype: "{{ item.filesystem }}"
-  #    state: mounted
-  #  with_items: "{{ partition_data }}"
+- name: testing playbook
+  import_tasks: test.yml
+  tags:
+   - test
+   - never
+
