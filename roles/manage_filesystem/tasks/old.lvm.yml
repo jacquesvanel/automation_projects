@@ -1,17 +1,12 @@
 ---
 - name: Create logical volume
-  lvol:
-    vg: "{{ vg_name }}"
-    lv: "{{ lv_name }}"
-    size: "{{ lv_size }}"
-    #  when: vg_create.changed
+  command: lvcreate -L {{ lv_size }} -n {{ lv_name }} {{ vg_name }}
+  when: vg_create.changed
   register: lv_create
   ignore_errors: yes
 
 - name: Format logical volume
-  filesystem:
-    fstype: xfs
-    dev: "/dev/{{ vg_name }}/{{ lv_name }}"
+  command: mkfs -t xfs /dev/{{ vg_name }}/{{ lv_name }}
   when: lv_create.changed
   register: lv_format
   ignore_errors: yes

@@ -1,4 +1,5 @@
 ---
+#creates new lvm partition
 - name: Create partitions
   parted:
     device: "{{ device }}"
@@ -7,12 +8,12 @@
     state: present
   register: part_create
   #  with_items: "{{ partition_data }}"
-  #test
+
+#creates new pvs and extends existing vg to newly created partiton
 - name: Create physical volume
   lvg:
     vg: "{{ vg_name }}"
     pvs: "{{ device }}p1,/dev/nvme0n1p2"
-  #  command: pvcreate {{ device }}p1
   when: part_create.changed
   register: pv_create
   ignore_errors: yes

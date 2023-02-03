@@ -1,14 +1,19 @@
 ---
-- name: Extend Opt logical volume
-  command: lvextend -L +{{ data_size }} /dev/mapper/{{ vg_name }}-{{ lv_name }}
-  register: lv_extend
+- name: Extend Data logical volume
+  lvol:
+    vg: "{{ vg_name }}"
+    lv: data
+    size: 100%FREE
+    resizefs: true
+    #  command: lvextend -L +{{ data_size }} /dev/mapper/{{ vg_name }}-{{ lv_name }}
+    #  register: lv_extend
   ignore_errors: yes
 
-- name: Grow filesystem
-  command: xfs_growfs /dev/mapper/{{ vg_name }}-{{ lv_name }}
-  when: lv_extend.changed
-  register: fs_grow
-  ignore_errors: yes
+  #- name: Grow filesystem
+  #  command: xfs_growfs /dev/mapper/{{ vg_name }}-{{ lv_name }}
+  #  when: lv_extend.changed
+  #  register: fs_grow
+  #  ignore_errors: yes
   
   #- name: Mount filesystems
   #  mount:

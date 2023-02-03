@@ -4,10 +4,10 @@
   tags:
     - partition
       
-- name: extend exisiting volgroup
-  import_tasks: volgroup.yml
-  tags: 
-    - volgroup
+      #- name: extend exisiting volgroup
+      #  import_tasks: volgroup.yml
+      #  tags: 
+      #    - volgroup
 
 - name: create logical volume
   import_tasks: lvm.yml
