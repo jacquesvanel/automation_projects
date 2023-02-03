@@ -4,12 +4,39 @@
 #    msg: "{{ ansible_devices[item] }}"
 #    msg: "{{ ansible_devices[item].size }}"
 #  loop: "{{ ansible_devices.keys()|list }}"
-- name: Collect only facts about hardware
-  setup:
-    gather_subset:
+#- name: Collect only facts about hardware
+#  setup:
+#    gather_subset:
 #      - hardware
-      - devices
+#      - devices
 
-- name: Output disks
+#- name: Output disks
+#  debug:
+#    var: hostvars[ansible_hostname].ansible_devices.keys() | list
+
+#- name: Gather system facts
+#  gather_facts: yes
+
+- name: Find disk without partition
   debug:
-    var: hostvars[ansible_hostname].ansible_devices.partitions.keys() | list
+    msg: "{{ item.device }} doesn't have a partition"
+  loop: "{{ ansible_devices | selectattr('partitions', 'equals', {}) | selectattr('holders', 'equals', []) | selectattr('size', 'gt', 0) | list }}"
+  when: item.device.startswith('/dev/nvme')
+
+- name: Find disk without partition
+  set_fact:
+    unpartitioned_disk: "{{ ansible_devices | selectattr('partitions', 'equals', {}) | selectattr('holders', 'equals', []) | selectattr('size', 'gt', 0) | list }}"
+  when: unpartitioned_disk | length > 0
+
+  #- name: Create partition on unpartitioned disk
+  #  blockinfile:
+  #    path: /tmp/partition_disk.sh
+  #    block: |
+  #      echo "Creating partition on {{ unpartitioned_disk[0].device }}"
+  #      parted {{ unpartitioned_disk[0].device }} mklabel gpt
+  #      parted {{ unpartitioned_disk[0].device }} mkpart primary ext4 0% 100%
+  #  when: unpartitioned_disk | length > 0
+
+  #- name: Run partition script
+  #  command: sh /tmp/partition_disk.sh
+  #  when: unpartitioned_disk | length > 0
