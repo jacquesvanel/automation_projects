@@ -11,7 +11,7 @@
 - name: Create physical volume
   lvg:
     vg: "{{ vg_name }}"
-    pvs: "{{ device }}p1, /dev/nvme0n1p2"
+    pvs: "{{ device }}p1,/dev/nvme0n1p2"
   #  command: pvcreate {{ device }}p1
   when: part_create.changed
   register: pv_create
