@@ -9,7 +9,7 @@
 
 - name: Find disk without partition
   debug:
-    msg: "{{ item.key }} doesn't have a partition"
+    msg: "{{ item }} doesn't have a partition"
   loop: "{{  part | selectattr('partitions', '==', {}) | list }}"
   #  when: item.device.startswith('/dev/nvme')
 
