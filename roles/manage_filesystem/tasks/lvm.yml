@@ -32,10 +32,3 @@
   register: lv_mount
   ignore_errors: yes
 
-  #- name: Mount filesystems
-  #  mount:
-  #    path: "/mnt/{{ item.filesystem }}"
-  #    src: "{{ item.device }}{{ item.partition }}"
-  #    fstype: "{{ item.filesystem }}"
-  #    state: mounted
-  #  with_items: "{{ partition_data }}"

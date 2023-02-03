@@ -3,7 +3,7 @@
   lvol:
     vg: "{{ vg_name }}"
     lv: data
-    size: 100%FREE
+    size: +100%FREE
     resizefs: true
     #  command: lvextend -L +{{ data_size }} /dev/mapper/{{ vg_name }}-{{ lv_name }}
     #  register: lv_extend
