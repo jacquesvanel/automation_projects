@@ -5,11 +5,11 @@
 #    msg: "{{ ansible_devices[item].size }}"
 #  loop: "{{ ansible_devices.keys()|list }}"
 - name: Collect only facts about hardware
-    setup:
-      gather_subset:
+  setup:
+    gather_subset:
       - hardware
       - devices
 
-  - name: Output disks
-    debug:
-      var: hostvars[ansible_hostname].ansible_devices.keys() | list
+- name: Output disks
+  debug:
+    var: hostvars[ansible_hostname].ansible_devices.keys() | list
