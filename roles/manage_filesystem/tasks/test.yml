@@ -7,9 +7,9 @@
 - name: Collect only facts about hardware
   setup:
     gather_subset:
-      - hardware
-#      - devices
+#      - hardware
+      - devices
 
 - name: Output disks
   debug:
-    var: hostvars[ansible_hostname].ansible_devices.keys() | list
+    var: hostvars[ansible_hostname].ansible_devices.patitions.keys() | list
