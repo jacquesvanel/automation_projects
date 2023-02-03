@@ -8,7 +8,7 @@
   setup:
     gather_subset:
       - hardware
-      - devices
+#      - devices
 
 - name: Output disks
   debug:
