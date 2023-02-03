@@ -3,39 +3,14 @@
   debug:
 #    msg: "{{ ansible_devices[item] }}"
     msg: "{{ ansible_devices[item].partitions }}"
+  register: part  
   when: item.startswith('nvme')
   loop: "{{ ansible_devices.keys()|list }}"
 
-#- name: Collect only facts about hardware
-#  setup:
-#    gather_subset:
-#      - hardware
-#      - devices
-
-#- name: Output disks
-#  debug:
-#    var: hostvars[ansible_hostname].ansible_devices.keys() | list
-
-#- name: Gather system facts
-#  gather_facts: yes
-#- name: devices
-#  set_fact:
-#    device_part: "{{ item.key }}"
-#  with_dict: "{{ ansible_devices }}"
-#  when: item.key.startswith('nvme')
-
-  #- name: show values
-  #  debug:
-  #    var: device_part.value.partitions
-
-  #- name: show list
-  #  debug:
-  #    var: device_part | list
-
 - name: Find disk without partition
   debug:
-    msg: "{{ item.device }} doesn't have a partition"
-  loop: "{{  ansible_devices[item].partitions | selectattr('partitions', '==', {}) | list }}"
+    msg: "{{ item.key }} doesn't have a partition"
+  loop: "{{  part | selectattr('partitions', '==', {}) | list }}"
   #  when: item.device.startswith('/dev/nvme')
 
 - name: Find disk without partition
