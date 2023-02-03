@@ -12,7 +12,6 @@
   lvg:
     vg: "{{ vg_name }}"
     pvs: "{{ device }}p1"
-    pvresize: true
   #  command: pvcreate {{ device }}p1
   when: part_create.changed
   register: pv_create
