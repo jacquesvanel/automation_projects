@@ -1,9 +1,10 @@
 ---
-#- name: Check disk size
-#  debug:
+- name: Check disk size
+  debug:
 #    msg: "{{ ansible_devices[item] }}"
-#    msg: "{{ ansible_devices[item].size }}"
-#  loop: "{{ ansible_devices.keys()|list }}"
+    msg: "{{ ansible_devices[item].partitions }}"
+  loop: "{{ ansible_devices.keys()|list }}"
+
 #- name: Collect only facts about hardware
 #  setup:
 #    gather_subset:
@@ -24,7 +25,7 @@
 
 - name: show values
   debug:
-    var: device_part.partitions
+    var: device_part.value.partitions
 
 - name: show list
   debug:
