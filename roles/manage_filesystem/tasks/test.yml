@@ -20,7 +20,7 @@
   set_fact:
     device_part: "{{ item.key }}"
   with_dict: "{{ ansible_devices }}"
-  #  when: item.device.startswith('nvme')
+  when: item.key.startswith('nvme')
 
 - name: show values
   debug:
