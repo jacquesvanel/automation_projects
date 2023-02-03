@@ -1,18 +1,19 @@
 ---
 - name: Create partitions
   parted:
-#    device: "{{ device }}"
-    device: /dev/nvme1n1
-#    number: "{{ partition }}"
-    number: 1
+    device: "{{ device }}"
+    number: "{{ partition }}"
     flags: [ lvm ]
     state: present
   register: part_create
   #  with_items: "{{ partition_data }}"
   #test
 - name: Create physical volume
-#  command: pvcreate {{ device }}p1
-  command: pvcreate /dev/nvme1n1p1
+  lvg:
+    vg: "{{ vg_name }}"
+    pvs: "{{ device }}p1"
+    pvresize: true
+  #  command: pvcreate {{ device }}p1
   when: part_create.changed
   register: pv_create
   ignore_errors: yes
