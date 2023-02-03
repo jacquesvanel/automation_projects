@@ -24,11 +24,11 @@
 
 - name: show values
   debug:
-    var: ansible_devices[device_part]
+    var: device_part.partitions
 
 - name: show list
   debug:
-    var: device_part
+    var: device_part | list
 
 - name: Find disk without partition
   debug:
