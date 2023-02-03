@@ -20,7 +20,7 @@
 - name: Find disk without partition
   debug:
     msg: "{{ item.device }} doesn't have a partition"
-  loop: "{{ ansible_devices.keys() | selectattr('partitions', 'equals', {}) | list }}"
+  loop: "{{ ansible_devices.keys() | selectattr('partitions', '==', {}) | list }}"
   when: item.device.startswith('/dev/nvme')
 
 - name: Find disk without partition
