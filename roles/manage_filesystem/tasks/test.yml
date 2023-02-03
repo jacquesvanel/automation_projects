@@ -2,7 +2,7 @@
 - name: Check partition
   debug:
 #    msg: "{{ ansible_devices[item] }}"
-    msg: "{{ ansible_devices[item].partitions }}"
+    msg: "{{ ansible_devices[item] }}"
   register: part  
   when: item.startswith('nvme')
   loop: "{{ ansible_devices.keys()|list }}"
