@@ -17,8 +17,18 @@
 #- name: Gather system facts
 #  gather_facts: yes
 - name: devices
+  set_fact:
+    device_part: "{{ item.key }}"
+  with_dict: "{{ ansible_devices }}"
+  when: item.device.startswith('nvme')
+
+- name: show values
   debug:
-    msg: "{{ ansible_devices | list }}"
+    var: ansible_devices[device_part]
+
+- name: show list
+  debug:
+    var: device_part
 
 - name: Find disk without partition
   debug:
