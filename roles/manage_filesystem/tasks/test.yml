@@ -1,6 +1,15 @@
 ---
-- name: Check disk size
-  debug:
-    msg: "{{ ansible_devices[item] }}"
+#- name: Check disk size
+#  debug:
+#    msg: "{{ ansible_devices[item] }}"
 #    msg: "{{ ansible_devices[item].size }}"
-  loop: "{{ ansible_devices.keys()|list }}"
+#  loop: "{{ ansible_devices.keys()|list }}"
+- name: Collect only facts about hardware
+    setup:
+      gather_subset:
+      - hardware
+      - devices
+
+  - name: Output disks
+    debug:
+      var: hostvars[ansible_hostname].ansible_devices.keys() | list
