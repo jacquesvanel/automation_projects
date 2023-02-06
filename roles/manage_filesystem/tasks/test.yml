@@ -9,7 +9,7 @@
 
 - name: debug
   debug:
-    msg: "{{ part.partitions }}"
+    msg: "{{ ansible_facts.devices_partitions | list }}"
 
 - name: Find disk without partition
   debug:
