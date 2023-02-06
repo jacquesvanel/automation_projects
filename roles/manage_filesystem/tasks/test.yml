@@ -10,7 +10,7 @@
 - name: debug
   debug:
     msg: "{{ item.partitions }}"
-  loop: "{{ part }}"
+  loop: "{{ part | list }}"
           #    msg: "{{ ansible_devices[partitions] | list }}"
 
 - name: Find disk without partition
