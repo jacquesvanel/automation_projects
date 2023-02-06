@@ -9,8 +9,8 @@
 
 - name: debug
   debug:
-    msg: "{{ item.results }}"
-  loop: "{{  part | selectattr('partitions', '==', {}) | list }}"
+    msg: "{{ item.partitions }}"
+  loop: "{{  part.results | subelements('partitions', '==', {}) | list }}"
           #    msg: "{{ ansible_devices[partitions] | list }}"
 
 - name: Find disk without partition
