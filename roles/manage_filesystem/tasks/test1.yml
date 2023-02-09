@@ -1,7 +1,7 @@
 ---
 - debug:
     msg: 
-      - "{{ item.key }}"
+      - "{{ item.value.size_g }}"
 #      - "{{ ansible_lvm.lvs.opt }}"  
     #is {{ item.value.size_g }}"
   with_dict: "{{ ansible_lvm.lvs.opt }}"
