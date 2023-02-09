@@ -4,10 +4,11 @@
     msg: "{{ item.key }}"
   with_dict: "{{ ansible_lvm.vgs }}"
   register: vg_name
-- debug:
-    msg: "{{ item.key }}"
-  with_dict: "{{ ansible_lvm.lvs }}"
 
+- debug:
+    msg: "{{ item.value.size_g }}"
+  with_dict: "{{ ansible_lvm.lvs.opt }}"
+  
 - debug:
     msg: "{{ ansible_devices }}"
 
