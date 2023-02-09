@@ -1,7 +1,7 @@
 ---
 - debug:
     msg: "{{ item.value.size_g }}"
-  with_dict: "{{ ansible_lvm.lvs.opt }}"
+  with_dict: "{{ ansible_lvm.lvs_opt }}"
   
   #- debug:
   #    msg: "{{ ansible_devices }}"
