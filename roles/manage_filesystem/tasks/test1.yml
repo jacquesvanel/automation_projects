@@ -3,3 +3,11 @@
   debug:
     msg: "{{ item.key }}"
   with_dict: "{{ ansible_lvm.vgs }}"
+  register: vg_name
+- debug:
+    msg: "{{ ansible_lvm }}"
+
+- debug:
+    msg: "{{ ansible_devices }}"
+
+

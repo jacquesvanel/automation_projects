@@ -9,10 +9,16 @@
   register: part_create
   #  with_items: "{{ partition_data }}"
 
+- name: get vgs
+  debug:
+    msg: "{{ item.key }}"
+  with_dict: "{{ ansible_lvm.vgs }}"
+  register: vg_name
+
 #creates new pvs and extends existing vg to newly created partiton
 - name: Create physical volume
   lvg:
-    vg: "{{ vg_name }}"
+    vg: "{{ vg_name.stdout }}"
     pvs: "{{ device }}p1,/dev/nvme0n1p2"
   when: part_create.changed
   register: pv_create
