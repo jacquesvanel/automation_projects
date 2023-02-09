@@ -8,7 +8,7 @@ partition: '1'
       #    - { device: '/dev/sdb', partition: '1', filesystem: 'xfs', size: '50G' }
 vg_name: VolGroup 
 lv_name: data 
-lv_size: 100G
+lv_size: 10G
 
 extend_data:
   - vg_name: VolGroup

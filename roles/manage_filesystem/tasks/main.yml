@@ -24,7 +24,7 @@
     - never
 
 - name: testing playbook
-  import_tasks: test.yml
+  import_tasks: test1.yml
   tags:
    - test
    - never

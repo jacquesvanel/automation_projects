@@ -1,12 +1,15 @@
 ---
-- name: Extend Opt and Data logical volume
+- name:
+  command: lvdisplay /dev/VolGroup/opt | grep "LV Size" | awk 'END {print$3}'| sed 's/\.[0-9][0-9]//g'
+  register: opt_size
+
+- name: Extend Opt logical volume
   lvol:
-    vg: "{{ item.vg_name }}"
-    lv: "{{ item.lv_name }}" 
-    size: "{{ item.size }}"
-    resizefs: "{{ item.resizefs }}"
-  with_items: "{{ extend_data }}"
-    #  when: vg_create.changed
+    vg: "{{ vg_name }}"
+    lv: opt 
+    size: 9G
+    resizefs: true 
+  when: opt_size.stdout|int >= 9
     #  register: lv_extend
   ignore_errors: yes
 

@@ -1,0 +1,5 @@
+---
+- name: get vgs
+  debug:
+    msg: {{ item.key }}
+  with_dict: {{ ansible_lvm.vgs }}
