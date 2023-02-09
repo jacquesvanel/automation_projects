@@ -1,8 +1,9 @@
 ---
 - debug:
-    msg: "{{ item.key }} is {{ item.value.size_g }}"
+    msg: "{{ item.opt }}" 
+    #is {{ item.value.size_g }}"
   with_dict: "{{ ansible_lvm.lvs }}"
-  when: item.key == "opt"
+  #  when: item.key == "opt"
   
   #- debug:
   #    msg: "{{ ansible_devices }}"
