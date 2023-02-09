@@ -1,8 +1,8 @@
 ---
 - debug:
-    msg: "{{ item.key['opt'] }}" 
+    msg: "{{ item.value }}" 
     #is {{ item.value.size_g }}"
-  with_dict: "{{ ansible_lvm.lvs }}"
+  with_dict: "{{ ansible_lvm.lvs.opt }}"
   #  when: item.key == "opt"
   
   #- debug:
