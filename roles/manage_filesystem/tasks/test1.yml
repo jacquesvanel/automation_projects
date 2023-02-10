@@ -1,10 +1,11 @@
 ---
-- debug:
-    msg: "{{ item.value.size_g }}"
-  with_dict: "{{ ansible_lvm.lvs }}"
-  when: item.key == "opt"
+#- debug:
+#    msg: "{{ item.value.size_g }}"
+#  with_dict: "{{ ansible_lvm.lvs }}"
+#  register: opt_size
+#  when: item.key == "opt"
   
-  #- debug:
-  #    msg: "{{ ansible_devices }}"
-
-
+- debug:
+    msg: "{{ item.key }}"
+  with_dict: "{{ ansible_devices }}"
+  when: item.startswith('nvme')

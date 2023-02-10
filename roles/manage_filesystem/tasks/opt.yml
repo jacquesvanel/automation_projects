@@ -1,7 +1,13 @@
 ---
-- name:
-  command: lvdisplay /dev/VolGroup/opt | grep "LV Size" | awk 'END {print$3}'| sed 's/\.[0-9][0-9]//g'
+#- name:
+#  command: lvdisplay /dev/VolGroup/opt | grep "LV Size" | awk 'END {print$3}'| sed 's/\.[0-9][0-9]//g'
+#  register: opt_size
+
+- debug:
+    msg: "{{ item.value.size_g }}"
+  with_dict: "{{ ansible_lvm.lvs }}"
   register: opt_size
+  when: item.key == "opt"
 
 - name: Extend Opt logical volume
   lvol:
@@ -9,7 +15,7 @@
     lv: opt 
     size: 9G
     resizefs: true 
-  when: opt_size.stdout|int >= 9
+  when: opt_size.stdout|int >= 9.00
     #  register: lv_extend
   ignore_errors: yes
 
