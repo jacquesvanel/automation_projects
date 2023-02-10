@@ -8,4 +8,4 @@
 - debug:
     msg: "{{ item.key }}"
   with_dict: "{{ ansible_devices }}"
-  when: item.key.startswith('nvme')
+  when: item.key.startswith('nvme') and item.value.partitions == {}
