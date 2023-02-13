@@ -18,8 +18,8 @@
 #  register: vg_name
 
 - set_fact: 
-    vg_name: "{{ item.key.stdout }}"
-  with_dict: "{{ ansible_lvm.vgs }}"
+    vg_name: "{{ item }}"
+  with_dict: "{{ ansible_lvm.vgs.key ()}}"
 
 - debug:
     msg: "{{ vg_name }}"
