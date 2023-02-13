@@ -44,11 +44,14 @@
   register: mongo_service_status
   with_items: "{{ service.files | map(attribute='path')| list }}"
   
+- debug:
+    msg: "{{ mongo_service_status }}"
+
 - name: Status of All database services
   debug:
-    msg: "The status of mongo is {{ item.ActiveState }}"
+    msg: "The status of mongo is {{ item.value.ActiveState }}"
   with_dict:
-    - "{{mongo_service_status.status}}" 
+    - "{{ mongo_service_status }}" 
   #- name: make backup
   #  copy:
   #    src: "{{ item }}"
