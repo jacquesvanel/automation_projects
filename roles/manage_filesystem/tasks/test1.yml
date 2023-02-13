@@ -17,9 +17,12 @@
 #  with_dict: "{{ ansible_lvm.vgs }}"
 #  register: vg_name
 
+- debug:
+    msg: "{{ ansible_lvm.vgs }}"
+
 - set_fact: 
     vg_name: "{{ item }}"
-  with_dict: "{{ ansible_lvm.vgs.key ()}}"
+  with_dict: "{{ ansible_lvm.vgs }}"
 
 - debug:
     msg: "{{ vg_name }}"
