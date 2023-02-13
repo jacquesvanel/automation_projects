@@ -46,9 +46,9 @@
   
 - name: Status of All database services
   debug:
-    msg: "The status of mongo is {{ item }}"
-  loop:
-    - "{{mongo_service_status.status.ActiveState}}" 
+    msg: "The status of mongo is {{ item.ActiveState }}"
+  with_dict:
+    - "{{mongo_service_status.status}}" 
   #- name: make backup
   #  copy:
   #    src: "{{ item }}"
