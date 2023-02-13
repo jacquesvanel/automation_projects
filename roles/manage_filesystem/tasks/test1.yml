@@ -27,5 +27,5 @@
 
 - debug:
     msg: 
-     - "{{ vg_name }}"
+     - "{{ ansible_lvm.vgs.keys() }}"
   #with_items: "{{ device.results }}"
