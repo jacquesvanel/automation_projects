@@ -22,9 +22,10 @@
 
 - set_fact: 
     vg_name: "{{ item.key }}"
+    cacheable: yes
   with_dict: "{{ ansible_lvm.vgs }}"
 
 - debug:
-    msg: 
-     - "{{ vg_name[0] }}"
+    var: 
+     - "{{ vg_name }}"
   #with_items: "{{ device.results }}"
