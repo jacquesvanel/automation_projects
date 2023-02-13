@@ -21,9 +21,9 @@
     msg: "{{ ansible_lvm.vgs }}"
 
 - set_fact: 
-    vg_name: "{{ item.key }}"
-    cacheable: yes
-  with_dict: "{{ ansible_lvm.vgs }}"
+    vg_name: "{{ ansible_lvm.vgs.key }}"
+    #    cacheable: yes
+    #  with_dict: "{{ ansible_lvm.vgs }}"
 
 - debug:
     var: 
