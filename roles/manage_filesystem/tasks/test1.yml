@@ -50,7 +50,6 @@
 - name: Status of All database services
   debug:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
-  no_log: true
   with_items:
     - "{{ mongo_service_status.results }}" 
   #- name: make backup
