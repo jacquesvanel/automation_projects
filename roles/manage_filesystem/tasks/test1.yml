@@ -21,7 +21,7 @@
     msg: "{{ ansible_lvm }}"
 
 - set_fact: 
-    vg_name: "{{ item.value.vgs }}"
+    vg_name: "{{ item.key.vgs }}"
   with_dict: "{{ ansible_lvm }}"
 
 - debug:
