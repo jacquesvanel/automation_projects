@@ -22,5 +22,5 @@
   with_dict: "{{ ansible_lvm.vgs }}"
 
 - debug:
-    msg: "{{ vg_name }}"
+    msg: "{{ vg_name.results }}"
     #with_items: "{{ device.results }}"
