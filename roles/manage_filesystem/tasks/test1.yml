@@ -44,8 +44,8 @@
   register: mongo_service_status
   with_items: "{{ service.files | map(attribute='path')| map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| list }}"
   
-- debug:
-    msg: "{{ mongo_service_status }}"
+  #- debug:
+  #    msg: "{{ mongo_service_status }}"
 
 - name: Status of All database services
   debug:
