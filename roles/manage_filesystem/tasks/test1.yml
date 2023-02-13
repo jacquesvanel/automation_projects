@@ -42,7 +42,7 @@
   systemd:
     name: "{{ item }}"
   register: mongo_service_status
-  with_items: "{{ service.files | map(attribute='path')| regex_replace('\\/usr\\/lib\\/systemd\\/system\\/','') }}"
+  with_items: "{{ service.files | map(attribute='pattern')| list }}"
   
 - debug:
     msg: "{{ mongo_service_status }}"
