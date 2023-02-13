@@ -17,15 +17,29 @@
 #  with_dict: "{{ ansible_lvm.vgs }}"
 #  register: vg_name
 
-- debug:
-    msg: "{{ ansible_lvm.vgs }}"
+#- debug:
+#    msg: "{{ ansible_lvm.vgs }}"
 
-- set_fact: 
-    vg_name: "{{ item }}"
+#- set_fact: 
+#    vg_name: "{{ item }}"
     #    cacheable: yes
-  with_items: "{{ ansible_lvm.vgs.keys() }}"
+    #  with_items: "{{ ansible_lvm.vgs.keys() }}"
 
-- debug:
-    msg: 
-     - "{{ ansible_lvm.vgs.keys() }}"
+#- debug:
+#    msg: 
+#     - "{{ ansible_lvm.vgs.keys() }}"
   #with_items: "{{ device.results }}"
+  #
+- name: find config files on server
+  find:
+    paths: "/usr/lib/systemd/system/"
+    patterns: "mongo*.service"
+    recurse: yes
+  register: service
+
+  #- name: make backup
+  #  copy:
+  #    src: "{{ item }}"
+  #    dest: "/etc/mongo/"
+  #    remote_src: yes
+  #  with_items: "{{ service.files | map(attribute='path')| list }}"
