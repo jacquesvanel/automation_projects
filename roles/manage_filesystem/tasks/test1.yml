@@ -23,7 +23,7 @@
 - set_fact: 
     vg_name: "{{ item }}"
     #    cacheable: yes
-  with_dict: "{{ ansible_lvm.vgs.keys() }}"
+  with_items: "{{ ansible_lvm.vgs.keys() }}"
 
 - debug:
     msg: 
