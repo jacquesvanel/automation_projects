@@ -18,10 +18,9 @@
 #  register: vg_name
 
 - set_fact: 
-    vg_name: "{{ item.key }}"
+    vg_name: "{{ item.key.stdout }}"
   with_dict: "{{ ansible_lvm.vgs }}"
 
 - debug:
-    msg: "{{ item.stdout }}"
-  with_items: vg_name
-    #with_items: "{{ device.results }}"
+    msg: "{{ vg_name }}"
+  #with_items: "{{ device.results }}"
