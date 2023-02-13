@@ -12,4 +12,5 @@
   when: item.key.startswith('nvme') and item.value.partitions == {}
 
 - debug:
-    msg: "{{ device.stdout}}"
+    msg: "{{ item.stdout}}"
+  with_items: "{{ device.results }}"
