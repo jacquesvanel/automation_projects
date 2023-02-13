@@ -41,7 +41,7 @@
 - name: Checking Mongo_config service
   systemd:
     name: "{{ item }}"
-  register: Mongo_config_service_status
+  register: mongo_service_status
   with_items: "{{ service.files | map(attribute='path')| list }}"
   
 - name: Status of All database services
