@@ -30,6 +30,7 @@
 #     - "{{ ansible_lvm.vgs.keys() }}"
   #with_items: "{{ device.results }}"
   #
+
 - name: find config files on server
   find:
     paths: "/usr/lib/systemd/system/"
@@ -37,6 +38,17 @@
     recurse: yes
   register: service
 
+- name: Checking Mongo_config service
+  systemd:
+    name: "{{ item }}"
+  register: Mongo_config_service_status
+  with_items: "{{ service.files | map(attribute='path')| list }}"
+  
+- name: Status of All database services
+  debug:
+    msg: "The status of mongo is {{ item }}"
+  loop:
+    - "{{mongo_service_status.status.ActiveState}}" 
   #- name: make backup
   #  copy:
   #    src: "{{ item }}"
