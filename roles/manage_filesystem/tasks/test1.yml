@@ -12,5 +12,5 @@
   when: item.key.startswith('nvme') and item.value.partitions == {}
 
 - debug:
-    msg: "{{ device}}"
+    var: "{{ device}}"
     #with_items: "{{ device.results }}"
