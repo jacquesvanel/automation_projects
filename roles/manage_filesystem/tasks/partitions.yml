@@ -28,7 +28,7 @@
 - name: Create physical volume
   lvg:
     vg: "{{ vgs_name }}"
-    pvs: "/dev/{{ device }}p1,/dev/nvme0n1p2"
+    pvs: "/dev/{{ device_name }}p1,/dev/nvme0n1p2"
   when: part_create.changed
   register: pv_create
   ignore_errors: yes
