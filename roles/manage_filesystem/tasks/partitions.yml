@@ -25,17 +25,16 @@
 
 - name: get vgs
   debug:
-    var: vg_name
+    var: vgs_name
 
 - debug:
-    var: ansible_lvm.vgs[vg_name]
+    var: ansible_lvm.pvs[vgs_name]
 
 #creates new pvs and extends existing vg to newly created partiton
 - name: Create physical volume
   lvg:
-    vg: "{{ item.key }}"
-    pvs: "/dev/nvme1n1p1,/dev/nvme0n1p2"
-  with_dict: "{{ ansible_lvm.vgs }}"
+    vg: "{{ vgs_name }}"
+    pvs: "/dev/{{ device }}p1,/dev/nvme0n1p2"
   when: part_create.changed
   register: pv_create
   ignore_errors: yes
