@@ -1,15 +1,15 @@
 ---
 #creates new lvm partition
-#- debug:
-#    msg: "{{ item.key }}"
-#  with_dict: "{{ ansible_devices }}"
-#  register: device
-#  when: item.key.startswith('nvme') and item.value.partitions == {}
+- debug:
+    msg: "{{ item.key }}"
+  with_dict: "{{ ansible_devices }}"
+  register: device
+  when: item.key.startswith('nvme') and item.value.partitions == {}
   
 - name: Create partitions
   parted:
-    device: "{{ device }}"
-    number: "{{ partition }}"
+    device: "/dev/{{ device }}"
+    number: 1
     flags: [ lvm ]
     state: present
   register: part_create
@@ -24,8 +24,8 @@
 #creates new pvs and extends existing vg to newly created partiton
 - name: Create physical volume
   lvg:
-    vg: "{{ vg_name.stdout }}"
-    pvs: "{{ device }}p1,/dev/nvme0n1p2"
+    vg: "{{ vg_name }}"
+    pvs: "/dev/{{ device }}p1,/dev/nvme0n1p2"
   when: part_create.changed
   register: pv_create
   ignore_errors: yes
