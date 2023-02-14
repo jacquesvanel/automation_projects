@@ -17,6 +17,9 @@
   when: item.key.startswith('nvme') and item.value.partitions == {}
 
 - debug:
+    msg: "{{ ansible_device }}"
+
+- debug:
     var:  device 
   ignore_errors: yes
 
@@ -27,7 +30,7 @@
   register: vg_name
 
 - debug:
-    var: "{{ vg_name }}"
+    var:  vg_name 
 
     #- set_fact: 
     #    vg_name: "{{ item }}"
