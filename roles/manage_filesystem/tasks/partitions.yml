@@ -19,9 +19,13 @@
 - debug:
     msg: "{{ ansible_lvm }}"
 
+    #- set_fact:
+    #    vgs_name: "{{ item.value.vg }}"
+    #  with_dict: "{{ ansible_lvm.pvs }}"
+
 - set_fact:
-    vgs_name: "{{ item.value.vg }}"
-  with_dict: "{{ ansible_lvm.pvs }}"
+    vgs_name: "{{ item.key }}"
+  with_dict: "{{ ansible_lvm.vgs }}"
 
 - name: get vgs
   debug:
