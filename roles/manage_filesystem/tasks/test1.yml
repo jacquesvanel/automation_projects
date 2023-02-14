@@ -17,7 +17,7 @@
   when: item.key.startswith('nvme') and item.value.partitions == {}
 
 - debug:
-    var: "{{ device }}"
+    var:  device 
   ignore_errors: yes
 
 - name: get vgs
