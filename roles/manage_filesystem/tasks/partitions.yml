@@ -22,6 +22,9 @@
   #  when: item.key.startswith('nvme') and item.value.partitions == {}
   #  with_items: "{{ partition_data }}"
 
+- debug:
+    var: "{{ ansible_lvm }}"
+
 - set_fact:
     vg_name: "{{ item.key.vgs }}"
   with_dict: "{{ ansible_lvm }}"
