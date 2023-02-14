@@ -5,29 +5,33 @@
   with_dict: "{{ ansible_devices }}"    
   when: item.key.startswith('nvme') and item.value.partitions == {}
 
-- debug:
-    var: ansible_devices[device_name]
+  #- debug:
+  #    var: ansible_devices[device_name]
 
 - debug:
     var:  device_name
   
 - name: Create partitions
   parted:
-    device: "/dev/{{ item.key }}"
+    device: "/dev/{{ device_name }}"
     number: 1
     flags: [ lvm ]
     state: present
-  with_dict: "{{ ansible_devices }}"
+    #  with_dict: "{{ ansible_devices }}"
   register: part_create
-  when: item.key.startswith('nvme') and item.value.partitions == {}
+  #  when: item.key.startswith('nvme') and item.value.partitions == {}
   #  with_items: "{{ partition_data }}"
 
+- set_fact:
+    vg_name: "{{ item.key }}"
+  with_dict: "{{ ansible_lvm.vgs }}"
 
 - name: get vgs
   debug:
-    msg: "{{ item.key }}"
-  with_dict: "{{ ansible_lvm.vgs }}"
-  register: vg_name
+    var: vg_name
+
+- debug:
+    var: ansible_lvm.vgs[vg_name]
 
 #creates new pvs and extends existing vg to newly created partiton
 - name: Create physical volume
