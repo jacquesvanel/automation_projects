@@ -23,7 +23,7 @@
   #  with_items: "{{ partition_data }}"
 
 - set_fact:
-    vg_name: "{{ item.vgs }}"
+    vg_name: "{{ item.key[vgs] }}"
   with_dict: "{{ ansible_lvm }}"
 
 - name: get vgs
