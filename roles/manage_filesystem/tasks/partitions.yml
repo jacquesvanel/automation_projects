@@ -5,9 +5,6 @@
   with_dict: "{{ ansible_devices }}"    
   when: item.key.startswith('nvme') and item.value.partitions == {}
 
-  #- debug:
-  #    var: ansible_devices[device_name]
-
 - debug:
     var:  device_name
   
@@ -17,17 +14,14 @@
     number: 1
     flags: [ lvm ]
     state: present
-    #  with_dict: "{{ ansible_devices }}"
   register: part_create
-  #  when: item.key.startswith('nvme') and item.value.partitions == {}
-  #  with_items: "{{ partition_data }}"
 
 - debug:
     msg: "{{ ansible_lvm }}"
 
 - set_fact:
-    vg_name: "{{ item.key }}"
-  with_dict: "{{ ansible_lvm.vgs }}"
+    vgs_name: "{{ item.vgs.key }}"
+  with_dict: "{{ ansible_lvm }}"
 
 - name: get vgs
   debug:
