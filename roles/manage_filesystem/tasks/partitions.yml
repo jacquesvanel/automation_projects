@@ -23,11 +23,11 @@
   #  with_items: "{{ partition_data }}"
 
 - debug:
-    var: "{{ ansible_lvm }}"
+    msg: "{{ ansible_lvm }}"
 
 - set_fact:
-    vg_name: "{{ item.key.vgs }}"
-  with_dict: "{{ ansible_lvm }}"
+    vg_name: "{{ item.key }}"
+  with_dict: "{{ ansible_lvm.vgs }}"
 
 - name: get vgs
   debug:
