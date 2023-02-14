@@ -5,24 +5,26 @@
 #  register: opt_size
 #  when: item.key == "opt"
   
-#- debug:
-#    msg: "{{ item.key }}"
-#  with_dict: "{{ ansible_devices }}"
-#  register: device
-#  when: item.key.startswith('nvme') and item.value.partitions == {}
+- debug:
+    msg: "{{ item.key }}"
+  with_dict: "{{ ansible_devices }}"
+  register: device
+  when: item.key.startswith('nvme') and item.value.partitions == {}
 
-#- name: get vgs
-#  debug:
-#    msg: "{{ item.key }}"
-#  with_dict: "{{ ansible_lvm.vgs }}"
-#  register: vg_name
+- debug:
+    var: "{{ device }}"
 
-#- debug:
-#    msg: "{{ ansible_lvm.vgs }}"
+- name: get vgs
+  debug:
+    msg: "{{ item.key }}"
+  with_dict: "{{ ansible_lvm.vgs }}"
+  register: vg_name
 
-#- set_fact: 
-#    vg_name: "{{ item }}"
-    #    cacheable: yes
+- debug:
+    var: "{{ vg_name }}"
+
+    #- set_fact: 
+    #    vg_name: "{{ item }}"
     #  with_items: "{{ ansible_lvm.vgs.keys() }}"
 
 #- debug:
@@ -31,27 +33,6 @@
   #with_items: "{{ device.results }}"
   #
 
-- name: find config files on server
-  find:
-    paths: "/usr/lib/systemd/system/"
-    patterns: "mongo*.service"
-    recurse: yes
-  register: service
-
-- name: Checking Mongo_config service
-  systemd:
-    name: "{{ item }}"
-  register: mongo_service_status
-  with_items: "{{ service.files | map(attribute='path')| map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| list }}"
-  
-  #- debug:
-  #    msg: "{{ mongo_service_status }}"
-
-- name: Status of All database services
-  debug:
-    msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
-  with_items:
-    - "{{ mongo_service_status.results }}" 
   #- name: make backup
   #  copy:
   #    src: "{{ item }}"
