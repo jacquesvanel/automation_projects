@@ -29,8 +29,9 @@
 #creates new pvs and extends existing vg to newly created partiton
 - name: Create physical volume
   lvg:
-    vg: "{{ ansible_lvm.vgs.key }}"
+    vg: "{{ item.key }}"
     pvs: "/dev/nvme1n1p1,/dev/nvme0n1p2"
+  with_dict: "{{ ansible_lvm.vgs }}"
   when: part_create.changed
   register: pv_create
   ignore_errors: yes
