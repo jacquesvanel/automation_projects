@@ -1,12 +1,15 @@
 ---
 #creates new lvm partition
 - set_fact:
-    device: "{{ item.key }}"
+    device_name: "{{ item.key }}"
   with_dict: "{{ ansible_devices }}"    
   when: item.key.startswith('nvme') and item.value.partitions == {}
 
 - debug:
-    var: "{{ device }}"
+    var: ansible_devices[device_name]
+
+- debug:
+    var:  device_name
   
 - name: Create partitions
   parted:
