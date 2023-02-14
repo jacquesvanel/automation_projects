@@ -18,7 +18,7 @@
   #  with_items: "{{ partition_data }}"
 
 - debug:
-    msg: "{{ part_create.results }}"
+    msg: "{{ part_create.value.disk.dev }}"
 
 - name: get vgs
   debug:
