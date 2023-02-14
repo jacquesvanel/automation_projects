@@ -12,7 +12,8 @@
 #  when: item.key.startswith('nvme') and item.value.partitions == {}
 
 - set_fact:
-    device: "{{ ansible_devices.key() }}"
+    device: "{{ item.key }}"
+  with_dict: "{{ ansible_devices }}"
   when: item.key.startswith('nvme') and item.value.partitions == {}
 
 - debug:
