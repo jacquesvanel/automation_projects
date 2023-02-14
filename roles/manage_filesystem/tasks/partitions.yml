@@ -1,5 +1,5 @@
 ---
-#creates new lvm partition
+#get unpartitioned nvme device
 - set_fact:
     device_name: "{{ item.key }}"
   with_dict: "{{ ansible_devices }}"    
@@ -7,7 +7,8 @@
 
 - debug:
     var:  device_name
-  
+
+#creates new lvm partition  
 - name: Create partitions
   parted:
     device: "/dev/{{ device_name }}"
@@ -16,23 +17,12 @@
     state: present
   register: part_create
 
-- debug:
-    msg: "{{ ansible_lvm }}"
-
-    #- set_fact:
-    #    vgs_name: "{{ item.value.vg }}"
-    #  with_dict: "{{ ansible_lvm.pvs }}"
-
 - set_fact:
     vgs_name: "{{ item.key }}"
   with_dict: "{{ ansible_lvm.vgs }}"
 
-- name: get vgs
-  debug:
-    var: vgs_name
-
 - debug:
-    var: ansible_lvm.pvs[vgs_name]
+    var: vgs_name
 
 #creates new pvs and extends existing vg to newly created partiton
 - name: Create physical volume

@@ -11,7 +11,7 @@
 
 - name: Extend Opt logical volume
   lvol:
-    vg: "{{ vg_name }}"
+    vg: "{{ vgs_name }}"
     lv: opt 
     size: 9G
     resizefs: true 

@@ -1,7 +1,7 @@
 ---
 - name: Extend Data logical volume
   lvol:
-    vg: "{{ vg_name }}"
+    vg: "{{ vgs_name }}"
     lv: data
     size: +100%FREE
     resizefs: true

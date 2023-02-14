@@ -1,7 +1,7 @@
 ---
 - name: Create logical volume
   lvol:
-    vg: "{{ vg_name.stdout }}"
+    vg: "{{ vgs_name }}"
     lv: "{{ lv_name }}"
     size: "{{ lv_size }}"
 #  when: vg_create.changed
@@ -11,7 +11,7 @@
 - name: Format logical volume
   filesystem:
     fstype: xfs
-    dev: "/dev/{{ vg_name.stdout }}/{{ lv_name }}"
+    dev: "/dev/{{ vgs_name }}/{{ lv_name }}"
   when: lv_create.changed
   register: lv_format
   ignore_errors: yes
@@ -25,7 +25,7 @@
 - name: Mount logical volume
   mount:
     path: /{{ lv_name }}
-    src: /dev/{{ vg_name.stdout }}/{{ lv_name }}
+    src: /dev/{{ vgs_name }}/{{ lv_name }}
     fstype: xfs
     state: mounted
   when: lv_format.changed
