@@ -18,7 +18,7 @@
   #  with_items: "{{ partition_data }}"
 
 - debug:
-    msg: "{{ part_create.disk.value.dev }}"
+    msg: "{{ part_create }}"
 
 - name: get vgs
   debug:
@@ -29,9 +29,8 @@
 #creates new pvs and extends existing vg to newly created partiton
 - name: Create physical volume
   lvg:
-    vg: "{{ item.key }}"
-    pvs: "/dev/{{ device }}p1,/dev/nvme0n1p2"
-  with_dict: "{{ ansible_lvm.vgs }}"
+    vg: "{{ ansible_lvm.vgs.key() }}"
+    pvs: "/dev/nvme1n1p1,/dev/nvme0n1p2"
   when: part_create.changed
   register: pv_create
   ignore_errors: yes
