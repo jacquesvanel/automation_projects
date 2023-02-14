@@ -17,7 +17,7 @@
   when: item.key.startswith('nvme') and item.value.partitions == {}
 
 - debug:
-    msg: "{{ ansible_device }}"
+    msg: "{{ ansible_devices }}"
 
 - debug:
     var:  device 
