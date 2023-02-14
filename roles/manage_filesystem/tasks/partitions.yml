@@ -1,19 +1,24 @@
 ---
 #creates new lvm partition
-- debug:
-    msg: "{{ item.key }}"
-  with_dict: "{{ ansible_devices }}"
-  register: device
-  when: item.key.startswith('nvme') and item.value.partitions == {}
+#- debug:
+#    msg: "{{ item.key }}"
+#  with_dict: "{{ ansible_devices }}"
+#  register: device
+#  when: item.key.startswith('nvme') and item.value.partitions == {}
   
 - name: Create partitions
   parted:
-    device: "/dev/{{ device }}"
+    device: "/dev/{{ item.key }}"
     number: 1
     flags: [ lvm ]
     state: present
+  with_dict: "{{ ansible_devices }}"
   register: part_create
+  when: item.key.startswith('nvme') and item.value.partitions == {}
   #  with_items: "{{ partition_data }}"
+
+- debug:
+    var: "{{ part_create }}"
 
 - name: get vgs
   debug:
