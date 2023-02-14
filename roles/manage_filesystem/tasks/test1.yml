@@ -5,14 +5,19 @@
 #  register: opt_size
 #  when: item.key == "opt"
   
-- debug:
-    msg: "{{ item.key }}"
-  with_dict: "{{ ansible_devices }}"
-  register: device
+#- debug:
+#    msg: "{{ item.key }}"
+#  with_dict: "{{ ansible_devices }}"
+#  register: device
+#  when: item.key.startswith('nvme') and item.value.partitions == {}
+
+- set_fact:
+    device: "{{ ansible_devices.key() }}"
   when: item.key.startswith('nvme') and item.value.partitions == {}
 
 - debug:
     var: "{{ device }}"
+  ignore_errors: yes
 
 - name: get vgs
   debug:
