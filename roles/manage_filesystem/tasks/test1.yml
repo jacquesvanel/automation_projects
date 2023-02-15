@@ -1,14 +1,16 @@
 ---
-- set_fact:
-    app_name: cat /etc/serverinfo.conf | grep IrsApplicationName=SADI | sed  's/IrsApplicationName=//g'
+- name: get app name
+  command: cat /etc/serverinfo.conf | grep IrsApplicationName=SADI | sed  's/IrsApplicationName=//g'
+  register: app_name
 
 - debug:
-    var: app_name
+    var: app_name.stdout
 
-- set_fact:
-    env: cat /etc/serverinfo.conf | grep Environment=DSIT | sed  's/Environment=//g'
+- name: get env
+  command: cat /etc/serverinfo.conf | grep Environment=DSIT | sed  's/Environment=//g'
+  register: env
 
 - debug:
-    var: env
+    var: env.stdout
 #- debug:
 #    msg: "{{ ansible_facts }}"
