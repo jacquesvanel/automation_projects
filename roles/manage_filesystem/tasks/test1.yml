@@ -1,13 +1,13 @@
 ---
 - name: get app name
-  command: cat /etc/serverinfo.conf | grep IrsApplicationName=SADI | sed  's/IrsApplicationName=//g'
+  command: "cat /etc/serverinfo.conf | grep IrsApplicationName=SADI | sed  's/IrsApplicationName=//g'"
   register: app_name
 
 - debug:
     var: app_name.stdout
 
 - name: get env
-  command: cat /etc/serverinfo.conf | grep Environment=DSIT | sed  's/Environment=//g'
+  command: "cat /etc/serverinfo.conf | grep Environment=DSIT | sed  's/Environment=//g'"
   register: env
 
 - debug:
