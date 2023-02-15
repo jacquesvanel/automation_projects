@@ -24,7 +24,7 @@
       state: absent
     loop: 
       - "{{ base_packages }}"
-      - "{{ dbtools }}"
+        #- "{{ dbtools }}"
 
   - name: stop and disable hugepages_service
     systemd:
