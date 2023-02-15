@@ -9,7 +9,7 @@
 
 - set_fact:
     lvs_name: "{{ item.key }}"
-  with_dict: "{{ ansible_lvm.lvs }}"
+  loop: "{{ ansible_lvm.lvs | list }}"
 
 - debug:
     var: lvs_name
@@ -52,4 +52,4 @@
     when: lv_format.changed
     ignore_errors: yes
     #  with_dict: "{{ ansible_lvm.lvs }}"
-  when: lvs_name[item] != "data" 
+  when: lvs_name != "data" 
