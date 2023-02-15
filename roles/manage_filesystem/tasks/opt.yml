@@ -17,7 +17,7 @@
     lv: opt 
     size: 9G
     resizefs: true 
-  when: opt_size|int >= 9.00
+  when: opt_size|int <= 9.00
     #  register: lv_extend
   ignore_errors: yes
 
