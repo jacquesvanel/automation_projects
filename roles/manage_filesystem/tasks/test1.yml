@@ -1,6 +1,6 @@
 ---
 - name: get app name
-  shell: cat /etc/serverinfo.conf | grep IrsApplicationName=SADI | sed 's/IrsApplicationName=//g' | tr [:upper:] [:lower:]
+  shell: cat /etc/serverinfo.conf | grep IrsApplicationName | sed 's/IrsApplicationName=//g' | tr [:upper:] [:lower:]
   args:
     warn: no
   register: app_name
@@ -9,7 +9,7 @@
     var: app_name.stdout
 
 - name: get env
-  shell: cat /etc/serverinfo.conf | grep Environment=DSIT | sed 's/Environment=//g' | tr [:upper:] [:lower:]
+  shell: cat /etc/serverinfo.conf | grep Environment | sed 's/Environment=//g' | tr [:upper:] [:lower:]
   args:
     warn: no
   register: env
