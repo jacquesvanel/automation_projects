@@ -17,6 +17,6 @@
 - debug:
     var: env.stdout
 
-    "{{ env.stdout }}"
+ 
 #- debug:
 #    msg: "{{ ansible_facts }}"
