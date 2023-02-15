@@ -16,7 +16,9 @@
     flags: [ lvm ]
     state: present
   register: part_create
+  when: device_name is defined
 
+#gets existing volgroup  
 - set_fact:
     vgs_name: "{{ item.key }}"
   with_dict: "{{ ansible_lvm.vgs }}"

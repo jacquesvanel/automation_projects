@@ -12,6 +12,5 @@
     lv: data
     size: +100%FREE
     resizefs: true
-    #  register: lv_extend
   ignore_errors: yes
 
