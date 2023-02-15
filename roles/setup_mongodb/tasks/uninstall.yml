@@ -20,11 +20,11 @@
 
   - name: uninstall mongo services
     yum:
-      name:
-        - '{{ base_packages }}'
-        - '{{ dbtools}}'
-          #        - '{{ mongomms }}'
+      name: "{{ item }}"
       state: absent
+    loop: 
+      - "{{ base_packages }}"
+      - "{{ dbtools }}"
 
   - name: stop and disable hugepages_service
     systemd:
