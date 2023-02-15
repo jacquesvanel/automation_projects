@@ -10,9 +10,10 @@
 - set_fact:
     lvs_name: "{{ item }}"
   loop: "{{ ansible_lvm.lvs | list }}"
+  when: item == "data"
 
 - debug:
-    msg: "{{ lvs_name }}"
+    msg: lvs_name
 
 - set_fact:
     lv_name: data
@@ -27,7 +28,7 @@
     size: 10G
   register: lv_create
   with_dict: "{{ ansible_lvm.lvs }}"
-  when: item.key != "data"
+  when: lvs_name is undefined
   ignore_errors: yes
 
 - name: Format logical volume
