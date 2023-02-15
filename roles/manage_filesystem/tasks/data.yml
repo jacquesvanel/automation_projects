@@ -1,10 +1,10 @@
 ---
-- set_fact:
-    vgs_name: "{{ item.key }}"
-  with_dict: "{{ ansible_lvm.vgs }}"
+#- set_fact:
+#    vgs_name: "{{ item.key }}"
+#  with_dict: "{{ ansible_lvm.vgs }}"
 
-- debug:
-    var: vgs_name
+#- debug:
+#    var: vgs_name
 
 - name: Extend Data logical volume
   lvol:

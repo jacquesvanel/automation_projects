@@ -11,12 +11,12 @@
 - debug:
     var: opt_size
 
-- set_fact:
-    vgs_name: "{{ item.key }}"
-  with_dict: "{{ ansible_lvm.vgs }}"
+    #- set_fact:
+    #    vgs_name: "{{ item.key }}"
+    #  with_dict: "{{ ansible_lvm.vgs }}"
 
-- debug:
-    var: vgs_name
+    #- debug:
+    #    var: vgs_name
 
 - name: Extend Opt logical volume
   lvol:
@@ -25,6 +25,5 @@
     size: 9G
     resizefs: true 
   when: opt_size|int <= 9.00
-    #  register: lv_extend
   ignore_errors: yes
 
