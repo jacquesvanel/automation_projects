@@ -52,4 +52,4 @@
     when: lv_format.changed
     ignore_errors: yes
     #  with_dict: "{{ ansible_lvm.lvs }}"
-  when: ansible_facts['ansible_lvm']['lvs'] != 'data' 
+  when: ansible_lvm['lvs'] != 'data' 
