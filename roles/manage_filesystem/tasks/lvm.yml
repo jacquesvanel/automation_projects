@@ -11,6 +11,9 @@
     lvs_name: "{{ item.key }}"
   with_dict: "{{ ansible_lvm.lvs }}"
 
+- debug:
+    var: lvs_name
+
 - set_fact:
     lv_name: data
 
@@ -49,4 +52,4 @@
     when: lv_format.changed
     ignore_errors: yes
     #  with_dict: "{{ ansible_lvm.lvs }}"
-  when: lvs_name != "data" 
+  when: lvs_name.key != "data" 
