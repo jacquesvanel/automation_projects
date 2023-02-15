@@ -11,13 +11,6 @@
 - debug:
     var: opt_size
 
-    #- set_fact:
-    #    vgs_name: "{{ item.key }}"
-    #  with_dict: "{{ ansible_lvm.vgs }}"
-
-    #- debug:
-    #    var: vgs_name
-
 - name: Extend Opt logical volume
   lvol:
     vg: "{{ vgs_name }}"

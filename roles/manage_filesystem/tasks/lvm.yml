@@ -1,12 +1,4 @@
 ---
-#gets existing volgroup
-#- set_fact:
-#    vgs_name: "{{ item.key }}"
-#  with_dict: "{{ ansible_lvm.vgs }}"
-
-#- debug:
-#    var: vgs_name
-
 - set_fact:
     lvs_name: "{{ item }}"
   loop: "{{ ansible_lvm.lvs | list }}"
@@ -15,17 +7,12 @@
 - debug:
     var: lvs_name
 
-    #- set_fact:
-    #    lv_name: data
-
-    #- debug:
-    #    var: lv_name
 #creates data lvm
 - name: Create logical volume
   lvol:
     vg: "{{ vgs_name }}"
     lv: "{{ lv_name }}" 
-    size: 10G
+    size: "{{ lv_size }}"
   register: lv_create
   when: lvs_name is undefined
   ignore_errors: yes

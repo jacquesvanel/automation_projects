@@ -18,13 +18,6 @@
   register: part_create
   when: device_name is defined
 
-#gets existing volgroup  
-#- set_fact:
-#    vgs_name: "{{ item.key }}"
-#  with_dict: "{{ ansible_lvm.vgs }}"
-#
-#- debug:
-#    var: vgs_name
 
 #creates new pvs and extends existing vg to newly created partiton
 - name: Create physical volume
