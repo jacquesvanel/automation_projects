@@ -22,8 +22,8 @@ processManagement:
 {% if shard3c is defined and ansible_hostname == shard3c %}
   pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh3-rs_c.pid"
 {% endif %}
-security:
-  keyFile: "/data/{{ env }}/keyfile.pem"
+#security:
+#  keyFile: "/data/{{ env }}/keyfile.pem"
 net:
 {% if shard3a is defined and ansible_hostname == shard3a %}
   port: {{ shard3a_port }}
@@ -35,10 +35,10 @@ net:
   port: {{ shard3c_port }}
 {% endif %}
   bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
-  tls:
-   mode: allowTLS
-   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
-   certificateKeyFilePassword: {{ cert_password }}
+#  tls:
+#   mode: allowTLS
+#   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
+#   certificateKeyFilePassword: {{ cert_password }}
 sharding:
   clusterRole: shardsvr
 replication:

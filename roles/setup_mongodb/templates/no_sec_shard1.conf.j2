@@ -22,8 +22,8 @@ processManagement:
 {% if shard1c is defined and ansible_hostname == shard1c %}
   pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh1-rs_c.pid"
 {% endif %}
-security:
-  keyFile: "/data/{{ env }}/keyfile.pem"
+#security:
+#  keyFile: "/data/{{ env }}/keyfile.pem"
 net:
 {% if shard1a is defined and ansible_hostname == shard1a %}
   port: {{ shard1a_port }}
@@ -35,10 +35,10 @@ net:
   port: {{ shard1c_port }}
 {% endif %}
   bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
-  tls:
-   mode: allowTLS
-   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
-   certificateKeyFilePassword: {{ cert_password }}
+#  tls:
+#   mode: allowTLS
+#   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
+#   certificateKeyFilePassword: {{ cert_password }}
 sharding:
   clusterRole: shardsvr
 replication:
