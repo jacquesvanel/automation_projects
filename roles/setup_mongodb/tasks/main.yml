@@ -24,17 +24,17 @@
     - mongomms
     - never
 ###########################################################################
+- name: set facts
+  import_tasks: set_fact.yml
+  tags:
+    - always
+
 - name: uninstall services
   import_tasks: uninstall.yml
   tags:
     - never
     - uninstall
     - reinstall
-
-- name: set facts
-  import_tasks: set_fact.yml
-  tags:
-    - always
 
 - name: install mongomms
   import_tasks: install_mongomms.yml
@@ -162,13 +162,6 @@
     - reinstall
     - ldap_interval  
 
-- name: initiate clusters
-  import_tasks: initiate_clusters.yml
-  tags:
-    - install
-    - reinstall
-    - initiate_clusters
-
 - name: start mongos
   include_tasks: start_mongos.yml
   when: 'start_mongos'
@@ -182,14 +175,6 @@
     - install
     - reinstall
     - start_mongos
-
-- name: add shards to cluster
-  import_tasks: add_shards.yml
-  when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
-  tags: 
-    - install
-    - reinstall
-    - add_shards
 
 - name: add configsvr config/service files
   import_tasks: configsvr.yml
@@ -219,12 +204,27 @@
     - reinstall
     - shard3
 
+- name: initiate clusters
+  import_tasks: initiate_clusters.yml
+  tags:
+    - install
+    - reinstall
+    - initiate_clusters
+
 - name: add keep alive line to sysctl.conf
   import_tasks: add_line_to_sys.yml
   tags:
     - install
     - reinstall
     - keepalive
+
+- name: add shards to cluster
+  import_tasks: add_shards.yml
+  when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
+  tags:
+    - install
+    - reinstall
+    - add_shards
 
 - name: start mongo
   systemd:

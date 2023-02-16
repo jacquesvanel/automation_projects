@@ -19,7 +19,7 @@
 
 - block:
   - name: set up users on config server
-    shell: mongo {{ configsvr_rsa }}.opr.afsiep.net:{{ configsvr_rsa_port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js  -u superUserAdmin -p Qwerty#12345px
+    shell: mongo {{ configsvr_rsa }}.opr.afsiep.net:{{ configsvr_rsa_port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js  
     register: config_result
 
   - name: show config shell result
@@ -31,7 +31,7 @@
 
 - block:
   - name: set up users on shard1a
-    shell: mongo {{ shard1a }}.opr.afsiep.net:{{ shard1a_port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js  -u superUserAdmin -p Qwerty#12345px
+    shell: mongo {{ shard1a }}.opr.afsiep.net:{{ shard1a_port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js  
     register: shard1_result
 
   - name: show shard1 shell result
@@ -43,7 +43,7 @@
 
 - block:
   - name: set up users on shard2a
-    shell: mongo {{ shard2a }}.opr.afsiep.net:{{ shard2a_port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js  -u superUserAdmin -p Qwerty#12345px
+    shell: mongo {{ shard2a }}.opr.afsiep.net:{{ shard2a_port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js 
     register: shard2_result
 
   - name: show shard2a shell result
@@ -55,7 +55,7 @@
 
 - block:
   - name: set up users on shard3a
-    shell: mongo {{ shard3a }}.opr.afsiep.net:{{ shard3a_port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js  -u superUserAdmin -p Qwerty#12345px
+    shell: mongo {{ shard3a }}.opr.afsiep.net:{{ shard3a_port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js 
     register: shard3_result
   - name: show shard3 shell result
     debug:

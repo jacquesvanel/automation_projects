@@ -17,9 +17,10 @@
       force: yes
 
   - name: add shards to cluster
-    shell: mongo {{ configsvr_rsa }}.opr.afsiep.net:37018/admin /etc/mongo/{{ env }}/scripts/add_shards_to_cluster.js  -u superUserAdmin -p Qwerty#12345px
+    shell: mongo {{ configsvr_rsa }}.opr.afsiep.net:37018/admin /etc/mongo/{{ env }}/scripts/add_shards_to_cluster.js  -u superUserAdmin -p Qwerty#12345px 
     register: shell_result
 
   - debug:
       var: shell_result.stdout_lines
+  ignore_errors: yes
   tags: add_shards

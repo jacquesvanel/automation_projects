@@ -22,11 +22,11 @@ processManagement:
 {% if configsvr_rsc is defined and ansible_hostname == configsvr_rsc %}
   pidFilePath: "/var/run/mongodb/{{ env }}/mongod-config-rs_c.pid"
 {% endif %}
-security:
-  keyFile: "/data/{{ env }}/keyfile.pem"
-setParameter:
-   authenticationMechanisms: PLAIN, SCRAM-SHA-1, SCRAM-SHA-256
-   ocspEnabled: false
+#security:
+#  keyFile: "/data/{{ env }}/keyfile.pem"
+#setParameter:
+#   authenticationMechanisms: PLAIN, SCRAM-SHA-1, SCRAM-SHA-256
+#   ocspEnabled: false
 net:
 {% if configsvr_rsa is defined and ansible_hostname == configsvr_rsa %}
   port: {{ configsvr_rsa_port }}
@@ -38,16 +38,16 @@ net:
   port: {{ configsvr_rsc_port }}
 {% endif %}
   bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
-  tls:
-   mode: preferTLS
-   CAFile: /var/lib/mongodb/cert/CA_Root_Inter.pem
-   allowConnectionsWithoutCertificates: true
-   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
-   certificateKeyFilePassword: {{ cert_password }}
-sharding:
-  clusterRole: configsvr
-replication:
-  replSetName: config_{{ env }}
+#  tls:
+#   mode: preferTLS
+#   CAFile: /var/lib/mongodb/cert/CA_Root_Inter.pem
+#   allowConnectionsWithoutCertificates: true
+#   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
+#   certificateKeyFilePassword: {{ cert_password }}
+#sharding:
+#  clusterRole: configsvr
+#replication:
+#  replSetName: config_{{ env }}
 storage:
 {% if configsvr_rsa is defined and ansible_hostname == configsvr_rsa %}
   dbPath: /data/{{ env }}/config/rs_a
