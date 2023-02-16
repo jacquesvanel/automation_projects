@@ -36,60 +36,13 @@
   tags:
     - always
 
-- name: install base mongodb
-  import_tasks: install_base.yml
-  tags:
-    - install
-    - reinstall
-    - base
-    - ops
-
-- name: install mongodb tools
-  import_tasks: install_dbtools.yml
-  tags:
-    - install
-    - reinstall
-    - dbtools
-    - ops
-
 - name: install mongomms
   import_tasks: install_mongomms.yml
   tags:
     - ops
     - never  
 
-- name: make directories
-  import_tasks: make_file.yml  
-  tags:
-    - install
-    - reinstall
-    - make_file
-    - ops
-
-- name: add certs
-  import_tasks: add_certs.yml
-  tags:
-    - install
-    - reinstall
-    - add_certs
-    - ops
- 
-- name: add logrotate file
-  import_tasks: logrotate.yml
-  tags:
-    - install
-    - reinstall
-    - logrotate
-    - ops
-
-- name: add hugepages fix
-  import_tasks: hugepages.yml
-  tags:
-    - install
-    - reinstall
-    - hugepages
-    - ops
-
+##########start of config##################################################
 - name: add mongo service file
   import_tasks: mongo_service.yml
   tags:
