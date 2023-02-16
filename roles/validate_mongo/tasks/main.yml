@@ -2,7 +2,7 @@
 - name: find config files on server
   find:
     paths: "/usr/lib/systemd/system/"
-    patterns: "mongo*.service"     
+    patterns: 'mongo*.service'     
     recurse: yes
   register: service 
 - name: Checking Mongo_config service
