@@ -1,4 +1,13 @@
 ---
+- block:
+  - set_fact:
+      vgs_name: "{{ item.key }}"
+    with_dict: "{{ ansible_lvm.vgs }}"
+
+  - debug:
+      var: vgs_name
+  tags: always
+
 - name: create partition
   import_tasks: partitions.yml
   tags:

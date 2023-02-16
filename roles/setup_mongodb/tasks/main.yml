@@ -25,11 +25,24 @@
     - never
 ###########################################################################
 - name: uninstall services
-  include_tasks: uninstall.yml
+  import_tasks: uninstall.yml
   tags:
     - never
     - uninstall
     - reinstall
+
+- name: set facts
+  import_tasks: set_fact.yml
+  tags:
+    - always
+
+- name: install mongomms
+  import_tasks: install_mongomms.yml
+  tags:
+    - ops
+    - never  
+
+##########start of config##################################################
 
 - name: install base mongodb
   import_tasks: install_base.yml
@@ -47,14 +60,8 @@
     - dbtools
     - ops
 
-- name: install mongomms
-  import_tasks: install_mongomms.yml
-  tags:
-    - ops
-    - never  
-
 - name: make directories
-  import_tasks: make_file.yml  
+  import_tasks: make_file.yml
   tags:
     - install
     - reinstall
@@ -68,7 +75,7 @@
     - reinstall
     - add_certs
     - ops
- 
+
 - name: add logrotate file
   import_tasks: logrotate.yml
   tags:
@@ -91,7 +98,7 @@
     - install
     - reinstall
     - mongo_service
-      
+
 - name: add configsvr config/service files 
   import_tasks: no_sec_configsvr.yml
   tags:

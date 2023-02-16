@@ -1,11 +1,10 @@
 ---
-- block:
-  - name: Stop mongod service
-    systemd:
-      name: "{{ services }}"
-      state: stopped
-      enabled: no
-    loop:
+- name: Stop mongod service
+  systemd:
+    name: "{{ services }}"
+    state: stopped
+    enabled: no
+  loop:
       - mongo
       - mongod
       - mongod_config
@@ -15,29 +14,32 @@
       - mongos0
       - mongos1
       - mongos2
-    loop_control:
-     loop_var: services
+  loop_control:
+   loop_var: services
+  ignore_errors: yes
 
-  - name: uninstall mongo services
-    yum:
-      name:
-        - '{{ base_packages }}'
-        - '{{ dbtools}}'
-          #        - '{{ mongomms }}'
-      state: absent
+- name: uninstall mongo services
+  yum:
+    name: "{{ item }}"
+    state: removed
+  loop: 
+    - "{{ base_packages }}"
+        #- "{{ dbtools }}"
+  ignore_errors: yes
 
-  - name: stop and disable hugepages_service
-    systemd:
-      name: mongodb-hugepage-fix
-      state: stopped
-      enabled: no
-      daemon_reload: yes
+- name: stop and disable hugepages_service
+  systemd:
+    name: mongodb-hugepage-fix
+    state: stopped
+    enabled: no
+    daemon_reload: yes
+  ignore_errors: yes
 
-  - name: delete directory "{{ item }}"
-    file:
-      path: "{{ item }}"
-      state: absent
-    with_items:
+- name: delete directory "{{ item }}"
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
       - /var/log/mongo
       - /var/run/mongo
       - /data/{{ env }}
@@ -62,7 +64,6 @@
       - /etc/systemd/system/mongo.service 
       - /etc/mongod.conf  
   ignore_errors: yes
-  tags:
-    - uninstall
+
 
 

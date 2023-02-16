@@ -6,10 +6,10 @@
   register: app_name
 
 - set_fact:
-    app_name: "{{ app_name.stdout }}"
+    appname: "{{ app_name.stdout }}"
 
 - debug:
-    var: app_name
+    var: appname
 
 - name: get env
   shell: cat /etc/serverinfo.conf | grep Environment | sed 's/Environment=//g' | tr [:upper:] [:lower:]
@@ -22,7 +22,3 @@
 
 - debug:
     var: env
-
- 
-#- debug:
-#    msg: "{{ ansible_facts }}"

@@ -12,3 +12,9 @@
             #      - logrotate.yml
       - hugepages.yml
 
+- name: install mongomms
+  import_tasks: install_mongomms.yml
+  tags:
+    - ops
+    - never
+
