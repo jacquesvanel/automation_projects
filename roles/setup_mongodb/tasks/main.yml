@@ -25,7 +25,7 @@
     - never
 ###########################################################################
 - name: uninstall services
-  include_tasks: uninstall.yml
+  import_tasks: uninstall.yml
   tags:
     - never
     - uninstall
