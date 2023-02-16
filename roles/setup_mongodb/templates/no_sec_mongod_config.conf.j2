@@ -46,8 +46,8 @@ net:
 #   certificateKeyFilePassword: {{ cert_password }}
 sharding:
   clusterRole: configsvr
-replication:
-  replSetName: config_{{ env }}
+#replication:
+#  replSetName: config_{{ env }}
 storage:
 {% if configsvr_rsa is defined and ansible_hostname == configsvr_rsa %}
   dbPath: /data/{{ env }}/config/rs_a

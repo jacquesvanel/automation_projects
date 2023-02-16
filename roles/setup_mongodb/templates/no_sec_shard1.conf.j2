@@ -41,8 +41,8 @@ net:
 #   certificateKeyFilePassword: {{ cert_password }}
 sharding:
   clusterRole: shardsvr
-replication:
-  replSetName: sh1_{{ env }}
+#replication:
+#  replSetName: sh1_{{ env }}
 storage:
 {% if shard1a is defined and ansible_hostname == shard1a %}
   dbPath: /data/{{ env }}/shard1/rs_a
