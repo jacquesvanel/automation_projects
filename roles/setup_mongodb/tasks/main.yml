@@ -43,17 +43,6 @@
     - never  
 
 ##########start of config##################################################
-- name: add mongo service file
-  import_tasks: mongo_service.yml
-  tags:
-    - install
-    - reinstall
-    - mongo_service
-
-- name: set facts
-  import_tasks: set_fact.yml
-  tags:
-    - always
 
 - name: install base mongodb
   import_tasks: install_base.yml
@@ -102,6 +91,13 @@
     - reinstall
     - hugepages
     - ops
+
+- name: add mongo service file
+  import_tasks: mongo_service.yml
+  tags:
+    - install
+    - reinstall
+    - mongo_service
 
 - name: add configsvr config/service files 
   import_tasks: no_sec_configsvr.yml
