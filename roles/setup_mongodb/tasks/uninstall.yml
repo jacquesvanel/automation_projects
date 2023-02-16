@@ -21,7 +21,7 @@
 - name: uninstall mongo services
   yum:
     name: "{{ item }}"
-    state: absent
+    state: removed
   loop: 
     - "{{ base_packages }}"
         #- "{{ dbtools }}"
