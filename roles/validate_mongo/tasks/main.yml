@@ -1,35 +1,29 @@
----
-# tasks file for validate_mongo
----
-- hosts: "{{target}}"
-  tasks:
-
-    - name: find config files on server
-      find:
-        paths: "/usr/lib/systemd/system/"
-        patterns: "mongo*.service"
-        recurse: yes
-      register: service 
-    - name: Checking Mongo_config service
-      systemd:
-        name: "{{ item }}"
-      register: mongo_service_status
-      with_items: "{{ service.files | map(attribute='path')| map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| list }}"   
+---  
+- name: find config files on server
+  find:
+    paths: "/usr/lib/systemd/system/"
+    patterns: "mongo*.service"     recurse: yes
+    register: service 
+- name: Checking Mongo_config service
+  systemd:
+    name: "{{ item }}"
+  register: mongo_service_status
+  with_items: "{{ service.files | map(attribute='path')| map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| list }}"   
    
 #- debug:
   #    msg: "{{ mongo_service_status }}" 
-    - name: Status of All database services
-      debug:
-      msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
-      with_items:
-        - "{{ mongo_service_status.results }}"
+- name: Status of All database services
+  debug:
+    msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
+  with_items:
+    - "{{ mongo_service_status.results }}"
  # waiting on athumani sending me the script/command to check teh databases
  
 
 #Getting a report of all the logs and their storage
-   - name: Getting storage percentage used by each mount
-     shell:
-       cmd: df -h | awk '{ print $5, $6 }'
-     register: percentage
-   - debug:
-       var: percentage.stdout_lines
+- name: Getting storage percentage used by each mount
+  shell:
+    cmd: df -h | awk '{ print $5, $6 }'
+  register: percentage
+- debug:
+    var: percentage.stdout_lines
