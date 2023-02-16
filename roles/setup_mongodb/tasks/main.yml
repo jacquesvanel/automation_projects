@@ -24,17 +24,17 @@
     - mongomms
     - never
 ###########################################################################
+- name: set facts
+  import_tasks: set_fact.yml
+  tags:
+    - always
+
 - name: uninstall services
   import_tasks: uninstall.yml
   tags:
     - never
     - uninstall
     - reinstall
-
-- name: set facts
-  import_tasks: set_fact.yml
-  tags:
-    - always
 
 - name: install mongomms
   import_tasks: install_mongomms.yml
