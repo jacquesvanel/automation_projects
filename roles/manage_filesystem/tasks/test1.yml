@@ -6,7 +6,7 @@
   register: app_name
 
 - debug:
-    var: app_name.stdout
+    var: app_name
 
 - name: get env
   shell: cat /etc/serverinfo.conf | grep Environment | sed 's/Environment=//g' | tr [:upper:] [:lower:]
@@ -15,7 +15,7 @@
   register: env
 
 - debug:
-    var: env.stdout
+    var: env
 
  
 #- debug:
