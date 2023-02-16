@@ -5,6 +5,9 @@
     warn: no
   register: app_name
 
+- set_fact:
+    app_name: "{{ app_name.stdout }}"
+
 - debug:
     var: app_name
 
@@ -13,6 +16,9 @@
   args:
     warn: no
   register: env
+
+- set_fact:
+    env: "{{ env.stdout }}"
 
 - debug:
     var: env
