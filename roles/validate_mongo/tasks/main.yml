@@ -1,7 +1,9 @@
 ---
 - name: find
   find:
-    paths: "/usr/lib/systemd/system/"
+    paths: 
+      - "/usr/lib/systemd/system/"
+      - "/etc/systemd/system/"
     patterns: "mongo*.service"
     recurse: yes
   register: service
