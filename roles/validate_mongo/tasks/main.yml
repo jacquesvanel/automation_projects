@@ -4,7 +4,8 @@
     paths: /usr/lib/systemd/system/
     patterns: 'mongo*.service'     
     recurse: yes
-  register: service 
+  register: service
+ 
 - name: Checking Mongo_config service
   systemd:
     name: "{{ item }}"
@@ -25,5 +26,6 @@
   shell:
     cmd: df -h | awk '{ print $5, $6 }'
   register: percentage
+
 - debug:
     var: percentage.stdout_lines
