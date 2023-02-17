@@ -16,8 +16,7 @@
 - name: Status of All database services
   debug:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
-  with_items:
-    - "{{ mongo_service_status.results }}"
+  with_items: "{{ mongo_service_status.results }}"
  # waiting on athumani sending me the script/command to check teh databases
  
 
