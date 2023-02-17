@@ -1,0 +1,15 @@
+---
+- name: layout template for shell script
+  template:
+    src: mongodb_status_verify.sh.j2
+    dest: "/etc/mongo/{{ env }}/scripts/mongodb_status_verify.sh"
+    owner:
+    group:
+    mode:
+
+- name: run shell script
+  shell: /bin/bash /etc/mongo/{{ env }}/scripts/mongodb_status_verify.sh
+  register: shell
+
+- debug:
+    msg: "{{ shell.stdout_lines }}"
