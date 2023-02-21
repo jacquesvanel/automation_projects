@@ -6,6 +6,7 @@
       - "/etc/systemd/system/"
     patterns: "mongo*.service"
     excludes: 'mongodb-hugepage-fix'
+    use_regex: true
     recurse: yes
   register: service
 
