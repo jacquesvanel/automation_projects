@@ -30,6 +30,8 @@
 - debug:
     var: percentage.stdout_lines
 
+#fail message for disk space
+
 - name: fail module
   fail:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
