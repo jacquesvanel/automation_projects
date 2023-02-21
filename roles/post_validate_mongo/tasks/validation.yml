@@ -25,6 +25,7 @@
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
   when:  item.status.ActiveState == 'failed' or item.status.ActiveState == 'inactive'
   with_items: "{{ status.results }}"
+  ignore_errors: yes
 
 #Getting a report of all the logs and their storage
 - name:
