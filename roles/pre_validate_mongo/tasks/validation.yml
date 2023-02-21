@@ -20,7 +20,7 @@
   debug:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
   loop: "{{ status.results }}"
-  when: item.changed
+  #  when: item.changed
   loop_control: 
     label: 'status'
 
