@@ -18,6 +18,7 @@
     owner:
     group:
     mode:
+    force: true
 
 - name: run shell script
   shell: /bin/bash /etc/mongo/{{ env }}/scripts/mongodb_status_verify.sh
