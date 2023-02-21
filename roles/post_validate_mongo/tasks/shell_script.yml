@@ -32,6 +32,6 @@
 
 - name: Show diff result
   debug:
-    var: diff_result
+    msg: "{{ diff_result.stdout_lines }}"
 
 
