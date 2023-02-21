@@ -79,6 +79,7 @@ for a in $SRVR
 #     done
 done
 
-echo " MONGODB Database Validation Post-Maintanance window. date/time ${DTT} Please Manually review the log and address the concerns if there is any." | mailx -r "<Sender>" -s " MONGODB DATABASE VALIDATION ${DTT} " -a ${MNG_VAL} $EMAIL_LIST
+echo " MONGODB Database Validation Post-Maintanance window. date/time ${DTT} Please Manually review the log and address the concerns if there is any." 
+#| mailx -r "<Sender>" -s " MONGODB DATABASE VALIDATION ${DTT} " -a ${MNG_VAL} $EMAIL_LIST
 ###****************************************************************************###
 # set +x
