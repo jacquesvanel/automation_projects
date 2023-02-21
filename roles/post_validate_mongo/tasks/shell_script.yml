@@ -34,8 +34,4 @@
   debug:
     var: diff_result
 
-    #- name: fail module
-    #  fail:
-    #    msg: files are different from eachother
-    #  when: diff_result.changed
 

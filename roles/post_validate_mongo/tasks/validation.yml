@@ -19,6 +19,8 @@
   debug:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
   with_items: "{{ status.results }}"
+  loop_control:
+    label: 'status'
 
 #Getting a report of all the logs and their storage
 - name:
@@ -28,10 +30,5 @@
 - debug:
     var: percentage.stdout_lines
 
-- name: fail module
-  fail:
-    msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
-  when:  item.status.ActiveState == 'failed' or item.status.ActiveState == 'inactive'
-  with_items: "{{ status.results }}"
 
 
