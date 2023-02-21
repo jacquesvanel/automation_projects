@@ -1,0 +1,36 @@
+---
+- name: find
+  find:
+    paths:
+      - "/usr/lib/systemd/system/"
+      - "/etc/systemd/system/"
+    patterns: "mongo*.service"
+    recurse: yes
+  register: service
+
+- name: checking mongo config service
+  systemd:
+    name: "{{ item }}"
+  register: status
+  with_items: "{{ service.files | map(attribute='path')| map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| list }}"
+
+- name: status of all services
+  debug:
+    msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
+  with_items: "{{ status.results }}"
+
+- name: fail module
+  fail:
+    msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
+  when:  item.status.ActiveState == 'failed'
+  with_items: "{{ status.results }}"
+
+#Getting a report of all the logs and their storage
+- name:
+  shell: df -h | awk '{ print $5, $6 }'
+  register: percentage
+
+- debug:
+    var: percentage.stdout_lines
+
+

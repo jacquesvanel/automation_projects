@@ -1,0 +1,11 @@
+---
+- name:
+  import_tasks: validation.yml
+  tags:
+    - validation
+
+- name: shell script
+  import_tasks: shell_script.yml
+  when: target_host == ansible_hostname and target_host is defined
+  tags:
+    - shell

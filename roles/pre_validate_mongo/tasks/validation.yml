@@ -1,7 +1,7 @@
 ---
 - name: find
   find:
-    paths: 
+    paths:
       - "/usr/lib/systemd/system/"
       - "/etc/systemd/system/"
     patterns: "mongo*.service"
@@ -19,8 +19,6 @@
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
   with_items: "{{ status.results }}"
 
- # waiting on athumani sending me the script/command to check teh databases
-
 
 #Getting a report of all the logs and their storage
 - name:
@@ -29,4 +27,5 @@
 
 - debug:
     var: percentage.stdout_lines
+
 

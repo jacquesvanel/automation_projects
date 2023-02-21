@@ -54,3 +54,21 @@ db.createUser(
       "db" : "admin"
     }
 ]});
+
+db.createUser(
+{       user: "svc_ansible_automation",
+        pwd: "Qwerty#12345px",
+"roles" : [
+    { "role" : "readWrite",
+      "db" : "{{ appname }}_{{ env }}_db"
+    },
+    { "role" : "userAdminAnyDatabase",
+      "db" : "admin"
+    },
+    { "role" : "clusterAdmin",
+      "db" : "admin"
+    },
+    { "role" : "root",
+      "db" : "admin"
+    }
+]});

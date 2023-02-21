@@ -2,6 +2,6 @@
 - name: Validation of the Mongo db servers
   hosts: "{{ target }}"
   roles:
-    - role: validate_mongo
+    - role: pre_validate_mongo
 
 
