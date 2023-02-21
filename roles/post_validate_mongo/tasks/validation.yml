@@ -20,13 +20,6 @@
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
   with_items: "{{ status.results }}"
 
-- name: fail module
-  fail:
-    msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
-  when:  item.status.ActiveState == 'failed' or item.status.ActiveState == 'inactive'
-  with_items: "{{ status.results }}"
-  ignore_errors: yes
-
 #Getting a report of all the logs and their storage
 - name:
   shell: df -h | awk '{ print $5, $6 }'
@@ -34,5 +27,11 @@
 
 - debug:
     var: percentage.stdout_lines
+
+- name: fail module
+  fail:
+    msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
+  when:  item.status.ActiveState == 'failed' or item.status.ActiveState == 'inactive'
+  with_items: "{{ status.results }}"
 
 
