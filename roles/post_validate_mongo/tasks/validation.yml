@@ -36,7 +36,7 @@
 
 - name: Display disk usage percentage
   debug:
-    msg: "{{ item.mount }} is at {{ item.percent }}% usage"
+    #   msg: "{{ item.mount }} is at {{ item.percent }}% usage"
   loop: "{{ disk_usage.stdout_lines[1:] }}"
 
 - name: Fail if any mount is over 85%
