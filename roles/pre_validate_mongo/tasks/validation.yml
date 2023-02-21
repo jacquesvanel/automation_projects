@@ -19,7 +19,9 @@
 - name: status of all services
   debug:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
-  with_items: "{{ status.results }}"
+  loop: "{{ status.results }}"
+  loop_control: 
+    label: "{{ status }}"
 
 
 #Getting a report of all the logs and their storage
