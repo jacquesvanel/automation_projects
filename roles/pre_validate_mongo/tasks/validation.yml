@@ -20,8 +20,9 @@
   debug:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
   loop: "{{ status.results }}"
+  when: item.changed
   loop_control: 
-    label: "{{ item.status }}"
+    label: 'status'
 
 
 #Getting a report of all the logs and their storage
