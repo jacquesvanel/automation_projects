@@ -5,6 +5,7 @@
       - "/usr/lib/systemd/system/"
       - "/etc/systemd/system/"
     patterns: "mongo*.service"
+    excludes: 'mongodb-hugepage-fix'
     recurse: yes
   register: service
 
