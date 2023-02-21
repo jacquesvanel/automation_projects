@@ -1,29 +1,43 @@
 ---
+- name: get env
+  shell: cat /etc/serverinfo.conf | grep Environment | sed 's/Environment=//g' | tr [:upper:] [:lower:]
+  args:
+    warn: no
+  register: env
+
+- set_fact:
+    env: "{{ env.stdout }}"
+
+- debug:
+    var: env
+
 - name: layout template for shell script
   template:
     src: mongodb_status_verify.sh.j2
-    dest: "/etc/mongo/{{ env }}/scripts/mongodb_status_verify.sh"
+    dest: "/etc/mongo/{{ env }}/scripts/post_mongodb_status_verify.sh"
     owner:
     group:
     mode:
 
 - name: run shell script
-  shell: /bin/bash /etc/mongo/{{ env }}/scripts/mongodb_status_verify.sh
+  shell: /bin/bash /etc/mongo/{{ env }}/scripts/post_mongodb_status_verify.sh
   register: shell
 
 - debug:
     msg: "{{ shell.stdout_lines }}"
 
 - name: Generate diff
-  command: diff  /tmp/abc.txt  /tmp/def.txt
+  shell: diff  /tmp/MONGODB_VALIDATE/pre_MongoDB_Validate.txt  /tmp/MONGODB_VALIDATE/post_MongoDB_Validate.txt
   register: diff_result
+  ignore_errors: yes
 
 - name: Show diff result
   debug:
-    var: diff_result
+    msg: "{{ diff_result.stdout_lines }}"
 
 - name: fail module
   fail:
-    msg: files are different from eachother
-  when: diff_result.changed
-
+    msg: |
+         "Mongodb files are different from eachother"
+         "{{ diff_result.stdout_lines }}"
+  when: diff_result.rc !=0

@@ -4,8 +4,10 @@
   tags:
     - validation
 
-      #- name: shell script
-      #  import_tasks: shell_script.yml
-      #  when: target_host == ansible_hostname and target_host is defined
-      #  tags:
-      #    - shell
+- name: shell script
+  import_tasks: shell_script.yml
+  when: target_hosts == ansible_hostname and target_hosts is defined
+  tags:
+    - shell
+
+

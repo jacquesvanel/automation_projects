@@ -5,8 +5,8 @@
       - "/usr/lib/systemd/system/"
       - "/etc/systemd/system/"
     patterns: "mongo*.service"
-    excludes: 'mongodb-hugepage-fix'
-    use_regex: true
+    excludes: 'mongodb-hugepage-fix.service'
+    #use_regex: true
     recurse: yes
   register: service
 
@@ -19,7 +19,10 @@
 - name: status of all services
   debug:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
-  with_items: "{{ status.results | list }}"
+  loop: "{{ status.results }}"
+  #  when: item.changed
+  loop_control: 
+    label: 'status'
 
 
 #Getting a report of all the logs and their storage

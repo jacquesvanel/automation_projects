@@ -1,2 +1,4 @@
 ---
-# vars file for post_validate_mongo
+# vars file for validate_mongo
+svc_ansible_automation: amkanda #svc_ansible_automation
+svc_ansible_automation_password: "Qwerty#12345px"

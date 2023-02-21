@@ -5,6 +5,7 @@
       - "/usr/lib/systemd/system/"
       - "/etc/systemd/system/"
     patterns: "mongo*.service"
+    excludes: 'mongodb-hugepage-fix.service'
     recurse: yes
   register: service
 
@@ -12,18 +13,14 @@
   systemd:
     name: "{{ item }}"
   register: status
-  with_items: "{{ service.files | map(attribute='path')| map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| list }}"
+  with_items: "{{ service.files | map(attribute='path')| map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| map('regex_replace','\\/etc\\/systemd\\/system\\/','') | list }}"
 
 - name: status of all services
   debug:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
   with_items: "{{ status.results }}"
-
-- name: fail module
-  fail:
-    msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
-  when:  item.status.ActiveState == 'failed'
-  with_items: "{{ status.results }}"
+  loop_control:
+    label: 'status'
 
 #Getting a report of all the logs and their storage
 - name:
@@ -33,4 +30,13 @@
 - debug:
     var: percentage.stdout_lines
 
+#fail message for disk space
+
+- name: fail module
+  fail:
+    msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
+  when:  item.status.ActiveState == 'failed' or item.status.ActiveState == 'inactive'
+  loop: "{{ status.results }}"
+  loop_control:
+    label: 'status'
 
