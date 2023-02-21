@@ -15,7 +15,8 @@
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
   when:  item.status.ActiveState == 'failed' or item.status.ActiveState == 'inactive'
   loop: "{{ status.results }}"
-  loop_control: 'status'
+  loop_control:
+    label: 'status'
 
     #- name: fail module
     #  fail:
