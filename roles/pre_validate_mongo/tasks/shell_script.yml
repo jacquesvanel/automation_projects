@@ -1,4 +1,16 @@
 ---
+- name: get env
+  shell: cat /etc/serverinfo.conf | grep Environment | sed 's/Environment=//g' | tr [:upper:] [:lower:]
+  args:
+    warn: no
+  register: env
+
+- set_fact:
+    env: "{{ env.stdout }}"
+
+- debug:
+    var: env
+
 - name: layout template for shell script
   template:
     src: mongodb_status_verify.sh.j2
