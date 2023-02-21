@@ -18,7 +18,9 @@
   loop_control:
     label: 'status'
 
-    #- name: fail module
-    #  fail:
-    #    msg: files are different from eachother
-    #  when: diff_result.changed
+- name: fail module
+  fail:
+    msg: |
+         "Mongodb files are different from eachother"
+         "{{ diff_result.stdout_lines }}"
+  when: diff_result.rc !=0
