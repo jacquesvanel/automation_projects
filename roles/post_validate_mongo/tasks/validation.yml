@@ -30,8 +30,9 @@
   #- debug:
   # var: percentage.stdout_lines
 - name: Get disk usage info
-  shell: df -h
-    register: disk_usage
+  shell: 
+    cmd: df -h
+  register: disk_usage
 
 - name: Display disk usage percentage
   debug:
