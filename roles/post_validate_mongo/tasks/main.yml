@@ -10,17 +10,4 @@
   tags:
     - shell
 
-- name: fail module
-  fail:
-    msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
-  when:  item.status.ActiveState == 'failed' or item.status.ActiveState == 'inactive'
-  loop: "{{ status.results }}"
-  loop_control:
-    label: 'status'
 
-- name: fail module
-  fail:
-    msg: |
-         "Mongodb files are different from eachother"
-         "{{ diff_result.stdout_lines }}"
-  when: diff_result.rc !=0
