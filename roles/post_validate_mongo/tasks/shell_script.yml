@@ -27,7 +27,7 @@
     msg: "{{ shell.stdout_lines }}"
 
 - name: Generate diff
-  command: diff  /tmp/MONGODB_VALIDATE/pre_MongoDB_Validate.txt  /tmp/MONGODB_VALIDATE/test_MongoDB_Validate.txt
+  shell: diff  /tmp/MONGODB_VALIDATE/pre_MongoDB_Validate.txt  /tmp/MONGODB_VALIDATE/test_MongoDB_Validate.txt
   register: diff_result
 
 - name: Show diff result
