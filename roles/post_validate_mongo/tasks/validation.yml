@@ -5,6 +5,7 @@
       - "/usr/lib/systemd/system/"
       - "/etc/systemd/system/"
     patterns: "mongo*.service"
+    excludes: 'mongodb-hugepage-fix.service'
     recurse: yes
   register: service
 
@@ -12,7 +13,7 @@
   systemd:
     name: "{{ item }}"
   register: status
-  with_items: "{{ service.files | map(attribute='path')| map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| list }}"
+  with_items: "{{ service.files | map(attribute='path')| map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| map('regex_replace','\\/etc\\/systemd\\/system\\/','') | list }}"
 
 - name: status of all services
   debug:
