@@ -21,7 +21,7 @@
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
   loop: "{{ status.results }}"
   loop_control: 
-    label: "{{ status }}"
+    label: "{{ item.status }}"
 
 
 #Getting a report of all the logs and their storage
