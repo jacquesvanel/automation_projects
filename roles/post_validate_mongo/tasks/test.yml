@@ -31,4 +31,4 @@
     msg:
       - "partition size check FAILED! Please clear free space on {{ item.mount }} partition to less than 90% full"
   with_items: "{{ ansible_mounts | list }}"
-  when:  disk_percent |int >= 89
+  when:  disk_percent |int >= 50 
