@@ -36,15 +36,15 @@
 
 #get disk space    
 - debug:
-    msg: |-
-        Mount: {{ item.mount }}
-        Device: {{ item.device }}
-        Fstype: {{ item.fstype }}
-        Disk Available: {{ disk_available }}GB
-        Disk Used: {{ disk_usage }}GB
-        Disk Total: {{ disk_total }}GB
-        Percent Used: {{ disk_percent }}%
-        {{item.mount}} is using {{ disk_percent }}% of allocated space
+    msg: 
+      -  Mount: {{ item.mount }}
+      -  Device: {{ item.device }}
+      -  Fstype: {{ item.fstype }}
+      -  Disk Available: {{ disk_available }}GB
+      -  Disk Used: {{ disk_usage }}GB
+      -  Disk Total: {{ disk_total }}GB
+      -  Percent Used: {{ disk_percent }}%
+      -  {{item.mount}} is using {{ disk_percent }}% of allocated space
   loop: "{{ ansible_mounts | list }}"
   loop_control:
     label: 'mount'
