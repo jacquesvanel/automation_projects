@@ -1,0 +1,3 @@
+---
+#tar -xvf mongodb-mms-6.0.6.100.20221102T1837Z.tar.gz
+#sudo mkdir -p /etc/tuned/mongodb
