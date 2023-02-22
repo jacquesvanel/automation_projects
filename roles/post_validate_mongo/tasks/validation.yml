@@ -23,19 +23,22 @@
     label: 'status'
 
 #Getting a report of all the logs and their storage
-- name:
+- name: Check disk usage
   shell: df -h | awk '{ print $5, $6 }'
-  register: percentage
+  register: disk_usage
 
-- debug:
-  var: percentage.stdout_lines
+- name: Check disk usage threshold
+  debug:
+    msg: "{{ item.1 }} is at {{ item.0 }}"
+  loop: "{{ disk_usage.stdout_lines }}"
+  when: item.0 | int > 85
+  register: failed_disks
 
-
-- name: Fail if any mount is over 85%
+- name: Fail the playbook if disk usage exceeds threshold
   fail:
-    msg: "Disk usage on {{ percentage.stdout_lines }} is over 85%"
-  loop: "{{ disk_usage.stdout_lines[1:] }}"
-  when: item.percent | int > 85
+    msg: "Disk usage on {{ item.1 }} is at {{ item.0 }}, which exceeds the threshold of 85%."
+  loop: "{{ failed_disks.results | map(attribute='item') | list }}"
+  when: failed_disks|length > 0
 
 
 
