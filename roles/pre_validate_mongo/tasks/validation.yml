@@ -27,7 +27,7 @@
 
 #get disk space    
 - debug:
-    msg: |
+    msg: |-
         Mount: {{ item.mount }}
         Device: {{ item.device }}
         Fstype: {{ item.fstype }}
