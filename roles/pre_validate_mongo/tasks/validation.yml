@@ -15,13 +15,13 @@
   systemd:
     name: "{{ item }}"
   register: status
-  with_items: "{{ service.files | map(attribute='path')| map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| map('regex_replace','\\/etc\\/systemd\\/system\\/','') | list }}"
+  loop: "{{ service.files | map(attribute='path')| map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| map('regex_replace','\\/etc\\/systemd\\/system\\/','') | list }}"
 
 #get status of services  
 - name: status of all services
   debug:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
-  with_items: "{{ status.results }}"
+  loop: "{{ status.results }}"
   loop_control:
     label: 'status'
 
