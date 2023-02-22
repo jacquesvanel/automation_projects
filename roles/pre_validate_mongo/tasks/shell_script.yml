@@ -11,6 +11,15 @@
 - debug:
     var: env
 
+- name: make file directory
+  file:
+    path: /etc/mongo/{{ env }}/scripts/
+    state: directory
+    #    mode: "{{ item.mode }}"
+    #    owner: "{{ owner }}"
+    #    group: "{{ group }}"
+  when: not ansible_facts['file_directory_exists']  
+
 - name: layout template for shell script
   template:
     src: mongodb_status_verify.sh.j2
