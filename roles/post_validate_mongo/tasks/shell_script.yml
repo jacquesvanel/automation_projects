@@ -46,7 +46,7 @@
 
 - name: fail module
   fail:
-    msg: |
+    msg: |-
          "Mongodb files are different from eachother"
          "{{ diff_result.stdout_lines }}"
   when: diff_result.rc !=0
