@@ -1,0 +1,25 @@
+---
+- name: make file directory
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: "{{ item.mode }}"
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+  loop:
+        # directory for config files #
+    - { path: '/etc/mongo/{{ env }}/', mode: '2770' }
+        # directory for log files #
+    - { path: '/var/log/mongodb/{{ env }}/', mode: '2755' }
+        # directory for pid files #
+    - { path: '/var/run/mongodb/{{ env }}/', mode: '2750' }
+        # directory for data paths #
+    - { path: '/data/{{ env }}/', mode: '2770' }
+        # directory for certs #
+    - { path: '/var/lib/mongodb/cert/', mode: '2770' }
+        # directory for js scripts #
+    - { path: '/etc/mongo/{{ env }}/scripts/', mode: '2770' }
+        # directory for ldap conf #
+    - { path: '/etc/openldap/', mode: '2770' }
+        # directory for ldap certs #
+    - { path: '/etc/openldap/certs/', mode: '2770' }
