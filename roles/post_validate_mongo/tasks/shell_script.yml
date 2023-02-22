@@ -18,7 +18,7 @@
     #    mode: "{{ item.mode }}"
     #    owner: "{{ owner }}"
     #    group: "{{ group }}"
-  when: not ansible_facts['file_directory_exists']
+    #  when: not ansible_facts['file_directory_exists']
 
 - name: layout template for shell script
   template:
