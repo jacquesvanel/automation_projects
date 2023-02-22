@@ -1,0 +1,5 @@
+---
+#Getting a report of all the logs and their storage
+- name: Check disk usage
+ shell: df -h | awk '{ print $5, $6 }'
+ register: disk_usage
