@@ -3,3 +3,8 @@
 - name: Check disk usage
  shell: df -h | awk '{ print $5, $6 }'
  register: disk_usage
+
+- debug:
+    msg: "{{ disk_usage }}"
+
+
