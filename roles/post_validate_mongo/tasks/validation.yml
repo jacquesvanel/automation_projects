@@ -23,14 +23,31 @@
     label: 'status'
 
 #Getting a report of all the logs and their storage
-- name: Check disk usage
-  shell: df -h | awk '{ print $5, $6 }'
-  register: disk_usage
+#- name: Check disk usage
+# shell: df -h | awk '{ print $5, $6 }'
+# register: disk_usage
 
-- name: Check disk usage threshold
-  debug:
-    var: disk_usage.stdout_lines
+    #- name: Check disk usage threshold
+    #debug:
+    #var: disk_usage.stdout_lines
+- name: Gather disk info from guests
+  Target_disk_info:
+    hostname: "{{ target }}"
+    name: "{{ item }}"
+  register: disk_info
+  with_items:
+  - "{{ target }}"
 
+- name: Get disk info
+  set_fact:
+    disks_info: "{{ disk_info.results | list}}"
+
+- name: Show servers with disk space more than 80 %
+  assert:
+    that:
+      - 'disk_info._disks_info["0"].capacity_in_% <= 80'
+        #- 'disk_info.disks_info["0"].capacity_in_% >= 0'
+    fail_msg: "{{ item }} Disk space is higher must be below 80"
 
 #fail message for disk space
 
