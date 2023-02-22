@@ -23,26 +23,19 @@
     label: 'status'
 
 #Getting a report of all the logs and their storage
-#- name:
-# shell: df -h | awk '{ print $5, $6 }'
-  # register: percentage
+- name:
+  shell: df -h | awk '{ print $5, $6 }'
+  register: percentage
 
-  #- debug:
-  # var: percentage.stdout_lines
-- name: Get disk usage info
-  shell: df -h
-    register: disk_usage
+- debug:
+  var: percentage.stdout_lines
 
-- name: Display disk usage percentage
-  debug:
-    msg: "{{ item.mount }} is at {{ item.percent }}% usage"
-  loop: "{{ disk_usage.stdout_lines[1:] }}"
 
 - name: Fail if any mount is over 85%
   fail:
-    msg: "Disk usage on {{ item.mount }} is over 85%"
+    msg: "Disk usage on {{ percentage.stdout_lines }} is over 85%"
   loop: "{{ disk_usage.stdout_lines[1:] }}"
-  when: item.percent|int > 85
+  when: item.percent | int > 85
 
 
 
