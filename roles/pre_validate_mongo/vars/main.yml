@@ -6,3 +6,4 @@ disk_total: "{{ (item.size_total / 1000000000)| round(1, 'common') }}"
 disk_available: "{{ (item.size_available / 1000000000) | round(1, 'common') }}"
 disk_usage: "{{ ((item.size_total - item.size_available)/ 1000000000) | round(1, 'common') }}"
 disk_percent: "{{ (((item.size_total - item.size_available)  / item.size_total) * 100)  | round(1, 'common') }}"
+port_number: 37018

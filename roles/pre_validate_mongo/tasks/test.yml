@@ -1,0 +1,9 @@
+---
+- name: Checking database
+  shell:
+    cmd: " mongo "{{target_hosts}}":"{{port_number}}"/admin -u "{{ svc_ansible_automation }}" -p "{{ svc_ansible_automation_password }}" --authenticationDatabase admin --eval 'print(db.getMongo().getDBNames())' | grep -i 'config' | sed s/","/' '/g "
+  register: data_check
+- debug:
+    var: data_check
+
+
