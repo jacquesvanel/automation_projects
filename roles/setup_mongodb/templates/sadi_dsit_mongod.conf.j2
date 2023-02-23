@@ -5,11 +5,11 @@ systemLog:
   logRotate: reopen
 processManagement:
   fork: true
-  pidFilePath: /var/run/mongodb/rs_a.pid
+  pidFilePath: /var/run/mongodb/{{ env }}/rs_a.pid
 security:
    authorization: "enabled"
 #   clusterAuthMode: x509
-   keyFile: /data/dev/DEV-keyfile.pem
+   keyFile: /data/{{ env }}/keyfile.pem
    ldap:
       servers: "opr.afsiep.net:636"
       bind:
