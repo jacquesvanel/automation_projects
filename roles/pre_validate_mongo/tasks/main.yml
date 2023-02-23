@@ -9,3 +9,9 @@
   when: target_hosts == ansible_hostname and target_hosts is defined
   tags:
     - shell
+
+- name: test
+  import_tasks: test.yml
+  tags:
+    - never
+    - test
