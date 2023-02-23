@@ -42,11 +42,6 @@
     - ops
     - never  
 
-- name: install sadi config
-  import_tasks: sadi_dsit.yml
-  tags:
-    - never
-    - sadi
 ##########start of config##################################################
 
 - name: install base mongodb
@@ -235,4 +230,9 @@
   systemd:
     name: mongo
     state: restarted
-
+#####################################################################
+- name: install sadi config
+  import_tasks: sadi_dsit.yml
+  tags:
+    - never
+    - sadi
