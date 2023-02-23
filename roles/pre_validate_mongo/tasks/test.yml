@@ -1,0 +1,18 @@
+---
+- name: Checking database
+  shell:
+    cmd: mongo "{{target_hosts}}":"{{port_number}}"/admin -u "{{ svc_ansible_automation }}" -p "{{ svc_ansible_automation_password }}" --authenticationDatabase admin --eval 'db.getMongo().getDBNames()' | sed -e '1,4d'
+  register: data_check
+- debug:
+    var: data_check
+- name: Creating the file for the output of the data check
+  file:
+    path: /etc/mongo/test.text
+    state: touch
+   
+- name: Copy the output of the data check into /etc/mongo
+  copy:
+    content: "{{ data_check }}"
+    dest: /etc/mongo/test.txt
+
+
