@@ -42,7 +42,7 @@
 
 - name: layout user template for the server
   template:
-    src:  user_setup.js.j2
+    src:  sadi_dsit_user_setup.js.j2
     dest: "/etc/mongo/{{ env }}/scripts/user_setup.js"
     owner: "{{ owner }}"
     group: "{{ group }}"
@@ -64,7 +64,7 @@
 ######################################################################################
 - name: layout role template for the server
   template:
-    src:  createrole.js.j2
+    src:  sadi_dsit_createrole.js.j2
     dest: "/etc/mongo/{{ env }}/scripts/createrole.js"
     owner: "{{ owner }}"
     group: "{{ group }}"
