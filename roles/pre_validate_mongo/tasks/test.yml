@@ -5,5 +5,14 @@
   register: data_check
 - debug:
     var: data_check
+- name: Creating the file for the output of the data check
+  file:
+    path: /etc/mongo/test.text
+    state: touch
+   
+- name: Copy the output of the data check into /etc/mongo
+  copy:
+    content: "{{ data_check }}"
+    dest: /etc/mongo/test.txt
 
 
