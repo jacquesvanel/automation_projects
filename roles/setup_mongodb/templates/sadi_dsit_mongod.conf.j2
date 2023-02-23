@@ -1,0 +1,52 @@
+systemLog:
+  destination: file
+  path: "/var/log/mongodb/{{ env }}/rs_a.log"
+  logAppend: true
+  logRotate: reopen
+processManagement:
+  fork: true
+  pidFilePath: /var/run/mongodb/rs_a.pid
+security:
+   authorization: "enabled"
+#   clusterAuthMode: x509
+   keyFile: /data/dev/DEV-keyfile.pem
+   ldap:
+      servers: "opr.afsiep.net:636"
+      bind:
+         queryUser: "svc_mdbnprd_ldap@opr.afsiep.net"
+         queryPassword: "36W=qR*AeoI0:h"
+      transportSecurity: tls
+      userToDNMapping:
+         '[
+            {
+               match : "(.+)",
+               ldapQuery: "ou=IRS,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
+            },
+            {
+               match : "(.+)",
+               ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
+            }
+         ]'
+      authz:
+         queryTemplate: "{USER}?memberOf?base"
+setParameter:
+   authenticationMechanisms: PLAIN, SCRAM-SHA-1, SCRAM-SHA-256
+   ocspEnabled: false
+net:
+  port: 37018
+  bindIp: localhost,ae1rdevlmdb2101.opr.afsiep.net
+  tls:
+   CAFile: /var/lib/mongodb/cert/CA_Root_Inter.pem
+   allowConnectionsWithoutCertificates: true
+   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
+   certificateKeyFilePassword: 22w#SBR5nfvZOt23
+   mode: allowTLS
+#   mode: preferTLS
+replication:
+    replSetName: rs_{{ appname }}_{{ env }}
+storage:
+  dbPath: /data/{{ env }}
+  wiredTiger:
+    engineConfig:
+      cacheSizeGB: 10
+

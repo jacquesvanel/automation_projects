@@ -1,36 +1,13 @@
 ---
-#Getting a report of all the logs and their storage
-- name: Check disk usage
-  shell: df -h | awk '{ print $5 }' | sort -bgr | sed 's/%//g' | head -1
-         #df -h | awk '{ print $5, $6 }'
-  register: disk_usage
-
-- debug:
-    msg: "{{ disk_usage }}"
-
-- set_fact:
-    percent: "{{ disk_usage.stdout }}"
-
-- debug:
-    var: percent
-
-- debug:
-    msg: |
-        Mount: {{ item.mount }}
-        Device: {{ item.device }}
-        Fstype: {{ item.fstype }}
-        Disk Available: {{ disk_available }}GB
-        Disk Used: {{ disk_usage }}GB
-        Disk Total: {{ disk_total }}GB
-        Percent Used: {{ disk_percent }}%
-        {{item.mount}} is using {{ disk_percent }}% of allocated space
-  loop: "{{ ansible_mounts | list }}"
-  loop_control:
-    label: 'mount'
-
-- name: Fail system state check if / has less than 90% space available
-  fail:
-    msg:
-      - "partition size check FAILED! Please clear free space on {{ item.mount }} partition to less than 90% full"
-  with_items: "{{ ansible_mounts | list }}"
-  when:  disk_percent |int >= 50 
+#mkdir -p /tmp/MONGODB_VALIDATE
+#MNG_VAL=/tmp/MONGODB_VALIDATE/post_MongoDB_Validate.txt
+# --
+#SRVR={{ target_hosts }}
+#'<SERVER(S) separated by space name>'
+#Port_nmbr=37018
+#  DBS=`mongo ${a}:$Port_nmbr/admin -u {{ svc_ansible_automation }} -p {{ svc_ansible_automation_password }} --authenticationDatabase admin --eval 'print(db.getMongo().getDBNames())' | grep -i 'config' | sed s/","/' '/g`
+  
+#echo "EXISTING DATABASES ON ${a} SERVER ARE: " >> $MNG_VAL
+        
+#mongo ${a}:$Port_nmbr/admin -u {{ svc_ansible_automation }} -p {{ svc_ansible_automation_password }} --authenticationDatabase admin --eval 'db.getMongo().getDBNames()' | sed -e '1,4d' >> $MNG_VAL
+#  echo "********************************************************************"  >> $MNG_VAL
