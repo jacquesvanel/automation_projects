@@ -3,8 +3,8 @@
   #  shell: mongo --version | grep "MongoDB shell version" | sed 's/MongoDB shell version v//g'
   #shell: mongod --version | grep "db version" | sed 's/db version v//g'
   yum:
-    list: installed
-    name: "{{ base_packages }}"
+    list: "{{ base_packages }}"
+    state: installed
   register: version
 
 - debug:
