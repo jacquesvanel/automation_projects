@@ -1,0 +1,10 @@
+config = { _id: "rs_sadi_dsit",
+        members:[
+         { _id : 0, host : "ae1rsitlmdb2101.opr.afsiep.net:37018", priority: 100 },
+         { _id : 1, host : "ae2rsitlmdb2102.opr.afsiep.net:37018" },
+         { _id : 2, host : "ae3rsitlmdb2103.opr.afsiep.net:37018" }
+        ]
+};
+var output = rs.initiate(config);
+printjson(output)
+

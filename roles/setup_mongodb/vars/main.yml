@@ -1,7 +1,7 @@
 ---
 # vars file for mongo_config
 base_packages:
-  - mongodb-enterprise-5.0.13-1.el8
+  - mongodb-enterprise
   - mongodb-enterprise-cryptd
   - mongodb-enterprise-shell
   - mongodb-enterprise-server
@@ -13,7 +13,7 @@ dbtools:
   - mongodb-enterprise-database-tools-extra
   - mongodb-enterprise-tools
   - mongodb-database-tools
-
+version: 5.0.13-1.el8
 mongomms:
   - https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz
   - https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz.sig

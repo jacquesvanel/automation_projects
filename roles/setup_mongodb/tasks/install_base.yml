@@ -4,7 +4,7 @@
 
 - name: install mongo services
   yum:
-    name: '{{ base_packages }}'
+    name: '{{ base_packages }}-{{ version }}'
     state: installed 
     enablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
     disablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64

@@ -20,7 +20,7 @@
 
 - name: uninstall mongo services
   yum:
-    name: "{{ item }}"
+    name: "{{ item }}-{{ version }}"
     state: removed
     autoremove: true
   with_items: 
