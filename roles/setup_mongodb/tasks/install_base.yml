@@ -8,7 +8,7 @@
     name: mongodb-enterprise.x86_64-5.0.13-1.el8
     state: installed 
     enablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
-    disablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
+    #    disablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
     skip_broken: yes
     allow_downgrade: true
     #    autoremove: yes
