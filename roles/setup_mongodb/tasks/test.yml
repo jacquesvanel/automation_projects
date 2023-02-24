@@ -1,19 +1,39 @@
 ---
-- name: get mongodb version
-  yum:
-    list: installed
+#- name: get mongodb version
+#  yum:
+#    list: installed
     #    name: mongodb-enterprise.x86_64 
-  register: version
+    #  register: version
 
-- debug:
-    msg: "Current MongoDB version is {{ item.version }}" 
-  loop:  "{{ version.results | list }}"
-  when: item.name == "mongodb-enterprise"
-  loop_control:
-    label: version
+#- debug:
+#    msg: "Current MongoDB version is {{ item.version }}" 
+#  loop:  "{{ version.results | list }}"
+#  when: item.name == "mongodb-enterprise"
+#  loop_control:
+#    label: version
 
-- debug:
-    msg: "{{ version.results | list }}"
-  when: item.name == "mongo*"
+#- debug:
+#    msg: "{{ version.results | list }}"
+#  when: item.name == "mongo*"
     #- debug:
     #    msg: "Current MongoDB version is {{ version.stdout }}"
+- name: find all service files associated with mongo
+  find:
+    paths:
+      - "/usr/lib/systemd/system/"
+      - "/etc/systemd/system/"
+      - "/var/log/"
+      - "/var/run/"
+      - "/data/{{ env }}"
+      - "/var/lib/"
+      - "/etc/"
+      - "/etc/logrotate.d/"
+        #      - "/usr/local/bin/"
+        #      - "/opt/scripts/"
+      - "/tmp/"
+    patterns: "mongo*"
+    recurse: yes
+  register: files
+
+- debug:
+    msg: "{{ files }}"
