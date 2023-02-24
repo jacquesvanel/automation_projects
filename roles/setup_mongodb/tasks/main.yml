@@ -50,7 +50,6 @@
     - install
     - reinstall
     - base
-    - ops
 
 - name: install mongodb tools
   import_tasks: install_dbtools.yml
@@ -58,7 +57,6 @@
     - install
     - reinstall
     - dbtools
-    - ops
 
 - name: make directories
   import_tasks: make_file.yml
@@ -66,7 +64,6 @@
     - install
     - reinstall
     - make_file
-    - ops
 
 - name: add certs
   import_tasks: add_certs.yml
@@ -74,7 +71,6 @@
     - install
     - reinstall
     - add_certs
-    - ops
 
 - name: add logrotate file
   import_tasks: logrotate.yml
@@ -82,7 +78,6 @@
     - install
     - reinstall
     - logrotate
-    - ops
 
 - name: add hugepages fix
   import_tasks: hugepages.yml
@@ -90,40 +85,34 @@
     - install
     - reinstall
     - hugepages
-    - ops
 
 - name: add mongo service file
   import_tasks: mongo_service.yml
   tags:
-    - install
     - reinstall
     - mongo_service
 
 - name: add configsvr config/service files 
   import_tasks: no_sec_configsvr.yml
   tags:
-    - install
     - reinstall
     - configsvr
 
 - name: add shard1 config/service files
   import_tasks: no_sec_shard1.yml
   tags: 
-    - install
     - reinstall
     - no_sec_shard1
 
 - name: add shard2 config/service files
   import_tasks: no_sec_shard2.yml
   tags: 
-    - install
     - reinstall
     - no_sec_shard2
 
 - name: add shard3 config/service files
   import_tasks: no_sec_shard3.yml
   tags: 
-    - install
     - reinstall
     - no_sec_shard3
 
@@ -137,28 +126,24 @@
   loop_control:
     loop_var: add_mongos
   tags: 
-    - install
     - reinstall
     - mongos
 
 - name: setup users
   import_tasks: setup_users.yml
   tags: 
-    - install
     - reinstall
     - setup_users
 
 - name: create role
   import_tasks: create_role.yml
   tags: 
-    - install
     - reinstall
     - create_role
     
 - name: change ldap interval
   import_tasks: ldap_interval.yml
   tags:
-    - install     
     - reinstall
     - ldap_interval  
 
@@ -172,49 +157,42 @@
   loop_control:
     loop_var: start_mongos
   tags:
-    - install
     - reinstall
     - start_mongos
 
 - name: add configsvr config/service files
   import_tasks: configsvr.yml
   tags:
-    - install
     - reinstall
     - configsvr
 
 - name: add shard1 config/service files
   import_tasks: shard1.yml
   tags:
-    - install
     - reinstall
     - shard1
 
 - name: add shard2 config/service files
   import_tasks: shard2.yml
   tags:
-    - install
     - reinstall
     - shard2
 
 - name: add shard3 config/service files
   import_tasks: shard3.yml
   tags:
-    - install
     - reinstall
     - shard3
 
 - name: initiate clusters
   import_tasks: initiate_clusters.yml
   tags:
-    - install
     - reinstall
     - initiate_clusters
 
 - name: add keep alive line to sysctl.conf
   import_tasks: add_line_to_sys.yml
   tags:
-    - install
     - reinstall
     - keepalive
 
@@ -222,7 +200,6 @@
   import_tasks: add_shards.yml
   when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
   tags:
-    - install
     - reinstall
     - add_shards
 
