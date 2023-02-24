@@ -22,6 +22,7 @@
   yum:
     name: "{{ item }}"
     state: removed
+    autoremove: true
   with_items: 
     - "{{ base_packages }}"
     - "{{ dbtools }}"
