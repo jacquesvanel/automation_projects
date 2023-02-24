@@ -1,14 +1,12 @@
 ---
 - name: get mongodb version
-  #  shell: mongo --version | grep "MongoDB shell version" | sed 's/MongoDB shell version v//g'
-  #shell: mongod --version | grep "db version" | sed 's/db version v//g'
   yum:
     list: mongodb-enterprise.x86_64 
     state: installed
   register: version
 
 - debug:
-    msg: "{{ version | json_query(\"results.version\") }}"
+    msg: "{{ version.results | map(attribute='version' }}"
 
-- debug:
-    msg: "Current MongoDB version is {{ version.stdout }}"
+    #- debug:
+    #    msg: "Current MongoDB version is {{ version.stdout }}"
