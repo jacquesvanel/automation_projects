@@ -6,6 +6,9 @@
   register: version
 
 - debug:
+    var: version
+
+- debug:
     msg: "{{ item.version }}" 
   with_items:  "{{ version.results | list }}"
 
