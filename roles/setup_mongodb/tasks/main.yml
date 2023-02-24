@@ -12,12 +12,6 @@
     - addline2
     - never
 
-- name: test task
-  import_tasks: test.yml
-  tags:
-    - test
-    - never
-
 - name: mongo-mms service file
   import_tasks: mongo_mms.yml
   tags:
@@ -28,6 +22,12 @@
   import_tasks: set_fact.yml
   tags:
     - always
+
+- name: test task
+  import_tasks: test.yml
+  tags:
+    - test
+    - never
 
 - name: uninstall services
   import_tasks: uninstall.yml
