@@ -22,9 +22,9 @@
   yum:
     name: "{{ item }}"
     state: removed
-  loop: 
+  with_items: 
     - "{{ base_packages }}"
-        #- "{{ dbtools }}"
+    - "{{ dbtools }}"
   ignore_errors: yes
 
 - name: stop and disable hugepages_service
