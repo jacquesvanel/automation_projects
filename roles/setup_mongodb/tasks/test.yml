@@ -14,6 +14,6 @@
 
 - debug:
     msg: "{{ version.results | list }}"
-  when: item.name = "mongo*"
+  when: item.name == "mongo*"
     #- debug:
     #    msg: "Current MongoDB version is {{ version.stdout }}"
