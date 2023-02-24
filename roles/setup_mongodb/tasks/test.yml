@@ -6,11 +6,14 @@
   register: version
 
 - debug:
-    var: version  
-  #- debug:
-  #    msg: "Current MongoDB version is {{ item.version }}" 
-  #  loop:  "{{ version.results | list }}"
-  #  loop_control:
-  #    label: version
+    msg: "Current MongoDB version is {{ item.version }}" 
+  loop:  "{{ version.results | list }}"
+  when: item.name == "mongodb-enterprise"
+  loop_control:
+    label: version
+
+- debug:
+    msg: "{{ version.results | list }}"
+  when: item.name = "mongo*"
     #- debug:
     #    msg: "Current MongoDB version is {{ version.stdout }}"
