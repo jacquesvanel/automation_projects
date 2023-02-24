@@ -6,11 +6,9 @@
   register: version
 
 - debug:
-    var: version
-
-- debug:
-    msg: "{{ item.version }}" 
-  with_items:  "{{ version.results | list }}"
-
+    msg: "Current MongoDB version is {{ item.version }}" 
+  loop:  "{{ version.results | list }}"
+  loop_control:
+    label: version
     #- debug:
     #    msg: "Current MongoDB version is {{ version.stdout }}"
