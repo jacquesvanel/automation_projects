@@ -8,7 +8,7 @@
   register: version
 
 - debug:
-    msg: "{{ version.results.version }}"
+    msg: "{{ version.results_version }}"
 
 - debug:
     msg: "Current MongoDB version is {{ version.stdout }}"
