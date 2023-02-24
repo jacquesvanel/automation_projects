@@ -1,0 +1,7 @@
+---
+- name: get mongodb version
+  shell: mongo --version | grep "MongoDB shell version" | sed 's/MongoDB shell version v//g'
+  register: version
+
+- debug:
+    msg: "Current MongoDB version is {{ version.stdout }}"

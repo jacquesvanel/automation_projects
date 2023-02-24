@@ -13,7 +13,7 @@
     - never
 
 - name: test task
-  import_tasks: testshard.yml
+  import_tasks: test.yml
   tags:
     - test
     - never
