@@ -1,26 +1,45 @@
 ---
-- name: Stop mongod service
+#- name: Stop mongod service
+#  systemd:
+#    name: "{{ services }}"
+#    state: stopped
+#    enabled: no
+#  loop:
+#      - mongo
+#      - mongod
+#      - mongod_config
+#      - mongod_shard1
+#      - mongod_shard2
+#      - mongod_shard3
+#      - mongos0
+#      - mongos1
+#      - mongos2
+#  loop_control:
+#   loop_var: services
+#  ignore_errors: yes
+
+- name: find all service files associated with mongo
+  find:
+    paths:
+      - "/usr/lib/systemd/system/"
+      - "/etc/systemd/system/"
+    patterns: "mongo*.service"
+    recurse: yes
+  register: service
+
+#run them through systemd
+- name: checking mongo config service
   systemd:
-    name: "{{ services }}"
+    name: "{{ item }}"
     state: stopped
     enabled: no
-  loop:
-      - mongo
-      - mongod
-      - mongod_config
-      - mongod_shard1
-      - mongod_shard2
-      - mongod_shard3
-      - mongos0
-      - mongos1
-      - mongos2
-  loop_control:
-   loop_var: services
+  register: status
+  with_items: "{{ service.files | map(attribute='path')| map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| map('regex_replace','\\/etc\\/systemd\\/system\\/','') | list }}"
   ignore_errors: yes
 
 - name: uninstall mongo services
   yum:
-    name: "{{ item }}-{{ version }}"
+    name: "{{ item }}"
     state: removed
     autoremove: true
   with_items: 
@@ -28,13 +47,23 @@
     - "{{ dbtools }}"
   ignore_errors: yes
 
-- name: stop and disable hugepages_service
-  systemd:
-    name: mongodb-hugepage-fix
-    state: stopped
-    enabled: no
-    daemon_reload: yes
-  ignore_errors: yes
+- name: find all service files associated with mongo
+  find:
+    paths:
+      - "/usr/lib/systemd/system/"
+      - "/etc/systemd/system/"
+      - "/var/log/"
+      - "/var/run/"
+      - "/data/{{ env }}"
+      - "/var/lib/"
+      - "/etc/"
+      - "/etc/logrotate.d/"
+        #      - "/usr/local/bin/"
+        #      - "/opt/scripts/"
+      - "/tmp/"
+    patterns: "mongo*"
+    recurse: yes
+  register: files 
 
 - name: delete directory "{{ item }}"
   file:
