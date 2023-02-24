@@ -1,8 +1,8 @@
 ---
 - name: get mongodb version
   yum:
-    list: mongodb-enterprise.x86_64 
-    state: installed
+    list: installed
+    name: mongodb-enterprise.x86_64 
   register: version
 
 - debug:
