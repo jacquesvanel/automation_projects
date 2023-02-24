@@ -8,7 +8,7 @@
   register: version
 
 - debug:
-    msg: "{{ version | json_query(\"results[?type=='fixed'].version\") }}"
+    msg: "{{ version | json_query(\"results.version\") }}"
 
 - debug:
     msg: "Current MongoDB version is {{ version.stdout }}"
