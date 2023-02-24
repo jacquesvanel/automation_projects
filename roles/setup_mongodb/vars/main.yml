@@ -1,7 +1,7 @@
 ---
 # vars file for mongo_config
 base_packages:
-  - mongodb-enterprise-5.0.13-1.el8x86_64
+  - mongodb-enterprise-5.0.13-1.el8
   - mongodb-enterprise-cryptd.x86_64
   - mongodb-enterprise-shell.x86_64
   - mongodb-enterprise-server.x86_64
