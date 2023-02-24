@@ -36,4 +36,5 @@
   register: files
 
 - debug:
-    msg: "{{ files | map(selectattr'path') | list }}"
+    msg: "{{ item.path }}" 
+  loop: "{{ files | list }}"
