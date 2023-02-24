@@ -6,7 +6,7 @@
   register: version
 
 - debug:
-    msg: "{{ version.results | map(attribute='version') }}"
+    msg: "{{ version.results | map(selectattr='version') | list }}"
 
     #- debug:
     #    msg: "Current MongoDB version is {{ version.stdout }}"
