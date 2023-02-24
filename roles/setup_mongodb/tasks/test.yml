@@ -37,4 +37,4 @@
 
 - debug:
     msg: "{{ item.path }}" 
-  loop: "{{ files | list }}"
+  loop: "{{ files }}"
