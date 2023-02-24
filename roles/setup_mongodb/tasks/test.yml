@@ -2,13 +2,15 @@
 - name: get mongodb version
   yum:
     list: installed
-    name: mongodb-enterprise.x86_64 
+    #    name: mongodb-enterprise.x86_64 
   register: version
 
 - debug:
-    msg: "Current MongoDB version is {{ item.version }}" 
-  loop:  "{{ version.results | list }}"
-  loop_control:
-    label: version
+    var: version  
+  #- debug:
+  #    msg: "Current MongoDB version is {{ item.version }}" 
+  #  loop:  "{{ version.results | list }}"
+  #  loop_control:
+  #    label: version
     #- debug:
     #    msg: "Current MongoDB version is {{ version.stdout }}"
