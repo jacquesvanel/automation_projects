@@ -7,7 +7,7 @@
 
 - debug:
     msg: "{{ item.version }}" 
-  with_items:  version.results
+  with_items:  "{{ version.results | list }}"
 
     #- debug:
     #    msg: "Current MongoDB version is {{ version.stdout }}"
