@@ -16,5 +16,6 @@
   register: shell2_result
 
 - debug:
-    msg: "{{ shell2_result.stdout }}"
+    msg: |
+            "{{ shell2_result.stdout }}"
 
