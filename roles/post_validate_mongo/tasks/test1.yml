@@ -9,8 +9,7 @@
   register: shell_result
 
 - debug:
-    msg: |
-        "{{ shell_result.stdout }}"
+    msg: "{{ shell_result.stdout }}"
 
 - name: append
   lineinfile:
