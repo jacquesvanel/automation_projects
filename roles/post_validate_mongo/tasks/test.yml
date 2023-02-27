@@ -18,5 +18,5 @@
 
 - debug:
     msg: |
-         "{{ shell2_result.stdout }}"
+         "{{ shell2_result.stdout.split('\n') }}"
 
