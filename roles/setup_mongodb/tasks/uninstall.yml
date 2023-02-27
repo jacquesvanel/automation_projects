@@ -1,23 +1,4 @@
 ---
-#- name: Stop mongod service
-#  systemd:
-#    name: "{{ services }}"
-#    state: stopped
-#    enabled: no
-#  loop:
-#      - mongo
-#      - mongod
-#      - mongod_config
-#      - mongod_shard1
-#      - mongod_shard2
-#      - mongod_shard3
-#      - mongos0
-#      - mongos1
-#      - mongos2
-#  loop_control:
-#   loop_var: services
-#  ignore_errors: yes
-
 - name: find all service files associated with mongo
   find:
     paths:
@@ -66,7 +47,19 @@
   register: files 
 
 - debug:
-    msg: "{{ files }}"
+    msg: "{{ item }}"
+  loop: "{{ files.files | map(attribute='path') | list }}"
+  loop_control:
+    label: files
+
+- name: delete directory "{{ item }}"
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop: "{{ files.files | map(attribute='path') | list }}"
+  loop_control:
+    label: files
+  ignore_errors: yes
   #- name: delete directory "{{ item }}"
   #  file:
   #    path: "{{ item }}"
