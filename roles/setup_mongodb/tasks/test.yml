@@ -38,3 +38,5 @@
 - debug:
     msg: "{{ item }}" 
   loop: "{{ files.files | map(attribute='path') | list }}"
+  loop_control:
+    label: files
