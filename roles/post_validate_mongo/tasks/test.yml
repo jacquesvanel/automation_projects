@@ -3,6 +3,9 @@
   shell: mongo ae1rsitlmdb2101:37018/admin -u amkanda -p Qwerty#12345px --authenticationDatabase admin --eval "db.getCollectionNames()" | grep '"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
   register: shell2_result
 
+- debug:
+    msg: "{{ shell2_result.stdout }}"
+
 - name: append
   lineinfile:
     dest: "/etc/mongo/dsit/scripts/post_MongoDB_Validate_line.txt"
@@ -13,7 +16,20 @@
     create: true
     state: present
 
+- name: run wordcount command
+  shell: mongo ae1rsitlmdb2101:37018/admin -u amkanda -p Qwerty#12345px --authenticationDatabase admin --eval "db.getCollectionNames()" | grep '"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'i | wc -l
+  register: wc_result
 
+- debug:
+    msg: "{{ wc_result }}"  
+
+- debug:
+    msg: >
+         {% if wc_result > 0 %}
+         MongoDB Cluster is Currently UP and RUNNING
+         {% else %}
+         MongoDB ${i} is Currently DOWN Plese Verify
+         {% endif %} 
 #Vrfy_mng=`mongo ${a}:$Port_nmbr/admin -u {{ svc_ansible_automation }} -p {{ svc_ansible_automation_password }} --authenticationDatabase admin --eval "db.getCollectionNames()" | grep '"'| sed '/UUID/d' | wc -l`
 #          Col_nmb=0
 #               if [ $Vrfy_mng -gt $Col_nmb ]; then
