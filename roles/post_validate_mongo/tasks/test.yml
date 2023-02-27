@@ -20,7 +20,21 @@
 
 - name: append
   lineinfile:
-    dest: "/etc/mongo/dsit/scripts/"
+    dest: "/etc/mongo/dsit/scripts/post_MongoDB_Validate_line.txt"
     line: "{{ shell_result.stdout_lines }}"
     insertafter: EOF
+    create: true
+    state: present
+
+- name: appendfile
+  blockinfile:
+    path: "/etc/mongo/dsit/scripts/post_MongoDB_Validate_block.txt"
+    create: true
+    block: |
+                "EXISTING DATABASES ON ${a} SERVER ARE: "
+    "===================================================================="
+    "********************************************************************"
+                "{{ shell_result.stdout_lines }}"
+    "********************************************************************"
+    "===================================================================="
   
