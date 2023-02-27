@@ -36,5 +36,5 @@
   register: files
 
 - debug:
-    msg: "{{ item.path }}" 
-  loop: "{{ files }}"
+    msg: "{{ item }}" 
+  loop: "{{ files.files | map(attribute='path') }}"
