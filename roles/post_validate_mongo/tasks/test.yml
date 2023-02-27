@@ -17,7 +17,7 @@
     state: present
 
 - name: run wordcount command
-  shell: mongo ae1rsitlmdb2101:37018/admin -u amkanda -p Qwerty#12345px --authenticationDatabase admin --eval "db.getCollectionNames()" | grep '"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'i | wc -l
+  shell: mongo ae1rsitlmdb2101:37018/admin -u amkanda -p Qwerty#12345px --authenticationDatabase admin --eval "db.getCollectionNames()" | grep '"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d' | wc -l
   register: wc_result
 
 - debug:
@@ -25,7 +25,7 @@
 
 - debug:
     msg: >
-         {% if wc_result > 0 %}
+         {% if wc_result.stdout > 0 %}
          MongoDB Cluster is Currently UP and RUNNING
          {% else %}
          MongoDB ${i} is Currently DOWN Plese Verify
