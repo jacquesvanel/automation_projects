@@ -11,8 +11,8 @@
     owner: "{{ owner }}"
     group: "{{ group }}"
 
-- name: initiate shard replica set
-  shell: mongo {{ target_hosts }}:37018/admin -u {{ svc_ansible_automation }} -p {{ svc_ansible_automation_password }} --authenticationDatabase admin --eval 'print(db.getMongo().getDBNames())' | grep -i 'config' | sed 's/","/' '/g`
+- name: run shell command 
+  shell: mongo {{ target_hosts }}:37018/admin -u {{ svc_ansible_automation }} -p {{ svc_ansible_automation_password }} --authenticationDatabase admin --eval 'print(db.getMongo().getDBNames())' | grep -i 'config' 
   register: shell_result
 
 - debug:
