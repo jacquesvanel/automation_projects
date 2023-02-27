@@ -2,6 +2,7 @@
 vars:
   - Port_nmbr: 37018
   - SRVR: "{{ target_hosts }}"
+  - env: dsit
 #mkdir -p /tmp/MONGODB_VALIDATE
 #MNG_VAL=/tmp/MONGODB_VALIDATE/post_MongoDB_Validate.txt
 # --
