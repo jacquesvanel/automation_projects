@@ -40,9 +40,9 @@
   copy:
     content: |
             EXISTING DATABASES ON {{ ansible_hostname }} SERVER ARE
-              {{ shell_result.stdout }}
+            {{ shell_result.stdout }}
             COLLECTIONS EXIST ON {{ ansible_hostname }} DATABASE ARE
-              {{ shell2_result.stdout }}
+            {{ shell2_result.stdout }}
     dest: "/etc/mongo/dsit/scripts/post_MongoDB_Validate.txt"
 
     #- name: append
