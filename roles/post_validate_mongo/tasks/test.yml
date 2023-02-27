@@ -13,9 +13,10 @@
           | sed 's/\]//g' \
           | sed 's/\,//g' \
           | sed '/^[[:space:]]*$/d'
+          \
   register: shell2_result
 
 - debug:
     msg: |
-            "{{ shell2_result.stdout }}"
+         "{{ shell2_result.stdout }}"
 
