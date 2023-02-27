@@ -29,10 +29,6 @@
     path: "/etc/mongo/dsit/scripts/post_MongoDB_Validate_block.txt"
     create: true
     block: |
-             EXISTING DATABASES ON {{ ansible_hostname }} SERVER ARE:
-    ====================================================================
-    ********************************************************************
-              {{ shell_result.stdout_lines }}
-    ********************************************************************
-    ====================================================================
+     EXISTING DATABASES ON {{ ansible_hostname }} SERVER ARE:
+               {{ shell_result.stdout_lines }}
   
