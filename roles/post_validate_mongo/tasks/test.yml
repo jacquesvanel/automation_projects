@@ -30,9 +30,9 @@
 - debug:
     msg: 
       - "EXISTING DATABASES ON {{ ansible_hostname }} SERVER ARE"
-      - "{{ shell_result.stdout }}"
+      - "{{ shell_result.stdout.split('\n') }}"
       - "COLLECTIONS EXIST ON {{ ansible_hostname }} DATABASE ARE"
-      - "{{ shell2_result.stdout }}"
+      - "{{ shell2_result.stdout.split('\n') }}"
     #- name: run wordcount command
     #  shell: mongo ae1rsitlmdb2101:37018/admin -u amkanda -p Qwerty#12345px --authenticationDatabase admin --eval "db.getCollectionNames()" | grep '"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d' | wc -l
     #  register: wc_result
