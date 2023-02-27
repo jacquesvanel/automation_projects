@@ -8,8 +8,6 @@
   file:
     dest: "/etc/mongo/dsit/scripts/"
     state: directory
-    owner: "{{ owner }}"
-    group: "{{ group }}"
 
 - name: run shell command 
   shell: mongo ae1rsitlmdb2101:37018/admin -u amkanda -p Qwerty#12345px --authenticationDatabase admin --eval 'db.getMongo().getDBNames()' | sed -e '1,4d'
