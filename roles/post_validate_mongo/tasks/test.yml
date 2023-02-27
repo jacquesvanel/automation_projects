@@ -17,3 +17,10 @@
 
 - debug:
     msg: "{{ shell_result.stdout_lines }}"
+
+- name: append
+  lineinfile:
+    dest: "/etc/mongo/dsit/scripts/"
+    line: "{{ shell_result.stdout_lines }}"
+    insertafter: EOF
+  
