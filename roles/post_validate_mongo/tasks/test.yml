@@ -14,7 +14,7 @@
   register: shell_result
 
 - debug:
-    msg: |>
+    msg: |
         "{{ shell_result.stdout }}"
 
 - name: append
