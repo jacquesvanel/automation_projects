@@ -1,18 +1,6 @@
 ---
 - name: run 2nd command
-  shell: |
-  mongo ae1rsitlmdb2101:37018/admin\ 
-  -u amkanda\ 
-  -p Qwerty#12345px\ 
-  --authenticationDatabase admin\ 
-  --eval "db.getCollectionNames()" |\ 
-  grep '"'|\ 
-  sed '/UUID/d' |\ 
-  tr ' ' '\n' |\ 
-  sed 's/\[//g' |\ 
-  sed 's/\]//g' |\ 
-  sed 's/\,//g'|\ 
-  sed '/^[[:space:]]*$/d' 
+  shell: mongo ae1rsitlmdb2101:37018/admin -u amkanda -p Qwerty#12345px --authenticationDatabase admin --eval "db.getCollectionNames()" | grep '"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
   register: shell2_result
 
 - name: append
