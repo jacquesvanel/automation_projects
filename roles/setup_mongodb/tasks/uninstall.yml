@@ -28,7 +28,7 @@
     - "{{ dbtools }}"
   ignore_errors: yes
 
-- name: find all service files associated with mongo
+- name: find all files associated with mongo
   find:
     paths:
       - "/usr/lib/systemd/system/"
