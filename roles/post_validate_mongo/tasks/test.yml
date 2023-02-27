@@ -17,7 +17,7 @@
     line: |
           EXISTING DATABASES ON {{ ansible_hostname }} SERVER ARE
           "{{ shell_result.stdout }}"
-    insertafter: EOF
+          #    insertafter: EOF
     create: true
     state: present
 
@@ -42,7 +42,7 @@
     line: |
           COLLECTIONS EXIST ON {{ ansible_hostname }} DATABASE ARE
           "{{ shell2_result.stdout }}"
-    insertafter: EOF
+          #    insertafter: EOF
     create: true
     state: present
 
