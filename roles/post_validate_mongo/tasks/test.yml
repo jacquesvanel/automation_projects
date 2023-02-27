@@ -1,44 +1,20 @@
 ---
 - name: run 2nd command
-  shell: mongo ae1rsitlmdb2101:37018/admin -u amkanda -p Qwerty#12345px --authenticationDatabase admin --eval "db.getCollectionNames()" | grep '"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
+  shell: |
+          mongo ae1rsitlmdb2101:37018/admin \
+          -u amkanda \
+          -p Qwerty#12345px \
+          --authenticationDatabase admin \
+          --eval "db.getCollectionNames()" \
+          | grep '"' \
+          | sed '/UUID/d' \
+          | tr ' ' '\n' \
+          | sed 's/\[//g' \
+          | sed 's/\]//g' \
+          | sed 's/\,//g' \
+          | sed '/^[[:space:]]*$/d'
   register: shell2_result
 
 - debug:
     msg: "{{ shell2_result.stdout }}"
 
-- name: append
-  lineinfile:
-    dest: "/etc/mongo/dsit/scripts/post_MongoDB_Validate_line.txt"
-    line: |
-          COLLECTIONS EXIST ON {{ ansible_hostname }} DATABASE ARE
-          "{{ shell2_result.stdout }}"
-    insertafter: EOF
-    create: true
-    state: present
-
-- name: run wordcount command
-  shell: mongo ae1rsitlmdb2101:37018/admin -u amkanda -p Qwerty#12345px --authenticationDatabase admin --eval "db.getCollectionNames()" | grep '"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d' | wc -l
-  register: wc_result
-
-- debug:
-    msg: "{{ wc_result }}"  
-
-- debug:
-    msg: >
-         {% if wc_result.stdout > 0 %}
-         MongoDB Cluster is Currently UP and RUNNING
-         {% else %}
-         MongoDB ${i} is Currently DOWN Plese Verify
-         {% endif %} 
-#Vrfy_mng=`mongo ${a}:$Port_nmbr/admin -u {{ svc_ansible_automation }} -p {{ svc_ansible_automation_password }} --authenticationDatabase admin --eval "db.getCollectionNames()" | grep '"'| sed '/UUID/d' | wc -l`
-#          Col_nmb=0
-#               if [ $Vrfy_mng -gt $Col_nmb ]; then
-#                    echo ' ' >> $MNG_VAL
-#                    echo " STATUS" >> $MNG_VAL
-#                    echo " ******" >> $MNG_VAL
-#                    echo " MongoDB ${i} is Currently UP and RUNNING" >> $MNG_VAL
-#               else
-#                    echo ' ' >> $MNG_VAL
-#                    echo " STATUS" >> $MNG_VAL
-#                    echo " ******" >> $MNG_VAL
-#                    echo " MongoDB ${i} is Currently DOWN Plese Verify" >> $MNG_VAL  
