@@ -21,7 +21,7 @@
 - name: uninstall mongo services
   yum:
     name: "{{ item }}"
-    state: removed
+    state: absent 
     autoremove: true
   with_items: 
     - "{{ base_packages }}"
