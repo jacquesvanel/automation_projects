@@ -37,4 +37,4 @@
 
 - debug:
     msg: "{{ item }}" 
-  loop: "{{ files.files | map(attribute='path') }}"
+  loop: "{{ files.files | map(attribute='path') | list }}"
