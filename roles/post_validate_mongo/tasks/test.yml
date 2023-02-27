@@ -14,12 +14,12 @@
   register: shell_result
 
 - debug:
-    msg: "{{ shell_result.stdout_lines }}"
+    msg: "{{ shell_result.stdout }}"
 
 - name: append
   lineinfile:
     dest: "/etc/mongo/dsit/scripts/post_MongoDB_Validate_line.txt"
-    line: "{{ shell_result.stdout_lines }}"
+    line: "{{ shell_result.stdout }}"
     insertafter: EOF
     create: true
     state: present
@@ -30,5 +30,5 @@
     create: true
     block: |
           EXISTING DATABASES ON {{ ansible_hostname }} SERVER ARE
-          {{ shell_result.stdout_lines }}
+          {{ shell_result.stdout }}
   
