@@ -2,7 +2,7 @@
 ###########################################################################
 #Run mongo cmd that gets DB Names
 - name: run shell command
-  shell: "mongo {{ target_hosts }}:37018/admin -u {{ svc_ansible_automation }} -p {{ svc_ansible_automation_password }} --authenticationDatabase admin --eval 'db.getMongo().getDBNames()' | sed -e '1,4d'| tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'"
+  shell: mongo "{{ target_hosts }}":37018/admin -u "{{ svc_ansible_automation }}" -p "{{ svc_ansible_automation_password }}" --authenticationDatabase admin --eval 'db.getMongo().getDBNames()' | sed -e '1,4d'| tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
   register: shell_result
 
 - debug:
@@ -11,7 +11,7 @@
 ###########################################################################
 #run cmd that gets collection names    
 - name: run 2nd command
-  shell: "mongo {{ target_hosts }}:37018/admin -u {{ svc_ansible_automation }} -p {{ svc_ansible_automation_password }} --authenticationDatabase admin --eval 'db.getCollectionNames()' | grep '\"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'"
+  shell: mongo "{{ target_hosts }}":37018/admin -u "{{ svc_ansible_automation }}" -p "{{ svc_ansible_automation_password }}" --authenticationDatabase admin --eval 'db.getCollectionNames()' | grep '\"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
   register: shell2_result
 
 - debug:
