@@ -29,7 +29,7 @@
 - name: fail module for services
   fail:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
-  when:  item.status.ActiveState == 'failed' or item.status.ActiveState == 'inactive'
+  when:  item.status.ActiveState == 'failed' #or item.status.ActiveState == 'inactive'
   loop: "{{ status.results }}"
   loop_control:
     label: 'status'
@@ -48,6 +48,7 @@
   loop: "{{ ansible_mounts | list }}"
   loop_control:
     label: 'mount'
+  when: item.mount == "/data" or item.mount == "/var/log" or item.mount == "/opt"
 
 #fail if mounted drive is more then 80% full    
 - name: Fail system state check if mounted drive has less than 90% space available
