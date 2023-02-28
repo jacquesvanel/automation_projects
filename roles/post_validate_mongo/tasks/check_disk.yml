@@ -19,8 +19,8 @@
 - name: Fail system state check if mounted drive has less than 90% space available
   fail:
     msg:
-      - "Disk space check FAILED! Please clear space on {{ item.mount }} disk to less than 90% full"
+      - "Disk space check FAILED! Please clear space on {{ item.mount }} disk to less than 85% full"
   loop: "{{ ansible_mounts | list }}"
-  when:  disk_percent |int >= 90
+  when:  disk_percent |int >= 85
   loop_control:
     label: 'disk'

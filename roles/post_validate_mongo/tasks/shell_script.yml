@@ -72,6 +72,16 @@
       - "COLLECTIONS EXIST ON {{ ansible_hostname }} DATABASE ARE"
       - "{{ shell2_result.stdout.split('\n') }}"
 
+- name: check if pre validate file exists
+  stat:
+    path: /etc/mongo/{{ env }}/scripts/pre_MongoDB_Validate{{ ansible_date_time.date }}.txt
+  register: file
+
+- name: check if post validate file exists
+  stat:
+    path: /etc/mongo/{{ env }}/scripts/post_MongoDB_Validate{{ ansible_date_time.date }}.txt
+  register: file2
+
 - block:
   - name: Generate diff
     shell: diff  /etc/mongo/{{ env }}/scripts/pre_MongoDB_Validate{{ ansible_date_time.date }}.txt  /etc/mongo/{{ env }}/scripts/post_MongoDB_Validate{{ ansible_date_time.date }}.txt
