@@ -33,14 +33,14 @@
     #    group: "{{ group }}"
   when: not dir.stat.exists
 
-- name: check if file exists
+- name: check if pre validate file exists
   stat:
-    path: /etc/mongo/{{ env }}/scripts/pre_MongoDB_Validate.txt
+    path: /etc/mongo/{{ env }}/scripts/pre_MongoDB_Validate{{ ansible_date_time.date }}.txt
   register: file
 
-- name: check if file exists
+- name: check if post validate file exists
   stat:
-    path: /etc/mongo/{{ env }}/scripts/post_MongoDB_Validate.txt
+    path: /etc/mongo/{{ env }}/scripts/post_MongoDB_Validate{{ ansible_date_time.date }}.txt
   register: file2
 ###########################################################################
 #copy output to file and display in ansible output 
