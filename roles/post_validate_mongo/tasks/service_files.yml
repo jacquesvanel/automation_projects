@@ -17,7 +17,7 @@
   register: status
   with_items: "{{ service.files | map(attribute='path')| map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| map('regex_replace','\\/etc\\/systemd\\/system\\/','') | list }}"
 
-#get status of services  
+#get status of services
 - name: status of all services
   debug:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
@@ -33,29 +33,3 @@
   loop: "{{ status.results }}"
   loop_control:
     label: 'status'
-
-#get disk space    
-- debug:
-    msg: 
-      -  "Mount: {{ item.mount }}"
-      -  "Device: {{ item.device }}"
-      -  "Fstype: {{ item.fstype }}"
-      -  "Disk Available: {{ disk_available }}GB"
-      -  "Disk Used: {{ disk_usage }}GB"
-      -  "Disk Total: {{ disk_total }}GB"
-      -  "Percent Used: {{ disk_percent }}%"
-      -  "{{item.mount}} is using {{ disk_percent }}% of allocated space"
-  loop: "{{ ansible_mounts | list }}"
-  loop_control:
-    label: 'mount'
-  when: item.mount == "/data" or item.mount == "/var/log" or item.mount == "/opt"
-
-#fail if mounted drive is more then 80% full    
-- name: Fail system state check if mounted drive has less than 90% space available
-  fail:
-    msg:
-      - "Disk space check FAILED! Please clear space on {{ item.mount }} disk to less than 90% full"
-  loop: "{{ ansible_mounts | list }}"
-  when:  disk_percent |int >= 90
-  loop_control:
-    label: 'disk'

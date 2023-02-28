@@ -1,8 +1,18 @@
 ---
 - name:
-  import_tasks: validation.yml
+  import_tasks: set_fact.yml
   tags:
-    - validation
+    - always
+
+- name:
+  import_tasks: service_files.yml
+  tags:
+    - service
+
+- name:
+  import_tasks: check_disk.yml
+  tags:
+    - disk
 
 - name: shell script
   import_tasks: shell_script.yml
