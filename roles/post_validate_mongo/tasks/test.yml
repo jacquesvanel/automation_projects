@@ -12,4 +12,4 @@
   loop: "{{ ansible_mounts | list }}"
   loop_control:
     label: 'mount'
-  when: item.mount == /data or item.mount == /var/log or item.mount == /opt
+  when: item.mount == "/data"
