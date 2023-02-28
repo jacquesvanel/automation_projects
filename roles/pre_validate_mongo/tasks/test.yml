@@ -1,18 +1,49 @@
 ---
-- name: Checking database
-  shell:
-    cmd: mongo "{{target_hosts}}":"{{port_number}}"/admin -u "{{ svc_ansible_automation }}" -p "{{ svc_ansible_automation_password }}" --authenticationDatabase admin --eval 'db.getMongo().getDBNames()' | sed -e '1,4d'
-  register: data_check
-- debug:
-    var: data_check
-- name: Creating the file for the output of the data check
+- name: make directory for /etc/mongo/{{ env }}/scripts/
   file:
-    path: /etc/mongo/test.text
-    state: touch
-   
+    dest: "/etc/mongo/dsit/scripts/"
+    state: directory
+
+- name: run shell command
+  shell: mongo ae1rsitlmdb2101:37018/admin -u amkanda -p Qwerty#12345px --authenticationDatabase admin --eval 'db.getMongo().getDBNames()' | sed -e '1,4d'| tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
+  register: shell_result
+
+- debug:
+    msg: "{{ shell_result.stdout }}"
+
+- name: run 2nd command
+  shell: mongo ae1rsitlmdb2101:37018/admin -u amkanda -p Qwerty#12345px --authenticationDatabase admin --eval "db.getCollectionNames()" | grep '"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
+  register: shell2_result
+
+- debug:
+    msg: "{{ shell2_result.stdout }}"
+
 - name: Copy the output of the data check into /etc/mongo
   copy:
-    content: "{{ data_check }}"
-    dest: /etc/mongo/test.txt
+    content: |
+            EXISTING DATABASES ON {{ ansible_hostname }} SERVER ARE
+            {{ shell_result.stdout }}
+            COLLECTIONS EXIST ON {{ ansible_hostname }} DATABASE ARE
+            {{ shell2_result.stdout }}
+    dest: "/etc/mongo/dsit/scripts/post_MongoDB_Validate.txt"
 
+- debug:
+    msg: 
+      - "EXISTING DATABASES ON {{ ansible_hostname }} SERVER ARE"
+      - "{{ shell_result.stdout.split('\n') }}"
+      - "COLLECTIONS EXIST ON {{ ansible_hostname }} DATABASE ARE"
+      - "{{ shell2_result.stdout.split('\n') }}"
+    #- name: run wordcount command
+    #  shell: mongo ae1rsitlmdb2101:37018/admin -u amkanda -p Qwerty#12345px --authenticationDatabase admin --eval "db.getCollectionNames()" | grep '"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d' | wc -l
+    #  register: wc_result
 
+    #- debug:
+    #    msg: "{{ wc_result }}"
+
+    #- debug:
+    #    msg: >
+    #         {% if wc_result.stdout > 0 %}
+    #         MongoDB Cluster is Currently UP and RUNNING
+    #         {% else %}
+    #         MongoDB cluster is Currently DOWN Please Verify
+    #         {% endif %}
