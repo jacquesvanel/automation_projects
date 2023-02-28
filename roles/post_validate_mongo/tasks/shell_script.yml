@@ -1,4 +1,6 @@
 ---
+############################################################################
+#get enviorment and make it a variable
 - name: get env
   shell: cat /etc/serverinfo.conf | grep Environment | sed 's/Environment=//g' | tr [:upper:] [:lower:]
   args:
@@ -11,6 +13,8 @@
 - debug:
     var: env
 
+############################################################################
+#make sure directory exists
 - name: make file directory
   file:
     path: /etc/mongo/{{ env }}/scripts/
@@ -20,23 +24,45 @@
     #    group: "{{ group }}"
     #  when: not ansible_facts['file_directory_exists']
 
-- name: layout template for shell script
-  template:
-    src: mongodb_status_verify.sh.j2
-    dest: "/etc/mongo/{{ env }}/scripts/post_mongodb_status_verify.sh"
-    owner:
-    group:
-    mode:
-
-- name: run shell script
-  shell: /bin/bash /etc/mongo/{{ env }}/scripts/post_mongodb_status_verify.sh
-  register: shell
+###########################################################################
+#Run mongo cmd that gets DB Names
+- name: run shell command
+  shell: mongo ae1rsitlmdb2101:37018/admin -u amkanda -p Qwerty#12345px --authenticationDatabase admin --eval 'db.getMongo().getDBNames()' | sed -e '1,4d'| tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
+  register: shell_result
 
 - debug:
-    msg: "{{ shell.stdout_lines }}"
+    msg: "{{ shell_result.stdout }}"
+
+###########################################################################
+#run cmd that gets coolection names    
+- name: run 2nd command
+  shell: mongo ae1rsitlmdb2101:37018/admin -u amkanda -p Qwerty#12345px --authenticationDatabase admin --eval "db.getCollectionNames()" | grep '"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
+  register: shell2_result
+
+- debug:
+    msg: "{{ shell2_result.stdout }}"
+
+###########################################################################
+#copy output to file and display in ansible output 
+- name: Copy the output of the data check into /etc/mongo
+  copy:
+    content: |
+            EXISTING DATABASES ON {{ ansible_hostname }} SERVER ARE
+            {{ shell_result.stdout }}
+            COLLECTIONS EXIST ON {{ ansible_hostname }} DATABASE ARE
+            {{ shell2_result.stdout }}
+    dest: "/etc/mongo/dsit/scripts/post_MongoDB_Validate.txt"
+
+- debug:
+    msg:
+      - "EXISTING DATABASES ON {{ ansible_hostname }} SERVER ARE"
+      - "{{ shell_result.stdout.split('\n') }}"
+      - "COLLECTIONS EXIST ON {{ ansible_hostname }} DATABASE ARE"
+      - "{{ shell2_result.stdout.split('\n') }}"
+
 
 - name: Generate diff
-  shell: diff  /tmp/MONGODB_VALIDATE/pre_MongoDB_Validate.txt  /tmp/MONGODB_VALIDATE/test_MongoDB_Validate.txt
+  shell: diff  /etc/mongo/{{ env }}/scripts/pre_MongoDB_Validate.txt  /etc/mongo/{{ env }}/scripts/post_MongoDB_Validate.txt
   register: diff_result
   ignore_errors: yes
 
@@ -50,3 +76,17 @@
          "Mongodb files are different from eachother"
          "{{ diff_result.stdout_lines }}"
   when: diff_result.rc !=0
+#- name: run wordcount command
+    #  shell: mongo ae1rsitlmdb2101:37018/admin -u amkanda -p Qwerty#12345px --authenticationDatabase admin --eval "db.getCollectionNames()" | grep '"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d' | wc -l
+    #  register: wc_result
+
+    #- debug:
+    #    msg: "{{ wc_result }}"
+
+    #- debug:
+    #    msg: >
+    #         {% if wc_result.stdout > 0 %}
+    #         MongoDB Cluster is Currently UP and RUNNING
+    #         {% else %}
+    #         MongoDB cluster is Currently DOWN Please Verify
+    #         {% endif %}
