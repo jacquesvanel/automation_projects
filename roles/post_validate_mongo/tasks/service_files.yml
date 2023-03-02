@@ -29,7 +29,7 @@
 - name: fail module for services
   fail:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
-  when:  item.status.ActiveState == 'failed' #or item.status.ActiveState == 'inactive'
+  when: item.status.ActiveState == 'failed' 
   with_items: "{{ status.results }}"
   loop_control:
     label: 'status'
