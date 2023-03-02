@@ -32,4 +32,4 @@
   when:  item.status.ActiveState == 'failed' #or item.status.ActiveState == 'inactive'
   loop: "{{ status.results }}"
   loop_control:
-    label: 'status'
+    label: 'fail'
