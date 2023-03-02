@@ -30,6 +30,6 @@
   fail:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
   when:  item.status.ActiveState == 'failed' #or item.status.ActiveState == 'inactive'
-  loop: "{{ status.results }}"
+  with_items: "{{ status.results }}"
   loop_control:
-    label: 'fail'
+    label: 'status'
