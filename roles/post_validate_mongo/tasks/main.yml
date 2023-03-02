@@ -16,7 +16,7 @@
 
 - name: shell script
   import_tasks: shell_script.yml
-  when: target_hosts == ansible_hostname and target_hosts is defined
+  #  when: target_hosts == ansible_hostname and target_hosts is defined
   tags:
     - shell
 

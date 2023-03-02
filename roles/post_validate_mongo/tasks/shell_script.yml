@@ -2,7 +2,7 @@
 ###########################################################################
 #Run mongo cmd that gets DB Names
 - name: run shell command
-  shell: mongo "{{ target_hosts }}":37018/admin -u "{{ svc_ansible_automation }}" -p "{{ svc_ansible_automation_password }}" --authenticationDatabase admin --eval 'db.getMongo().getDBNames()' | sed -e '1,4d'| tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
+  shell: mongo "{{ ansible_hostname }}":37018/admin -u "{{ svc_ansible_automation }}" -p "{{ svc_ansible_automation_password }}" --authenticationDatabase admin --eval 'db.getMongo().getDBNames()' | sed -e '1,4d'| tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
   register: shell_result
 
 - debug:
@@ -11,7 +11,7 @@
 ###########################################################################
 #run cmd that gets collection names    
 - name: run 2nd command
-  shell: mongo "{{ target_hosts }}":37018/admin -u "{{ svc_ansible_automation }}" -p "{{ svc_ansible_automation_password }}" --authenticationDatabase admin --eval 'db.getCollectionNames()' | grep '\"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
+  shell: mongo "{{ ansible_hostname }}":37018/admin -u "{{ svc_ansible_automation }}" -p "{{ svc_ansible_automation_password }}" --authenticationDatabase admin --eval 'db.getCollectionNames()' | grep '\"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
   register: shell2_result
 
 - debug:
@@ -52,7 +52,7 @@
             {{ shell_result.stdout }}
             COLLECTIONS EXIST ON {{ ansible_hostname }} DATABASE ARE
             {{ shell2_result.stdout }}
-    dest: "/etc/mongo/dsit/scripts/pre_MongoDB_Validate{{ ansible_date_time.date }}.txt"
+    dest: "/etc/mongo/{{ env }}/scripts/pre_MongoDB_Validate{{ ansible_date_time.date }}.txt"
   when: not file.stat.exists
 
 - name: Copy the output of the data check into /etc/mongo
@@ -62,7 +62,7 @@
             {{ shell_result.stdout }}
             COLLECTIONS EXIST ON {{ ansible_hostname }} DATABASE ARE
             {{ shell2_result.stdout }}
-    dest: "/etc/mongo/dsit/scripts/post_MongoDB_Validate{{ ansible_date_time.date }}.txt"
+    dest: "/etc/mongo/{{ env }}/scripts/post_MongoDB_Validate{{ ansible_date_time.date }}.txt"
   when: file.stat.exists
 
 - debug:
@@ -99,7 +99,7 @@
            "{{ diff_result.stdout_lines }}"
     when: diff_result.rc !=0
   when: file.stat.exists and file2.stat.exists
-
+# delete old files older than 90 days
 #- name: run wordcount command
     #  shell: mongo ae1rsitlmdb2101:37018/admin -u amkanda -p Qwerty#12345px --authenticationDatabase admin --eval "db.getCollectionNames()" | grep '"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d' | wc -l
     #  register: wc_result

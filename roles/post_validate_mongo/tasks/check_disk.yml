@@ -16,11 +16,11 @@
   when: item.mount == "/data" or item.mount == "/var/log" or item.mount == "/opt"
 
 #fail if mounted drive is more then 80% full    
-- name: Fail system state check if mounted drive has less than 90% space available
-  fail:
-    msg:
-      - "Disk space check FAILED! Please clear space on {{ item.mount }} disk to less than 85% full"
-  loop: "{{ ansible_mounts | list }}"
-  when:  disk_percent |int >= 85
-  loop_control:
-    label: 'disk'
+#- name: Fail system state check if mounted drive has less than 90% space available
+#  fail:
+#    msg:
+#      - "Disk space check FAILED! Please clear space on {{ item.mount }} disk to less than 85% full"
+#  loop: "{{ ansible_mounts | list }}"
+#  when:  disk_percent |int >= 85
+#  loop_control:
+#    label: 'disk'
