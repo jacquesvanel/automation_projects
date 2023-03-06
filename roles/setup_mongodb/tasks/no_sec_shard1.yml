@@ -63,6 +63,7 @@
   ignore_errors: yes
 
 #block for service files
+- block:
   - name: layout template for added mongod_shard1.service on the server
     template:
       src: mongod_shard1.service.j2
