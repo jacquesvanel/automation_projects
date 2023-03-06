@@ -15,7 +15,7 @@
     force: yes
 
 - name: run shell command
-  shell: /bin/bash/ /etc/mongo/prod/scripts/count.sh 
+  shell: /bin/sh /etc/mongo/prod/scripts/count.sh 
   register: shell_result
 
 - debug:
