@@ -1,0 +1,74 @@
+[1:07 PM] Mkanda, Athumani R. [Yudrio Inc]
+
+# cat Form_Trans_Count_Verify.sh #!/bin/bash
+# set -x
+#############################################################################
+###   Script to Collect Data Count from FORM and TRANSMISSION Coll        ###
+###   Author: Athumani Mkanda                                             ###
+###   Tuesday 28, February 2023                                           ###
+###   *************************                                           ###
+###                                                                       ###
+#############################################################################
+# --
+# EMAIL_LIST="PIVOT.Database@accenturefederal.com"
+# --
+###***********************************************************************###
+###           FORM AND TRANSMISSION DATA COUNT VERIFICATION               ###
+###***********************************************************************###
+# --
+mkdir -p /tmp/MONGODB_DATA_COUNT
+chmod -R 777 /tmp/MONGODB_DATA_COUNT
+MNG_DCNT=/tmp/MONGODB_DATA_COUNT/MongoDB_Validate.log
+# --
+###***********************************************************************###
+### Scrip Main Code                                                       ###
+###***********************************************************************###
+# --
+echo " " > $MNG_DCNT
+# --
+echo "Hi Prasad," >> $MNG_DCNT
+echo " " >> $MNG_DCNT
+echo "Below are the output for todays run `date`" >> $MNG_DCNT
+echo " " >> $MNG_DCNT
+# --
+DT=`date +%y%m%d`
+DT1=`date +%y%m%d | head -c 4 | tail -c 2`
+DT2=`date +%y%m%d | head -c 6 | tail -c 2`
+DT3=`date -d "1 day ago" '+%y%m%d' | head -c 6 | tail -c 2`
+# --
+echo " " >> $MNG_DCNT
+echo "**********************************************************************" >> $MNG_DCNT
+echo "*TODAYS `date '+%A, %m-%d-%Y'` IRIS PROD FORM AND TRANSMISSION DATA COUNT*" >> $MNG_DCNT
+echo "**********************************************************************" >> $MNG_DCNT
+echo " " >> $MNG_DCNT
+echo "{transmissionStatus:'REJECTED'}" >> $MNG_DCNT
+RJCTD=`mongo {{ target }}:37018/iris_prod_db -u gmani -p Asdfgh#12345pr --authenticationDatabase admin --eval 'db.TRANSMISSION.find({transmissionStatus:"REJECTED"}).count()' | tail -1`
+#echo " " >> $MNG_DCNT
+echo "TRANSMISSION Coll. Data Count REJECTED is: ${RJCTD}" >> $MNG_DCNT
+echo "======================================================================" >> $MNG_DCNT
+echo " " >> $MNG_DCNT
+# --
+TNC=`mongo {{ target }}:37018/iris_prod_db -u gmani -p Asdfgh#12345pr --authenticationDatabase admin --eval 'db.FORM.count()' | tail -1`
+echo "db.FORM.count()" >> $MNG_DCNT
+#echo " " >> $MNG_DCNT
+echo "FORM Coll. Total Count of Data Count is: ${TNC}" >> $MNG_DCNT
+echo "======================================================================" >> $MNG_DCNT
+echo " " >> $MNG_DCNT
+# --
+echo "{createdTs:{ $gte: ISODate('2023-'$DT1'-'$DT3''), $lt: ISODate('2023-'$DT1'-'$DT2'')}}" >> $MNG_DCNT
+TPRC=`mongo {{ target }}:37018/iris_prod_db -u gmani -p Asdfgh#12345pr --authenticationDatabase admin --eval 'db.FORM.find({createdTs : { "$gte": ISODate("2023-'$DT1'-'$DT3'T00:00:00.000Z"), $lt: ISODate("2023-'$DT1'-'$DT2'T00:00:00.000Z") } }).count()' | tail -1`
+#echo " " >> $MNG_DCNT
+echo "FORM Coll. Todays Count Of PROCESSING Data is: ${TPRC}" >> $MNG_DCNT
+echo "======================================================================" >> $MNG_DCNT
+echo " " >> $MNG_DCNT
+# --
+echo "{createdTs: {$gte: ISODate('2023-01-23'), $lt: ISODate('2023-'$DT1'-'$DT2'')}}" >> $MNG_DCNT
+J23PRC=`mongo {{ target }}:37018/iris_prod_db -u gmani -p Asdfgh#12345pr --authenticationDatabase admin --eval 'db.FORM.find({createdTs : { "$gte": ISODate("2023-01-23T00:00:00.000Z"), $lt: ISODate("2023-'$DT1'-'$DT2'T00:00:00.000Z") } }).count()' | tail -1`
+#echo " " >> $MNG_DCNT
+echo "FORM Coll. PROCESSING Data Count From Jan 23, 2023 is: ${J23PRC}" >> $MNG_DCNT
+echo "======================================================================" >> $MNG_DCNT
+echo " " >> $MNG_DCNT
+# --
+# set +x
+
+
