@@ -18,12 +18,13 @@
   shell: /bin/sh /etc/mongo/prod/scripts/count.sh 
   register: shell_result
 
-- debug:
-    msg: "{{ shell_result.stdout }}"
+  #- debug:
+  #    msg: "{{ shell_result.stdout }}"
 
 - name: cat log
   shell: cat /tmp/MONGODB_DATA_COUNT/MongoDB_Validate.log
   register: cat_output
 
 - debug:
-    msg: "{{ cat_output.stdout }}"
+    msg: |
+         "{{ cat_output.stdout }}"
