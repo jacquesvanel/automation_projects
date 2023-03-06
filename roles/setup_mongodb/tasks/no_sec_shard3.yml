@@ -75,7 +75,7 @@
   ignore_errors: yes
   tags: shard3
 
-# block for shard3a
+# block for shard3c
 - block:
   - name: make dbpath file directory /data/{{ env }}/shard3/rs_c
     file:

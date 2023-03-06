@@ -1,26 +1,12 @@
 ---
-- block:
-  - name: start and enable mongos0.service
-    systemd:
-      name: mongos0
-      state: restarted
-      enabled: yes
-      daemon_reload: yes
-
-  - name: start and enable mongos1.service
-    systemd:
-      name: mongos1
-      state: restarted
-      enabled: yes
-      daemon_reload: yes
-
-  - name: start and enable mongos2.service
-    systemd:
-      name: mongos2
-      state: restarted
-      enabled: yes
-      daemon_reload: yes
-  tags:
-    - install
-    - reinstall
-    - start_mongos
+- name: start and enable mongos.service
+  systemd:
+    name: "{{ item }}"
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+  with_items:
+    - mongos0
+    - mongos1
+    - mongos2
+  when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa) or (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb) or (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)

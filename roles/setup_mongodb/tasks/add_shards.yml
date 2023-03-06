@@ -22,5 +22,5 @@
 
   - debug:
       var: shell_result.stdout_lines
+  when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
   ignore_errors: yes
-  tags: add_shards

@@ -32,32 +32,20 @@
     - no_sec_configsvr
 
 - name: add shard1 config/service files
-  import_tasks: no_sec_shard1.yml
+  import_tasks: no_sec_shard.yml
   tags: 
     - reinstall
-    - no_sec_shard1
-
-- name: add shard2 config/service files
-  import_tasks: no_sec_shard2.yml
-  tags: 
-    - reinstall
-    - no_sec_shard2
-
-- name: add shard3 config/service files
-  import_tasks: no_sec_shard3.yml
-  tags: 
-    - reinstall
-    - no_sec_shard3
+    - no_sec_shard
 
 - name: add mongos config/service files
   include_tasks: mongos.yml
-  when: 'add_mongos'
-  loop:
-    - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
-    - (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)
-    - (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)
-  loop_control:
-    loop_var: add_mongos
+  #when: 'add_mongos'
+  #loop:
+  #  - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
+  #  - (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)
+  #  - (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)
+  #loop_control:
+  #  loop_var: add_mongos
   tags: 
     - reinstall
     - mongos
@@ -82,13 +70,13 @@
 
 - name: start mongos
   include_tasks: start_mongos.yml
-  when: 'start_mongos'
-  loop:
-    - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
-    - (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)
-    - (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)
-  loop_control:
-    loop_var: start_mongos
+  #when: 'start_mongos'
+  #loop:
+  #  - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
+  #  - (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)
+  #  - (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)
+  #loop_control:
+  #  loop_var: start_mongos
   tags:
     - reinstall
     - start_mongos
@@ -100,22 +88,10 @@
     - configsvr
 
 - name: add shard1 config/service files
-  import_tasks: shard1.yml
+  import_tasks: shard.yml
   tags:
     - reinstall
-    - shard1
-
-- name: add shard2 config/service files
-  import_tasks: shard2.yml
-  tags:
-    - reinstall
-    - shard2
-
-- name: add shard3 config/service files
-  import_tasks: shard3.yml
-  tags:
-    - reinstall
-    - shard3
+    - shard
 
 - name: initiate clusters
   import_tasks: initiate_clusters.yml
@@ -131,7 +107,6 @@
 
 - name: add shards to cluster
   import_tasks: add_shards.yml
-  when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
   tags:
     - reinstall
     - add_shards
