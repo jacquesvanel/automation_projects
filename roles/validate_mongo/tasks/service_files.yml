@@ -1,6 +1,6 @@
 ---
 #find all service files
-- name: find all service files associated with mongo
+- name: (service_files.yml) find all service files associated with mongo
   find:
     paths:
       - "/usr/lib/systemd/system/"
@@ -11,14 +11,14 @@
   register: service
 
 #run them through systemd
-- name: checking mongo config service
+- name: (service_files.yml) checking mongo config service
   systemd:
-    name: "{{ item }}"
+    name: (service_files) "{{ item }}"
   register: status
   with_items: "{{ service.files | map(attribute='path')| map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| map('regex_replace','\\/etc\\/systemd\\/system\\/','') | list }}"
 
 #get status of services
-- name: status of all services
+- name: (service_files.yml) status of all services
   debug:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
   with_items: "{{ status.results }}"
@@ -26,7 +26,7 @@
     label: 'status'
 
 #fail if task if service is in innactive or failed state
-- name: fail module for services
+- name: (service_files.yml) fail module for services
   fail:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
   when: item.status.ActiveState == 'failed' 

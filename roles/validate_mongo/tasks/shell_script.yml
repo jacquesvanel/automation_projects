@@ -1,30 +1,32 @@
 ---
 ###########################################################################
 #Run mongo cmd that gets DB Names
-- name: run shell command
+- name: (shell_script.yml) run shell command
   shell: mongo "{{ ansible_hostname }}":37018/admin -u "{{ svc_ansible_automation }}" -p "{{ svc_ansible_automation_password }}" --authenticationDatabase admin --eval 'db.getMongo().getDBNames()' | sed -e '1,4d'| tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
   register: shell_result
 
-- debug:
+- name: (shell_script.yml) show cmd output
+  debug:
     msg: "{{ shell_result.stdout }}"
 
 ###########################################################################
 #run cmd that gets collection names    
-- name: run 2nd command
+- name: (shell_script.yml) run 2nd command
   shell: mongo "{{ ansible_hostname }}":37018/admin -u "{{ svc_ansible_automation }}" -p "{{ svc_ansible_automation_password }}" --authenticationDatabase admin --eval 'db.getCollectionNames()' | grep '\"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
   register: shell2_result
 
-- debug:
+- name: (shell_script.yml) show cmd output
+  debug:
     msg: "{{ shell2_result.stdout }}"
 
 ############################################################################
 #make sure directory exists
-- name: check if dir exists
+- name: (shell_script.yml) check if dir exists
   stat:
     path: /etc/mongo/{{ env }}/scripts/
   register: dir
 
-- name: make file directory
+- name: (shell_script.yml) make file directory
   file:
     path: /etc/mongo/{{ env }}/scripts/
     state: directory
@@ -33,19 +35,19 @@
     #    group: "{{ group }}"
   when: not dir.stat.exists
 
-- name: check if pre validate file exists
+- name: (shell_script.yml) check if pre validate file exists
   stat:
     path: /etc/mongo/{{ env }}/scripts/pre_MongoDB_Validate{{ ansible_date_time.date }}.txt
   register: file
 
-- name: check if post validate file exists
+- name: (shell_script.yml) check if post validate file exists
   stat:
     path: /etc/mongo/{{ env }}/scripts/post_MongoDB_Validate{{ ansible_date_time.date }}.txt
   register: file2
 ###########################################################################
 #copy output to file and display in ansible output 
 
-- name: Copy the output of the data check into /etc/mongo
+- name: (shell_script.yml) Copy the output of the data check into /etc/mongo
   copy:
     content: |
             EXISTING DATABASES ON {{ ansible_hostname }} SERVER ARE
@@ -55,7 +57,7 @@
     dest: "/etc/mongo/{{ env }}/scripts/pre_MongoDB_Validate{{ ansible_date_time.date }}.txt"
   when: not file.stat.exists
 
-- name: Copy the output of the data check into /etc/mongo
+- name: (shell_script.yml) Copy the output of the data check into /etc/mongo
   copy:
     content: |
             EXISTING DATABASES ON {{ ansible_hostname }} SERVER ARE
@@ -72,45 +74,47 @@
       - "COLLECTIONS EXIST ON {{ ansible_hostname }} DATABASE ARE"
       - "{{ shell2_result.stdout.split('\n') }}"
 
-- name: check if pre validate file exists
+- name: (shell_script.yml) check if pre validate file exists
   stat:
     path: /etc/mongo/{{ env }}/scripts/pre_MongoDB_Validate{{ ansible_date_time.date }}.txt
   register: file
 
-- name: check if post validate file exists
+- name: (shell_script.yml) check if post validate file exists
   stat:
     path: /etc/mongo/{{ env }}/scripts/post_MongoDB_Validate{{ ansible_date_time.date }}.txt
   register: file2
 
 - block:
-  - name: Generate diff
+  - name: (shell_script.yml) Generate diff
     shell: diff  /etc/mongo/{{ env }}/scripts/pre_MongoDB_Validate{{ ansible_date_time.date }}.txt  /etc/mongo/{{ env }}/scripts/post_MongoDB_Validate{{ ansible_date_time.date }}.txt
     register: diff_result
     ignore_errors: yes
 
-  - name: Show diff result
+  - name: (shell_script.yml) Show diff result
     debug:
       msg: "{{ diff_result.stdout_lines }}"
 
-  - name: fail module
+  - name: (shell_script.yml) fail module
     fail:
       msg: |-
            "Mongodb files are different from eachother"
            "{{ diff_result.stdout_lines }}"
     when: diff_result.rc !=0
   when: file.stat.exists and file2.stat.exists
+
 # delete old files older than 90 days
-#- name: run wordcount command
-    #  shell: mongo ae1rsitlmdb2101:37018/admin -u amkanda -p Qwerty#12345px --authenticationDatabase admin --eval "db.getCollectionNames()" | grep '"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d' | wc -l
-    #  register: wc_result
+- name: (shell_script.yml) find files older the 90 days old
+  find:
+    paths: "/etc/mongo/{{ env }}/scripts/"
+    patterns: "*MongoDB_Validate*"
+    age: 90d
+    recurse: yes
+  register: validate
 
-    #- debug:
-    #    msg: "{{ wc_result }}"
-
-    #- debug:
-    #    msg: >
-    #         {% if wc_result.stdout > 0 %}
-    #         MongoDB Cluster is Currently UP and RUNNING
-    #         {% else %}
-    #         MongoDB cluster is Currently DOWN Please Verify
-    #         {% endif %}
+- name: (shell_script.yml) remove files more then 90days old
+  file: 
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ validate.files }}"
+  loop_control:
+    label: 'validate'

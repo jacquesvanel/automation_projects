@@ -1,13 +1,15 @@
 ---
 #get enviorment and make it a variable
-- name: get env
+- name: (set_fact.yml) get env
   shell: cat /etc/serverinfo.conf | grep Environment | sed 's/Environment=//g' | tr [:upper:] [:lower:]
   args:
     warn: no
   register: env
 
-- set_fact:
+- name: (set_fact.yml) setting env variable
+  set_fact:
     env: "{{ env.stdout }}"
 
-- debug:
+- name: (set_fact) show env variable
+  debug:
     var: env
