@@ -26,5 +26,5 @@
   register: cat_output
 
 - debug:
-    msg: |
+    msg: > 
          "{{ cat_output.stdout }}"
