@@ -17,22 +17,6 @@
       group: "{{ group }}"
       mode: '0644'
       force: yes
-
-  - name: layout template for added mongod_shard1.service on the server
-    template:
-      src: mongod_shard1.service.j2
-      dest: "/usr/lib/systemd/system/mongod_shard1.service"
-      owner: "{{ owner }}"
-      group: "{{ group }}"
-      mode: '0640'
-      force: yes
-
-  - name: start mongod_shard1
-    systemd:
-      name: mongod_shard1
-      state: restarted
-      enabled: yes
-      daemon_reload: yes
   when: (shard1a is defined) and (ansible_hostname == shard1a)
   ignore_errors: yes
 
@@ -54,22 +38,6 @@
       group: "{{ group }}"
       mode: '0644'
       force: yes
-
-  - name: layout template for added mongod_shard1.service on the server
-    template:
-      src: mongod_shard1.service.j2
-      dest: "/usr/lib/systemd/system/mongod_shard1.service"
-      owner: "{{ owner }}"
-      group: "{{ group }}"
-      mode: '0640'
-      force: yes
-
-  - name: start mongod_shard1
-    systemd:
-      name: mongod_shard1
-      state: restarted
-      enabled: yes
-      daemon_reload: yes
   when: (shard1b is defined) and (ansible_hostname == shard1b)
   ignore_errors: yes
 
@@ -91,7 +59,10 @@
       group: "{{ group }}"
       mode: '0644'
       force: yes
+  when: (shard1c is defined) and (ansible_hostname == shard1c)
+  ignore_errors: yes
 
+#block for service files
   - name: layout template for added mongod_shard1.service on the server
     template:
       src: mongod_shard1.service.j2
@@ -107,5 +78,5 @@
       state: restarted
       enabled: yes
       daemon_reload: yes
-  when: (shard1c is defined) and (ansible_hostname == shard1c)
+  when: (shard1a is defined) and (ansible_hostname == shard1a) or (shard1b is defined) and (ansible_hostname == shard1b) or (shard1c is defined) and (ansible_hostname == shard1c)
   ignore_errors: yes

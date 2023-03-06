@@ -1,23 +1,5 @@
 ---
 ################################  testing  ################################
-- name: install netstat
-  import_tasks: install_netstat.yml
-  tags: 
-    - never
-    - netstat
-
-- name: addline to shard service files
-  import_tasks: addline2.yml
-  tags: 
-    - addline2
-    - never
-
-- name: mongo-mms service file
-  import_tasks: mongo_mms.yml
-  tags:
-    - mongomms
-    - never
-###########################################################################
 - name: set facts
   import_tasks: set_fact.yml
   tags:
@@ -36,56 +18,7 @@
     - uninstall
     - reinstall
 
-- name: install mongomms
-  import_tasks: install_mongomms.yml
-  tags:
-    - ops
-    - never  
-
 ##########start of config##################################################
-
-- name: install base mongodb
-  import_tasks: install_base.yml
-  tags:
-    - install
-    - reinstall
-    - base
-
-- name: install mongodb tools
-  import_tasks: install_dbtools.yml
-  tags:
-    - install
-    - reinstall
-    - dbtools
-
-- name: make directories
-  import_tasks: make_file.yml
-  tags:
-    - install
-    - reinstall
-    - make_file
-
-- name: add certs
-  import_tasks: add_certs.yml
-  tags:
-    - install
-    - reinstall
-    - add_certs
-
-- name: add logrotate file
-  import_tasks: logrotate.yml
-  tags:
-    - install
-    - reinstall
-    - logrotate
-
-- name: add hugepages fix
-  import_tasks: hugepages.yml
-  tags:
-    - install
-    - reinstall
-    - hugepages
-
 - name: add mongo service file
   import_tasks: mongo_service.yml
   tags:
@@ -96,7 +29,7 @@
   import_tasks: no_sec_configsvr.yml
   tags:
     - reinstall
-    - configsvr
+    - no_sec_configsvr
 
 - name: add shard1 config/service files
   import_tasks: no_sec_shard1.yml

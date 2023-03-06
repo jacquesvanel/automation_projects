@@ -17,25 +17,8 @@
       group: "{{ group }}"
       mode: '0644'
       force: yes
-
-  - name: layout template for added mongod_config.service on the server
-    template:
-      src: mongod_config.service.j2
-      dest: "/usr/lib/systemd/system/mongod_config.service"
-      owner: "{{ owner }}"
-      group: "{{ group }}"
-      mode: '0640'
-      force: yes
-
-  - name: start mongod_config
-    systemd:
-      name: mongod_config
-      state: restarted
-      enabled: yes
-      daemon_reload: yes
   when: configsvr_rsa is defined and ansible_hostname == configsvr_rsa
   ignore_errors: yes
-  tags: configsvr
 
 #block for config server rs_b  
 - block:
@@ -55,25 +38,8 @@
       group: "{{ group }}"
       mode: '0644'
       force: yes
-
-  - name: layout template for added mongod_config.service on the server
-    template:
-      src: mongod_config.service.j2
-      dest: "/usr/lib/systemd/system/mongod_config.service"
-      owner: "{{ owner }}"
-      group: "{{ group }}"
-      mode: '0640'
-      force: yes
-
-  - name: start mongod_config
-    systemd:
-      name: mongod_config
-      state: restarted
-      enabled: yes
-      daemon_reload: yes
   when: configsvr_rsb is defined and ansible_hostname == configsvr_rsb
   ignore_errors: yes
-  tags: configsvr
 
 #block for config server rs_c  
 - block:
@@ -93,7 +59,11 @@
       group: "{{ group }}"
       mode: '0644'
       force: yes
+  when: configsvr_rsc is defined and ansible_hostname == configsvr_rsc
+  ignore_errors: yes
 
+#block for mongod_config service files  
+- block:  
   - name: layout template for added mongod_config.service on the server
     template:
       src: mongod_config.service.j2
@@ -109,6 +79,5 @@
       state: restarted
       enabled: yes
       daemon_reload: yes
-  when: configsvr_rsc is defined and ansible_hostname == configsvr_rsc
+  when: configsvr_rsa is defined and ansible_hostname == configsvr_rsa or configsvr_rsb is defined and ansible_hostname == configsvr_rsb or configsvr_rsc is defined and ansible_hostname == configsvr_rsc
   ignore_errors: yes
-  tags: configsvr

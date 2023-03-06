@@ -1,12 +1,12 @@
 ---
 # vars file for mongo_config
 base_packages:
-  - mongodb-enterprise
-  - mongodb-enterprise-cryptd
-  - mongodb-enterprise-shell
-  - mongodb-enterprise-server
-  - mongodb-enterprise-mongos
-  - mongodb-enterprise-database
+  - mongodb-enterprise-5.0.13-1.el8
+  - mongodb-enterprise-cryptd-5.0.13-1.el8
+  - mongodb-enterprise-shell-5.0.13-1.el8
+  - mongodb-enterprise-server-5.0.13-1.el8
+  - mongodb-enterprise-mongos-5.0.13-1.el8
+  - mongodb-enterprise-database-5.0.13-1.el8
   - mongodb-mongosh
 
 dbtools:
