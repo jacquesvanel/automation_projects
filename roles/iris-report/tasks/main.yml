@@ -27,4 +27,4 @@
 
 - debug:
     msg: | 
-         "{{ cat_output.stdout | to_json }}"
+         "{{ cat_output.stdout_lines }}"
