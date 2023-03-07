@@ -3,7 +3,7 @@
 - set_fact:
      DT: "{{ ansible_date_time.date }}"
      #"/bin/sh date +%y%m%d" #date yymmdd
-     DT1: "{{ ansible_date_time.month }}"
+     DT1: "2023-01-23"
      #"/bin/sh date +%y%m%d | head -c 4 | tail -c 2" #numerical month
      DT2: "{{ ansible_date_time.day }}"
      #"/bin/sh date +%y%m%d | head -c 6 | tail -c 2" #numerical day
@@ -67,7 +67,7 @@
         -u {{ db_username }}
         -p {{ db_password }}
         --authenticationDatabase admin
-        --eval 'db.FORM.find({createdTs : { "$gte": ISODate("2023-01-23T00:00:00.000Z"),
+        --eval 'db.FORM.find({createdTs : { "$gte": ISODate("{{ DT1 }}T00:00:00.000Z"),
         $lt: ISODate("{{ DT }}T00:00:00.000Z") } }).count()'
         | tail -1
   register: shell4_result
@@ -79,7 +79,25 @@
 ############################################################################
 - debug:
     msg: |
-     - "{{ shell1_result.stdout }}"
-     - "{{ shell2_result.stdout }}"
-     - "{{ shell3_result.stdout }}"
-     - "{{ shell4_result.stdout }}"
+      "Hi Prasad,"
+           
+      "Below are the output for todays run {{ DT }}"
+            
+      "**********************************************************************"
+      "*TODAYS `date '+%A, %m-%d-%Y'` IRIS PROD FORM AND TRANSMISSION DATA COUNT*"
+      "**********************************************************************" 
+
+      "{transmissionStatus:'REJECTED'}"
+      "TRANSMISSION Coll. Data Count REJECTED is: {{ shell1_result.stdout.split('\n') }}"
+      "======================================================================"
+
+      "db.FORM.count()"
+      "FORM Coll. Total Count of Data Count is: {{ shell2_result.stdout.split('\n') }}"
+      "======================================================================"
+      
+      "{createdTs:{ $gte: ISODate({{ DT3 }}), $lt: ISODate({{ DT }})}}"
+      "FORM Coll. Todays Count Of PROCESSING Data is: {{ shell3_result.stdout.split('\n') }}"
+      "======================================================================"
+
+      "{createdTs:{ $gte: ISODate({{ DT1 }}), $lt: ISODate({{ DT }})}}"
+      "FORM Coll. PROCESSING Data Count From Jan 23, 2023 is: {{ shell4_result.stdout.split('\n') }}"
