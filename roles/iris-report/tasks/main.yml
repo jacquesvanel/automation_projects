@@ -80,25 +80,25 @@
 - debug:
     msg: 
     - "Hi Prasad,"
-    - \    
+    -     
     - "Below are the output for todays run {{ DT }}"
-    - \  
+    -   
     - "**********************************************************************"
     - "*TODAYS Date: {{ ansible_date_time.date }} IRIS PROD FORM AND TRANSMISSION DATA COUNT*"
     - "**********************************************************************"
-    - \
+    - 
     - "{transmissionStatus:'REJECTED'}"
     - "TRANSMISSION Coll. Data Count REJECTED is: {{ shell1_result.stdout }}"
     - "======================================================================"
-    - \
+    - 
     - "db.FORM.count()"
     - "FORM Coll. Total Count of Data Count is: {{ shell2_result.stdout }}"
     - "======================================================================"
-    - \
+    - 
     - "{createdTs:{ $gte: ISODate({{ DT3 }}), $lt: ISODate({{ DT }})}}"
     - "FORM Coll. Todays Count Of PROCESSING Data is: {{ shell3_result.stdout }}"
     - "======================================================================"
-    - \
+    - 
     - "{createdTs:{ $gte: ISODate({{ DT1 }}), $lt: ISODate({{ DT }})}}"
     - "FORM Coll. PROCESSING Data Count From Jan 23, 2023 is: {{ shell4_result.stdout }}"
     
