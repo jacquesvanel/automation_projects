@@ -8,7 +8,7 @@
 ###########################################################################
 #Run mongo cmd that gets DB Names
 - name: (shell_script.yml) run shell command
-  shell: |
+  shell: |>
       "mongo {{ target }}:37018/iris_prod_db
       -u {{ db_username }}
       -p {{ db_password }}
