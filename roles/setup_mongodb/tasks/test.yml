@@ -3,7 +3,7 @@
   find:
     paths:
       - "/etc/mongo/"
-    patterns: "*/*.cfg"
+    patterns: "*.cfg"
     recurse: yes
   register: files
 
