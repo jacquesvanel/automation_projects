@@ -1,10 +1,10 @@
 ---
 # tasks file for iris-report
 - set_fact:
-     DT: date +%y%m%d
-     DT1: date +%y%m%d | head -c 4 | tail -c 2
-     DT2: date +%y%m%d | head -c 6 | tail -c 2
-     DT3: date -d "1 day ago" '+%y%m%d' | head -c 6 | tail -c 2
+     DT: "date +%y%m%d"
+     DT1: "date +%y%m%d | head -c 4 | tail -c 2"
+     DT2: "date +%y%m%d | head -c 6 | tail -c 2"
+     DT3: "date -d '1 day ago' '+%y%m%d' | head -c 6 | tail -c 2"
 ###########################################################################
 #Run mongo cmd that gets DB Names
 - name: (shell_script.yml) run shell command
