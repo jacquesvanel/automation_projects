@@ -1,12 +1,13 @@
 ---
 # tasks file for iris-report
 - set_fact:
-     #DT: "/bin/sh date +%y%m%d" #date yymmdd
+     DT: "{{ ansible_date_time.date }}"
+     #"/bin/sh date +%y%m%d" #date yymmdd
      DT1: "{{ ansible_date_time.month }}"
      #"/bin/sh date +%y%m%d | head -c 4 | tail -c 2" #numerical month
      DT2: "{{ ansible_date_time.day }}"
      #"/bin/sh date +%y%m%d | head -c 6 | tail -c 2" #numerical day
-     DT3: "{{ ansible_date_time.day | to_datetime('%d') |int -1 }}"
+     DT3: "{{ ansible_date_time.date |int -1 }}"
      #"/bin/sh date -d '1 day ago' '+%y%m%d' | head -c 6 | tail -c 2"
 ###########################################################################
 #Run mongo cmd that gets DB Names
@@ -49,7 +50,7 @@
         -p {{ db_password }}
         --authenticationDatabase admin
         --eval 'db.FORM.find({createdTs : { "$gte": ISODate("2023-{{ DT1 }}-{{ DT3 }}T00:00:00.000Z"),
-        $lt: ISODate("2023-{{ DT1 }}-{{ DT2 }}T00:00:00.000Z") } }).count()'
+        $lt: ISODate("{{ DT }}T00:00:00.000Z") } }).count()'
         | tail -1
   register: shell3_result
 
@@ -66,7 +67,7 @@
         -p {{ db_password }}
         --authenticationDatabase admin
         --eval 'db.FORM.find({createdTs : { "$gte": ISODate("2023-01-23T00:00:00.000Z"),
-        $lt: ISODate("2023-{{ DT1 }}-{{ DT2 }}T00:00:00.000Z") } }).count()'
+        $lt: ISODate("{{ DT }}T00:00:00.000Z") } }).count()'
         | tail -1
   register: shell4_result
 
