@@ -13,3 +13,6 @@
   loop_control:
     label: files
 
+- name: copy files
+  copy:
+    src: 

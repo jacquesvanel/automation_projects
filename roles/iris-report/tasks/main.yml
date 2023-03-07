@@ -1,30 +1,54 @@
 ---
 # tasks file for iris-report
-- name: make directory for /etc/mongo/prod/scripts/
-  file:
-    dest: "/etc/mongo/prod/scripts/"
-    state: directory
+- set_fact:
+     DT: `date +%y%m%d`
+     DT1: `date +%y%m%d | head -c 4 | tail -c 2`
+     DT2: `date +%y%m%d | head -c 6 | tail -c 2`
+     DT3: `date -d "1 day ago" '+%y%m%d' | head -c 6 | tail -c 2`
+###########################################################################
+#Run mongo cmd that gets DB Names
+- name: (shell_script.yml) run shell command
+  shell: mongo {{ target }}:37018/iris_prod_db -u {{ db_username }} -p {{ db_password }} --authenticationDatabase admin --eval 'db.TRANSMISSION.find({transmissionStatus:"REJECTED"}).count()' | tail -1
+  register: shell1_result
 
-- name: place shell script on host server
-  template:
-    src:  shell_script.sh.j2
-    dest: "/etc/mongo/prod/scripts/count.sh"
-    owner: mongod 
-    group: opr-db-admin
-    mode: '0644'
-    force: yes
+- name: (shell_script.yml) show cmd output
+  debug:
+    msg: "{{ shell1_result.stdout }}"
 
-- name: run shell command
-  shell: /bin/sh /etc/mongo/prod/scripts/count.sh 
-  register: shell_result
+###########################################################################
+#run cmd that gets collection names
+- name: (shell_script.yml) run 2nd command
+  shell: mongo {{ target }}:37018/iris_prod_db -u {{ db_username }} -p {{ db_password }} --authenticationDatabase admin --eval 'db.FORM.count()' | tail -1
+  register: shell2_result
 
-  #- debug:
-  #    msg: "{{ shell_result.stdout }}"
+- name: (shell_script.yml) show cmd output
+  debug:
+    msg: "{{ shell2_result.stdout }}"
 
-- name: cat log
-  shell: cat /tmp/MONGODB_DATA_COUNT/MongoDB_Validate.log
-  register: cat_output
+############################################################################
+#run cmd that gets collection names
+- name: (shell_script.yml) run 3rd command
+  shell: mongo {{ target }}:37018/iris_prod_db -u {{ db_username }} -p {{ db_password }} --authenticationDatabase admin --eval 'db.FORM.find({createdTs : { "$gte": ISODate("2023-'$DT1'-'$DT3'T00:00:00.000Z"), $lt: ISODate("2023-'$DT1'-'$DT2'T00:00:00.000Z") } }).count()' | tail -1
+  register: shell3_result
 
+- name: (shell_script.yml) show cmd output
+  debug:
+    msg: "{{ shell3_result.stdout }}"
+
+############################################################################
+#run cmd that gets collection names
+- name: (shell_script.yml) run 4th command
+  shell: mongo {{ target }}:37018/iris_prod_db -u {{ db_username }} -p {{ db_password }} --authenticationDatabase admin --eval 'db.FORM.find({createdTs : { "$gte": ISODate("2023-01-23T00:00:00.000Z"), $lt: ISODate("2023-'$DT1'-'$DT2'T00:00:00.000Z") } }).count()' | tail -1 
+  register: shell4_result
+
+- name: (shell_script.yml) show cmd output
+  debug:
+    msg: "{{ shell4_result.stdout }}"
+
+############################################################################
 - debug:
-    msg: | 
-         "{{ cat_output.stdout_lines }}"
+    msg: |
+     - "{{ shell1_result.stdout }}"
+     - "{{ shell2_result.stdout }}"
+     - "{{ shell3_result.stdout }}"
+     - "{{ shell4_result.stdout }}"  

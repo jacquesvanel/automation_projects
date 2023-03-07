@@ -1,0 +1,30 @@
+---
+# tasks file for iris-report
+- name: make directory for /etc/mongo/prod/scripts/
+  file:
+    dest: "/etc/mongo/prod/scripts/"
+    state: directory
+
+- name: place shell script on host server
+  template:
+    src:  shell_script.sh.j2
+    dest: "/etc/mongo/prod/scripts/count.sh"
+    owner: mongod 
+    group: opr-db-admin
+    mode: '0644'
+    force: yes
+
+- name: run shell command
+  shell: /bin/sh /etc/mongo/prod/scripts/count.sh 
+  register: shell_result
+
+  #- debug:
+  #    msg: "{{ shell_result.stdout }}"
+
+- name: cat log
+  shell: cat /tmp/MONGODB_DATA_COUNT/MongoDB_Validate.log
+  register: cat_output
+
+- debug:
+    msg: | 
+         "{{ cat_output.stdout_lines }}"
