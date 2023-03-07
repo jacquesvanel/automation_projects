@@ -6,7 +6,7 @@
      #"/bin/sh date +%y%m%d | head -c 4 | tail -c 2" #numerical month
      DT2: "{{ ansible_date_time.day }}"
      #"/bin/sh date +%y%m%d | head -c 6 | tail -c 2" #numerical day
-     DT3: "{{ ansible_date_time.day |int -1 }}"
+     DT3: "{{ ansible_date_time.day |int -01 }}"
      #"/bin/sh date -d '1 day ago' '+%y%m%d' | head -c 6 | tail -c 2"
 ###########################################################################
 #Run mongo cmd that gets DB Names
