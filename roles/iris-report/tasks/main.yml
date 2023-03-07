@@ -29,7 +29,7 @@
         -u {{ db_username }}
         -p {{ db_password }}
         --authenticationDatabase admin
-        --eval \'db.FORM.count()\'
+        --eval 'db.FORM.count()'
         | tail -1
   register: shell2_result
 
