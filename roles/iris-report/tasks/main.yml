@@ -13,7 +13,7 @@
       -u {{ db_username }}
       -p {{ db_password }}
       --authenticationDatabase admin
-      --eval \'db.TRANSMISSION.find({transmissionStatus:\"REJECTED\"}).count()\'
+      --eval 'db.TRANSMISSION.find({transmissionStatus:"REJECTED"}).count()'
       | tail -1"
   register: shell1_result
 
