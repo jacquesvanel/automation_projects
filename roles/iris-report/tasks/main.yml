@@ -7,7 +7,7 @@
      #"/bin/sh date +%y%m%d | head -c 4 | tail -c 2" #numerical month
      DT2: "{{ ansible_date_time.day }}"
      #"/bin/sh date +%y%m%d | head -c 6 | tail -c 2" #numerical day
-     DT3: "{{ lookup('pipe', 'date -d \"1 day ago\" +\"%Y%m%d\"') }}"
+     DT3: "{{ lookup('pipe', 'date -d \"1 day ago\" +\"%Y-%m-%d\"') }}"
      #"{{ ansible_date_time.day |int - 01 }}"
      #"/bin/sh date -d '1 day ago' '+%y%m%d' | head -c 6 | tail -c 2"
 ###########################################################################
@@ -50,7 +50,7 @@
         -u {{ db_username }}
         -p {{ db_password }}
         --authenticationDatabase admin
-        --eval 'db.FORM.find({createdTs : { "$gte": ISODate("2023-{{ DT1 }}-{{ DT3 }}T00:00:00.000Z"),
+        --eval 'db.FORM.find({createdTs : { "$gte": ISODate("{{ DT3 }}T00:00:00.000Z"),
         $lt: ISODate("{{ DT }}T00:00:00.000Z") } }).count()'
         | tail -1
   register: shell3_result
