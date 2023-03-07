@@ -1,7 +1,7 @@
 ---
 # tasks file for iris-report
 - set_fact:
-     DT: "/bin/sh date +%y%m%d" #date yymmdd
+     #DT: "/bin/sh date +%y%m%d" #date yymmdd
      DT1: "{{ ansible_date.month }}"
      #"/bin/sh date +%y%m%d | head -c 4 | tail -c 2" #numerical month
      DT2: "{{ ansible_date.day }}"
@@ -27,7 +27,7 @@
 ###########################################################################
 #run cmd that gets collection names
 - name: (shell_script.yml) run 2nd command
-  shell: > 
+  shell: >
         mongo {{ target }}:37018/iris_prod_db
         -u {{ db_username }}
         -p {{ db_password }}
@@ -80,4 +80,4 @@
      - "{{ shell1_result.stdout }}"
      - "{{ shell2_result.stdout }}"
      - "{{ shell3_result.stdout }}"
-     - "{{ shell4_result.stdout }}"  
+     - "{{ shell4_result.stdout }}"
