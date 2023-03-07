@@ -9,12 +9,12 @@
 #Run mongo cmd that gets DB Names
 - name: (shell_script.yml) run shell command
   shell: |
-      mongo {{ target }}:37018/iris_prod_db
+      "mongo {{ target }}:37018/iris_prod_db
       -u {{ db_username }}
       -p {{ db_password }}
       --authenticationDatabase admin
-      --eval 'db.TRANSMISSION.find({transmissionStatus:"REJECTED"}).count()'
-      | tail -1
+      --eval 'db.TRANSMISSION.find({transmissionStatus:\"REJECTED\"}).count()'
+      | tail -1"
   register: shell1_result
 
 - name: (shell_script.yml) show cmd output
@@ -25,12 +25,12 @@
 #run cmd that gets collection names
 - name: (shell_script.yml) run 2nd command
   shell: |
-        mongo {{ target }}:37018/iris_prod_db
+        "mongo {{ target }}:37018/iris_prod_db
         -u {{ db_username }}
         -p {{ db_password }}
         --authenticationDatabase admin
         --eval 'db.FORM.count()'
-        | tail -1
+        | tail -1"
   register: shell2_result
 
 - name: (shell_script.yml) show cmd output
@@ -41,13 +41,13 @@
 #run cmd that gets collection names
 - name: (shell_script.yml) run 3rd command
   shell: |
-        mongo {{ target }}:37018/iris_prod_db
+        "mongo {{ target }}:37018/iris_prod_db
         -u {{ db_username }}
         -p {{ db_password }}
         --authenticationDatabase admin
-        --eval 'db.FORM.find({createdTs : { "$gte": ISODate("2023-'$DT1'-'$DT3'T00:00:00.000Z"),
-        $lt: ISODate("2023-'$DT1'-'$DT2'T00:00:00.000Z") } }).count()'
-        | tail -1
+        --eval 'db.FORM.find({createdTs : { \"$gte\": ISODate(\"2023-'$DT1'-'$DT3'T00:00:00.000Z\"),
+        $lt: ISODate(\"2023-'$DT1'-'$DT2'T00:00:00.000Z\") } }).count()'
+        | tail -1"
   register: shell3_result
 
 - name: (shell_script.yml) show cmd output
@@ -58,13 +58,13 @@
 #run cmd that gets collection names
 - name: (shell_script.yml) run 4th command
   shell: |
-        mongo {{ target }}:37018/iris_prod_db
+        "mongo {{ target }}:37018/iris_prod_db
         -u {{ db_username }}
         -p {{ db_password }}
         --authenticationDatabase admin
-        --eval 'db.FORM.find({createdTs : { "$gte": ISODate("2023-01-23T00:00:00.000Z"),
-        $lt: ISODate("2023-'$DT1'-'$DT2'T00:00:00.000Z") } }).count()'
-        | tail -1
+        --eval 'db.FORM.find({createdTs : { \"$gte\": ISODate(\"2023-01-23T00:00:00.000Z\"),
+        $lt: ISODate(\"2023-'$DT1'-'$DT2'T00:00:00.000Z\") } }).count()'
+        | tail -1"
   register: shell4_result
 
 - name: (shell_script.yml) show cmd output
