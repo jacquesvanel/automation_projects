@@ -2,8 +2,8 @@
 - name: find all service files associated with mongo
   find:
     paths:
-      - "/etc/mongo"
-    patterns: "/*/*.cfg"
+      - "/etc/mongo/"
+    patterns: "*/*.cfg"
     recurse: yes
   register: files
 
