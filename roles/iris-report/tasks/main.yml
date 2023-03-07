@@ -1,10 +1,13 @@
 ---
 # tasks file for iris-report
 - set_fact:
-     DT: "/bin/sh date +%y%m%d"
-     DT1: "/bin/sh date +%y%m%d | head -c 4 | tail -c 2"
-     DT2: "/bin/sh date +%y%m%d | head -c 6 | tail -c 2"
-     DT3: "/bin/sh date -d '1 day ago' '+%y%m%d' | head -c 6 | tail -c 2"
+     DT: "/bin/sh date +%y%m%d" #date yymmdd
+     DT1: "{{ ansible_date.month }}"
+     #"/bin/sh date +%y%m%d | head -c 4 | tail -c 2" #numerical month
+     DT2: "{{ ansible_date.day }}"
+     #"/bin/sh date +%y%m%d | head -c 6 | tail -c 2" #numerical day
+     DT3: "{{ ansible_date.day |int -1 }}"
+     #"/bin/sh date -d '1 day ago' '+%y%m%d' | head -c 6 | tail -c 2"
 ###########################################################################
 #Run mongo cmd that gets DB Names
 - name: (shell_script.yml) run shell command
