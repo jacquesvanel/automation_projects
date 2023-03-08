@@ -1,0 +1,5 @@
+---
+- name: get a query report
+  hosts: "{{ targget }}"
+  roles:
+    - role: query_report
