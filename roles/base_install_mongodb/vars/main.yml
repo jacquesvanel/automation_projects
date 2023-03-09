@@ -22,7 +22,7 @@ mongomms:
 owner: mongod
 group: opr-db-admin
 
-   # placing keyfile cert #
+# placing keyfile cert #
 keyfile_dest: '/data/{{ env }}/keyfile.pem' 
         # placing keywcert cert #
 keycert_dest: '/var/lib/mongodb/cert/KeyWCert.pem' 
