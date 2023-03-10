@@ -1,7 +1,9 @@
 ---
 - name: send CPU utilization report from mail.
   mail:
+    host: mail01.mgt.afsiep.net
     port: 25
     to: gabriel.larios@accenturefederal.com
     subject: CPU utilization report
     body: System hostname - "{{ ansible_hostname }}"
+  delegate_to: localhost
