@@ -121,9 +121,12 @@
   mail:
     host: mail01.mgt.afsiep.net
     port: 25
-    to: gabriel.larios@accenturefederal.com
-    subject: CPU utilization report
-    sender: "{{ email_address | default(tower_user_email) }}"
+    to: 
+      - gabriel.larios@accenturefederal.com
+      - athumani.r.mkanda@accenturefederal.com
+    subject: IRIS PROD FORM AND TRANSMISSION DATA COUNT
+    sender: athumani.r.mkanda@accenturefederal.com
+    #"{{ email_address | default(tower_user_email) }}"
     body: | 
          Hi Prasad,
          Below are the output for todays run "{{ DT }}"
