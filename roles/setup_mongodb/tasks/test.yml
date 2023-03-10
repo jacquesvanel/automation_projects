@@ -6,4 +6,4 @@
     to: gabriel.larios@accenturefederal.com
     subject: CPU utilization report
     body: System hostname - "{{ ansible_hostname }}"
-  delegate_to: localhost
+    #  delegate_to: localhost
