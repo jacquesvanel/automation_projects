@@ -12,24 +12,73 @@
 - name: starting Athumani's script
   copy:
     content: |
-      #############################################################################
-      ###   Script to Collect Data Count from FORM and TRANSMISSION Coll        ###
-      ###   Author: Athumani Mkanda                                             ###
-      ###   "{{ansible_date_time}}"                                             ###
-      ###   *************************                                           ###
-      ###                                                                       ###
-      #############################################################################
+            #############################################################################
+            ###   Script to Collect Data Count from FORM and TRANSMISSION Coll        ###
+            ###   Author: Athumani Mkanda                                             ###
+            ###   "{{ansible_date_time}}"                                             ###
+            ###   *************************                                           ###
+            ###                                                                       ###
+            #############################################################################
       
-      # EMAIL_LIST="PIVOT.Database@accenturefederal.com"
+            # EMAIL_LIST="PIVOT.Database@accenturefederal.com"
 
-      ###***********************************************************************###
-      ###           FORM AND TRANSMISSION DATA COUNT VERIFICATION               ###
-      ###***********************************************************************###
-      echo " " > "{{MNG_DCNT}}"
-      echo "Hi Prasad," >> "{{MNG_DCNT}}"
-      echo " " >> "{{MNG_DCNT}}"
-      echo "Below are the output for todays run `date`" >> "{{MNG_DCNT}}"
-      echo " " >> "{{MNG_DCNT}}"
+            ###***********************************************************************###
+            ###           FORM AND TRANSMISSION DATA COUNT VERIFICATION               ###
+            ###***********************************************************************###
+            echo " "
+            echo "Hi Prasad,"
+            echo " " 
+            echo "Below are the output for todays run `date`"
+            echo " " 
 
     dest: "{{MNG_DCNT}}"
+  register: header
   
+
+- name: TRANSMISSION Coll. Data Count REJECTED
+  shell:
+    cmd: >
+         echo "**********************************************************************"
+         echo "*TODAYS `date '+%A, %m-%d-%Y'` IRIS PROD FORM AND TRANSMISSION DATA COUNT*" 
+         echo "**********************************************************************"
+         echo " "
+         echo "{transmissionStatus:'REJECTED'}"
+         echo "TRANSMISSION Coll. Data Count REJECTED is: "{{ RJCTD }}" "
+         echo "======================================================================"
+  register: first_cmd
+
+
+- name: FORM Coll. Total Count of Data Count
+  shell:
+    cmd: >
+        echo "db.FORM.count()"
+        echo "FORM Coll. Total Count of Data Count is: "{{ TNC }}" "
+        echo "====================================================================="
+  register: second_cmd
+
+
+- name: FORM Coll. Todays Count Of PROCESSING Data
+  shell:
+    cmd: >
+        echo "{createdTs:{ $gte: ISODate('2023-'"{{ DT1 }}"'-'"{{ DT3 }}"''), $lt: ISODate('2023-'"{{ DT1 }}"'-'"{{ DT2 }}"'')}}"
+        echo "FORM Coll. Todays Count Of PROCESSING Data is: "{{ TPRC }}""
+        echo "======================================================================"
+  register: third_cmd
+
+- name: FORM Coll. PROCESSING Data Count
+  shell:
+    cmd: >
+        echo "{createdTs: {$gte: ISODate('2023-01-23'), $lt: ISODate('2023-'"{{ DT1 }}"'-'"{{ DT2 }}"'')}}"
+        echo "FORM Coll. PROCESSING Data Count From Jan 23, 2023 is: "{{ J23PRC }}""
+        echo "======================================================================"
+  register: forth_cmd
+
+- name: Pushing All output in /tmp/MONGODB_DATA_COUNT/MongoDB_Validate.log
+  copy:
+    content: | 
+            "{{ header.stdout }}" 
+            "{{ first_cmd.stdout }}"
+            "{{ second_cmd.stdout }}"
+            "{{ third_cmd }}"
+            "{{ forth_cmd }}"
+    dest: "{{ MNG_DCNT }}"
