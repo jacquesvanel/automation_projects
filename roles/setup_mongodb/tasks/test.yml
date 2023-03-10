@@ -1,18 +1,7 @@
 ---
-- name: find all service files associated with mongo
-  find:
-    paths:
-      - "/etc/mongo/"
-    patterns: "*.cfg"
-    recurse: yes
-  register: files
-
-- debug:
-    msg: "{{ item }}" 
-  loop: "{{ files.files | map(attribute='path') | list }}"
-  loop_control:
-    label: files
-
-- name: copy files
-  copy:
-    src: 
+- name: send CPU utilization report from mail.
+  mail:
+    port: 25
+    to: gabriel.larios@accenturefederal.com
+    subject: CPU utilization report
+    body: System hostname - "{{ ansible_hostname }}"
