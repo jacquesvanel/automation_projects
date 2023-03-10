@@ -116,4 +116,12 @@
     - "======================================================================"
     - "{createdTs:{ $gte: ISODate({{ DT1 }}), $lt: ISODate({{ DT }})}}"
     - "FORM Coll. PROCESSING Data Count From Jan 23, 2023 is: {{ shell4_result.stdout }}"
-    
+
+#- name: send CPU utilization report from mail.
+#  mail:
+#    port: 25
+#    to: RECEIVER NAME <xyz@gmail.com>
+#    subject: CPU utilization report
+#    body: System hostname - "{{ ansible_hostname }}"
+#          User CPU usage - "{{user_cpu}}"%
+#          System CPU usage - "{{ system_cpu }}"%    
