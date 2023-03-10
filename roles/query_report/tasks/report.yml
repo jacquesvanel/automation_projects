@@ -19,17 +19,17 @@
       ###   *************************                                           ###
       ###                                                                       ###
       #############################################################################
-# --
-# EMAIL_LIST="PIVOT.Database@accenturefederal.com"
-# --
-###***********************************************************************###
-###           FORM AND TRANSMISSION DATA COUNT VERIFICATION               ###
-###***********************************************************************###
-echo " " > "{{MNG_DCNT}}"
-echo "Hi Prasad," >> "{{MNG_DCNT}}"
-echo " " >> "{{MNG_DCNT}}"
-echo "Below are the output for todays run `date`" >> "{{MNG_DCNT}}"
-echo " " >> "{{MNG_DCNT}}"
+      
+      # EMAIL_LIST="PIVOT.Database@accenturefederal.com"
+
+      ###***********************************************************************###
+      ###           FORM AND TRANSMISSION DATA COUNT VERIFICATION               ###
+      ###***********************************************************************###
+      echo " " > "{{MNG_DCNT}}"
+      echo "Hi Prasad," >> "{{MNG_DCNT}}"
+      echo " " >> "{{MNG_DCNT}}"
+      echo "Below are the output for todays run `date`" >> "{{MNG_DCNT}}"
+      echo " " >> "{{MNG_DCNT}}"
 
     dest: "{{MNG_DCNT}}"
   
