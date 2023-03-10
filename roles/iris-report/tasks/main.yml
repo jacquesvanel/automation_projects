@@ -124,7 +124,7 @@
     to: gabriel.larios@accenturefederal.com
     subject: CPU utilization report
     sender: "{{ email_address | default(tower_user_email) }}"
-    body: 
+    body: | 
          "Hi Prasad,"
          "Below are the output for todays run {{ DT }}"
          "**********************************************************************"
