@@ -1,0 +1,6 @@
+---
+
+DT: date +%y%m%d
+DT1: date +%y%m%d | head -c 4 | tail -c 2
+DT2: date +%y%m%d | head -c 6 | tail -c 2
+DT3: date -d "1 day ago" '+%y%m%d' | head -c 6 | tail -c 2

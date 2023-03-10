@@ -1,0 +1,35 @@
+---
+- name: Creating "/tmp/MONGODB_DATA_COUNT/MongoDB_Validate.log"
+  file:
+    path: /tmp/MONGODB_DATA_COUNT/MongoDB_Validate.log
+    state: touch
+    mode: u=rwx,g=rwx,o=rwx
+
+- stat:
+    path: /tmp/MONGODB_DATA_COUNT/MongoDB_Validate.log
+  register: MNG_DCNT
+
+- name: starting Athumani's script
+  copy:
+    content: |
+      #############################################################################
+      ###   Script to Collect Data Count from FORM and TRANSMISSION Coll        ###
+      ###   Author: Athumani Mkanda                                             ###
+      ###   "{{ansible_date_time}}"                                             ###
+      ###   *************************                                           ###
+      ###                                                                       ###
+      #############################################################################
+# --
+# EMAIL_LIST="PIVOT.Database@accenturefederal.com"
+# --
+###***********************************************************************###
+###           FORM AND TRANSMISSION DATA COUNT VERIFICATION               ###
+###***********************************************************************###
+echo " " > "{{MNG_DCNT}}"
+echo "Hi Prasad," >> "{{MNG_DCNT}}"
+echo " " >> "{{MNG_DCNT}}"
+echo "Below are the output for todays run `date`" >> "{{MNG_DCNT}}"
+echo " " >> "{{MNG_DCNT}}"
+
+    dest: "{{MNG_DCNT}}"
+  

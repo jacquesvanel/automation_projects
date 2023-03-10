@@ -1,0 +1,4 @@
+---
+- name: Running the query report task
+  import_tasks: report.yml
+
