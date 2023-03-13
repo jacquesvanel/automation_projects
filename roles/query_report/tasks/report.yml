@@ -4,7 +4,7 @@
     path: /tmp/MONGODB_DATA_COUNT/MongoDB_Validate.log
     state: touch
     mode: u=rwx,g=rwx,o=rwx
-
+      #
 - stat:
     path: /tmp/MONGODB_DATA_COUNT/MongoDB_Validate.log
   register: MNG_DCNT
