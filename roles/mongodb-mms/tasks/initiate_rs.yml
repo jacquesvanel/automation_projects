@@ -1,0 +1,7 @@
+---
+mongo --host localhost
+
+rs.initiate()
+rs.add('aw2rprdlmdb0035.opr.afsiep.net:37019')
+rs.add(' ae1rprdlmdb0036.opr.afsiep.net:37019')
+

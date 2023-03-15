@@ -1,0 +1,15 @@
+---
+use admin
+
+// root user
+db.createUser({
+    user: "root",
+    pwd: "Dummy#12345",
+    roles: ['root']
+});
+
+use admin
+ db.auth('root', '<password>'); db.createUser({     user: "mms",     pwd: "<SUPPLY PASSWORD FOR MMS>",     roles: [{         db: "admin",         role: "readWriteAnyDatabase"     }, {         db: "admin",         role: "dbAdminAnyDatabase"     }, {         db: "admin",
+        role: "clusterMonitor"
+    }]
+})

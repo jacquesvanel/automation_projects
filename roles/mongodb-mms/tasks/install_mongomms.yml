@@ -1,26 +1,72 @@
 ---
-- name: create a working directory /usr/local/bin/
-  file:
-    path: /data/mongodb-tools/
-    state: directory
-    owner: root
-    group: root
+#sudo useradd mongodb-mms
+#Update the following entry in passwd file from /bin/bash to /bin/false:  mongodb-mms:x:1001:1002::/home/mongodb-mms:/bin/false
+#vi /etc/passwd    
+- name: Add the user 'mongodb-mms' 
+  user:
+    name: mongodb-mms
+    shell: /bin/false
+    uid: 1001
+    guid: 1002
 
-    #- name: copy mongo mms tools into /usr/local/bin
-    #  unarchive:
-    #    src: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Dev-Ops_Shared/Mongo-Binaries/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz
-    #    dest: /tmp
-    #    remote_src: yes
-    #    list_files: yes
+#Copy the OPS MMS software to /opt
+#As root:
+#mkdir -p /opt/mongodb/mms
+#chown -R mongodb-mms:mongodb-mms /opt/mongodb/mms
+- name: create a working directory 
+  file:
+    path: /opt/mongodb/mms
+    state: directory
+    owner: mongodb-mms
+    group: mongodb-mms
+    recurse: true
+    
+#As Mongodb-mms:
+#cd /data/mongo_software
+#curl -H "X-JFrog-Art-Api:AKCp8nHPEh61X3BeHXSMUK1Kf16XfGBMC7HitRrrad3yFrm2Q8MRinEyokJCnmnwZHy4w4BHn" -O "https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-mms-6.0.6.100.20221102T1837Z.tar.gz"
 
 - name: copy mongo mms and opsmanager files into temp
   get_url:
-    url: '{{ mongomms }}'
-    dest: /data/mongodb-tools/
+    url: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-mms-6.0.6.100.20221102T1837Z.tar.gz
+    dest: /data/mongo_software
     tmp_dest: /data/
     force: yes
-    #  with_items:
-    #    - https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz
-    #    - https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz.sig
-    #    - https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/opsmanager-5.0.asc
-    #    tar -xvf mongodb-mms-6.0.6.100.20221102T1837Z.tar.gz
+
+#Mongodb-releases
+#mkdir /opt/mongodb/mms/mongodb-releases 
+
+- name: create a working directory
+  file:
+    path: /opt/mongodb/mms/mongodb-releases
+    state: directory
+    owner: mongodb-mms
+    group: mongodb-mms
+
+#--Mongotools
+#curl -H "X-JFrog-Art-Api:AKCp8nHPEh61X3BeHXSMUK1Kf16XfGBMC7HitRrrad3yFrm2Q8MRinEyokJCnmnwZHy4w4BHn" -O "https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Mongo-DB/mongodb-database-tools-rhel80-x86_64-100.6.0.tgz"
+
+#--5.0.8
+#curl -k -H "X-JFrog-Art-Api:AKCp8nyNrUhuBNKkwD44QG5ketVmNbEFYnBKLtkTMfSKLpUoysUzbgo6gJnedZdxZZZEDWoC1" -O https://va1imgtlmvn0001.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-linux-x86_64-enterprise-rhel80-5.0.8.tgz
+
+#--5.0.13
+#curl -k -H "X-JFrog-Art-Api:AKCp8nyNrUhuBNKkwD44QG5ketVmNbEFYnBKLtkTMfSKLpUoysUzbgo6gJnedZdxZZZEDWoC1" -O "https://va1imgtlmvn0001.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-linux-x86_64-enterprise-rhel80-5.0.13.tgz"
+
+#--mongosh ( as of 12/6/2022 latest is mongosh….tgz ) 
+
+- name: copy mongo mms and opsmanager files into temp
+  get_url:
+    url: "{{ items }}"
+    dest: /opt/mongodb/mms/mongodb-releases
+    tmp_dest: /data/
+    force: yes
+  with_items:
+    - https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Mongo-DB/mongodb-database-tools-rhel80-x86_64-100.6.0.tgz
+    - https://va1imgtlmvn0001.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-linux-x86_64-enterprise-rhel80-5.0.8.tgz
+    - https://va1imgtlmvn0001.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-linux-x86_64-enterprise-rhel80-5.0.13.tgz
+    
+#cp -r /data/mongo_software/mongodb-mms/* /opt/mongodb/mms
+- name: Copy file 
+  copy:
+    src: /data/mongo_software/mongodb-mms/*
+    dest: /opt/mongodb/mms/.
+

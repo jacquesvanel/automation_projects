@@ -1,7 +1,7 @@
 ---
 # tasks file for mongodb-mms
 - name: install mongomms
-  import_tasks: install_mongomms.yml
+  import_tasks: download_software.yml
   tags:
     - ops
     - install
@@ -24,6 +24,28 @@
   tags:
     - mongod
 
-#- name: initiate repset
+- name: initiate repset
+  import_tasks: initiate_rs.yml
+  tags:
+    - repset
+ 
+- name: add users
+  import_tasks: add_users.yml
+  tags:
+    - users
 
-#- name: add users
+#- name: Mongodb-mms OS user and Ops Manager software install
+- name: Ops manager software install
+  import_tasks: install_mongomms.yml
+
+#Set the MMS properties file
+#Start Opr / MMS
+
+#Setup TLS / Certs on ops manager servers
+#- name: tls
+#  import_tasks: tls.yml
+  
+#  Conf-mms.properties? this will possibly need an api call
+
+
+

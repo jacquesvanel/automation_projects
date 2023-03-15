@@ -1,0 +1,23 @@
+---
+#vi /opt/mongodb/mms/conf/conf-mms.properties
+#	mongo.ssl=true
+
+#copy certs to:  /var/lib/mongo/cert
+#chown -R mongod:mongod /var/lib/mongo/cert 
+#chmod 660 /var/lib/mongo/cert/*
+#ls -ltr /var/lib/mongo/cert
+
+#usermod -a -G mongod mongodb-mms 
+
+#systemctl restart mongodb-mms.service 
+#In all of the RS config, add the TLS 
+#
+#  tls:
+#   mode: preferTLS
+#   CAFile: /var/lib/mongodb/cert/CA_Root_Inter.pem
+#   allowConnectionsWithoutCertificates: true
+#   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
+#   certificateKeyFilePassword: <password > 
+
+#Restart instances
+
