@@ -29,7 +29,7 @@
   file:
     path: /{{ lv_name }}
     state: directory
-  when: lv_format.changed
+    #when: lv_format.changed
 
 - name: Mount logical volume
   mount:
@@ -37,5 +37,5 @@
     src: /dev/{{ vgs_name }}/{{ lv_name }}
     fstype: xfs
     state: mounted
-  when: lv_format.changed
+    #when: lv_format.changed
   ignore_errors: yes
