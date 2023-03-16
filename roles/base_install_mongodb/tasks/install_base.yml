@@ -14,6 +14,6 @@
   ignore_errors: yes
   
 - debug: 
-    msg: "{{ yum_result.result }}" 
+    msg: "{{ yum_result.results }}" 
 
 
