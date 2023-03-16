@@ -18,7 +18,7 @@
   tags: setup_users
 
 - name: set up users on config server
-  shell: mongo --host localhost/admin /etc/mongo/{{ env }}/scripts/user_setup.js
+  shell: mongo "{{ ansible_hostname }}".opr.afsiep.net:37017/admin /etc/mongo/{{ env }}/scripts/user_setup.js
   register: config_result
 
 - name: show config shell result

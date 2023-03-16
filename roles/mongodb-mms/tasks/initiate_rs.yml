@@ -17,7 +17,7 @@
       force: yes
 
   - name: initiate shard replica set
-    shell: mongo --host localhost/admin /etc/mongo/{{ env }}/scripts/initiate.rs.js
+    shell: mongo "{{ ansible_hostname }}".opr.afsiep.net:37019/admin /etc/mongo/{{ env }}/scripts/initiate.rs.js
     register: shell_result
 
   - debug:
