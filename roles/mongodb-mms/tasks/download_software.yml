@@ -11,6 +11,8 @@
   get_url:
     url: "{{ item }}"
     dest: /data/mongodb-tools/
+    url_username: 'gabriel.larios'
+    url_password: '!QAZxcvbnmko0987'
     #tmp_dest: /data/
     force: yes
   with_items:
