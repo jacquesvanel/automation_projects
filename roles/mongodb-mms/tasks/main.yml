@@ -1,5 +1,10 @@
 ---
 # tasks file for mongodb-mms
+- name: set fact
+  import_tasks: set_fact.yml
+  tags:
+    - always
+
 - name: install mongomms
   import_tasks: download_software.yml
   tags:
