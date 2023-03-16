@@ -13,7 +13,7 @@
 #run them through systemd
 - name: (service_files.yml) checking mongo config service
   systemd:
-    name: (service_files) "{{ item }}"
+    name: "{{ item }}"
   register: status
   with_items: "{{ service.files | map(attribute='path')| map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| map('regex_replace','\\/etc\\/systemd\\/system\\/','') | list }}"
 
