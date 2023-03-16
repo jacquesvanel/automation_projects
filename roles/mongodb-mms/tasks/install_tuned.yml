@@ -37,7 +37,7 @@
 - name: enable tuned
   systemd:
     name: tuned
-    enable: yes
+    enabled: yes
 
 #sudo tuned-adm profile mongodb
 - name: set mongodb profile
