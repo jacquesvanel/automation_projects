@@ -24,6 +24,7 @@
 #As Mongodb-mms:
 - name: copy mongodb-mms software
   shell: curl -H "X-JFrog-Art-Api:AKCp8nHPEh61X3BeHXSMUK1Kf16XfGBMC7HitRrrad3yFrm2Q8MRinEyokJCnmnwZHy4w4BHn" -O "https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-mms-6.0.6.100.20221102T1837Z.tar.gz"
+  args:
     chdir: /data/mongo_software
 
 #Mongodb-releases
@@ -39,6 +40,7 @@
 #--mongosh ( as of 12/6/2022 latest is mongosh….tgz ) 
 - name: copy mongo mms and opsmanager files into temp
   shell: "{{ item }}"
+  args:
     chdir: /opt/mongodb/mms/mongodb-releases
   with_items:
      #--Mongotools
