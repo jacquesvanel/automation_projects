@@ -9,14 +9,14 @@
     group: 
 
 #place tuned.conf template
-  - name: layout template for tuned.conf
-    template:
-      src:  tuned.conf.j2
-      dest: "/etc/tuned/mongodb/tuned.conf"
+- name: layout template for tuned.conf
+  template:
+    src:  tuned.conf.j2
+    dest: "/etc/tuned/mongodb/tuned.conf"
       #      owner: "{{ owner }}"
       #      group: "{{ group }}"
       #      mode: '0644'
-      force: yes
+    force: yes
 #sudo tee /etc/tuned/mongodb/tuned.conf
 #yum install tuned
 - name: install tuned
