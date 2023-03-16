@@ -6,6 +6,7 @@
     owner: "{{ owner }}"
     group: "{{ group }}"
     mode: '0600'
+    force: true
   loop:
         # placing keyfile cert #
     - { url: '{{ keyfile }}', dest: '/data/{{ env }}/keyfile.pem' }

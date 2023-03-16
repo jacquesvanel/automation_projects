@@ -43,7 +43,8 @@ cacert_dest: '/var/lib/mongodb/cert/CA_Root_Inter.pem'
 
 
 keyfile: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/keys/keyfile.pem
-keycert: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/keys/KeyWCert.pem
+keycert: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/KeyWCert.pem
+#OLD#https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/keys/KeyWCert.pem
 #tls_password: 22w#SBR5nfvZOt23
 ldap: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/ldap.conf
 ieproot: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/iep_root_intermediate.pem 
