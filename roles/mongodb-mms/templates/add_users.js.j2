@@ -1,0 +1,60 @@
+#// root user
+db.createUser({
+    user: "root",
+    pwd: "Dummy#12345",
+    roles: ['root']
+});
+
+db.auth('root', 'Dummy#12345'); 
+
+db.createUser(
+{     user: "mms",
+      pwd: "<SUPPLY PASSWORD FOR MMS>",
+"roles" : [
+    { "db": "admin",
+      "role": "readWriteAnyDatabase"
+    },
+    { "db": "admin",
+      "role": "dbAdminAnyDatabase"
+    },
+    { "db": "admin",
+      "role": "clusterMonitor"
+    }
+]});
+
+
+db.createUser(
+{       user: "gmani",
+        pwd: "Qwerty#12345px",
+"roles" : [
+    { "role" : "readWrite",
+      "db" : "{{ appname }}_{{ env }}_db"
+    },
+    { "role" : "userAdminAnyDatabase",
+      "db" : "admin"
+    },
+    { "role" : "clusterAdmin",
+      "db" : "admin"
+    },
+    { "role" : "root",
+      "db" : "admin"
+    }
+]});
+
+db.createUser(
+{       user: "amkanda",
+        pwd: "Qwerty#12345px",
+"roles" : [
+    { "role" : "readWrite",
+      "db" : "{{ appname }}_{{ env }}_db"
+    },
+    { "role" : "userAdminAnyDatabase",
+      "db" : "admin"
+    },
+    { "role" : "clusterAdmin",
+      "db" : "admin"
+    },
+    { "role" : "root",
+      "db" : "admin"
+    }
+]});

@@ -31,7 +31,7 @@
   ignore_errors: yes
 
 - debug:
-    var: yum_result.stdout_lines
+    msg: "{{ yum_result.results }}"
 
 #systemctl enable --now tuned
 - name: enable tuned

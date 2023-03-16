@@ -1,15 +1,28 @@
 ---
-use admin
+- name: make directory for /etc/mongo/{{ env }}/scripts/
+  file:
+    dest: /etc/mongo/{{ env }}/scripts/
+    state: directory
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+  tags: setup_users
 
-// root user
-db.createUser({
-    user: "root",
-    pwd: "Dummy#12345",
-    roles: ['root']
-});
+- name: layout user template for the server
+  template:
+    src:  add_users.js.j2
+    dest: "/etc/mongo/{{ env }}/scripts/user_setup.js"
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+    mode: '0644'
+    force: yes
+  tags: setup_users
 
-use admin
- db.auth('root', '<password>'); db.createUser({     user: "mms",     pwd: "<SUPPLY PASSWORD FOR MMS>",     roles: [{         db: "admin",         role: "readWriteAnyDatabase"     }, {         db: "admin",         role: "dbAdminAnyDatabase"     }, {         db: "admin",
-        role: "clusterMonitor"
-    }]
-})
+- name: set up users on config server
+  shell: mongo --host localhost/admin /etc/mongo/{{ env }}/scripts/user_setup.js
+  register: config_result
+
+- name: show config shell result
+  debug:
+    var: config_result.stdout_lines
+  ignore_errors: yes
+  tags: setup_users
