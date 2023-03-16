@@ -9,6 +9,6 @@
 - name: restart mongod
   systemd:
     name: mongod
-    enable: yes
+    enabled: yes
 #sudo systemctl status mongod
 
