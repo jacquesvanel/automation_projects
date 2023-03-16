@@ -1,8 +1,8 @@
-config = { _id: "rs_sadi_dsit",
+config = { _id: "rs_sadi_{{ env }}",
         members:[
-         { _id : 0, host : "ae1rsitlmdb2101.opr.afsiep.net:37018", priority: 100 },
-         { _id : 1, host : "ae2rsitlmdb2102.opr.afsiep.net:37018" },
-         { _id : 2, host : "ae3rsitlmdb2103.opr.afsiep.net:37018" }
+         { _id : 0, host : "{{ configsvr_rsa }}.opr.afsiep.net:37018", priority: 100 },
+         { _id : 1, host : "{{ configsvr_rsb }}.opr.afsiep.net:37018" },
+         { _id : 2, host : "{{ configsvr_rsc }}.opr.afsiep.net:37018" }
         ]
 };
 var output = rs.initiate(config);
