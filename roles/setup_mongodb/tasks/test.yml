@@ -24,7 +24,7 @@
 - name: Get certificate expiration date
   openssl_certificate:
     path: "{{ item }}"
-    provider: assertonly
+    provider: selfsigned 
     #has_expired: no
   register: cert_info
   with_items: 
