@@ -13,7 +13,7 @@
   shell: openssl x509 -enddate -noout -in "{{ item }}" 
   register: shell
   loop:
-    - '/data/{{ env }}/keyfile.pem'
+          #- '/data/{{ env }}/keyfile.pem'
     - '/var/lib/mongodb/cert/KeyWCert.pem'
     - '/etc/openldap/certs/iep_root_intermediate.pem'
     - '/var/lib/mongodb/cert/CA_Root_Inter.pem'
