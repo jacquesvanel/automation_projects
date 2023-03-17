@@ -1,12 +1,12 @@
 ---
 ###########################################################################
 #Check if server is primary or secondary server
-- name: check if server is primary or secondary
-  shell: mongo "{{ ansible_hostname }}".opr.afsiep.net:37018/admin -u amkanda -p Qwerty#12345px  --eval 'rs.isMaster().secondary' | sort -r | head -1
-  register: secondary
+#- name: check if server is primary or secondary
+#  shell: mongo "{{ ansible_hostname }}".opr.afsiep.net:37018/admin -u amkanda -p Qwerty#12345px  --eval 'rs.isMaster().secondary' | sort -r | head -1
+#  register: secondary
 
-- debug:
-    msg: "{{ secondary.stdout }}"
+#- debug:
+#    msg: "{{ secondary.stdout }}"
 
 #Run mongo cmd that gets DB Names
 - name: (shell_script.yml) run shell command
