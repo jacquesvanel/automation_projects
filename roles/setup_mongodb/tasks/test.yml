@@ -19,4 +19,4 @@
     - '/var/lib/mongodb/cert/CA_Root_Inter.pem'
 
 - debug:
-    msg: "{{ shell.stdout }}"
+    msg: "{{ shell.stdout | list }}"
