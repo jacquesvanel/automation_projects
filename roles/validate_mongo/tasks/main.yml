@@ -14,9 +14,17 @@
   tags:
     - disk
 
+#Check if server is primary or secondary server
+- name: check if server is primary or secondary
+  shell: mongo "{{ ansible_hostname }}".opr.afsiep.net:37018/admin -u amkanda -p Qwerty#12345px  --eval 'rs.isMaster().secondary' | sort -r | head -1
+  register: secondary
+
+- debug:
+    msg: "{{ secondary.stdout }}"
+
 - name: shell script
   import_tasks: shell_script.yml
-  #  when: target_hosts == ansible_hostname and target_hosts is defined
+  when: secondary.stdout == false
   tags:
     - shell
 
