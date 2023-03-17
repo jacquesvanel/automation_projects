@@ -24,7 +24,7 @@
 
 - name: shell script
   import_tasks: shell_script.yml
-  when: not secondary.stdout == true
+  when: not secondary.stdout == 'true'
   tags:
     - shell
 
