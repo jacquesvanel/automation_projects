@@ -24,6 +24,7 @@
 - name: Get certificate expiration date
   openssl_certificate:
     path: "{{ item }}"
+    field: not_after
   register: cert_info
   with_items: 
     - '/var/lib/mongodb/cert/KeyWCert.pem'
