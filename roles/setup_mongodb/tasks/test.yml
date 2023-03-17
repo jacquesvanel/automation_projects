@@ -10,8 +10,13 @@
     #  delegate_to: localhost
     #
 - name: check ssl cert exp date
-  shell: openssl x509 -enddate -noout -in /var/lib/mongodb/cert/KeyWCert.pem
+  shell: openssl x509 -enddate -noout -in "{{ item }}" 
   register: shell
+  loop:
+    - '/data/{{ env }}/keyfile.pem'
+    - '/var/lib/mongodb/cert/KeyWCert.pem'
+    - '/etc/openldap/certs/iep_root_intermediate.pem'
+    - '/var/lib/mongodb/cert/CA_Root_Inter.pem'
 
 - debug:
     msg: "{{ shell.stdout }}"
