@@ -1,16 +1,15 @@
-{% set hosts = {
-  configsvr_rsa: {'host_config': 'config-rs_a', 'port': configsvr_rsa_port, 'db_path': 'config/rs_a', 'cluster': 'configsvr', 'repset': 'config' },
-  configsvr_rsb: {'host_config': 'config-rs_b', 'port': configsvr_rsb_port, 'db_path': 'config/rs_b', 'cluster': 'configsvr', 'repset': 'config' },
-  configsvr_rsc: {'host_config': 'config-rs_c', 'port': configsvr_rsc_port, 'db_path': 'config/rs_c', 'cluster': 'configsvr', 'repset': 'config' },
-  shard1a: {'host_config': 'sh1-rs_a', 'port': shard1a_port, 'db_path': 'shard1/rs_a', 'cluster': 'shardsvr', 'repset': 'sh1' },
-  shard1b: {'host_config': 'sh1-rs_b', 'port': shard1b_port, 'db_path': 'shard1/rs_b', 'cluster': 'shardsvr', 'repset': 'sh1' },
-  shard1c: {'host_config': 'sh1-rs_c', 'port': shard1c_port, 'db_path': 'shard1/rs_c', 'cluster': 'shardsvr', 'repset': 'sh1' },
-  shard2a: {'host_config': 'sh2-rs_a', 'port': shard2a_port, 'db_path': 'shard2/rs_a', 'cluster': 'shardsvr', 'repset': 'sh2' },
-  shard2b: {'host_config': 'sh2-rs_b', 'port': shard2b_port, 'db_path': 'shard2/rs_b', 'cluster': 'shardsvr', 'repset': 'sh2' },
-  shard2c: {'host_config': 'sh2-rs_c', 'port': shard2c_port, 'db_path': 'shard2/rs_c', 'cluster': 'shardsvr', 'repset': 'sh2' },
-  shard3a: {'host_config': 'sh3-rs_a', 'port': shard3a_port, 'db_path': 'shard3/rs_a', 'cluster': 'shardsvr', 'repset': 'sh3' },
-  shard3b: {'host_config': 'sh3-rs_b', 'port': shard3b_port, 'db_path': 'shard3/rs_b', 'cluster': 'shardsvr', 'repset': 'sh3' },
-  shard3c: {'host_config': 'sh3-rs_c', 'port': shard3c_port, 'db_path': 'shard3/rs_c', 'cluster': 'shardsvr', 'repset': 'sh3' }} %}
+{% set hosts = { configsvr_rsa: {'host_config': 'config-rs_a', 'port': configsvr_rsa_port, 'db_path': 'config/rs_a', 'cluster': 'configsvr', 'repset': 'config' },
+                 configsvr_rsb: {'host_config': 'config-rs_b', 'port': configsvr_rsb_port, 'db_path': 'config/rs_b', 'cluster': 'configsvr', 'repset': 'config' },
+                 configsvr_rsc: {'host_config': 'config-rs_c', 'port': configsvr_rsc_port, 'db_path': 'config/rs_c', 'cluster': 'configsvr', 'repset': 'config' },
+                 shard1a: {'host_config': 'sh1-rs_a', 'port': shard1a_port, 'db_path': 'shard1/rs_a', 'cluster': 'shardsvr', 'repset': 'sh1' },
+                 shard1b: {'host_config': 'sh1-rs_b', 'port': shard1b_port, 'db_path': 'shard1/rs_b', 'cluster': 'shardsvr', 'repset': 'sh1' },
+                 shard1c: {'host_config': 'sh1-rs_c', 'port': shard1c_port, 'db_path': 'shard1/rs_c', 'cluster': 'shardsvr', 'repset': 'sh1' },
+                 shard2a: {'host_config': 'sh2-rs_a', 'port': shard2a_port, 'db_path': 'shard2/rs_a', 'cluster': 'shardsvr', 'repset': 'sh2' },
+                 shard2b: {'host_config': 'sh2-rs_b', 'port': shard2b_port, 'db_path': 'shard2/rs_b', 'cluster': 'shardsvr', 'repset': 'sh2' },
+                 shard2c: {'host_config': 'sh2-rs_c', 'port': shard2c_port, 'db_path': 'shard2/rs_c', 'cluster': 'shardsvr', 'repset': 'sh2' },
+                 shard3a: {'host_config': 'sh3-rs_a', 'port': shard3a_port, 'db_path': 'shard3/rs_a', 'cluster': 'shardsvr', 'repset': 'sh3' },
+                 shard3b: {'host_config': 'sh3-rs_b', 'port': shard3b_port, 'db_path': 'shard3/rs_b', 'cluster': 'shardsvr', 'repset': 'sh3' },
+                 shard3c: {'host_config': 'sh3-rs_c', 'port': shard3c_port, 'db_path': 'shard3/rs_c', 'cluster': 'shardsvr', 'repset': 'sh3' }} %}
 {% if ansible_hostname in hosts %}
   {% set host_config = hosts[ansible_hostname]['host_config'] %}
   {% set log_path = "/var/log/mongodb/" ~ env ~ "/" ~ host_config ~ ".log" %}
