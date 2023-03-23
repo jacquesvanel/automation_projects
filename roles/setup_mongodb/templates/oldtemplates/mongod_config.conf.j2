@@ -29,15 +29,19 @@ security:
       servers: "opr.afsiep.net:636"
       bind:
 {% if env is defined and env == 'prod' %}
-         queryUser: "svc_mdbprd_ldap@opr.afsiep.net"
-         queryPassword: "MI!iseji7ubope"
+         queryUser: {{ prod_user }}
+         queryPassword: {{ prod_pw }}
 {% else %}
-         queryUser: "svc_mdbnprd_ldap@opr.afsiep.net"
-         queryPassword: "36W=qR*AeoI0:h"
+         queryUser: {{ nonprod_user }}
+         queryPassword: {{ nonprod_pw }}
 {% endif %}
       transportSecurity: tls
       userToDNMapping:
          '[
+            {
+               match : "(.+)",
+               ldapQuery: "ou=IRS,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
+            },
             {
                match : "(.+)",
                ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
@@ -50,13 +54,13 @@ setParameter:
    ocspEnabled: false
 net:
 {% if configsvr_rsa is defined and ansible_hostname == configsvr_rsa %}
-  port: 57040
+  port: {{ configsvr_rsa_port }}
 {% endif %}
 {% if configsvr_rsb is defined and ansible_hostname == configsvr_rsb %}
-  port: 57041
+  port: {{ configsvr_rsb_port }}
 {% endif %}
 {% if configsvr_rsc is defined and ansible_hostname == configsvr_rsc %}
-  port: 57042
+  port: {{ configsvr_rsc_port }}
 {% endif %}
   bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
   tls:
@@ -64,7 +68,7 @@ net:
    CAFile: /var/lib/mongodb/cert/CA_Root_Inter.pem
    allowConnectionsWithoutCertificates: true
    certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
-   certificateKeyFilePassword: 22w#SBR5nfvZOt23
+   certificateKeyFilePassword: {{ cert_password }}
 sharding:
   clusterRole: configsvr
 replication:

@@ -1,18 +1,27 @@
 ---
-- name: layout template for /etc/mongo/{{ env }}/rs_a.cfg on the config server
-  template:
-    src:  testtemplate.conf.j2 
-    dest: "/etc/mongo/{{ env }}/rs_a.cfg"
-    owner: "{{ owner }}"
-    group: "{{ group }}"
-    mode: '0644'
-    force: yes
+#- name: layout template for /etc/mongo/{{ env }}/rs_a.cfg on the config server
+#  template:
+#    src:  testtemplate.conf.j2 
+#    dest: "/etc/mongo/{{ env }}/rs_a.cfg"
+#    owner: "{{ owner }}"
+#    group: "{{ group }}"
+#    mode: '0644'
+#    force: yes
 
-- name: layout template for /etc/mongo/{{ env }}/rs_a.cfg on the config server
+#- name: layout template for /etc/mongo/{{ env }}/rs_a.cfg on the config server
+#  template:
+#    src:  test.service.j2
+#    dest: "/usr/lib/systemd/system/mongod_config.service"
+#    owner: "{{ owner }}"
+#    group: "{{ group }}"
+#    mode: '0644'
+#    force: yes
+
+- name: layout template for /etc/mongo/{{ env }}/scripts/initiate.shard1.js the shard1 server
   template:
-    src:  test.service.j2
-    dest: "/usr/lib/systemd/system/mongod_config.service"
-    owner: "{{ owner }}"
-    group: "{{ group }}"
+    src:  test_initiate.js.j2
+    dest: "/etc/mongo/{{ env }}/scripts/initiate.js"
+    owner: root
+    group: root
     mode: '0644'
     force: yes
