@@ -13,6 +13,7 @@
                  shard3c: {'host_config': 'sh3-rs_c', 'host_file': 'shard3_rs_c' }} %}
 {% if ansible_hostname in hosts %}
   {% set host_config = hosts[ansible_hostname]['host_config'] %}
+  {% set host_file = hosts[ansible_hostname]['host_file'] %}
   {% set cfg_path = "OPTIONS=-f /etc/mongo/" ~ env ~ "/" ~ host_file ~ ".cfg" %}
   {% set pid_path = "/var/run/mongodb/" ~ env ~ "/mongod-" ~ host_config ~ ".pid" %}
 [Unit]
