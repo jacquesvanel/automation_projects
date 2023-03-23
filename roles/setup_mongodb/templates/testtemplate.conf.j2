@@ -1,0 +1,17 @@
+{% set configsvr_hosts = {configsvr_rsa: 'config-rs_a', configsvr_rsb: 'config-rs_b', configsvr_rsc: 'config-rs_c'} %}
+
+{% if ansible_hostname in configsvr_hosts %}
+  {% set host_config = configsvr_hosts[ansible_hostname] %}
+  {% set log_path = "/var/log/mongodb/" ~ env ~ "/" ~ host_config ~ ".log" %}
+  {% set pid_path = "/var/run/mongodb/" ~ env ~ "/mongod-" ~ host_config ~ ".pid" %}
+
+  systemLog:
+    destination: file
+    path: {{ log_path }}
+    logAppend: true
+    logRotate: reopen
+  processManagement:
+    fork: true
+    pidFilePath: {{ pid_path }}
+{% endif %}
+
