@@ -1,3 +1,4 @@
+#jinja2: lstrip_blocks: "True"
 {% set hosts = { configsvr_rsa: {'host_config': 'config-rs_a', 'port': configsvr_rsa_port, 'db_path': 'config/rs_a', 'cluster': 'configsvr', 'repset': 'config' },
                  configsvr_rsb: {'host_config': 'config-rs_b', 'port': configsvr_rsb_port, 'db_path': 'config/rs_b', 'cluster': 'configsvr', 'repset': 'config' },
                  configsvr_rsc: {'host_config': 'config-rs_c', 'port': configsvr_rsc_port, 'db_path': 'config/rs_c', 'cluster': 'configsvr', 'repset': 'config' },
