@@ -7,3 +7,12 @@
     group: "{{ group }}"
     mode: '0644'
     force: yes
+
+- name: layout template for /etc/mongo/{{ env }}/rs_a.cfg on the config server
+  template:
+    src:  test.service.j2
+    dest: "/usr/lib/systemd/system/mongod_config.service"
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+    mode: '0644'
+    force: yes
