@@ -8,11 +8,7 @@
     owner: "{{ owner }}"
     group: "{{ group }}"
   loop: "{{ db_servers }}"
-  #  when: item.config_var is defined and ansible_hostname == item.config_var
-  when: >
-        configsvr_rsa is defined and ansible_hostname == configsvr_rsa or
-        configsvr_rsb is defined and ansible_hostname == configsvr_rsb or
-        configsvr_rsc is defined and ansible_hostname == configsvr_rsc
+  when: item.config_var is defined and ansible_hostname == item.config_var
   ignore_errors: yes
 
 - name: layout template for config server config file
@@ -24,11 +20,7 @@
     mode: '0644'
     force: yes
   loop: "{{ db_servers }}"
-  #when: item.config_var is defined and ansible_hostname == item.config_var
-  when: >
-        configsvr_rsa is defined and ansible_hostname == configsvr_rsa or
-        configsvr_rsb is defined and ansible_hostname == configsvr_rsb or
-        configsvr_rsc is defined and ansible_hostname == configsvr_rsc
+  when: item.config_var is defined and ansible_hostname == item.config_var
   ignore_errors: yes
 
 #block for mongod_config service files

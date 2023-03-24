@@ -54,12 +54,12 @@ db_servers:
   - name: rs_a
     path: /data/{{ env }}/config/rs_a
     config_file: rs_a.cfg
-    config_var: configsvr_rsa
+    config_var: 'configsvr_rsa'
   - name: rs_b
     path: /data/{{ env }}/config/rs_b
     config_file: rs_b.cfg
-    config_var: configsvr_rsb
+    config_var: 'configsvr_rsb'
   - name: rs_c
     path: /data/{{ env }}/config/rs_c
     config_file: rs_c.cfg
-    config_var: configsvr_rsc
+    config_var: 'configsvr_rsc'
