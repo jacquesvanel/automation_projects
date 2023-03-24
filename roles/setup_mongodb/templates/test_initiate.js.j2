@@ -3,12 +3,12 @@
 config = { _id: "config_{{ env }}",
         members:[
          { _id : 0, host : "{{ configsvr_rsa }}.opr.afsiep.net:{{ configsvr_rsa_port }}", priority: 100 },
-         {% if configsvr_rsb is defined and configsvr_rsb is not none %}
+{% if configsvr_rsb is defined and configsvr_rsb is not none %}
          { _id : 1, host : "{{ configsvr_rsb }}.opr.afsiep.net:{{ configsvr_rsb_port }}" },
-         {% endif %}
-         {% if configsvr_rsc is defined and configsvr_rsc is not none %}
+{% endif %}
+{% if configsvr_rsc is defined and configsvr_rsc is not none %}
          { _id : 2, host : "{{ configsvr_rsc }}.opr.afsiep.net:{{ configsvr_rsc_port }}" }
-         {% endif %}
+{% endif %}
         ]
 };
 var output = rs.initiate(config);
@@ -17,12 +17,12 @@ printjson(output)
 config = { _id: "sh1_{{ env }}",
         members:[
          { _id : 0, host : "{{ shard1a }}.opr.afsiep.net:{{ shard1a_port }}", priority: 100 },
-         {% if shard1b is defined and shard1b is not none %}
+{% if shard1b is defined and shard1b is not none %}
          { _id : 1, host : "{{ shard1b }}.opr.afsiep.net:{{ shard1b_port }}" },
-         {% endif %}
-         {% if shard1c is defined and shard1c is not none %}
+{% endif %}
+{% if shard1c is defined and shard1c is not none %}
          { _id : 2, host : "{{ shard1c }}.opr.afsiep.net:{{ shard1c_port }}" }
-         {% endif %}
+{% endif %}
         ]
 };
 var output = rs.initiate(config);
@@ -30,15 +30,13 @@ printjson(output)
 {% elif shard2a is defined and ansible_hostname == shard2a %}
 config = { _id: "sh2_{{ env }}",
         members:[
-         {% if shard2a is defined and shard2a is not none %}
          { _id : 0, host : "{{ shard2a }}.opr.afsiep.net:{{ shard2a_port }}", priority: 100 },
-         {% endif %}
-         {% if shard2b is defined and shard2b is not none %}
+{% if shard2b is defined and shard2b is not none %}
          { _id : 1, host : "{{ shard2b }}.opr.afsiep.net:{{ shard2b_port }}" },
-         {% endif %}
-         {% if shard2c is defined and shard2c is not none %}
+{% endif %}
+{% if shard2c is defined and shard2c is not none %}
          { _id : 2, host : "{{ shard2c }}.opr.afsiep.net:{{ shard2c_port }}" }
-         {% endif %}
+{% endif %}
         ]
 };
 var output = rs.initiate(config);
@@ -46,15 +44,13 @@ printjson(output)
 {% elif shard3a is defined and ansible_hostname == shard3a %}
 config = { _id: "sh3_{{ env }}",
         members:[
-         {% if shard3a is defined and shard3a is not none %}
          { _id : 0, host : "{{ shard3a }}.opr.afsiep.net:{{ shard3a_port }}", priority: 100 },
-         {% endif %}
-         {% if shard3b is defined and shard3b is not none %}
+{% if shard3b is defined and shard3b is not none %}
          { _id : 1, host : "{{ shard3b }}.opr.afsiep.net:{{ shard3b_port }}" },
-         {% endif %}
-         {% if shard3c is defined and shard3c is not none %}
+{% endif %}
+{% if shard3c is defined and shard3c is not none %}
          { _id : 2, host : "{{ shard3c }}.opr.afsiep.net:{{ shard3c_port }}" }
-         {% endif %}       
+{% endif %}       
         ]
 };
 var output = rs.initiate(config);
