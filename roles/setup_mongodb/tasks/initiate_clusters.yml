@@ -10,7 +10,7 @@
 - block:
   - name: layout template for /etc/mongo/{{ env }}/scripts/initiate.shard1.js the shard1 server
     template:
-      src:  initiate.shard1.js.j2
+      src:  initiate.js.j2
       dest: "/etc/mongo/{{ env }}/scripts/initiate.shard1.js"
       owner: root
       group: root
@@ -28,7 +28,7 @@
 - block:
   - name: layout template for /etc/mongo/{{ env }}/scripts/initiate.shard2.js the shard2 server
     template:
-      src:  initiate.shard2.js.j2
+      src:  initiate.js.j2
       dest: "/etc/mongo/{{ env }}/scripts/initiate.shard2.js"
       owner: root
       group: root
@@ -46,7 +46,7 @@
 - block:
   - name: layout template for /etc/mongo/{{ env }}/scripts/initiate.shard3.js the shard3 server
     template:
-      src:  initiate.shard3.js.j2
+      src:  initiate.js.j2
       dest: "/etc/mongo/{{ env }}/scripts/initiate.shard3.js"
       owner: root
       group: root
@@ -64,7 +64,7 @@
 - block:
   - name: layout template for /etc/mongo/{{ env }}/scripts/initiate.config.js the config server
     template:
-      src:  initiate.config.js.j2
+      src:  initiate.js.j2
       dest: "/etc/mongo/{{ env }}/scripts/initiate.config.js"
       owner: root
       group: root

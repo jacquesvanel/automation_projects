@@ -11,7 +11,7 @@
 
   - name: layout template for /etc/mongo/{{ env }}/shard1_rs_a.cfg on the shard1 server
     template:
-      src: no_sec_shard1.conf.j2
+      src: no_sec_mongod.conf.j2
       dest: "/etc/mongo/{{ env }}/shard1_rs_a.cfg"
       owner: "{{ owner }}"
       group: "{{ group }}"
@@ -32,7 +32,7 @@
 
   - name: layout template for /etc/mongo/{{ env }}/shard1_rs_b.cfg on the shard1 server
     template:
-      src: no_sec_shard1.conf.j2
+      src: no_sec_mongod.conf.j2
       dest: "/etc/mongo/{{ env }}/shard1_rs_b.cfg"
       owner: "{{ owner }}"
       group: "{{ group }}"
@@ -53,7 +53,7 @@
 
   - name: layout template for /etc/mongo/{{ env }}/shard1_rs_c.cfg on the shard1 server
     template:
-      src: no_sec_shard1.conf.j2
+      src: no_sec_mongod.conf.j2
       dest: "/etc/mongo/{{ env }}/shard1_rs_c.cfg"
       owner: "{{ owner }}"
       group: "{{ group }}"
@@ -94,7 +94,7 @@
 
   - name: layout template for /etc/mongo/{{ env }}/shard2_rs_a.cfg on the shard2 server
     template:
-      src:  no_sec_shard2.conf.j2
+      src:  no_sec_mongod.conf.j2
       dest: "/etc/mongo/{{ env }}/shard2_rs_a.cfg"
       owner: "{{ owner }}"
       group: "{{ group }}"
@@ -115,7 +115,7 @@
 
   - name: layout template for /etc/mongo/{{ env }}/shard2_rs_b.cfg on the shard2 server
     template:
-      src:  no_sec_shard2.conf.j2
+      src:  no_sec_mongod.conf.j2
       dest: "/etc/mongo/{{ env }}/shard2_rs_b.cfg"
       owner: "{{ owner }}"
       group: "{{ group }}"
@@ -136,7 +136,7 @@
 
   - name: layout template for /etc/mongo/{{ env }}/shard2_rs_c.cfg on the shard2 server
     template:
-      src:  no_sec_shard2.conf.j2
+      src:  no_sec_mongod.conf.j2
       dest: "/etc/mongo/{{ env }}/shard2_rs_c.cfg"
       owner: "{{ owner }}"
       group: "{{ group }}"
@@ -177,7 +177,7 @@
 
   - name: layout template for /etc/mongo/{{ env }}/shard3_rs_a.cfg on the shard3 server
     template:
-      src:  no_sec_shard3.conf.j2
+      src:  no_sec_mongod.conf.j2
       dest: "/etc/mongo/{{ env }}/shard3_rs_a.cfg"
       owner: "{{ owner }}"
       group: "{{ group }}"
@@ -198,7 +198,7 @@
 
   - name: layout template for /etc/mongo/{{ env }}/shard3_rs_b.cfg on the shard3 server
     template:
-      src:  no_sec_shard3.conf.j2
+      src:  no_sec_mongod.conf.j2
       dest: "/etc/mongo/{{ env }}/shard3_rs_b.cfg"
       owner: "{{ owner }}"
       group: "{{ group }}"
@@ -219,7 +219,7 @@
 
   - name: layout template for /etc/mongo/{{ env }}/shard3_rs_c.cfg on the shard3 server
     template:
-      src:  no_sec_shard3.conf.j2
+      src:  no_sec_mongod.conf.j2
       dest: "/etc/mongo/{{ env }}/shard3_rs_c.cfg"
       owner: "{{ owner }}"
       group: "{{ group }}"
