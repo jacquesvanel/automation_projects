@@ -3,7 +3,7 @@
 config = { _id: "config_{{ env }}",
         members:[
          { _id : 0, host : "{{ configsvr_rsa }}.opr.afsiep.net:{{ configsvr_rsa_port }}", priority: 100 },
-{% if configsvr_rsb is not emtpy %}
+{% if configsvr_rsb is not empty %}
          { _id : 1, host : "{{ configsvr_rsb }}.opr.afsiep.net:{{ configsvr_rsb_port }}" },
 {% endif %}
 {% if configsvr_rsc is not empty %}
