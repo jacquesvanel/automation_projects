@@ -3,10 +3,10 @@
 config = { _id: "config_{{ env }}",
         members:[
          { _id : 0, host : "{{ configsvr_rsa }}.opr.afsiep.net:{{ configsvr_rsa_port }}", priority: 100 },
-{% if configsvr_rsb is not string %}
+{% if configsvr_rsb is defined and is string %}
          { _id : 1, host : "{{ configsvr_rsb }}.opr.afsiep.net:{{ configsvr_rsb_port }}" },
 {% endif %}
-{% if configsvr_rsc is not string %}
+{% if configsvr_rsc is defined and is string %}
          { _id : 2, host : "{{ configsvr_rsc }}.opr.afsiep.net:{{ configsvr_rsc_port }}" }
 {% endif %}
         ]
@@ -17,10 +17,10 @@ printjson(output)
 config = { _id: "sh1_{{ env }}",
         members:[
          { _id : 0, host : "{{ shard1a }}.opr.afsiep.net:{{ shard1a_port }}", priority: 100 },
-{% if shard1b is not string %}
+{% if shard1b is defined and is string %}
          { _id : 1, host : "{{ shard1b }}.opr.afsiep.net:{{ shard1b_port }}" },
 {% endif %}
-{% if shard1c is not string %}
+{% if shard1c is defined and is string %}
          { _id : 2, host : "{{ shard1c }}.opr.afsiep.net:{{ shard1c_port }}" }
 {% endif %}
         ]
