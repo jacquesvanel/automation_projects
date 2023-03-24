@@ -49,3 +49,17 @@ keycert: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/Mongo
 ldap: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/ldap.conf
 ieproot: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/iep_root_intermediate.pem 
 cacert: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/CA_Root_Inter.pem
+
+db_servers:
+  - name: rs_a
+    path: /data/{{ env }}/config/rs_a
+    config_file: rs_a.cfg
+    config_var: configsvr_rsa
+  - name: rs_b
+    path: /data/{{ env }}/config/rs_b
+    config_file: rs_b.cfg
+    config_var: configsvr_rsb
+  - name: rs_c
+    path: /data/{{ env }}/config/rs_c
+    config_file: rs_c.cfg
+    config_var: configsvr_rsc
