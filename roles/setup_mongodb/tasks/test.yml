@@ -38,7 +38,7 @@
       loop: "{{ db_servers }}"
       when: item.config_var is defined and ansible_hostname == item.config_var
       ignore_errors: yes
-    
+  
 #block for mongod_config service files
     - block:
       - name: layout template for added mongod_config.service on the server
@@ -56,5 +56,8 @@
           state: restarted
           enabled: yes
           daemon_reload: yes
-    when: configsvr_rsa is defined and ansible_hostname == configsvr_rsa or configsvr_rsb is defined and ansible_hostname == configsvr_rsb or configsvr_rsc is defined and ansible_hostname == configsvr_rsc
-    ignore_errors: yes
+      when: >
+              configsvr_rsa is defined and ansible_hostname == configsvr_rsa or
+              configsvr_rsb is defined and ansible_hostname == configsvr_rsb or
+              configsvr_rsc is defined and ansible_hostname == configsvr_rsc
+      ignore_errors: yes
