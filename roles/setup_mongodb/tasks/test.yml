@@ -14,48 +14,49 @@ vars:
       path: /data/{{ env }}/config/rs_c
       config_file: rs_c.cfg
       config_var: 'configsvr_rsc'
-- name: make dbpath file directory for config server
-  file:
-    path: "{{ item.path }}"
-    state: directory
-    mode: '2775'
-    owner: "{{ owner }}"
-    group: "{{ group }}"
-  loop: "{{ db_servers }}"
-  when: item.config_var is defined and ansible_hostname == item.config_var
-  ignore_errors: yes
-
-- name: layout template for config server config file
-  template:
-    src: no_sec_mongod.conf.j2
-    dest: "/etc/mongo/{{ env }}/{{ item.config_file }}"
-    owner: "{{ owner }}"
-    group: "{{ group }}"
-    mode: '0644'
-    force: yes
-  loop: "{{ db_servers }}"
-  when: item.config_var is defined and ansible_hostname == item.config_var
-  ignore_errors: yes
-
-#block for mongod_config service files
-- block:
-  - name: layout template for added mongod_config.service on the server
-    template:
-      src: mongod_config.service.j2
-      dest: "/usr/lib/systemd/system/mongod_config.service"
+tasks:
+  - name: make dbpath file directory for config server
+    file:
+      path: "{{ item.path }}"
+      state: directory
+      mode: '2775'
       owner: "{{ owner }}"
       group: "{{ group }}"
-      mode: '0640'
-      force: yes
+    loop: "{{ db_servers }}"
+    when: item.config_var is defined and ansible_hostname == item.config_var
+    ignore_errors: yes
 
-  - name: start mongod_config
-    systemd:
-      name: mongod_config
-      state: restarted
-      enabled: yes
-      daemon_reload: yes
-  when: >
+  - name: layout template for config server config file
+    template:
+      src: no_sec_mongod.conf.j2
+      dest: "/etc/mongo/{{ env }}/{{ item.config_file }}"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0644'
+      force: yes
+    loop: "{{ db_servers }}"
+    when: item.config_var is defined and ansible_hostname == item.config_var
+    ignore_errors: yes
+
+#block for mongod_config service files
+  - block:
+    - name: layout template for added mongod_config.service on the server
+      template:
+        src: mongod_config.service.j2
+        dest: "/usr/lib/systemd/system/mongod_config.service"
+        owner: "{{ owner }}"
+        group: "{{ group }}"
+        mode: '0640'
+        force: yes
+
+    - name: start mongod_config
+      systemd:
+        name: mongod_config
+        state: restarted
+        enabled: yes
+        daemon_reload: yes
+    when: >
           configsvr_rsa is defined and ansible_hostname == configsvr_rsa or
           configsvr_rsb is defined and ansible_hostname == configsvr_rsb or
           configsvr_rsc is defined and ansible_hostname == configsvr_rsc
-  ignore_errors: yes
+    ignore_errors: yes
