@@ -50,16 +50,16 @@ ldap: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/Mong
 ieproot: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/iep_root_intermediate.pem 
 cacert: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/CA_Root_Inter.pem
 
-db_servers:
-   name: configsvr_rsa
-    path: /data/sbx/config/rs_a
-    config_file: rs_a.cfg
-    config_var: rs_a
-   name: configsvr_rsb
-    path: /data/sbx/config/rs_b
-    config_file: rs_b.cfg
-    config_var: rs_b
-   name: configsvr_rsc
-    path: /data/sbx/config/rs_c
-    config_file: rs_c.cfg
-    config_var: rs_c'
+#db_servers:
+#   name: configsvr_rsa
+#   path: /data/sbx/config/rs_a
+#   config_file: rs_a.cfg
+#   config_var: rs_a
+#   name: configsvr_rsb
+#   path: /data/sbx/config/rs_b
+#   config_file: rs_b.cfg
+#   config_var: rs_b
+#   name: configsvr_rsc
+#   path: /data/sbx/config/rs_c
+#   config_file: rs_c.cfg
+#   config_var: rs_c'
