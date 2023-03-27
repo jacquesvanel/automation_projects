@@ -7,28 +7,28 @@
 #     - { 'name': 'configsvr_rsb' , 'path': '/data/sbx/config/rs_b', 'file': 'rs_b.cfg'}
 #     - { 'name': 'configsvr_rsc' , 'path': '/data/sbx/config/rs_c', 'file': 'rs_c.cfg'}
 # Define a task that loops over the list of servers and performs the same actions for each server
-- name: configure config servers
-  block:
-    - name: make dbpath file directory {{ item.path }}
-      file:
-        path: "{{ item.path }}"
-        state: directory
-        mode: '2775'
-        owner: "{{ owner }}"
-        group: "{{ group }}"
-      when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
-      ignore_errors: yes
+#- name: configure config servers
+- block:
+   - name: make dbpath file directory {{ item.path }}
+     file:
+       path: "{{ item.path }}"
+       state: directory
+       mode: '2775'
+       owner: "{{ owner }}"
+       group: "{{ group }}"
+     when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
+     ignore_errors: yes
 
-    - name: layout template for {{ item.dest }} on the config server
-      template:
-        src: no_sec_mongod.conf.j2
-        dest: "{{ item.dest }}"
-        owner: "{{ owner }}"
-        group: "{{ group }}"
-        mode: '0644'
-        force: yes
-      when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
-      ignore_errors: yes
+   - name: layout template for {{ item.dest }} on the config server
+     template:
+       src: no_sec_mongod.conf.j2
+       dest: "{{ item.dest }}"
+       owner: "{{ owner }}"
+       group: "{{ group }}"
+       mode: '0644'
+       force: yes
+     when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
+     ignore_errors: yes
   loop: "{{ config_servers }}"
 
 
