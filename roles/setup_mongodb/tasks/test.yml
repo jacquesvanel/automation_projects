@@ -2,23 +2,23 @@
 #Configure MongoDB config servers
 - set_fact:
       db_servers:
-        - name: rs_a
+        name: configsvr_rsa
           path: /data/{{ env }}/config/rs_a
           config_file: rs_a.cfg
-          config_var: configsvr_rsa
-        - name: rs_b
+          config_var: rs_a
+        name: configsvr_rsb
           path: /data/{{ env }}/config/rs_b
           config_file: rs_b.cfg
-          config_var: configsvr_rsb
-        - name: rs_c
+          config_var: rs_b
+        name: configsvr_rsc
           path: /data/{{ env }}/config/rs_c
           config_file: rs_c.cfg
-          config_var: configsvr_rsc
+          config_var: rs_c
 - debug:
-    var:  item.value.config_var
-  loop: "{{ db_servers }}"
+    var:  item.value.name
+  with_dict: "{{ db_servers }}"
   #when: item.key in db_servers.keys()
-  #when: item.config_var is defined and ansible_hostname == item.config_var
+  when: item.name is defined and ansible_hostname == item.name
 
   #- name: make dbpath file directory for config server
   #  file:
