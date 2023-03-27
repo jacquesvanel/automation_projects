@@ -3,15 +3,15 @@
 - set_fact:
       db_servers:
         - name: configsvr_rsa
-          path: /data/{{ env }}/config/rs_a
+          path: /data/sbx/config/rs_a
           config_file: rs_a.cfg
           config_var: rs_a
         - name: configsvr_rsb
-          path: /data/{{ env }}/config/rs_b
+          path: /data/sbx/config/rs_b
           config_file: rs_b.cfg
           config_var: rs_b
         - name: configsvr_rsc
-          path: /data/{{ env }}/config/rs_c
+          path: /data/sbx/config/rs_c
           config_file: rs_c.cfg
           config_var: rs_c
 - debug:
