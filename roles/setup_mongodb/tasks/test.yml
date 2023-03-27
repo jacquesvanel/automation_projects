@@ -1,13 +1,5 @@
 ---
 #Configure MongoDB config servers
-#- set_fact:
-#     db_servers: "{{ db_servers | default([]) + [{ 'name' : item.name, 'path' : item.path, 'file' : item.file }] }}"
-#  with_items:
-#     - { 'name': 'configsvr_rsa' , 'path': '/data/sbx/config/rs_a', 'file': 'rs_a.cfg'}
-#     - { 'name': 'configsvr_rsb' , 'path': '/data/sbx/config/rs_b', 'file': 'rs_b.cfg'}
-#     - { 'name': 'configsvr_rsc' , 'path': '/data/sbx/config/rs_c', 'file': 'rs_c.cfg'}
-# Define a task that loops over the list of servers and performs the same actions for each server
-#- name: configure config servers
 - name: make dbpath file directory {{ item.path }}
   file:
     path: "{{ item.path }}"
@@ -31,4 +23,23 @@
   ignore_errors: yes
   loop: "{{ config_servers }}"
 
+- name: layout template for added mongod_config.service on the server
+  template:
+    src: mongod.service.j2
+    dest: "/usr/lib/systemd/system/mongod_config.service"
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+    mode: '0640'
+    force: yes
 
+- name: start mongod_config
+  systemd:
+    name: mongod_config
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+  when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
+  ignore_errors: yes
+  loop: "{{ config_servers }}"
+    #when: configsvr_rsa is defined and ansible_hostname == configsvr_rsa or configsvr_rsb is defined and ansible_hostname == configsvr_rsb or configsvr_rsc is defined and ansible_hostname == configsvr_rsc
+    #ignore_errors: yes
