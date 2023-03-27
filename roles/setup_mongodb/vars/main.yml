@@ -65,27 +65,45 @@ shards:
   - name: shard1a
     path: /data/{{ env }}/shard1/rs_a
     dest: "/etc/mongo/{{ env }}/shard1_rs_a.cfg"
+    service: mongod_shard1
+    dest2: "/usr/lib/systemd/system/mongod_shard1.service"
   - name: shard1b
     path: /data/{{ env }}/shard1/rs_b
     dest: "/etc/mongo/{{ env }}/shard1_rs_b.cfg"
+    service: mongod_shard1
+    dest2: "/usr/lib/systemd/system/mongod_shard1.service"
   - name: shard1c
     path: /data/{{ env }}/shard1/rs_c
     dest: "/etc/mongo/{{ env }}/shard1_rs_c.cfg"
+    service: mongod_shard1
+    dest2: "/usr/lib/systemd/system/mongod_shard1.service"
   - name: shard2a
     path: /data/{{ env }}/shard2/rs_a
     dest: "/etc/mongo/{{ env }}/shard1_rs_a.cfg"
+    service: mongod_shard2
+    dest2: "/usr/lib/systemd/system/mongod_shard2.service"
   - name: shard2b
     path: /data/{{ env }}/shard2/rs_b
     dest: "/etc/mongo/{{ env }}/shard2_rs_b.cfg"
+    service: mongod_shard2
+    dest2: "/usr/lib/systemd/system/mongod_shard2.service"
   - name: shard2c
     path: /data/{{ env }}/shard2/rs_c
     dest: "/etc/mongo/{{ env }}/shard2_rs_c.cfg"
+    service: mongod_shard2
+    dest2: "/usr/lib/systemd/system/mongod_shard2.service"
   - name: shard3a
     path: /data/{{ env }}/shard3/rs_a
     dest: "/etc/mongo/{{ env }}/shard3_rs_a.cfg"
+    service: mongod_shard3
+    dest2: "/usr/lib/systemd/system/mongod_shard3.service"
   - name: shard3b
     path: /data/{{ env }}/shard3/rs_b
     dest: "/etc/mongo/{{ env }}/shard3_rs_b.cfg"
+    service: mongod_shard3
+    dest2: "/usr/lib/systemd/system/mongod_shard3.service"
   - name: shard3c
     path: /data/{{ env }}/shard3/rs_c
     dest: "/etc/mongo/{{ env }}/shard3_rs_c.cfg"
+    service: mongod_shard3
+    dest2: "/usr/lib/systemd/system/mongod_shard3.service"
