@@ -61,3 +61,31 @@ config_servers:
     path: /data/{{ env }}/config/rs_c
     dest: /etc/mongo/{{ env }}/rs_c.cfg
 
+shards:
+  - name: shard1a
+    path: /data/{{ env }}/shard1/rs_a
+    dest: "/etc/mongo/{{ env }}/shard1_rs_a.cfg"
+  - name: shard1b
+    path: /data/{{ env }}/shard1/rs_b
+    dest: "/etc/mongo/{{ env }}/shard1_rs_b.cfg"
+  - name: shard1c
+    path: /data/{{ env }}/shard1/rs_c
+    dest: "/etc/mongo/{{ env }}/shard1_rs_c.cfg"
+  - name: shard2a
+    path: /data/{{ env }}/shard2/rs_a
+    dest: "/etc/mongo/{{ env }}/shard1_rs_a.cfg"
+  - name: shard2b
+    path: /data/{{ env }}/shard2/rs_b
+    dest: "/etc/mongo/{{ env }}/shard2_rs_b.cfg"
+  - name: shard2c
+    path: /data/{{ env }}/shard2/rs_c
+    dest: "/etc/mongo/{{ env }}/shard2_rs_c.cfg"
+  - name: shard3a
+    path: /data/{{ env }}/shard3/rs_a
+    dest: "/etc/mongo/{{ env }}/shard3_rs_a.cfg"
+  - name: shard3b
+    path: /data/{{ env }}/shard3/rs_b
+    dest: "/etc/mongo/{{ env }}/shard3_rs_b.cfg"
+  - name: shard3c
+    path: /data/{{ env }}/shard3/rs_c
+    dest: "/etc/mongo/{{ env }}/shard3_rs_c.cfg"

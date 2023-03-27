@@ -1,69 +1,29 @@
 ---
-#block for config server rs_a
+#Configure MongoDB config servers
 - block:
-  - name: make dbpath file directory /data/{{ env }}/config/rs_a
+  - name: make dbpath file directory {{ item.path }}
     file:
-      path: /data/{{ env }}/config/rs_a
+      path: "{{ item.path }}"
       state: directory
       mode: '2775'
       owner: "{{ owner }}"
       group: "{{ group }}"
+    loop: "{{ config_servers }}"
+    #when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
+    ignore_errors: yes
 
-  - name: layout template for /etc/mongo/{{ env }}/rs_a.cfg on the config server
-    template:
-      src:  no_sec_mongod.conf.j2
-      dest: "/etc/mongo/{{ env }}/rs_a.cfg"
-      owner: "{{ owner }}"
-      group: "{{ group }}"
-      mode: '0644'
-      force: yes
-  when: configsvr_rsa is defined and ansible_hostname == configsvr_rsa
-  ignore_errors: yes
-
-#block for config server rs_b  
-- block:
-  - name: make dbpath file directory /data/{{ env }}/config/rs_b
-    file:
-      path: /data/{{ env }}/config/rs_b
-      state: directory
-      mode: '2775'
-      owner: "{{ owner }}"
-      group: "{{ group }}"
-
-  - name: layout template for /etc/mongo/{{ env }}/rs_b.cfg on the config server
+  - name: layout template for {{ item.dest }} on the config server
     template:
       src: no_sec_mongod.conf.j2
-      dest: "/etc/mongo/{{ env }}/rs_b.cfg"
+      dest: "{{ item.dest }}"
       owner: "{{ owner }}"
       group: "{{ group }}"
       mode: '0644'
       force: yes
-  when: configsvr_rsb is defined and ansible_hostname == configsvr_rsb
-  ignore_errors: yes
+    #when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
+    ignore_errors: yes
+    loop: "{{ config_servers }}"
 
-#block for config server rs_c  
-- block:
-  - name: make dbpath file directory /data/{{ env }}/config/rs_c
-    file:
-      path: /data/{{ env }}/config/rs_c
-      state: directory
-      mode: '2775'
-      owner: "{{ owner }}"
-      group: "{{ group }}"
-
-  - name: layout template for /etc/mongo/{{ env }}/rs_c.cfg on the config server
-    template:
-      src:  no_sec_mongod.conf.j2
-      dest: "/etc/mongo/{{ env }}/rs_c.cfg"
-      owner: "{{ owner }}"
-      group: "{{ group }}"
-      mode: '0644'
-      force: yes
-  when: configsvr_rsc is defined and ansible_hostname == configsvr_rsc
-  ignore_errors: yes
-
-#block for mongod_config service files  
-- block:  
   - name: layout template for added mongod_config.service on the server
     template:
       src: mongod.service.j2
@@ -72,6 +32,7 @@
       group: "{{ group }}"
       mode: '0640'
       force: yes
+    loop: "{{ config_servers }}"
 
   - name: start mongod_config
     systemd:
@@ -79,5 +40,7 @@
       state: restarted
       enabled: yes
       daemon_reload: yes
-  when: configsvr_rsa is defined and ansible_hostname == configsvr_rsa or configsvr_rsb is defined and ansible_hostname == configsvr_rsb or configsvr_rsc is defined and ansible_hostname == configsvr_rsc
-  ignore_errors: yes
+    #when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
+    ignore_errors: yes
+    loop: "{{ config_servers }}"
+  when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
