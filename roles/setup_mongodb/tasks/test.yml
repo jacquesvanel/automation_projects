@@ -6,11 +6,13 @@
      - { 'name': 'configsvr_rsa' , 'path': '/data/sbx/config/rs_a', 'file': 'rs_a.cfg'}
      - { 'name': 'configsvr_rsb' , 'path': '/data/sbx/config/rs_b', 'file': 'rs_b.cfg'}
      - { 'name': 'configsvr_rsc' , 'path': '/data/sbx/config/rs_c', 'file': 'rs_c.cfg'}
+  when: ansible_hostname == item.name
+
 - debug:
     var:  item.name
   loop: "{{ db_servers }}"
   #when: item.key in db_servers.keys()
-  when: ansible_hostname == item.name
+  #  when: ansible_hostname == item.name
 
   #- name: make dbpath file directory for config server
   #  file:
