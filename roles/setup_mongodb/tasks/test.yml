@@ -4,19 +4,19 @@
      db_servers: "{{ db_servers | default([]) + [{ 'name' : item.name, 'path' : item.path, 'file' : item.file }] }}"
   with_items:
      - { 'name': 'configsvr_rsa' , 'path': '/data/sbx/config/rs_a', 'file': 'rs_a.cfg'}
-  when: ansible_hostname == configsvr_rsa
+  when: ansible_hostname == item.name
 
 - set_fact:
      db_servers: "{{ db_servers | default([]) + [{ 'name' : item.name, 'path' : item.path, 'file' : item.file }] }}"
   with_items:
      - { 'name': 'configsvr_rsb' , 'path': '/data/sbx/config/rs_b', 'file': 'rs_b.cfg'}
-  when: ansible_hostname == configsvr_rsb
+  when: ansible_hostname == item.name
 
 - set_fact:
      db_servers: "{{ db_servers | default([]) + [{ 'name' : item.name, 'path' : item.path, 'file' : item.file }] }}"
   with_items:
      - { 'name': 'configsvr_rsc' , 'path': '/data/sbx/config/rs_c', 'file': 'rs_c.cfg'}
-  when: ansible_hostname == configsvr_rsc
+  when: ansible_hostname == item.name
 
 - debug:
     var:  item.name
@@ -26,24 +26,24 @@
 
   #- name: make dbpath file directory for config server
   #  file:
-  #    path: "{{ item.path }}"
+  #  path: "{{ item.path }}"
   #  state: directory
   #  mode: '2775'
   #  owner: "{{ owner }}"
   #  group: "{{ group }}"
-  #with_dict: "{{ db_servers }}"
+  #loop: "{{ db_servers }}"
   #when: item.config_var is defined and ansible_hostname == item.config_var
   #ignore_errors: yes
 
   #- name: layout template for config server config file
   #template:
   #  src: no_sec_mongod.conf.j2
-  #  dest: "/etc/mongo/{{ env }}/{{ item.config_file }}"
+  #  dest: "/etc/mongo/{{ env }}/{{ item.file }}"
   #  owner: "{{ owner }}"
   #  group: "{{ group }}"
   #  mode: '0644'
   #  force: yes
-  #with_dict: "{{ db_servers }}"
+  #loop: "{{ db_servers }}"
   #when: item.config_var is defined and ansible_hostname == item.config_var
   #ignore_errors: yes
 
