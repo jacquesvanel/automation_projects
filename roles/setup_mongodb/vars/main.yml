@@ -50,60 +50,118 @@ ldap: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/Mong
 ieproot: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/iep_root_intermediate.pem 
 cacert: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/CA_Root_Inter.pem
 env: sbx
-config_servers:
-  - name: rsa
+
+db_servers:
+  - name: configsvr_rsa
     path: /data/{{ env }}/config/rs_a
     dest: /etc/mongo/{{ env }}/rs_a.cfg
-  - name: rsb
+    port: 57040
+    cluster: configsvr
+    repset: config
+    host_config: config-rs_a
+
+  - name: configsvr_rsb
     path: /data/{{ env }}/config/rs_b
     dest: /etc/mongo/{{ env }}/rs_b.cfg
-  - name: rsc
+    port: 57041
+    cluster: configsvr
+    repset: config
+    host_config: config-rs_b
+
+  - name: configsvr_rsc
     path: /data/{{ env }}/config/rs_c
     dest: /etc/mongo/{{ env }}/rs_c.cfg
-
-shards:
+    port: 57042
+    cluster: configsvr
+    repset: config
+    host_config: config-rs_c
+  
   - name: shard1a
     path: /data/{{ env }}/shard1/rs_a
     dest: "/etc/mongo/{{ env }}/shard1_rs_a.cfg"
     service: mongod_shard1
     dest2: "/usr/lib/systemd/system/mongod_shard1.service"
+    port: 37040
+    cluster: shardsvr
+    repset: sh1
+    host_config: sh1-rs_a
+
   - name: shard1b
     path: /data/{{ env }}/shard1/rs_b
     dest: "/etc/mongo/{{ env }}/shard1_rs_b.cfg"
     service: mongod_shard1
     dest2: "/usr/lib/systemd/system/mongod_shard1.service"
+    port: 37041
+    cluster: shardsvr
+    repset: sh1
+    host_config: sh1-rs_b
+
   - name: shard1c
     path: /data/{{ env }}/shard1/rs_c
     dest: "/etc/mongo/{{ env }}/shard1_rs_c.cfg"
     service: mongod_shard1
     dest2: "/usr/lib/systemd/system/mongod_shard1.service"
+    port: 37042
+    cluster: shardsvr
+    repset: sh1
+    host_config: sh1-rs_c
+
   - name: shard2a
     path: /data/{{ env }}/shard2/rs_a
-    dest: "/etc/mongo/{{ env }}/shard1_rs_a.cfg"
+    dest: "/etc/mongo/{{ env }}/shard2_rs_a.cfg"
     service: mongod_shard2
     dest2: "/usr/lib/systemd/system/mongod_shard2.service"
+    port: 47017
+    cluster: shardsvr
+    repset: sh2
+    host_config: sh2-rs_a
+
   - name: shard2b
     path: /data/{{ env }}/shard2/rs_b
     dest: "/etc/mongo/{{ env }}/shard2_rs_b.cfg"
     service: mongod_shard2
     dest2: "/usr/lib/systemd/system/mongod_shard2.service"
+    port: 47018
+    cluster: shardsvr
+    repset: sh2
+    host_config: sh2-rs_b
+
   - name: shard2c
     path: /data/{{ env }}/shard2/rs_c
     dest: "/etc/mongo/{{ env }}/shard2_rs_c.cfg"
     service: mongod_shard2
     dest2: "/usr/lib/systemd/system/mongod_shard2.service"
+    port: 47019
+    cluster: shardsvr
+    repset: sh2
+    host_config: sh2-rs_c
+
   - name: shard3a
     path: /data/{{ env }}/shard3/rs_a
     dest: "/etc/mongo/{{ env }}/shard3_rs_a.cfg"
     service: mongod_shard3
     dest2: "/usr/lib/systemd/system/mongod_shard3.service"
+    port: 57017
+    cluster: shardsvr
+    repset: sh3
+    host_config: sh3-rs_a
+
   - name: shard3b
     path: /data/{{ env }}/shard3/rs_b
     dest: "/etc/mongo/{{ env }}/shard3_rs_b.cfg"
     service: mongod_shard3
     dest2: "/usr/lib/systemd/system/mongod_shard3.service"
+    port: 57018
+    cluster: shardsvr
+    repset: sh3
+    host_config: sh3-rs_b
+
   - name: shard3c
     path: /data/{{ env }}/shard3/rs_c
     dest: "/etc/mongo/{{ env }}/shard3_rs_c.cfg"
     service: mongod_shard3
     dest2: "/usr/lib/systemd/system/mongod_shard3.service"
+    port: 57019
+    cluster: shardsvr
+    repset: sh3
+    host_config: sh3-rs_c
