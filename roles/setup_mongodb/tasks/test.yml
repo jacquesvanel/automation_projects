@@ -16,8 +16,8 @@
           config_var: configsvr_rsc
 - debug:
     var:  item.value.config_var
-  with_dict: "{{ db_servers }}"
-  when: item.key in db_servers.keys()
+  loop: "{{ db_servers }}"
+  #when: item.key in db_servers.keys()
   #when: item.config_var is defined and ansible_hostname == item.config_var
 
   #- name: make dbpath file directory for config server
