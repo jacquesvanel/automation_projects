@@ -6,9 +6,8 @@
   register: file_exist
 
 - name: Stop playbook in case the file does not exist
-  fail: 
-  debug:
-    msg: "The file "{{file_name}}" does not exist"
+  fails:
+    msg: "The file {{file_name}} does not exist"
   when: not file_exist.stat.exists 
 
       
