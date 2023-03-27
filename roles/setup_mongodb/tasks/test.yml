@@ -14,16 +14,12 @@
           path: /data/sbx/config/rs_c
           config_file: rs_c.cfg
           config_var: rs_c
-- name: Debug variables
-  debug:
-    var: configsvr_rsa
-    inventory_hostname: "{{ ansible_hostname }}"
 
 - debug:
     var:  item.path
   loop: "{{ db_servers }}"
   #when: item.key in db_servers.keys()
-  when: item.name is defined and ansible_hostname == item.name  
+  when: ansible_hostname in [item.name, configsvr_rsa]  
 
   #- name: make dbpath file directory for config server
   #  file:
