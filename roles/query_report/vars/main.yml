@@ -1,5 +1,10 @@
 ---
 
+RJCTD: mongo "{{ target }}":37018/iris_prod_db -u gmani -p Asdfgh#12345pr --authenticationDatabase admin --eval 'db.TRANSMISSION.find({transmissionStatus:"REJECTED"}).count()' | tail -1
+TNC: mongo "{{ target }}":37018/iris_prod_db -u gmani -p Asdfgh#12345pr --authenticationDatabase admin --eval 'db.FORM.count()' | tail -1
+TPRC: mongo "{{ target }}":37018/iris_prod_db -u gmani -p Asdfgh#12345pr --authenticationDatabase admin --eval 'db.FORM.find({createdTs : { "$gte": ISODate("2023-'"{{ DT1 }}"'-'"{{ DT3 }}"'T00:00:00.000Z"), $lt: ISODate("2023-'"{{ DT1 }}"'-'"{{ DT2 }}"'T00:00:00.000Z") } }).count()' | tail -1
+J23PRC: mongo "{{ target }}":37018/iris_prod_db -u gmani -p Asdfgh#12345pr --authenticationDatabase admin --eval 'db.FORM.find({createdTs : { "$gte": ISODate("2023-01-23T00:00:00.000Z"), $lt: ISODate("2023-'"{{ DT1 }}"'-'"{{ DT2 }}"'T00:00:00.000Z") } }).count()' | tail -1
+
 DT: date +%y%m%d
 DT1: date +%y%m%d | head -c 4 | tail -c 2
 DT2: date +%y%m%d | head -c 6 | tail -c 2
