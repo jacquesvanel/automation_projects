@@ -49,7 +49,7 @@ keycert: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/Mongo
 ldap: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/ldap.conf
 ieproot: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/iep_root_intermediate.pem 
 cacert: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/CA_Root_Inter.pem
-
+env: sbx
 config_servers:
   - name: rsa
     path: /data/{{ env }}/config/rs_a
