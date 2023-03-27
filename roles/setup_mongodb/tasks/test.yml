@@ -16,7 +16,7 @@
           config_var: rs_c
 
 - debug:
-    var:  item.path
+    var:  item.value.name
   loop: "{{ db_servers }}"
   #when: item.key in db_servers.keys()
   when: ansible_hostname in [item.name, configsvr_rsa]  
