@@ -2,8 +2,8 @@
 ################################  testing  ################################
 - name: set facts
   import_tasks: set_fact.yml
-  tags:
-    - always
+  #  tags:
+          #    - always
 
 - name: test task
   import_tasks: test.yml

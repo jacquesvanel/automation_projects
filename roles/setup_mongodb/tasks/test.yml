@@ -18,7 +18,7 @@
     var:  item.name
   loop: "{{ db_servers | list }}"
   #when: item.key in db_servers.keys()
-  #when: item.name is defined and ansible_hostname == item.name
+  when: item.name is defined and ansible_hostname == item.name
 
   #- name: make dbpath file directory for config server
   #  file:
