@@ -17,7 +17,7 @@
 - name: Debug variables
   debug:
     var: configsvr_rsa
-    inventory_hostname: "{{ inventory_hostname }}"
+    inventory_hostname: "{{ ansible_hostname }}"
 
 - debug:
     var:  item.path
