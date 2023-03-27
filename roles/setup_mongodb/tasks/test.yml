@@ -1,60 +1,34 @@
 ---
 #Configure MongoDB config servers
-- set_fact:
-     db_servers: "{{ db_servers | default([]) + [{ 'name' : item.name, 'path' : item.path, 'file' : item.file }] }}"
-  with_items:
-     - { 'name': 'configsvr_rsa' , 'path': '/data/sbx/config/rs_a', 'file': 'rs_a.cfg'}
-     - { 'name': 'configsvr_rsb' , 'path': '/data/sbx/config/rs_b', 'file': 'rs_b.cfg'}
-     - { 'name': 'configsvr_rsc' , 'path': '/data/sbx/config/rs_c', 'file': 'rs_c.cfg'}
+#- set_fact:
+#     db_servers: "{{ db_servers | default([]) + [{ 'name' : item.name, 'path' : item.path, 'file' : item.file }] }}"
+#  with_items:
+#     - { 'name': 'configsvr_rsa' , 'path': '/data/sbx/config/rs_a', 'file': 'rs_a.cfg'}
+#     - { 'name': 'configsvr_rsb' , 'path': '/data/sbx/config/rs_b', 'file': 'rs_b.cfg'}
+#     - { 'name': 'configsvr_rsc' , 'path': '/data/sbx/config/rs_c', 'file': 'rs_c.cfg'}
+# Define a task that loops over the list of servers and performs the same actions for each server
+- name: configure config servers
+  block:
+    - name: make dbpath file directory {{ item.path }}
+      file:
+        path: "{{ item.path }}"
+        state: directory
+        mode: '2775'
+        owner: "{{ owner }}"
+        group: "{{ group }}"
+      when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
+      ignore_errors: yes
 
-- debug:
-    var:  item.name
-  loop: "{{ db_servers }}"
-  #when: item.key in db_servers.keys()
-  when: ansible_hostname == item.name
+    - name: layout template for {{ item.dest }} on the config server
+      template:
+        src: no_sec_mongod.conf.j2
+        dest: "{{ item.dest }}"
+        owner: "{{ owner }}"
+        group: "{{ group }}"
+        mode: '0644'
+        force: yes
+      when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
+      ignore_errors: yes
+  loop: "{{ config_servers }}"
 
-  #- name: make dbpath file directory for config server
-  #  file:
-  #  path: "{{ item.path }}"
-  #  state: directory
-  #  mode: '2775'
-  #  owner: "{{ owner }}"
-  #  group: "{{ group }}"
-  #loop: "{{ db_servers }}"
-  #when: item.config_var is defined and ansible_hostname == item.config_var
-  #ignore_errors: yes
 
-  #- name: layout template for config server config file
-  #template:
-  #  src: no_sec_mongod.conf.j2
-  #  dest: "/etc/mongo/{{ env }}/{{ item.file }}"
-  #  owner: "{{ owner }}"
-  #  group: "{{ group }}"
-  #  mode: '0644'
-  #  force: yes
-  #loop: "{{ db_servers }}"
-  #when: item.config_var is defined and ansible_hostname == item.config_var
-  #ignore_errors: yes
-
-#block for mongod_config service files
-#- block:
-#  - name: layout template for added mongod_config.service on the server
-#    template:
-#      src: mongod_config.service.j2
-#      dest: "/usr/lib/systemd/system/mongod_config.service"
-#      owner: "{{ owner }}"
-#      group: "{{ group }}"
-#      mode: '0640'
-#      force: yes
-
-  #  - name: start mongod_config
-  #    systemd:
-  #    name: mongod_config
-  #    state: restarted
-  #    enabled: yes
-  #    daemon_reload: yes
-  #when: >
-  #        configsvr_rsa is defined and ansible_hostname == configsvr_rsa or
-  #        configsvr_rsb is defined and ansible_hostname == configsvr_rsb or
-  #        configsvr_rsc is defined and ansible_hostname == configsvr_rsc
-  #ignore_errors: yes
