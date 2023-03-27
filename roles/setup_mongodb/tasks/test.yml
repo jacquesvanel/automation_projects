@@ -15,7 +15,7 @@
           config_file: rs_c.cfg
           config_var: configsvr_rsc
 - debug:
-    msg: "{{ item }}" "{{ db_servers[config_var] }}"
+    msg: "{{ item }} {{ db_servers[config_var] }}"
   loop: "{{ db_servers.keys() | list }}"
   #when: item.config_var is defined and ansible_hostname == item.config_var
 
