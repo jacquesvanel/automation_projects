@@ -27,7 +27,7 @@ Requires=mongo.service
 [Service]
 User=mongod
 Group=opr-db-admin
-Environment={{ cfg_path }}
+Environment=\"{{ cfg_path }}\"
 EnvironmentFile=-/etc/sysconfig/mongod
 ExecStart=/usr/bin/mongod $OPTIONS
 ExecStartPre=/usr/bin/mkdir -p /var/run/mongodb/{{ env }}
