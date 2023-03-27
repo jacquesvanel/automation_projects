@@ -26,16 +26,10 @@
     - mongo_service
 
 - name: add configsvr config/service files 
-  import_tasks: no_sec_configsvr.yml
+  import_tasks: no_sec_servers.yml
   tags:
     - reinstall
-    - no_sec_configsvr
-
-- name: add shard1 config/service files
-  import_tasks: no_sec_shard.yml
-  tags: 
-    - reinstall
-    - no_sec_shard
+    - no_sec_servers
 
 - name: add mongos config/service files
   include_tasks: mongos.yml
@@ -82,16 +76,10 @@
     - start_mongos
 
 - name: add configsvr config/service files
-  import_tasks: configsvr.yml
+  import_tasks: servers.yml
   tags:
     - reinstall
-    - configsvr
-
-- name: add shard1 config/service files
-  import_tasks: shard.yml
-  tags:
-    - reinstall
-    - shard
+    - servers
 
 - name: initiate clusters
   import_tasks: initiate_clusters.yml
