@@ -15,10 +15,10 @@
           config_file: rs_c.cfg
           config_var: rs_c
 - debug:
-    var:  item
-  loop: "{{ db_servers | selectattr('name') | list }}"
+    var:  item.path
+  loop: "{{ db_servers | list }}"
   #when: item.key in db_servers.keys()
-  #when: item.name is defined and ansible_hostname == item
+  when: item.name is defined and ansible_hostname == item.name
 
   #- name: make dbpath file directory for config server
   #  file:
