@@ -14,7 +14,7 @@
 {% if ansible_hostname in hosts %}
   {% set host_config = hosts[ansible_hostname]['host_config'] %}
   {% set host_file = hosts[ansible_hostname]['host_file'] %}
-  {% set cfg_path = "OPTIONS=-f /etc/mongo/" ~ env ~ "/" ~ host_file ~ ".cfg" %}
+  {% set cfg_path = \"OPTIONS=-f /etc/mongo/" ~ env ~ "/" ~ host_file ~ ".cfg\" %}
   {% set pid_path = "/var/run/mongodb/" ~ env ~ "/mongod-" ~ host_config ~ ".pid" %}
 [Unit]
 Description=MongoDB Config Database Server
@@ -27,7 +27,7 @@ Requires=mongo.service
 [Service]
 User=mongod
 Group=opr-db-admin
-Environment=\"{{ cfg_path }}\"
+Environment={{ cfg_path }}
 EnvironmentFile=-/etc/sysconfig/mongod
 ExecStart=/usr/bin/mongod $OPTIONS
 ExecStartPre=/usr/bin/mkdir -p /var/run/mongodb/{{ env }}
