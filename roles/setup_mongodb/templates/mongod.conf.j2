@@ -51,7 +51,7 @@ sharding:
 replication:
   replSetName: {{ item.repset }}_{{ env }}
 storage:
-  dbPath: {{ item.db_path }}
+  dbPath: {{ item.path }}
   # wiredTiger:
   #   engineConfig:
   #     cacheSizeGB: 5
