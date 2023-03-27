@@ -29,7 +29,7 @@ processManagement:
   pidFilePath: {{ pid_path }}
 net:
   port: {{ port }}
-  bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
+  bindIp: localhost,{{ ansible_fqdn }}
 storage:
   dbPath: /data/{{ env }}/{{ db_path }}
   # wiredTiger:

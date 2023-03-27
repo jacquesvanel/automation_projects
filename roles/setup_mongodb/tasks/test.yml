@@ -27,7 +27,7 @@
   - name: layout template for added mongod_config.service on the server
     template:
       src: mongod.service.j2
-      dest: "{{ dest2 }}"
+      dest: "{{ item.dest2 }}"
       owner: "{{ owner }}"
       group: "{{ group }}"
       mode: '0640'
@@ -36,7 +36,7 @@
 
   - name: start mongod service
     systemd:
-      name: "{{ service }}"
+      name: "{{ item.service }}"
       state: restarted
       enabled: yes
       daemon_reload: yes
