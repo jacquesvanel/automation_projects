@@ -4,19 +4,19 @@
      db_servers: "{{ db_servers | default([]) + [{ 'name' : item.name, 'path' : item.path, 'file' : item.file }] }}"
   with_items:
      - { 'name': 'configsvr_rsa' , 'path': '/data/sbx/config/rs_a', 'file': 'rs_a.cfg'}
-  when: ansible_hostname == item.value.name
+  when: ansible_hostname == item |selectattr('name')
 
 - set_fact:
      db_servers: "{{ db_servers | default([]) + [{ 'name' : item.name, 'path' : item.path, 'file' : item.file }] }}"
   with_items:
      - { 'name': 'configsvr_rsb' , 'path': '/data/sbx/config/rs_b', 'file': 'rs_b.cfg'}
-  when: ansible_hostname == item.value.name
+  when: ansible_hostname == item.name
 
 - set_fact:
      db_servers: "{{ db_servers | default([]) + [{ 'name' : item.name, 'path' : item.path, 'file' : item.file }] }}"
   with_items:
      - { 'name': 'configsvr_rsc' , 'path': '/data/sbx/config/rs_c', 'file': 'rs_c.cfg'}
-  when: ansible_hostname == item.value.name
+  when: ansible_hostname == item.name
 
 - debug:
     var:  item.name
