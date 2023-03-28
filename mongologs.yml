@@ -3,7 +3,7 @@
   tasks:  
     - name: Check if a file exists
       stat:
-        path: /tmp/ "{{file_name}}"
+        path: "/tmp/{{file_name}}"
       register: file_exist
 
     - name: Stop playbook in case the file does not exist
