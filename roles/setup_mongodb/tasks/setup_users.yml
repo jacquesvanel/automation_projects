@@ -1,30 +1,31 @@
 ---
-- name: make directory for /etc/mongo/{{ env }}/scripts/
-  file:
-    dest: /etc/mongo/{{ env }}/scripts/
-    state: directory
-    owner: "{{ owner }}"
-    group: "{{ group }}"
+- block:
+  - name: make directory for /etc/mongo/{{ env }}/scripts/
+    file:
+      dest: /etc/mongo/{{ env }}/scripts/
+      state: directory
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+    loop: "{{ db_servers }}"
 
-- name: layout user template for the server
-  template:
-    src:  user_setup.js.j2
-    dest: "/etc/mongo/{{ env }}/scripts/user_setup.js"
-    owner: "{{ owner }}"
-    group: "{{ group }}"
-    mode: '0644'
-    force: yes
-  loop: "{{ db_servers }}"
+  - name: layout user template for the server
+    template:
+      src:  user_setup.js.j2
+      dest: "/etc/mongo/{{ env }}/scripts/user_setup.js"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0644'
+      force: yes
+    loop: "{{ db_servers }}"
 
-- name: set up role on config server
-  shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js
-  register: user_result
-  with_items: "{{ db_servers }}"
-  when: item.name == configsvr_rsa or item.name == shard1a or item.name == shard2a or item.name == shard3a or item.name == rs_1
+  - name: set up role on config server
+    shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js
+    register: user_result
+    with_items: "{{ db_servers }}"
 
-- name: show role result
-  debug:
-    var: user_result.stdout_lines
+  - name: show role result
+    debug:
+      var: user_result.stdout_lines
   when: item.name == configsvr_rsa or item.name == shard1a or item.name == shard2a or item.name == shard3a or item.name == rs_1
   ignore_errors: yes
 
