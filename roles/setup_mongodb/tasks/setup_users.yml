@@ -26,7 +26,7 @@
   - name: show role result
     debug:
       var: user_result.stdout_lines
-  when: item.name == configsvr_rsa or item.name == shard1a or item.name == shard2a or item.name == shard3a or item.name == rs_1
+  when: ansible_hostname == {{ db_servers | selectattr('name', 'equalto', 'configsvr_rsa') }}
   ignore_errors: yes
 
 
