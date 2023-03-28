@@ -1,7 +1,7 @@
 ---
 - name: Check if a file exists
   stat:
-    path: "/tmp/ {{ file_name }}"
+    path: /tmp/ "{{ file_name }}"
   register: file_exist
 
 - name: Stop playbook in case the file does not exist
@@ -9,4 +9,18 @@
     msg: "The file {{file_name}} does not exist"
   when: not file_exist.stat.exists 
 
-      
+- name: Archiving "{{ file_name }}"
+  archive:
+    path: /tmp/ "{{ file_name }}"
+    dest: /tmp/ "{{ file_name }}"
+    format: zip
+  register: logzip_file
+
+- name: changing ownership of "{{ logzip_file }}"
+  file:
+    path: /tmp/ "{{ logzip_file }}"
+    owner: jacquesvanel.siewembouwe
+    group: root
+    mode: '664'
+
+      #- name: copy "{{ logzip_file }}"       
