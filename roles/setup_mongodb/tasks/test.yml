@@ -3,7 +3,7 @@
 - block:
   - name: make dbpath file directory {{ item.path }}
     file:
-      path: "{{ item.path }}"
+      path: "{{ item.db_path }}"
       state: directory
       mode: '2775'
       owner: "{{ owner }}"
