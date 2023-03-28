@@ -34,7 +34,7 @@ setParameter:
    ocspEnabled: false
 net:
   port: 37018
-  bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
+  bindIp: localhost,{{ ansible_fqdn }}
   tls:
    CAFile: /var/lib/mongodb/cert/CA_Root_Inter.pem
    allowConnectionsWithoutCertificates: true

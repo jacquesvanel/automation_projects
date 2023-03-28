@@ -1,21 +1,4 @@
 #jinja2: lstrip_blocks: "True"
-{% set hosts = { configsvr_rsa: {'host_config': 'config-rs_a', 'host_file': 'rs_a' },
-                 configsvr_rsb: {'host_config': 'config-rs_b', 'host_file': 'rs_b' },
-                 configsvr_rsc: {'host_config': 'config-rs_c', 'host_file': 'rs_c' },
-                 shard1a: {'host_config': 'sh1-rs_a', 'host_file': 'shard1_rs_a' },
-                 shard1b: {'host_config': 'sh1-rs_b', 'host_file': 'shard1_rs_b' },
-                 shard1c: {'host_config': 'sh1-rs_c', 'host_file': 'shard1_rs_c' },
-                 shard2a: {'host_config': 'sh2-rs_a', 'host_file': 'shard2_rs_a' },
-                 shard2b: {'host_config': 'sh2-rs_b', 'host_file': 'shard2_rs_b' },
-                 shard2c: {'host_config': 'sh2-rs_c', 'host_file': 'shard2_rs_c' },
-                 shard3a: {'host_config': 'sh3-rs_a', 'host_file': 'shard3_rs_a' },
-                 shard3b: {'host_config': 'sh3-rs_b', 'host_file': 'shard3_rs_b' },
-                 shard3c: {'host_config': 'sh3-rs_c', 'host_file': 'shard3_rs_c' }} %}
-{% if ansible_hostname in hosts %}
-  {% set host_config = hosts[ansible_hostname]['host_config'] %}
-  {% set host_file = hosts[ansible_hostname]['host_file'] %}
-  {% set cfg_path = "/etc/mongo/" ~ env ~ "/" ~ host_file ~ ".cfg" %}
-  {% set pid_path = "/var/run/mongodb/" ~ env ~ "/mongod-" ~ host_config ~ ".pid" %}
 [Unit]
 Description=MongoDB Config Database Server
 Documentation=https://docs.mongodb.org/manual
@@ -25,16 +8,16 @@ After=mongo.service
 Requires=mongo.service
 
 [Service]
-User=mongod
-Group=opr-db-admin
-Environment="OPTIONS=-f {{ cfg_path }}"
+User={{ owner }}
+Group={{ group }}
+Environment="OPTIONS=-f {{ item.dest }}"
 EnvironmentFile=-/etc/sysconfig/mongod
 ExecStart=/usr/bin/mongod $OPTIONS
 ExecStartPre=/usr/bin/mkdir -p /var/run/mongodb/{{ env }}
 ExecStartPre=/usr/bin/chown mongod:mongod /var/run/mongodb/{{ env }}
 ExecStartPre=/usr/bin/chmod 0755 /var/run/mongodb/{{ env }}
 PermissionsStartOnly=true
-PIDFile={{ pid_path }}
+PIDFile="/var/run/mongodb/{{ env }}/mongod-{{ item.host_config }}.pid"
 Restart=on-failure
 RestartSec=10s
 Type=forking
@@ -58,4 +41,3 @@ TasksAccounting=false
 
 [Install]
 WantedBy=multi-user.target
-{% endif %}

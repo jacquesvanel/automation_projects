@@ -14,7 +14,7 @@
 
   - name: layout template for {{ item.dest }} on the config server
     template:
-      src: no_sec_mongod.conf.j2
+      src: mongod.conf.j2
       dest: "{{ item.dest }}"
       owner: "{{ owner }}"
       group: "{{ group }}"

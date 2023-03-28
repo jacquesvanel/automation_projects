@@ -61,7 +61,7 @@ net:
 {% if item is defined and item == 'mongos2' %}
   port: {{ mongos2_port }}
 {% endif %}
-  bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
+  bindIp: localhost,{{ ansible_fqdn }}
   tls:
    mode: preferTLS
    CAFile: /var/lib/mongodb/cert/CA_Root_Inter.pem
