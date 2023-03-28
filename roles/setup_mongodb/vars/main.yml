@@ -55,6 +55,8 @@ db_servers:
   - name: configsvr_rsa
     db_path: /data/{{ env }}/config/rs_a
     dest: /etc/mongo/{{ env }}/rs_a.cfg
+    service: mongod_config
+    dest2: "/usr/lib/systemd/system/mongod_config.service"
     port: 57040
     cluster: configsvr
     repset: config_{{ env }}
@@ -64,6 +66,8 @@ db_servers:
   - name: configsvr_rsb
     db_path: /data/{{ env }}/config/rs_b
     dest: /etc/mongo/{{ env }}/rs_b.cfg
+    service: mongod_config
+    dest2: "/usr/lib/systemd/system/mongod_config.service"
     port: 57041
     cluster: configsvr
     repset: config_{{ env }}
@@ -73,6 +77,8 @@ db_servers:
   - name: configsvr_rsc
     db_path: /data/{{ env }}/config/rs_c
     dest: /etc/mongo/{{ env }}/rs_c.cfg
+    service: mongod_config
+    dest2: "/usr/lib/systemd/system/mongod_config.service"
     port: 57042
     cluster: configsvr
     repset: config_{{ env }}
