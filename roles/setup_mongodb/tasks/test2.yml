@@ -1,7 +1,7 @@
 ---
 #Configure MongoDB config servers
 - block:
-  - name: make dbpath file directory {{ item.db_path }}
+  - name: make dbpath file directory {{ item.path }}
     file:
       path: "{{ item.db_path }}"
       state: directory

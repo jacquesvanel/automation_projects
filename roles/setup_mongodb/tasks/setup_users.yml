@@ -5,7 +5,6 @@
     state: directory
     owner: "{{ owner }}"
     group: "{{ group }}"
-  tags: setup_users
 
 - name: layout user template for the server
   template:
@@ -15,7 +14,6 @@
     group: "{{ group }}"
     mode: '0644'
     force: yes
-  tags: setup_users
 
 - block:
   - name: set up users on config server
@@ -27,7 +25,6 @@
       var: config_result.stdout_lines
   when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
   ignore_errors: yes
-  tags: setup_users
 
 - block:
   - name: set up users on shard1a
@@ -39,7 +36,6 @@
       var: shard1_result.stdout_lines
   when: (shard1a is defined) and (ansible_hostname == shard1a)
   ignore_errors: yes
-  tags: setup_users
 
 - block:
   - name: set up users on shard2a
@@ -51,15 +47,25 @@
       var: shard2_result.stdout_lines
   when: (shard2a is defined) and (ansible_hostname == shard2a)
   ignore_errors: yes
-  tags: setup_users
 
 - block:
   - name: set up users on shard3a
     shell: mongo {{ shard3a }}.opr.afsiep.net:{{ shard3a_port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js 
     register: shard3_result
+
   - name: show shard3 shell result
     debug:
       var: shard3_result.stdout_lines
   when: (shard3a is defined) and (ansible_hostname == shard3a)
   ignore_errors: yes
-  tags: setup_users
+
+- block:
+  - name: set up users on shard3a
+    shell: mongo {{ rs_1 }}.opr.afsiep.net:{{ shard3a_port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js
+    register: rs_1_result
+
+  - name: show rs_1 shell result
+    debug:
+      var: rs_1_result.stdout_lines
+  when: (rs_1 is defined) and (ansible_hostname == rs_1)
+  ignore_errors: yes

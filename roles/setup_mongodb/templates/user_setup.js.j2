@@ -3,7 +3,7 @@ db.createUser(
         pwd: "Qwerty#12345px",
 "roles" : [
     { "role" : "readWrite",
-      "db" : "{{ appname }}_{{ env }}_db"
+      "db" : "{{ db }}"
     },
     { "role" : "userAdminAnyDatabase",
       "db" : "admin"
@@ -21,7 +21,7 @@ db.createUser(
         pwd: "Qwerty#12345px",
 "roles" : [
     { "role" : "readWrite",
-      "db" : "{{ appname }}_{{ env }}_db"
+      "db" : "{{ db }}"
     },
     { "role" : "userAdminAnyDatabase",
       "db" : "admin"
@@ -48,7 +48,7 @@ db.createUser(
         pwd: "LiB13JbRhm#j!",
 "roles" : [
     { "role" : "read",
-      "db" : "{{ appname }}_{{ env }}_db"
+      "db" : "{{ db }}"
     },
     { "role" : "clusterMonitor",
       "db" : "admin"
@@ -60,7 +60,7 @@ db.createUser(
         pwd: "Qwerty#12345px",
 "roles" : [
     { "role" : "readWrite",
-      "db" : "{{ appname }}_{{ env }}_db"
+      "db" : "{{ db }}"
     },
     { "role" : "userAdminAnyDatabase",
       "db" : "admin"
