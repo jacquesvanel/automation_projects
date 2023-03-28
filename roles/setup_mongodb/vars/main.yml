@@ -53,115 +53,124 @@ env: sbx
 
 db_servers:
   - name: configsvr_rsa
-    path: /data/{{ env }}/config/rs_a
+    db_path: /data/{{ env }}/config/rs_a
     dest: /etc/mongo/{{ env }}/rs_a.cfg
     port: 57040
     cluster: configsvr
-    repset: config
+    repset: config_{{ env }}
     host_config: config-rs_a
 
   - name: configsvr_rsb
-    path: /data/{{ env }}/config/rs_b
+    db_path: /data/{{ env }}/config/rs_b
     dest: /etc/mongo/{{ env }}/rs_b.cfg
     port: 57041
     cluster: configsvr
-    repset: config
+    repset: config_{{ env }}
     host_config: config-rs_b
 
   - name: configsvr_rsc
-    path: /data/{{ env }}/config/rs_c
+    db_path: /data/{{ env }}/config/rs_c
     dest: /etc/mongo/{{ env }}/rs_c.cfg
     port: 57042
     cluster: configsvr
-    repset: config
+    repset: config_{{ env }}
     host_config: config-rs_c
   
   - name: shard1a
-    path: /data/{{ env }}/shard1/rs_a
+    db_path: /data/{{ env }}/shard1/rs_a
     dest: "/etc/mongo/{{ env }}/shard1_rs_a.cfg"
     service: mongod_shard1
     dest2: "/usr/lib/systemd/system/mongod_shard1.service"
     port: 37040
     cluster: shardsvr
-    repset: sh1
+    repset: sh1_{{ env }}
     host_config: sh1-rs_a
 
   - name: shard1b
-    path: /data/{{ env }}/shard1/rs_b
+    db_path: /data/{{ env }}/shard1/rs_b
     dest: "/etc/mongo/{{ env }}/shard1_rs_b.cfg"
     service: mongod_shard1
     dest2: "/usr/lib/systemd/system/mongod_shard1.service"
     port: 37041
     cluster: shardsvr
-    repset: sh1
+    repset: sh1_{{ env }}
     host_config: sh1-rs_b
 
   - name: shard1c
-    path: /data/{{ env }}/shard1/rs_c
+    db_path: /data/{{ env }}/shard1/rs_c
     dest: "/etc/mongo/{{ env }}/shard1_rs_c.cfg"
     service: mongod_shard1
     dest2: "/usr/lib/systemd/system/mongod_shard1.service"
     port: 37042
     cluster: shardsvr
-    repset: sh1
+    repset: sh1_{{ env }}
     host_config: sh1-rs_c
 
   - name: shard2a
-    path: /data/{{ env }}/shard2/rs_a
+    db_path: /data/{{ env }}/shard2/rs_a
     dest: "/etc/mongo/{{ env }}/shard2_rs_a.cfg"
     service: mongod_shard2
     dest2: "/usr/lib/systemd/system/mongod_shard2.service"
     port: 47017
     cluster: shardsvr
-    repset: sh2
+    repset: sh2_{{ env }}
     host_config: sh2-rs_a
 
   - name: shard2b
-    path: /data/{{ env }}/shard2/rs_b
+    db_path: /data/{{ env }}/shard2/rs_b
     dest: "/etc/mongo/{{ env }}/shard2_rs_b.cfg"
     service: mongod_shard2
     dest2: "/usr/lib/systemd/system/mongod_shard2.service"
     port: 47018
     cluster: shardsvr
-    repset: sh2
+    repset: sh2_{{ env }}
     host_config: sh2-rs_b
 
   - name: shard2c
-    path: /data/{{ env }}/shard2/rs_c
+    db_path: /data/{{ env }}/shard2/rs_c
     dest: "/etc/mongo/{{ env }}/shard2_rs_c.cfg"
     service: mongod_shard2
     dest2: "/usr/lib/systemd/system/mongod_shard2.service"
     port: 47019
     cluster: shardsvr
-    repset: sh2
+    repset: sh2_{{ env }}
     host_config: sh2-rs_c
 
   - name: shard3a
-    path: /data/{{ env }}/shard3/rs_a
+    db_path: /data/{{ env }}/shard3/rs_a
     dest: "/etc/mongo/{{ env }}/shard3_rs_a.cfg"
     service: mongod_shard3
     dest2: "/usr/lib/systemd/system/mongod_shard3.service"
     port: 57017
     cluster: shardsvr
-    repset: sh3
+    repset: sh3_{{ env }}
     host_config: sh3-rs_a
 
   - name: shard3b
-    path: /data/{{ env }}/shard3/rs_b
+    db_path: /data/{{ env }}/shard3/rs_b
     dest: "/etc/mongo/{{ env }}/shard3_rs_b.cfg"
     service: mongod_shard3
     dest2: "/usr/lib/systemd/system/mongod_shard3.service"
     port: 57018
     cluster: shardsvr
-    repset: sh3
+    repset: sh3_{{ env }}
     host_config: sh3-rs_b
 
   - name: shard3c
-    path: /data/{{ env }}/shard3/rs_c
+    db_path: /data/{{ env }}/shard3/rs_c
     dest: "/etc/mongo/{{ env }}/shard3_rs_c.cfg"
     service: mongod_shard3
     dest2: "/usr/lib/systemd/system/mongod_shard3.service"
     port: 57019
     cluster: shardsvr
-    repset: sh3
+    repset: sh3_{{ env }}
     host_config: sh3-rs_c
+
+  - name: rs_a
+    db_path: /data/{{ env }}/
+    dest: "/etc/mongo/{{ env }}/rs_a.cfg"
+    service: mongod_config
+    dest2: "/usr/lib/systemd/system/mongod_config.service"
+    port: 37018
+    repset: rs_{{ appname }}_{{ env }}
+    host_config: rs_a

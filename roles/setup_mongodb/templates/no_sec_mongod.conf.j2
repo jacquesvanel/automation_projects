@@ -11,7 +11,7 @@ net:
   port: {{ item.port }}
   bindIp: localhost,{{ ansible_fqdn }}
 storage:
-  dbPath: {{ item.path }}
+  dbPath: {{ item.db_path }}
   # wiredTiger:
   #   engineConfig:
   #     cacheSizeGB: 5
