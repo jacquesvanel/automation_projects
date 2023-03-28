@@ -1,5 +1,6 @@
 ---
-- name: Log file transfer
-  hosts: "{{target}}"
+- name: Logs 
+  hosts: "{{ target }}"
   roles:
-    - role: mongologs
+    - role: mongo_logs  
+
