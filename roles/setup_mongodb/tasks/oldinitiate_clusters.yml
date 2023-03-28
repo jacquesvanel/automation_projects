@@ -1,0 +1,36 @@
+---
+- block:
+  - name: initiate shard replica set
+    shell: mongo {{ shard1a }}.opr.afsiep.net:{{ shard1a_port }}/admin /etc/mongo/{{ env }}/scripts/initiate.shard1.js -u amkanda -p Qwerty#12345px
+    register: shell_result
+
+  - debug:
+      var: shell_result.stdout_lines
+  when: (shard1a is defined) and (ansible_hostname == shard1a)
+
+- block:
+  - name: initiate shard replica set
+    shell: mongo {{ shard2a }}.opr.afsiep.net:{{ shard2a_port }}/admin /etc/mongo/{{ env }}/scripts/initiate.shard2.js -u amkanda -p Qwerty#12345px
+    register: shell_result
+
+  - debug:
+      var: shell_result.stdout_lines
+  when: (shard2a is defined) and (ansible_hostname == shard2a)
+
+- block:
+  - name: initiate shard replica set
+    shell: mongo {{ shard3a }}.opr.afsiep.net:{{ shard3a_port }}/admin /etc/mongo/{{ env }}/scripts/initiate.shard3.js -u amkanda -p Qwerty#12345px
+    register: shell_result
+
+  - debug:
+      var: shell_result.stdout_lines
+  when: (shard3a is defined) and (ansible_hostname == shard3a)
+
+- block:
+  - name: initiate shard replica set
+    shell: mongo {{ configsvr_rsa }}.opr.afsiep.net:{{ configsvr_rsa_port }}/admin /etc/mongo/{{ env }}/scripts/initiate.config.js -u amkanda -p Qwerty#12345px
+    register: shell_result
+
+  - debug:
+      var: shell_result.stdout_lines
+  when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
