@@ -26,7 +26,7 @@
   - name: show role result
     debug:
       var: user_result.stdout_lines
-  when: ansible_hostname == {{ db_servers | selectattr('name', 'equalto', 'configsvr_rsa') | map(attribute='name') }}
+  when: "ansible_hostname == {{ db_servers | selectattr('name', 'equalto', 'configsvr_rsa') | map(attribute='name') }}"
   ignore_errors: yes
 
 
