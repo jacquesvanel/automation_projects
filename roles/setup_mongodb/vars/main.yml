@@ -166,7 +166,25 @@ db_servers:
     repset: sh3_{{ env }}
     host_config: sh3-rs_c
 
-  - name: rs_a
+  - name: rs_1
+    db_path: /data/{{ env }}/
+    dest: "/etc/mongo/{{ env }}/rs_a.cfg"
+    service: mongod_config
+    dest2: "/usr/lib/systemd/system/mongod_config.service"
+    port: 37018
+    repset: rs_{{ appname }}_{{ env }}
+    host_config: rs_a
+
+  - name: rs_2
+    db_path: /data/{{ env }}/
+    dest: "/etc/mongo/{{ env }}/rs_a.cfg"
+    service: mongod_config
+    dest2: "/usr/lib/systemd/system/mongod_config.service"
+    port: 37018
+    repset: rs_{{ appname }}_{{ env }}
+    host_config: rs_a
+
+  - name: rs_3
     db_path: /data/{{ env }}/
     dest: "/etc/mongo/{{ env }}/rs_a.cfg"
     service: mongod_config
