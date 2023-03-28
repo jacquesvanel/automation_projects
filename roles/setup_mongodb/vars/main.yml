@@ -59,7 +59,7 @@ db_servers:
     cluster: configsvr
     repset: config_{{ env }}
     host_config: config-rs_a
-    db: {{ appname }}_{{ env }}_db
+    db: "{{ appname }}_{{ env }}_db"
 
   - name: configsvr_rsb
     db_path: /data/{{ env }}/config/rs_b
@@ -68,7 +68,7 @@ db_servers:
     cluster: configsvr
     repset: config_{{ env }}
     host_config: config-rs_b
-    db: {{ appname }}_{{ env }}_db
+    db: "{{ appname }}_{{ env }}_db"
 
   - name: configsvr_rsc
     db_path: /data/{{ env }}/config/rs_c
@@ -77,7 +77,7 @@ db_servers:
     cluster: configsvr
     repset: config_{{ env }}
     host_config: config-rs_c
-    db: {{ appname }}_{{ env }}_db
+    db: "{{ appname }}_{{ env }}_db"
   
   - name: shard1a
     db_path: /data/{{ env }}/shard1/rs_a
@@ -88,7 +88,7 @@ db_servers:
     cluster: shardsvr
     repset: sh1_{{ env }}
     host_config: sh1-rs_a
-    db: {{ appname }}_{{ env }}_db
+    db: "{{ appname }}_{{ env }}_db"
 
   - name: shard1b
     db_path: /data/{{ env }}/shard1/rs_b
@@ -99,7 +99,7 @@ db_servers:
     cluster: shardsvr
     repset: sh1_{{ env }}
     host_config: sh1-rs_b
-    db: {{ appname }}_{{ env }}_db
+    db: "{{ appname }}_{{ env }}_db"
 
   - name: shard1c
     db_path: /data/{{ env }}/shard1/rs_c
@@ -110,7 +110,7 @@ db_servers:
     cluster: shardsvr
     repset: sh1_{{ env }}
     host_config: sh1-rs_c
-    db: {{ appname }}_{{ env }}_db
+    db: "{{ appname }}_{{ env }}_db"
 
   - name: shard2a
     db_path: /data/{{ env }}/shard2/rs_a
@@ -121,7 +121,7 @@ db_servers:
     cluster: shardsvr
     repset: sh2_{{ env }}
     host_config: sh2-rs_a
-    db: {{ appname }}_{{ env }}_db
+    db: "{{ appname }}_{{ env }}_db"
 
   - name: shard2b
     db_path: /data/{{ env }}/shard2/rs_b
@@ -132,7 +132,7 @@ db_servers:
     cluster: shardsvr
     repset: sh2_{{ env }}
     host_config: sh2-rs_b
-    db: {{ appname }}_{{ env }}_db
+    db: "{{ appname }}_{{ env }}_db"
 
   - name: shard2c
     db_path: /data/{{ env }}/shard2/rs_c
@@ -143,7 +143,7 @@ db_servers:
     cluster: shardsvr
     repset: sh2_{{ env }}
     host_config: sh2-rs_c
-    db: {{ appname }}_{{ env }}_db
+    db: "{{ appname }}_{{ env }}_db"
 
   - name: shard3a
     db_path: /data/{{ env }}/shard3/rs_a
@@ -154,7 +154,7 @@ db_servers:
     cluster: shardsvr
     repset: sh3_{{ env }}
     host_config: sh3-rs_a
-    db: {{ appname }}_{{ env }}_db
+    db: "{{ appname }}_{{ env }}_db"
 
   - name: shard3b
     db_path: /data/{{ env }}/shard3/rs_b
@@ -165,7 +165,7 @@ db_servers:
     cluster: shardsvr
     repset: sh3_{{ env }}
     host_config: sh3-rs_b
-    db: {{ appname }}_{{ env }}_db
+    db: "{{ appname }}_{{ env }}_db"
 
   - name: shard3c
     db_path: /data/{{ env }}/shard3/rs_c
@@ -176,7 +176,7 @@ db_servers:
     cluster: shardsvr
     repset: sh3_{{ env }}
     host_config: sh3-rs_c
-    db: {{ appname }}_{{ env }}_db
+    db: "{{ appname }}_{{ env }}_db"
 
   - name: rs_1
     db_path: /data/{{ env }}/
