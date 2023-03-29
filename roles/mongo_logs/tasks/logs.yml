@@ -22,6 +22,5 @@
     path: "/tmp/{{ logzip_file }}"
     owner: jacquesvanel.siewembouwe
     group: root
-    mode: '664'
 
       #- name: copy "{{ logzip_file }}"       
