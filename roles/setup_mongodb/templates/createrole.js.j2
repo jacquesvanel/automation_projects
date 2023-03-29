@@ -2,7 +2,7 @@ db.createRole(
 {role:"CN=OPR-DB-Admin,OU=Cloud-Pivot,OU=Groups,OU=IEP,DC=opr,DC=afsiep,DC=net",privileges:[],
 "roles" : [
     { "role" : "readWrite",
-      "db" : "{{ appname }}_{{ env }}_db"
+      "db" : "{{ item.db }}"
     },
     { "role" : "userAdminAnyDatabase",
       "db" : "admin"
