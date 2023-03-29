@@ -1,7 +1,7 @@
 ---
 # tasks file for initiate_mongo
 - block:
-  - name: initiate_clusters.yml: make directory for /etc/mongo/{{ env }}/scripts/
+  - name: (initiate_clusters.yml) make directory for /etc/mongo/{{ env }}/scripts/
     file:
       dest: /etc/mongo/{{ env }}/scripts/
       state: directory
@@ -11,7 +11,7 @@
     loop_control:
       label: "{{ item.name }}"
 
-  - name: initiate_clusters.yml: layout initiate.js template on the server
+  - name: (initiate_clusters.yml) layout initiate.js template on the server
     template:
       src:  initiate.js.j2
       dest: "/etc/mongo/{{ env }}/scripts/initiate.js"
@@ -23,14 +23,14 @@
     loop_control:
       label: "{{ item.name }}"
 
-  - name: initiate_clusters.yml: set up initiate on  server
+  - name: (initiate_clusters.yml) set up initiate on  server
     shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/initiate.js -u amkanda -p Qwerty#12345px
     register: initiate_result
     with_items: "{{ db_servers }}"
     loop_control:
       label: "{{ item.name }}"
 
-  - name: initiate_clusters.yml: show result
+  - name: (initiate_clusters.yml) show result
     debug:
       var: initiate_result.stdout_lines
     with_items: "{{ db_servers }}"

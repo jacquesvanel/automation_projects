@@ -1,5 +1,5 @@
 ---
-- name: start_mongos.yml: start and enable mongos.service
+- name: (start_mongos.yml) start and enable mongos.service
   systemd:
     name: "{{ item.service }}"
     state: restarted
