@@ -10,7 +10,7 @@
       group: "{{ group }}"
     loop: "{{ db_servers }}"
     loop_control:
-      label: item.key
+      label: item.name
     #ignore_errors: yes
 
   - name: layout template for {{ item.dest }} on the config server
@@ -24,7 +24,7 @@
     #ignore_errors: yes
     loop: "{{ db_servers }}"
     loop_control:
-      label: item.key
+      label: item.name
 
   - name: layout template for added mongod_config.service on the server
     template:
@@ -36,7 +36,7 @@
       force: yes
     loop: "{{ db_servers }}"
     loop_control:
-      label: item.key
+      label: item.name
 
   - name: start mongod service
     systemd:
@@ -47,5 +47,5 @@
     #ignore_errors: yes
     loop: "{{ db_servers }}"
     loop_control:
-      label: item.key
+      label: item.name
   when: item.name is defined and ansible_hostname == {{ item.name }}
