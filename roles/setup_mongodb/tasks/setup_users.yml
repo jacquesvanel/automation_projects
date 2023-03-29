@@ -8,7 +8,7 @@
       group: "{{ group }}"
     loop: "{{ db_servers }}"
     loop_control:
-      label: item.name
+      label: "{{ item.name }}"
 
   - name: (setup_users.yml) layout user template for the server
     template:
@@ -20,21 +20,21 @@
       force: yes
     loop: "{{ db_servers }}"
     loop_control:
-      label: item.name
+      label: "{{ item.name }}"
 
   - name: (setup_users.yml) set up users on config server
     shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js
     register: user_result
     with_items: "{{ db_servers }}"
     loop_control:
-      label: item.name
+      label: "{{ item.name }}"
 
   - name: (setup_users.yml) show user result
     debug:
       msg: "{{ user_result.stdout_lines }}"
     loop: "{{ db_servers }}"
     loop_control:
-      label: item.name
+      label: "{{ item.name }}"
   when: >
           ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa' or
           ansible_hostname == {{ item.name }} and item.name == 'shard1a' or
