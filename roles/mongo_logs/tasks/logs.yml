@@ -13,7 +13,7 @@
 - name: Archiving "{{ file_name }}"
   archive:
     path: "/tmp/{{ file_name }}"
-    dest: "/tmp/{{ file_name }}"
+    dest: "/tmp/{{ file_name }}.zip"
     format: zip
   register: logzip_file
 
