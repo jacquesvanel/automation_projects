@@ -56,7 +56,7 @@ replication:
 storage:
   dbPath: {{ item.db_path }}
 {% elif item.name == 'mongos0' or item.name == 'mongos1' or item.name == 'mongos2' %}
-replication:  
+sharding:  
   configDB: config_{{ env }}/{{ configsvr_rsa }}.opr.afsiep.net:{{ configsvr_rsa_port }},{{ configsvr_rsb }}.opr.afsiep.net:{{ configsvr_rsb_port }},{{ configsvr_rsc }}.opr.afsiep.net:{{ configsvr_rsc_port }}
 {% else %}
 sharding:
