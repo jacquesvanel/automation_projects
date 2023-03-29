@@ -19,6 +19,6 @@
 - name: changing ownership of "{{ file_name }}".zip
   file:
     path: "/tmp/{{ file_name }}"
-    owner: jacquesvanel.siewembouwe
+    owner: jacquesvanel.siewemb@mgt.afsiep.net
 
       #- name: copy "{{ logzip_file }}"       
