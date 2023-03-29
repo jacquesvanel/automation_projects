@@ -1,18 +1,18 @@
 ---
 ################################  testing  ################################
 - name: set facts
-  import_tasks: set_fact.yml
+  import_tasks: set_fact.yml:
   tags:
     - always
 
 - name: test task
-  import_tasks: test.yml
+  import_tasks: test.yml:
   tags:
     - test
     - never
 
 - name: uninstall services
-  import_tasks: uninstall.yml
+  import_tasks: uninstall.yml:
   tags:
     - never
     - uninstall
@@ -20,67 +20,67 @@
 
 ##########start of config##################################################
 - name: add mongo service file
-  import_tasks: mongo_service.yml
+  import_tasks: mongo_service.yml:
   tags:
     - reinstall
     - mongo_service
 
 - name: add configsvr config/service files 
-  import_tasks: no_sec_servers.yml
+  import_tasks: no_sec_servers.yml:
   tags:
     - reinstall
     - no_sec_servers
 
 - name: add mongos config/service files
-  import_tasks: mongos.yml
+  import_tasks: mongos.yml:
   tags: 
     - reinstall
     - mongos
 
 - name: setup users
-  import_tasks: setup_users.yml
+  import_tasks: setup_users.yml:
   tags: 
     - reinstall
     - setup_users
 
 - name: create role
-  import_tasks: create_role.yml
+  import_tasks: create_role.yml:
   tags: 
     - reinstall
     - create_role
     
 - name: change ldap interval
-  import_tasks: ldap_interval.yml
+  import_tasks: ldap_interval.yml:
   tags:
     - reinstall
     - ldap_interval  
 
 - name: start mongos
-  include_tasks: start_mongos.yml
+  include_tasks: start_mongos.yml:
   tags:
     - reinstall
     - start_mongos
 
 - name: add configsvr config/service files
-  import_tasks: servers.yml
+  import_tasks: servers.yml:
   tags:
     - reinstall
     - servers
 
 - name: initiate clusters
-  import_tasks: initiate_clusters.yml
+  import_tasks: initiate_clusters.yml:
   tags:
     - reinstall
     - initiate_clusters
 
 - name: add keep alive line to sysctl.conf
-  import_tasks: add_line_to_sys.yml
+  import_tasks: add_line_to_sys.yml:
   tags:
     - reinstall
     - keepalive
 
 - name: add shards to cluster
-  import_tasks: add_shards.yml
+  import_tasks: add_shards.yml:
   tags:
     - reinstall
     - add_shards
@@ -91,7 +91,7 @@
     state: restarted
 #####################################################################
 - name: install sadi config
-  import_tasks: sadi_dsit.yml
+  import_tasks: sadi_dsit.yml:
   tags:
     - never
     - sadi

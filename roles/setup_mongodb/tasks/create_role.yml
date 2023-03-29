@@ -1,6 +1,6 @@
 ---
 - block:
-  - name: [create_role.yml] make directory for /etc/mongo/{{ env }}/scripts/
+  - name: create_role.yml: make directory for /etc/mongo/{{ env }}/scripts/
     file:
       dest: /etc/mongo/{{ env }}/scripts/
       state: directory
@@ -10,7 +10,7 @@
     loop_control:
       label: "{{ item.name }}"
 
-  - name: [create_role.yml] layout role template for the server
+  - name: create_role.yml: layout role template for the server
     template:
       src:  createrole.js.j2
       dest: "/etc/mongo/{{ env }}/scripts/createrole.js"
@@ -22,14 +22,14 @@
     loop_control:
       label: "{{ item.name }}"
 
-  - name: [create_role.yml] set up role on config server
+  - name: create_role.yml: set up role on config server
     shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/createrole.js
     register: role_result
     loop: "{{ db_servers }}"
     loop_control:
       label: "{{ item.name }}"
   
-  - name: [create_role.yml] show role result
+  - name: create_role.yml: show role result
     debug:
       var: role_result.stdout_lines
     loop: "{{ db_servers }}"
