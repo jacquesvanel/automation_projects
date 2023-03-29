@@ -32,10 +32,7 @@
 
   - name: (initiate_clusters.yml) show result
     debug:
-      var: initiate_result.stdout_lines
-    with_items: "{{ db_servers }}"
-    loop_control:
-      label: "{{ item.name }}"
+      msg: "{{ initiate_result.stdout }}"
   when: >
           ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa' or
           ansible_hostname == {{ item.name }} and item.name == 'shard1a' or

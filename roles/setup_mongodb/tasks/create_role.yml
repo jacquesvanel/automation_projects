@@ -31,10 +31,7 @@
   
   - name: (create_role.yml) show role result
     debug:
-      var: role_result.stdout_lines
-    loop: "{{ db_servers }}"
-    loop_control:
-      label: "{{ item.name }}"
+      msg: "{{ role_result.stdout }}"
   when: >
         ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa' or
         ansible_hostname == {{ item.name }} and item.name == 'shard1a' or
