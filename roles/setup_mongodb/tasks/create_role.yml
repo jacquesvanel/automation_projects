@@ -6,7 +6,9 @@
       state: directory
       owner: "{{ owner }}"
       group: "{{ group }}"
-    with_items: "{{ db_servers }}"
+    loop: "{{ db_servers }}"
+    loop_control:
+      label: item.name
 
   - name: layout role template for the server
     template:
@@ -16,17 +18,23 @@
       group: "{{ group }}"
       mode: '0644'
       force: yes
-    with_items: "{{ db_servers }}"
+    loop: "{{ db_servers }}"
+    loop_control:
+      label: item.name
 
   - name: set up role on config server
     shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/createrole.js
     register: role_result
-    with_items: "{{ db_servers }}"
+    loop: "{{ db_servers }}"
+    loop_control:
+      label: item.name
   
   - name: show role result
     debug:
       var: role_result.stdout_lines
-    with_items: "{{ db_servers }}"
+    loop: "{{ db_servers }}"
+    loop_control:
+      label: item.name
   when: >
         ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa' or
         ansible_hostname == {{ item.name }} and item.name == 'shard1a' or

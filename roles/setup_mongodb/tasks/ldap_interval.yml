@@ -6,7 +6,9 @@
       state: directory
       owner: "{{ owner }}"
       group: "{{ group }}"
-    with_items: "{{ db_servers }}"
+    loop: "{{ db_servers }}"
+    loop_control:
+      label: item.name
 
   - name: layout user template for the server
     template:
@@ -16,17 +18,23 @@
       group: "{{ group }}"
       mode: '0644'
       force: yes
-    with_items: "{{ db_servers }}"
+    loop: "{{ db_servers }}"
+    loop_control:
+      label: item.name
 
   - name: set up ldap change on server
     shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/ldapintervalchange.js
     register: ldap_result
-    with_items: "{{ db_servers }}"
+    loop: "{{ db_servers }}"
+    loop_control:
+      label: item.name
 
   - name: show ldap result
     debug:
       var: ldap_result.stdout_lines
-    with_items: "{{ db_servers }}"
+    loop: "{{ db_servers }}"
+    loop_control:
+      label: item.name
   when: >
         ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa' or
         ansible_hostname == {{ item.name }} and item.name == 'shard1a' or

@@ -57,13 +57,6 @@
 
 - name: start mongos
   include_tasks: start_mongos.yml
-  #when: 'start_mongos'
-  #loop:
-  #  - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
-  #  - (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)
-  #  - (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)
-  #loop_control:
-  #  loop_var: start_mongos
   tags:
     - reinstall
     - start_mongos

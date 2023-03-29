@@ -6,6 +6,8 @@
     enabled: yes
     daemon_reload: yes
   with_items: "{{ mongos_servers }}"
+  loop_control:
+    label: item.name
   when: >
         ansible_hostname == 'configsvr_rsa' or
         ansible_hostname == 'configsvr_rsb' or
