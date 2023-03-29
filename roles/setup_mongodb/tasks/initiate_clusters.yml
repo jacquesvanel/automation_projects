@@ -8,6 +8,8 @@
       owner: "{{ owner }}"
       group: "{{ group }}"
     with_items: "{{ db_servers }}"
+    loop_control:
+      label: item.name
 
   - name: layout template for /etc/mongo/{{ env }}/scripts/initiate.js the server
     template:
@@ -18,16 +20,22 @@
       mode: '0644'
       force: yes
     with_items: "{{ db_servers }}"
+    loop_control:
+      label: item.name
 
   - name: set up initiate on  server
     shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/initiate.js -u amkanda -p Qwerty#12345px
     register: initiate_result
     with_items: "{{ db_servers }}"
+    loop_control:
+      label: item.name
 
   - name: show role result
     debug:
       var: initiate_result.stdout_lines
     with_items: "{{ db_servers }}"
+    loop_control:
+      label: item.name
   when: >
           ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa' or
           ansible_hostname == {{ item.name }} and item.name == 'shard1a' or
