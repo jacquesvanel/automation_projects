@@ -4,7 +4,7 @@
     path: "/tmp/{{ file_name }}"
   register: file_exist
 - debug:
-    var: file_exist
+    var: file_exist.path
 - name: Stop playbook in case the file does not exist
   fail:
     msg: "The file {{file_name}} does not exist"
