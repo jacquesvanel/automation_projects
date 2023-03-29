@@ -50,15 +50,17 @@ net:
    allowConnectionsWithoutCertificates: true
    certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
    certificateKeyFilePassword: {{ cert_password }}
-{% if item.name != 'rs_1' or item.name != 'rs_2' or item.name != 'rs_3'%}
-sharding:
-  {% if item.name == 'mongos0' or item.name == 'mongos1' or item.name == 'mongos2' %}
+{% if item.name == 'rs_1' or item.name == 'rs_2' or item.name == 'rs_3'%}
+replication:
+  replSetName: {{ item.repset }}
+storage:
+  dbPath: {{ item.db_path }}
+{% elif item.name == 'mongos0' or item.name == 'mongos1' or item.name == 'mongos2' %}
+replication:  
   configDB: config_{{ env }}/{{ configsvr_rsa }}.opr.afsiep.net:{{ configsvr_rsa_port }},{{ configsvr_rsb }}.opr.afsiep.net:{{ configsvr_rsb_port }},{{ configsvr_rsc }}.opr.afsiep.net:{{ configsvr_rsc_port }}
-  {% else %}
+{% else %}
+sharding:
   clusterRole: {{ item.cluster }}
-  {% endif %}
-{% endif %}
-{% if item.name != 'mongos0' or item.name != 'mongos1' or item.name != 'mongos2' %}
 replication:
   replSetName: {{ item.repset }}
 storage:
