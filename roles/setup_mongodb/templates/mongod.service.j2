@@ -1,6 +1,6 @@
 #jinja2: lstrip_blocks: "True"
 [Unit]
-Description=MongoDB Config Database Server
+Description={{ item.description }}
 Documentation=https://docs.mongodb.org/manual
 After=network-online.target
 Wants=network-online.target
@@ -10,17 +10,22 @@ Requires=mongo.service
 [Service]
 User={{ owner }}
 Group={{ group }}
-Environment="OPTIONS=-f {{ item.dest }}"
-EnvironmentFile=-/etc/sysconfig/mongod
-ExecStart=/usr/bin/mongod $OPTIONS
 ExecStartPre=/usr/bin/mkdir -p /var/run/mongodb/{{ env }}
 ExecStartPre=/usr/bin/chown mongod:mongod /var/run/mongodb/{{ env }}
 ExecStartPre=/usr/bin/chmod 0755 /var/run/mongodb/{{ env }}
 PermissionsStartOnly=true
-PIDFile="/var/run/mongodb/{{ env }}/mongod-{{ item.host_config }}.pid"
+PIDFile="{{ item.pid_path }}"
+{% if item.name == 'mongos0' or item.name == 'mongos1' or item.name == 'mongos2' %}
+ExecStart=/usr/bin/mongos --quiet \
+    --config {{ item.dest }}
+{% else %}
+Environment="OPTIONS=-f {{ item.dest }}"
+EnvironmentFile=-/etc/sysconfig/mongod
+ExecStart=/usr/bin/mongod $OPTIONS
 Restart=on-failure
 RestartSec=10s
 Type=forking
+{% endif %}
 # file size
 LimitFSIZE=infinity
 # cpu time

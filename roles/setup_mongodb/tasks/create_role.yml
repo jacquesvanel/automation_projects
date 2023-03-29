@@ -1,31 +1,36 @@
 ---
-- name: make directory for /etc/mongo/{{ env }}/scripts/
-  file:
-    dest: /etc/mongo/{{ env }}/scripts/
-    state: directory
-    owner: "{{ owner }}"
-    group: "{{ group }}"
-  tags: create_role
+- block:
+  - name: make directory for /etc/mongo/{{ env }}/scripts/
+    file:
+      dest: /etc/mongo/{{ env }}/scripts/
+      state: directory
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+    with_items: "{{ db_servers }}"
 
-- name: layout role template for the server
-  template:
-    src:  createrole.js.j2
-    dest: "/etc/mongo/{{ env }}/scripts/createrole.js"
-    owner: "{{ owner }}"
-    group: "{{ group }}"
-    mode: '0644'
-    force: yes
-  tags: create_role
+  - name: layout role template for the server
+    template:
+      src:  createrole.js.j2
+      dest: "/etc/mongo/{{ env }}/scripts/createrole.js"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0644'
+      force: yes
+    with_items: "{{ db_servers }}"
 
-- name: set up role on config server
-  shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/createrole.js
-  register: role_result
-  with_items: "{{ db_servers }}"
-  when: item.name == configsvr_rsa or item.name == shard1a or item.name == shard2a or item.name == shard3a or item.name == rs_1
-
-- name: show role result
-  debug:
-    var: role_result.stdout_lines
-  when: item.name == configsvr_rsa or item.name == shard1a or item.name == shard2a or item.name == shard3a or item.name == rs_1
+  - name: set up role on config server
+    shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/createrole.js
+    register: role_result
+    with_items: "{{ db_servers }}"
+  
+  - name: show role result
+    debug:
+      var: role_result.stdout_lines
+    with_items: "{{ db_servers }}"
+  when: >
+        ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa' or
+        ansible_hostname == {{ item.name }} and item.name == 'shard1a' or
+        ansible_hostname == {{ item.name }} and item.name == 'shard2a' or
+        ansible_hostname == {{ item.name }} and item.name == 'shard3a' or
+        ansible_hostname == {{ item.name }} and item.name == 'rs_1'
   ignore_errors: yes
-

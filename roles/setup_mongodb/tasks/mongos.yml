@@ -2,27 +2,25 @@
 - block:
   - name: layout template for etc/mongo/{{ env }}/{{ item }}.cfg on the config server
     template:
-      src:  mongos_config.conf.j2
-      dest: "/etc/mongo/{{ env }}/{{ item }}.cfg"
+      src:  mongod.conf.j2
+      dest: "{{ item.dest }}"
       owner: "{{ owner }}"
       group: "{{ group }}"
       mode: '0644'
       force: yes
-    loop:
-      - mongos0
-      - mongos1
-      - mongos2
+    loop: "{{ mongos_servers }}"
 
   - name: Ensure mongos.service file exists
     template:
-      src: mongos.service.j2
-      dest: "/etc/systemd/system/{{ item }}.service"
+      src: mongod.service.j2
+      dest: "{{ item.dest2 }}"
       owner: "{{ owner }}"
       group: "{{ group }}"
       mode: '0640'
       force: yes
-    loop:
-      - mongos0
-      - mongos1
-      - mongos2
-  when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa) or (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb) or (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)
+    loop: "{{ mongos_servers }}"
+  when: >
+        ansible_hostname == 'configsvr_rsa' or
+        ansible_hostname == 'configsvr_rsb' or
+        ansible_hostname == 'configsvr_rsc' 
+  #when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa) or (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb) or (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)

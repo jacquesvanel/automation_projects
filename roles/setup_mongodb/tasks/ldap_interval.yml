@@ -1,31 +1,37 @@
 ---
-- name: make directory for /etc/mongo/{{ env }}/scripts/
-  file:
-    dest: /etc/mongo/{{ env }}/scripts/
-    state: directory
-    owner: "{{ owner }}"
-    group: "{{ group }}"
-  tags: ldap_interval_change
+- block:
+  - name: make directory for /etc/mongo/{{ env }}/scripts/
+    file:
+      dest: /etc/mongo/{{ env }}/scripts/
+      state: directory
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+    with_items: "{{ db_servers }}"
 
-- name: layout user template for the server
-  template:
-    src:  ldapintervalchange.js.j2
-    dest: "/etc/mongo/{{ env }}/scripts/ldapintervalchange.js"
-    owner: "{{ owner }}"
-    group: "{{ group }}"
-    mode: '0644'
-    force: yes
-  tags: ldap_interval_change
+  - name: layout user template for the server
+    template:
+      src:  ldapintervalchange.js.j2
+      dest: "/etc/mongo/{{ env }}/scripts/ldapintervalchange.js"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0644'
+      force: yes
+    with_items: "{{ db_servers }}"
 
-- name: set up ldap change on server
-  shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/ldapintervalchange.js
-  register: ldap_result
-  with_items: "{{ db_servers }}"
-  when: item.name == configsvr_rsa or item.name == shard1a or item.name == shard2a or item.name == shard3a or item.name == rs_1
+  - name: set up ldap change on server
+    shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/ldapintervalchange.js
+    register: ldap_result
+    with_items: "{{ db_servers }}"
 
-- name: show ldap result
-  debug:
-    var: ldap_result.stdout_lines
-  when: item.name == configsvr_rsa or item.name == shard1a or item.name == shard2a or item.name == shard3a or item.name == rs_1
+  - name: show ldap result
+    debug:
+      var: ldap_result.stdout_lines
+    with_items: "{{ db_servers }}"
+  when: >
+        ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa' or
+        ansible_hostname == {{ item.name }} and item.name == 'shard1a' or
+        ansible_hostname == {{ item.name }} and item.name == 'shard2a' or
+        ansible_hostname == {{ item.name }} and item.name == 'shard3a' or
+        ansible_hostname == {{ item.name }} and item.name == 'rs_1'
   ignore_errors: yes
 

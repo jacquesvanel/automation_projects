@@ -1,12 +1,12 @@
 #jinja2: lstrip_blocks: "True"
 systemLog:
   destination: file
-  path: "/var/log/mongodb/{{ env }}/{{ item.host_config }}.log"
+  path: "{{ item.log_path }}"
   logAppend: true
   logRotate: reopen
 processManagement:
   fork: true
-  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-{{ item.host_config }}.pid"
+  pidFilePath: "{{ item.pid_path }}"
 security:
    authorization: "enabled"
    clusterAuthMode: x509
@@ -37,6 +37,10 @@ security:
 setParameter:
    authenticationMechanisms: PLAIN, SCRAM-SHA-1, SCRAM-SHA-256
    ocspEnabled: false
+{% if item.name == 'mongos0' or item.name == 'mongos1' or item.name == 'mongos2' %}
+   ldapConnectionPoolMaximumConnectionsPerHost: 2147483647
+   ldapConnectionPoolMaximumConnectionsInProgressPerHost: 2147483647
+{% endif %}
 net:
   port: {{ item.port }}
   bindIp: localhost,{{ ansible_fqdn }}
@@ -46,14 +50,20 @@ net:
    allowConnectionsWithoutCertificates: true
    certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
    certificateKeyFilePassword: {{ cert_password }}
-{% if item.name != 'rs_a' %}
+{% if item.name != 'rs_1' or item.name != 'rs_2' or item.name != 'rs_3'%}
 sharding:
+  {% if item.name == 'mongos0' or item.name == 'mongos1' or item.name == 'mongos2' %}
+  configDB: config_{{ env }}/{{ configsvr_rsa }}.opr.afsiep.net:{{ configsvr_rsa_port }},{{ configsvr_rsb }}.opr.afsiep.net:{{ configsvr_rsb_port }},{{ configsvr_rsc }}.opr.afsiep.net:{{ configsvr_rsc_port }}
+  {% else %}
   clusterRole: {{ item.cluster }}
+  {% endif %}
 {% endif %}
+{% if item.name != 'mongos0' or item.name != 'mongos1' or item.name != 'mongos2' %}
 replication:
   replSetName: {{ item.repset }}
 storage:
   dbPath: {{ item.db_path }}
+{% endif %}
   # wiredTiger:
   #   engineConfig:
   #     cacheSizeGB: 5

@@ -1,37 +1,37 @@
 ---
-- name: make directory for /etc/mongo/{{ env }}/scripts/
-  file:
-    dest: /etc/mongo/{{ env }}/scripts/
-    state: directory
-    owner: "{{ owner }}"
-    group: "{{ group }}"
-  loop: "{{ db_servers }}"
-  when: ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa'
+- block:
+  - name: make directory for /etc/mongo/{{ env }}/scripts/
+    file:
+      dest: /etc/mongo/{{ env }}/scripts/
+      state: directory
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+    loop: "{{ db_servers }}"
 
-- name: layout user template for the server
-  template:
-    src:  user_setup.js.j2
-    dest: "/etc/mongo/{{ env }}/scripts/user_setup.js"
-    owner: "{{ owner }}"
-    group: "{{ group }}"
-    mode: '0644'
-    force: yes
-  loop: "{{ db_servers }}"
-  when: ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa'
-  #when: "ansible_hostname == {{ db_servers | selectattr('name', 'equalto', 'configsvr_rsa') | map(attribute='name') }}"
+  - name: layout user template for the server
+    template:
+      src:  user_setup.js.j2
+      dest: "/etc/mongo/{{ env }}/scripts/user_setup.js"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0644'
+      force: yes
+    loop: "{{ db_servers }}"
 
-- name: set up role on config server
-  shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js
-  register: user_result
-  with_items: "{{ db_servers }}"
-  when: ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa'
-  #when: "ansible_hostname == {{ db_servers | selectattr('name', 'equalto', 'configsvr_rsa') | map(attribute='name') }}"
+  - name: set up role on config server
+    shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js
+    register: user_result
+    with_items: "{{ db_servers }}"
 
-- name: show role result
-  debug:
-    var: user_result.stdout_lines
-  when: ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa'
-    #when: "ansible_hostname == {{ db_servers | selectattr('name', 'equalto', 'configsvr_rsa') | map(attribute='name') }}"
+  - name: show role result
+    debug:
+      var: user_result.stdout_lines
+  when: >
+          ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa' or
+          ansible_hostname == {{ item.name }} and item.name == 'shard1a' or
+          ansible_hostname == {{ item.name }} and item.name == 'shard2a' or
+          ansible_hostname == {{ item.name }} and item.name == 'shard3a' or
+          ansible_hostname == {{ item.name }} and item.name == 'rs_1'
   ignore_errors: yes
 
 
