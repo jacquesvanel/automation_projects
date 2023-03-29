@@ -10,7 +10,7 @@
       group: "{{ group }}"
     loop: "{{ db_servers }}"
     loop_control:
-      label: item.name
+      label: "{{ item.name }}"
     #ignore_errors: yes
 
   - name: layout template for {{ item.dest }} on the config server
