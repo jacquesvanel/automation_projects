@@ -28,7 +28,7 @@
 - name: add configsvr config/service files 
   import_tasks: no_sec_servers.yml
   loop: "{{ db_servers }}"
-  loop_control: item.key
+  loop_control: servers 
   tags:
     - reinstall
     - no_sec_servers
