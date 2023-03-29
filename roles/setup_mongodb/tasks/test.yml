@@ -1,5 +1,5 @@
 ---
 - name: Debug port value for configsvr_rsa
   debug:
-    msg: "Port value is {{ db_servers | selectattr('name', 'equalto', 'configsvr_rsa') | map(attribute='port') | first }}"
+    msg: "Port value is {{ db_servers | selectattr('name', 'equalto', 'configsvr_rsa') | map(attribute='port') }}"
  
