@@ -26,10 +26,7 @@
     - mongo_service
 
 - name: add configsvr config/service files 
-  include_tasks: no_sec_servers.yml
-  loop: "{{ db_servers }}"
-  loop_control:
-    label: item.key 
+  import_tasks: no_sec_servers.yml
   tags:
     - reinstall
     - no_sec_servers
