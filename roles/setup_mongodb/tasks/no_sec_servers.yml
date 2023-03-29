@@ -8,9 +8,9 @@
       mode: '2775'
       owner: "{{ owner }}"
       group: "{{ group }}"
-    loop: "{{ db_servers }}"
+      #loop: "{{ db_servers }}"
     #when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
-    ignore_errors: yes
+    #ignore_errors: yes
 
   - name: layout template for {{ item.dest }} on the config server
     template:
@@ -21,8 +21,8 @@
       mode: '0644'
       force: yes
     #when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
-    ignore_errors: yes
-    loop: "{{ db_servers }}"
+    #ignore_errors: yes
+    #loop: "{{ db_servers }}"
 
   - name: layout template for added mongod_config.service on the server
     template:
@@ -32,7 +32,7 @@
       group: "{{ group }}"
       mode: '0640'
       force: yes
-    loop: "{{ db_servers }}"
+      #loop: "{{ db_servers }}"
 
   - name: start mongod service
     systemd:
@@ -41,6 +41,6 @@
       enabled: yes
       daemon_reload: yes
     #when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
-    ignore_errors: yes
-    loop: "{{ db_servers }}"
+    #ignore_errors: yes
+    #loop: "{{ db_servers }}"
   when: item.name is defined and ansible_hostname == {{ item.name }}
