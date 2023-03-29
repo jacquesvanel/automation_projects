@@ -31,7 +31,7 @@
 
   - name: (setup_users.yml) show user result
     debug:
-      var: user_result.stdout_lines
+      msg: "{{ user_result.stdout_lines }}"
     loop: "{{ db_servers }}"
     loop_control:
       label: item.name
