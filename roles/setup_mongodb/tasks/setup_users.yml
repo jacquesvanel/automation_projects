@@ -6,7 +6,7 @@
     owner: "{{ owner }}"
     group: "{{ group }}"
   loop: "{{ db_servers }}"
-  when: "ansible_hostname == {{ db_servers | selectattr('name', 'equalto', 'configsvr_rsa') | map(attribute='name') }}"
+  when: ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa'
 
 - name: layout user template for the server
   template:
@@ -17,18 +17,21 @@
     mode: '0644'
     force: yes
   loop: "{{ db_servers }}"
-  when: "ansible_hostname == {{ db_servers | selectattr('name', 'equalto', 'configsvr_rsa') | map(attribute='name') }}"
+  when: ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa'
+  #when: "ansible_hostname == {{ db_servers | selectattr('name', 'equalto', 'configsvr_rsa') | map(attribute='name') }}"
 
 - name: set up role on config server
   shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js
   register: user_result
   with_items: "{{ db_servers }}"
-  when: "ansible_hostname == {{ db_servers | selectattr('name', 'equalto', 'configsvr_rsa') | map(attribute='name') }}"
+  when: ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa'
+  #when: "ansible_hostname == {{ db_servers | selectattr('name', 'equalto', 'configsvr_rsa') | map(attribute='name') }}"
 
 - name: show role result
   debug:
     var: user_result.stdout_lines
-  when: "ansible_hostname == {{ db_servers | selectattr('name', 'equalto', 'configsvr_rsa') | map(attribute='name') }}"
+  when: ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa'
+    #when: "ansible_hostname == {{ db_servers | selectattr('name', 'equalto', 'configsvr_rsa') | map(attribute='name') }}"
   ignore_errors: yes
 
 
