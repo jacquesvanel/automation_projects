@@ -43,4 +43,4 @@
     #when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
     ignore_errors: yes
     loop: "{{ db_servers }}"
-  when: "{{ item.name }} is defined and ansible_hostname == {{ item.name }}"
+  when: {{ item.name }} is defined and ansible_hostname == {{ item.name }}
