@@ -15,12 +15,10 @@
     path: "/tmp/{{ file_name }}"
     dest: "/tmp/{{ file_name }}.zip"
     format: zip
-  register: logzip_file
 
-- name: changing ownership of "{{ logzip_file }}"
+- name: changing ownership of "{{ file_name }}".zip
   file:
-    path: "/tmp/{{ logzip_file }}"
+    path: "/tmp/{{ file_name }}"
     owner: jacquesvanel.siewembouwe
-    group: root
 
       #- name: copy "{{ logzip_file }}"       
