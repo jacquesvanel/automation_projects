@@ -1,6 +1,6 @@
 ---
 - block:
-  - name: (mongos.yml) layout template for etc/mongo/{{ env }}/{{ item }}.cfg on the config server
+  - name: (mongos.yml) layout template on the server
     template:
       src:  mongod.conf.j2
       dest: "{{ item.dest }}"

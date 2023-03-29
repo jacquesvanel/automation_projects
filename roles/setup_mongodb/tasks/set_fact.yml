@@ -5,12 +5,6 @@
     warn: no
   register: app_name
 
-- set_fact:
-    appname: "{{ app_name.stdout }}"
-
-- debug:
-    var: appname
-
 - name: get env
   shell: cat /etc/serverinfo.conf | grep Environment | sed 's/Environment=//g' | tr [:upper:] [:lower:]
   args:
@@ -18,7 +12,11 @@
   register: env
 
 - set_fact:
+    appname: "{{ app_name.stdout }}"
     env: "{{ env.stdout }}"
 
 - debug:
-    var: env
+    var: 
+      - appname
+      - env
+
