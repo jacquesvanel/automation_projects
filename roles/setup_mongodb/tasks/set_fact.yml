@@ -17,6 +17,6 @@
 
 - debug:
     msg: 
-      - "{{ appname }}"
-      - "{{ env }}"
+      - appname is "{{ appname }}"
+      - env is "{{ env }}"
 
