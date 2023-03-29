@@ -1,6 +1,6 @@
 ---
 - block:
-  - name: make directory for /etc/mongo/{{ env }}/scripts/
+  - name: [ldap_interval.yml] make directory for /etc/mongo/{{ env }}/scripts/
     file:
       dest: /etc/mongo/{{ env }}/scripts/
       state: directory
@@ -8,9 +8,9 @@
       group: "{{ group }}"
     loop: "{{ db_servers }}"
     loop_control:
-      label: item.name
+      label: "{{ item.name }}"
 
-  - name: layout user template for the server
+  - name: [ldap_interval.yml] layout ldap template for the server
     template:
       src:  ldapintervalchange.js.j2
       dest: "/etc/mongo/{{ env }}/scripts/ldapintervalchange.js"
@@ -20,21 +20,21 @@
       force: yes
     loop: "{{ db_servers }}"
     loop_control:
-      label: item.name
+      label: "{{ item.name }}"
 
-  - name: set up ldap change on server
+  - name: [ldap_interval.yml] set up ldap change on server
     shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/ldapintervalchange.js
     register: ldap_result
     loop: "{{ db_servers }}"
     loop_control:
-      label: item.name
+      label: "{{ item.name }}"
 
-  - name: show ldap result
+  - name: [ldap_interval.yml] show ldap result
     debug:
       var: ldap_result.stdout_lines
     loop: "{{ db_servers }}"
     loop_control:
-      label: item.name
+      label: "{{ item.name }}"
   when: >
         ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa' or
         ansible_hostname == {{ item.name }} and item.name == 'shard1a' or

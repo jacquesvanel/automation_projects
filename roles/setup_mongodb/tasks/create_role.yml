@@ -1,6 +1,6 @@
 ---
 - block:
-  - name: make directory for /etc/mongo/{{ env }}/scripts/
+  - name: [create_role.yml] make directory for /etc/mongo/{{ env }}/scripts/
     file:
       dest: /etc/mongo/{{ env }}/scripts/
       state: directory
@@ -8,9 +8,9 @@
       group: "{{ group }}"
     loop: "{{ db_servers }}"
     loop_control:
-      label: item.name
+      label: "{{ item.name }}"
 
-  - name: layout role template for the server
+  - name: [create_role.yml] layout role template for the server
     template:
       src:  createrole.js.j2
       dest: "/etc/mongo/{{ env }}/scripts/createrole.js"
@@ -20,21 +20,21 @@
       force: yes
     loop: "{{ db_servers }}"
     loop_control:
-      label: item.name
+      label: "{{ item.name }}"
 
-  - name: set up role on config server
+  - name: [create_role.yml] set up role on config server
     shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/createrole.js
     register: role_result
     loop: "{{ db_servers }}"
     loop_control:
-      label: item.name
+      label: "{{ item.name }}"
   
-  - name: show role result
+  - name: [create_role.yml] show role result
     debug:
       var: role_result.stdout_lines
     loop: "{{ db_servers }}"
     loop_control:
-      label: item.name
+      label: "{{ item.name }}"
   when: >
         ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa' or
         ansible_hostname == {{ item.name }} and item.name == 'shard1a' or

@@ -1,7 +1,7 @@
 ---
 #Configure MongoDB config servers
 - block:
-  - name: make dbpath file directory {{ item.db_path }}
+  - name: [no_sec_servers.yml] make dbpath file directory 
     file:
       path: "{{ item.db_path }}"
       state: directory
@@ -13,7 +13,7 @@
       label: "{{ item.name }}"
     #ignore_errors: yes
 
-  - name: layout template for {{ item.dest }} on the config server
+  - name: [no_sec_servers.yml] layout mongod.conf template on the server
     template:
       src: no_sec_mongod.conf.j2
       dest: "{{ item.dest }}"
@@ -24,9 +24,9 @@
     #ignore_errors: yes
     loop: "{{ db_servers }}"
     loop_control:
-      label: item.name
+      label: "{{ item.name }}"
 
-  - name: layout template for added mongod_config.service on the server
+  - name: [no_sec_servers.yml] layout mongod.service template on the server
     template:
       src: mongod.service.j2
       dest: "{{ item.dest2 }}"
@@ -36,9 +36,9 @@
       force: yes
     loop: "{{ db_servers }}"
     loop_control:
-      label: item.name
+      label: "{{ item.name }}"
 
-  - name: start mongod service
+  - name: [no_sec_servers.yml] start mongod service
     systemd:
       name: "{{ item.service }}"
       state: restarted
@@ -47,5 +47,5 @@
     #ignore_errors: yes
     loop: "{{ db_servers }}"
     loop_control:
-      label: item.name
+      label: "{{ item.name }}"
   when: item.name is defined and ansible_hostname == {{ item.name }}

@@ -1,5 +1,5 @@
 ---
-- name: start and enable mongos.service
+- name: [start_mongos.yml] start and enable mongos.service
   systemd:
     name: "{{ item.service }}"
     state: restarted
@@ -7,7 +7,7 @@
     daemon_reload: yes
   with_items: "{{ mongos_servers }}"
   loop_control:
-    label: item.name
+    label: "{{ item.name }}"
   when: >
         ansible_hostname == 'configsvr_rsa' or
         ansible_hostname == 'configsvr_rsb' or
