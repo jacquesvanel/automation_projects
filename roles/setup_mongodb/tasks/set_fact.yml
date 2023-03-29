@@ -16,7 +16,7 @@
     env: "{{ env.stdout }}"
 
 - debug:
-    var: 
-      - appname
-      - env
+    msg: 
+      - "{{ appname }}"
+      - "{{ env }}"
 
