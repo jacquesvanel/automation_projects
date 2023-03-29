@@ -7,6 +7,8 @@
       owner: "{{ owner }}"
       group: "{{ group }}"
     loop: "{{ db_servers }}"
+    loop_control:
+      label: item.key
 
   - name: layout user template for the server
     template:
@@ -17,11 +19,15 @@
       mode: '0644'
       force: yes
     loop: "{{ db_servers }}"
+    loop_control:
+      label: item.key
 
   - name: set up role on config server
     shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js
     register: user_result
     with_items: "{{ db_servers }}"
+    loop_control:
+      label: item.key
 
   - name: show role result
     debug:

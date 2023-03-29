@@ -33,13 +33,6 @@
 
 - name: add mongos config/service files
   include_tasks: mongos.yml
-  #when: 'add_mongos'
-  #loop:
-  #  - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
-  #  - (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)
-  #  - (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)
-  #loop_control:
-  #  loop_var: add_mongos
   tags: 
     - reinstall
     - mongos
