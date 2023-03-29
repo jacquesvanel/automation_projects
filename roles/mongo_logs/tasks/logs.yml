@@ -1,9 +1,10 @@
 ---
 - name: Check if a file exists
   stat:
-    path: /tmp/ "{{ file_name }}"
+    path: "/tmp/{{ file_name }}"
   register: file_exist
-
+- debug:
+    var: file_exist
 - name: Stop playbook in case the file does not exist
   fail:
     msg: "The file {{file_name}} does not exist"
@@ -18,7 +19,7 @@
 
 - name: changing ownership of "{{ logzip_file }}"
   file:
-    path: /tmp/ "{{ logzip_file }}"
+    path: "/tmp/{{ logzip_file }}"
     owner: jacquesvanel.siewembouwe
     group: root
     mode: '664'
