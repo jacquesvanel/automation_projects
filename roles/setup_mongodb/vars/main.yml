@@ -53,8 +53,8 @@ env: sbx
 
 db_servers:
   - name: configsvr_rsa
-    log_path: "/var/log/mongodb/{{ env }}/{{ item.host_config }}.log"
-    pid_path: "/var/run/mongodb/{{ env }}/mongod-{{ item.host_config }}.pid"
+    log_path: "/var/log/mongodb/{{ env }}/config-rs_a.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-config-rs_a.pid"
     db_path: /data/{{ env }}/config/rs_a
     dest: /etc/mongo/{{ env }}/rs_a.cfg
     service: mongod_config
@@ -67,8 +67,8 @@ db_servers:
     description: MongoDB Config Server
 
   - name: configsvr_rsb
-    log_path: "/var/log/mongodb/{{ env }}/{{ item.host_config }}.log"
-    pid_path: "/var/run/mongodb/{{ env }}/mongod-{{ item.host_config }}.pid"
+    log_path: "/var/log/mongodb/{{ env }}/config-rs_b.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-config-rs_b.pid"
     db_path: /data/{{ env }}/config/rs_b
     dest: /etc/mongo/{{ env }}/rs_b.cfg
     service: mongod_config
@@ -81,8 +81,8 @@ db_servers:
     description: MongoDB Config Server
 
   - name: configsvr_rsc
-    log_path: "/var/log/mongodb/{{ env }}/{{ item.host_config }}.log"
-    pid_path: "/var/run/mongodb/{{ env }}/mongod-{{ item.host_config }}.pid"
+    log_path: "/var/log/mongodb/{{ env }}/config-rs_c.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-config-rs_c.pid"
     db_path: /data/{{ env }}/config/rs_c
     dest: /etc/mongo/{{ env }}/rs_c.cfg
     service: mongod_config
@@ -95,8 +95,8 @@ db_servers:
     description: MongoDB Config Server
   
   - name: shard1a
-    log_path: "/var/log/mongodb/{{ env }}/{{ item.host_config }}.log"
-    pid_path: "/var/run/mongodb/{{ env }}/mongod-{{ item.host_config }}.pid"
+    log_path: "/var/log/mongodb/{{ env }}/sh1-rs_a.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-sh1-rs_a.pid"
     db_path: /data/{{ env }}/shard1/rs_a
     dest: "/etc/mongo/{{ env }}/shard1_rs_a.cfg"
     service: mongod_shard1
@@ -109,8 +109,8 @@ db_servers:
     description: MongoDB Shard Server
 
   - name: shard1b
-    log_path: "/var/log/mongodb/{{ env }}/{{ item.host_config }}.log"
-    pid_path: "/var/run/mongodb/{{ env }}/mongod-{{ item.host_config }}.pid"
+    log_path: "/var/log/mongodb/{{ env }}/sh1-rs_b.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-sh1-rs_b.pid"
     db_path: /data/{{ env }}/shard1/rs_b
     dest: "/etc/mongo/{{ env }}/shard1_rs_b.cfg"
     service: mongod_shard1
@@ -123,8 +123,8 @@ db_servers:
     description: MongoDB Shard Server
 
   - name: shard1c
-    log_path: "/var/log/mongodb/{{ env }}/{{ item.host_config }}.log"
-    pid_path: "/var/run/mongodb/{{ env }}/mongod-{{ item.host_config }}.pid"
+    log_path: "/var/log/mongodb/{{ env }}/sh1-rs_c.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-sh1-rs_c.pid"
     db_path: /data/{{ env }}/shard1/rs_c
     dest: "/etc/mongo/{{ env }}/shard1_rs_c.cfg"
     service: mongod_shard1
@@ -137,8 +137,8 @@ db_servers:
     description: MongoDB Shard Server
 
   - name: shard2a
-    log_path: "/var/log/mongodb/{{ env }}/{{ item.host_config }}.log"
-    pid_path: "/var/run/mongodb/{{ env }}/mongod-{{ item.host_config }}.pid"
+    log_path: "/var/log/mongodb/{{ env }}/sh2-rs_a.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-sh2-rs_a.pid"
     db_path: /data/{{ env }}/shard2/rs_a
     dest: "/etc/mongo/{{ env }}/shard2_rs_a.cfg"
     service: mongod_shard2
@@ -151,8 +151,8 @@ db_servers:
     description: MongoDB Shard Server
 
   - name: shard2b
-    log_path: "/var/log/mongodb/{{ env }}/{{ item.host_config }}.log"
-    pid_path: "/var/run/mongodb/{{ env }}/mongod-{{ item.host_config }}.pid"
+    log_path: "/var/log/mongodb/{{ env }}/sh2-rs_b.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-sh2-rs_b.pid"
     db_path: /data/{{ env }}/shard2/rs_b
     dest: "/etc/mongo/{{ env }}/shard2_rs_b.cfg"
     service: mongod_shard2
@@ -165,8 +165,8 @@ db_servers:
     description: MongoDB Shard Server
 
   - name: shard2c
-    log_path: "/var/log/mongodb/{{ env }}/{{ item.host_config }}.log"
-    pid_path: "/var/run/mongodb/{{ env }}/mongod-{{ item.host_config }}.pid"
+    log_path: "/var/log/mongodb/{{ env }}/sh2-rs_c.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-sh2-rs_c.pid"
     db_path: /data/{{ env }}/shard2/rs_c
     dest: "/etc/mongo/{{ env }}/shard2_rs_c.cfg"
     service: mongod_shard2
@@ -179,8 +179,8 @@ db_servers:
     description: MongoDB Shard Server
 
   - name: shard3a
-    log_path: "/var/log/mongodb/{{ env }}/{{ item.host_config }}.log"
-    pid_path: "/var/run/mongodb/{{ env }}/mongod-{{ item.host_config }}.pid"
+    log_path: "/var/log/mongodb/{{ env }}/sh3-rs_a.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-sh3-rs_a.pid"
     db_path: /data/{{ env }}/shard3/rs_a
     dest: "/etc/mongo/{{ env }}/shard3_rs_a.cfg"
     service: mongod_shard3
@@ -193,8 +193,8 @@ db_servers:
     description: MongoDB Shard Server
 
   - name: shard3b
-    log_path: "/var/log/mongodb/{{ env }}/{{ item.host_config }}.log"
-    pid_path: "/var/run/mongodb/{{ env }}/mongod-{{ item.host_config }}.pid"
+    log_path: "/var/log/mongodb/{{ env }}/sh3-rs_b.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-sh3-rs_b.pid"
     db_path: /data/{{ env }}/shard3/rs_b
     dest: "/etc/mongo/{{ env }}/shard3_rs_b.cfg"
     service: mongod_shard3
@@ -207,8 +207,8 @@ db_servers:
     description: MongoDB Shard Server
 
   - name: shard3c
-    log_path: "/var/log/mongodb/{{ env }}/{{ item.host_config }}.log"
-    pid_path: "/var/run/mongodb/{{ env }}/mongod-{{ item.host_config }}.pid"
+    log_path: "/var/log/mongodb/{{ env }}/sh3-rs_c.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-sh3-rs_c.pid"
     db_path: /data/{{ env }}/shard3/rs_c
     dest: "/etc/mongo/{{ env }}/shard3_rs_c.cfg"
     service: mongod_shard3
@@ -221,8 +221,8 @@ db_servers:
     description: MongoDB Shard Server
 
   - name: rs_1
-    log_path: "/var/log/mongodb/{{ env }}/{{ item.host_config }}.log"
-    pid_path: "/var/run/mongodb/{{ env }}/mongod-{{ item.host_config }}.pid"
+    log_path: "/var/log/mongodb/{{ env }}/rs_a.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-rs_a.pid"
     db_path: /data/{{ env }}/
     dest: "/etc/mongo/{{ env }}/rs_a.cfg"
     service: mongod_config
@@ -234,8 +234,8 @@ db_servers:
     description: MongoDB Server
 
   - name: rs_2
-    log_path: "/var/log/mongodb/{{ env }}/{{ item.host_config }}.log"
-    pid_path: "/var/run/mongodb/{{ env }}/mongod-{{ item.host_config }}.pid"
+    log_path: "/var/log/mongodb/{{ env }}/rs_a.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-rs_a.pid"
     db_path: /data/{{ env }}/
     dest: "/etc/mongo/{{ env }}/rs_a.cfg"
     service: mongod_config
@@ -247,8 +247,8 @@ db_servers:
     description: MongoDB Server
 
   - name: rs_3
-    log_path: "/var/log/mongodb/{{ env }}/{{ item.host_config }}.log"
-    pid_path: "/var/run/mongodb/{{ env }}/mongod-{{ item.host_config }}.pid"
+    log_path: "/var/log/mongodb/{{ env }}/rs_a.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-rs_a.pid"
     db_path: /data/{{ env }}/
     dest: "/etc/mongo/{{ env }}/rs_a.cfg"
     service: mongod_config
@@ -261,10 +261,10 @@ db_servers:
 
 mongos_servers:
   - name: mongos0
-    log_path: "/var/log/mongodb/{{ env }}/{{ item.name }}.log"
-    pid_path: "/var/run/mongodb/{{ env }}/mongos-{{ item.port }}.pid"
+    log_path: "/var/log/mongodb/{{ env }}/mongos0.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongos-37017.pid"
     #    db_path: /data/{{ env }}/config/rs_a
-    dest: /etc/mongo/{{ env }}/{{ item.name }}.cfg
+    dest: /etc/mongo/{{ env }}/mongos0.cfg
     service: mongos0
     dest2: "/usr/lib/systemd/system/mongos0.service"
     port: 37017
@@ -275,10 +275,10 @@ mongos_servers:
     description: MongoDB Mongos Server
 
   - name: mongos1
-    log_path: "/var/log/mongodb/{{ env }}/{{ item.name }}.log"
-    pid_path: "/var/run/mongodb/{{ env }}/mongos-{{ item.port }}.pid"
+    log_path: "/var/log/mongodb/{{ env }}/mongos1.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongos-37018.pid"
     #db_path: /data/{{ env }}/config/rs_a
-    dest: /etc/mongo/{{ env }}/{{ item.name }}.cfg
+    dest: /etc/mongo/{{ env }}/mongos1.cfg
     service: mongos1 
     dest2: "/usr/lib/systemd/system/mongos1.service"
     port: 37018
@@ -289,10 +289,10 @@ mongos_servers:
     description: MongoDB Mongos Server
 
   - name: mongos2
-    log_path: "/var/log/mongodb/{{ env }}/{{ item.name }}.log"
-    pid_path: "/var/run/mongodb/{{ env }}/mongos-{{ item.port }}.pid"
+    log_path: "/var/log/mongodb/{{ env }}/mongos2.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongos-37019.pid"
     #db_path: /data/{{ env }}/config/rs_a
-    dest: /etc/mongo/{{ env }}/{{ item.name }}.cfg
+    dest: /etc/mongo/{{ env }}/mongos2.cfg
     service: mongos2
     dest2: "/usr/lib/systemd/system/mongos2.service"
     port: 37019
