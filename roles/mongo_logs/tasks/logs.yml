@@ -20,7 +20,7 @@
 - name: changing ownership of "{{ logzip_file }}"
   file:
     path: "/tmp/{{ logzip_file }}"
-    owner: jacquesvanel.siewembouwe
+    owner: jacquesvanel.siewembouw@mgt.afsiep.net
     group: root
     mode: '664'
 
