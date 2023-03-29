@@ -32,7 +32,7 @@
     - no_sec_servers
 
 - name: add mongos config/service files
-  include_tasks: mongos.yml
+  import_tasks: mongos.yml
   tags: 
     - reinstall
     - mongos
