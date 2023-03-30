@@ -1,0 +1,22 @@
+---
+#Install agent software on the client Mongo Instance to hook into
+#rpm -ivh --nodigest --nofiledigest mongodb-mms-automation-agent-manager-12.0.14.7630-1.x86_64.rhel7.rpm
+
+- name: create a working directory /usr/local/bin/
+  file:
+    path: /data/mongodb_mms_agent/
+    state: directory
+    owner: root
+    group: root
+
+- name: copy mongo mms and opsmanager files into temp
+  get_url:
+    url: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-mms-automation-agent-manager-12.0.14.7630-1.x86_64.rhel7.rpm 
+    dest: /data/mongodb_mms_agent/
+    tmp_dest: /data/
+    force: yes
+
+- name: Installed the rpm files
+  shell: yum localinstall *.rpm -y
+  args:
+    chdir: /data/mongodb_mms_agent
