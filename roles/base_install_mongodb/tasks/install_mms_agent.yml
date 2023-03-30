@@ -16,7 +16,7 @@
     tmp_dest: /data/
     force: yes
 
-- name: Installed the rpm files
-  shell: yum localinstall *.rpm -y
-  args:
-    chdir: /data/mongodb_mms_agent
+- name: Install RPM
+  yum:
+    name: /data/mongodb_mms_agent/mongodb-mms-automation-agent-manager-12.0.14.7630-1.x86_64.rhel7.rpm
+    state: present
