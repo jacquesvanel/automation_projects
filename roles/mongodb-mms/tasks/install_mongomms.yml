@@ -7,7 +7,7 @@
     name: mongodb-mms
     shell: /bin/false
     uid: 1001
-    guid: 1002
+    #guid: 1002
 
 #Copy the OPS MMS software to /opt
 #As root:

@@ -41,7 +41,7 @@
 
 - name: Pause for 5 minutes to build app cache
   ansible.builtin.pause:
-    minutes: 3
+    minutes: 1
 
 #sudo tuned-adm profile mongodb
 - name: set mongodb profile
