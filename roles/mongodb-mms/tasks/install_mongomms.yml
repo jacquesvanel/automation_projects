@@ -34,11 +34,11 @@
 #  args:
 #    chdir: /data/mongo_software
 
-- name: Download foo.conf
+- name: Copy mongodb-mms software
   ansible.builtin.get_url:
     url: "https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-mms-6.0.6.100.20221102T1837Z.tar.gz"
     dest: /data/mongo_software
-
+    tmp_dest: /data/
 #Mongodb-releases
 #mkdir /opt/mongodb/mms/mongodb-releases 
 
