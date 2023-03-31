@@ -17,10 +17,8 @@
     force: yes
 
 - name: Install RPM
-  yum:
-    name: /data/mongodb_mms_agent/mongodb-mms-automation-agent-manager-12.0.14.7630-1.x86_64.rhel7.rpm
-    state: present
-    disable_gpg_check: true
+  shell: rpm -ivh --nodigest --nofiledigest mongodb-mms-automation-agent-manager-12.0.14.7630-1.x86_64.rhel7.rpm
+  chdir: /data/mongodb_mms_agent/
 
 - name: enable agent
   systemd:
