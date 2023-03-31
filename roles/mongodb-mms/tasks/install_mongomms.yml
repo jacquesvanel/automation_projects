@@ -20,6 +20,13 @@
     owner: mongodb-mms
     group: mongodb-mms
     recurse: true
+
+- name: create a working directory
+  file:
+    path: /data/mongo_software
+    state: directory
+    owner: mongodb-mms
+    group: mongodb-mms
     
 #As Mongodb-mms:
 - name: copy mongodb-mms software
