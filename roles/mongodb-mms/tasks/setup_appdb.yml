@@ -17,6 +17,5 @@
   loop:
     - /data/appdb
     - /data/logs 
-    - /data/logs
-    - /var/log/mongodb/prod  
+    - "/var/log/mongodb/{{ env }}"  
     - /data
