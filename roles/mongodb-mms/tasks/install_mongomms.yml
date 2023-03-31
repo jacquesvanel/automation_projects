@@ -39,6 +39,12 @@
     url: "https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-mms-6.0.6.100.20221102T1837Z.tar.gz"
     dest: /data/mongo_software
     tmp_dest: /data/
+
+- name: Unarchive  file 
+  unarchive:
+    src: /data/mongo_software/mongodb-mms-6.0.6.100.20221102T1837Z.tar.gz
+    dest: /data/mongo_software/
+    remote_src: yes
 #Mongodb-releases
 #mkdir /opt/mongodb/mms/mongodb-releases 
 
@@ -65,6 +71,7 @@
 #cp -r /data/mongo_software/mongodb-mms/* /opt/mongodb/mms
 - name: Copy file 
   copy:
-    src: /data/mongo_software/mongodb-mms/*
-    dest: /opt/mongodb/mms/.
+    src: /data/mongo_software/mongodb-mms/
+    dest: /opt/mongodb/mms/
+    remote_src: true
 
