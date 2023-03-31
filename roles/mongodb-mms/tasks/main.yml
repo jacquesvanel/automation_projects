@@ -5,12 +5,12 @@
   tags:
     - always
 
-- name: install mongomms
-  import_tasks: download_software.yml
-  tags:
-    - ops
-    - install
-    - base_ops
+      #- name: install mongomms
+      #  import_tasks: download_software.yml
+      #  tags:
+      #    - ops
+      #    - install
+      #    - base_ops
 
 # - name: untar mongodb-mms
       
