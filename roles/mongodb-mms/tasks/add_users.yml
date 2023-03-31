@@ -21,6 +21,7 @@
   - name: set up users on config server
     shell: mongo "{{ ansible_fqdn }}":37019/admin /etc/mongo/{{ env }}/scripts/user_setup.js
     register: config_result
+    ignore_errors: yes
 
   - name: show config shell result
     debug:
