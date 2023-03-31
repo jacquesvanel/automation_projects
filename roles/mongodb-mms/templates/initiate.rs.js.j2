@@ -1,8 +1,13 @@
-rs.initiate()
-{% if ops_server_1 is defined and ops_server_1|length %}
-rs.add("{{ ops_server_1 }}.opr.afsiep.net:37019")
-{% elif ops_server_2 is defined and ops_server_2|length %}
-rs.add("{{ ops_server_2 }}.opr.afsiep.net:37019")
-{% elif ops_server_3 is defined and ops_server_3|length% %}
-rs.add("{{ ops_server_3 }}.opr.afsiep.net:37019")
+config = { _id: "{{ repset }}",
+        members:[
+         { _id : 0, host : "{{ ops_server_1 }}.opr.afsiep.net:37019", priority: 100 },
+{% if ops_server_2 is defined and ops_server_2|length %}
+         { _id : 1, host : "{{ ops_server_2 }}.opr.afsiep.net:37019" },
 {% endif %}
+{% if ops_server_3 is defined and ops_server_3|length% %}
+         { _id : 2, host : "{{ ops_server_3 }}.opr.afsiep.net:37019" }
+{% endif %}
+        ]
+};
+var output = rs.initiate(config);
+printjson(output)
