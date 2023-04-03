@@ -24,7 +24,9 @@ net:
 #security:
 #  authorization: enabled
 #  clusterAuthMode: x509
-  
+{% if ops_server_2|length or ops_server_3|length %}
 replication:
   replSetName: {{ repset }}
+{% else %}
 
+{% endif %}
