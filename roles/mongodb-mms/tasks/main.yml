@@ -34,6 +34,10 @@
 - name: Ops manager software install
   import_tasks: install_mongomms.yml
 
+- name: test
+  import_tasks: test.yml
+  tags:
+    - test
 #Set the MMS properties file
 #Start Opr / MMS
 
