@@ -16,7 +16,7 @@
 #    var: ops_manager_info.json
 - name: Run credentialstool command with input
   shell: |
-    credentialstool --username mms --password
+    /opt/mongodb/mms/bin/credentialstool --username mms --password
   args:
     stdin: 'Qwerty#12345px'
   register: credentialstool_output
