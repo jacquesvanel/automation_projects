@@ -16,7 +16,7 @@
 
 - name: Display the output
   debug:
-    var: non_shared_server
+    msg: "{{ non_shared_server }}"
       #- name: List of NON SHARDED servers
       #debug:
       # msg: "{{ ansible_hostname }}"
