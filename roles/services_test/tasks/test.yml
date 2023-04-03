@@ -12,23 +12,23 @@
 
 - name: Display the output
   debug:
-    var: non_shared_server
+    var: non_sharded_server
 - name: List of NON SHARDED servers
   debug:
     msg: "{{ ansible_hostname }}"
-  when: non_sharded_server.stat.exists
+  when: non_sharded_server.exists
 
 - name: List of SHARDED Database Server
   debug:
     msg: "{{ ansible_hostname }}"
-  when: not non_sharded_server.stat.exists
+  when: not non_sharded_server.exists
 
 
 - name: List of the running services (if sharded)
   debug:
     var: shell_result1.stdout_lines
-  when: not non_sharded_server.stat.exists
+  when: not non_sharded_server.exists
 - name: list of the running mongo services (if non sharded)
   debug:
     var: shell_result2.stdout_lines
-  when: non_sharded_server.stat.exists 
+  when: non_sharded_server.exists 
