@@ -1,2 +1,3 @@
 ---
 # vars file for services_test
+env: cat /etc/serverinfo.conf | grep Environment | sed 's/Environment=//g' | tr [:upper:] [:lower:]
