@@ -1,2 +1,4 @@
 ---
 # tasks file for services_test
+- name: Checking mongo status
+  import_tasks: test.yml
