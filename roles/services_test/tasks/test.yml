@@ -10,7 +10,7 @@
   register: shell_result2
 
 - stat:
-    path: "/data/{{ env }}/config"
+    path: /data/{{ env }}/config
   register: non_sharded_server
 
 - name: List of NON SHARDED servers
