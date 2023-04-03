@@ -1,17 +1,29 @@
 ---
 #Get MongoDB Ops Manager Info
-- name: Make API Call
-  uri:
-    url: "https://your-ops-manager-url.com/api/public/v1.0/groups/{{ group_id }}"
-    method: GET
-    headers:
-      Accept: "application/json"
-      Content-Type: "application/json"
-      Authorization: "Bearer {{ your_api_key }}"
-    return_content: yes
-  register: ops_manager_info
+#- name: Make API Call
+#  uri:
+#    url: "https://your-ops-manager-url.com/api/public/v1.0/groups/{{ group_id }}"
+#    method: GET
+#    headers:
+#      Accept: "application/json"
+#      Content-Type: "application/json"
+#      Authorization: "Bearer {{ your_api_key }}"
+#    return_content: yes
+#  register: ops_manager_info
 
-- name: Print Response
+#- name: Print Response
+#  debug:
+#    var: ops_manager_info.json
+
+- name: Run credentialstool command with input
+  expect:
+    command: /opt/mongodb/mms/bin/credentialstool --username mms --password
+    responses:
+      'Enter password:': 'Qwerty#12345px\n'
+  register: credentialstool_output
+
+- name: Display credentialstool output
   debug:
-    var: ops_manager_info.json
+    var: credentialstool_output.stdout
+
 
