@@ -75,3 +75,8 @@
     dest: /opt/mongodb/mms/
     remote_src: true
 
+- name: add conf-mms.properties
+  template:
+    src: conf-mms.properties.js
+    dest: /opt/mongodb/mms/conf/conf-mms.properties
+    force: yes
