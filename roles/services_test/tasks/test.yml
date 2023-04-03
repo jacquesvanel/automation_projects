@@ -16,12 +16,12 @@
 - name: List of NON SHARDED servers
   debug:
     msg: "{{ ansible_hostname }}"
-  when: not non_sharded_server.stat.exists
+  when: non_sharded_server.stat.exists
 
 - name: List of SHARDED Database Server
   debug:
     msg: "{{ ansible_hostname }}"
-  when: non_sharded_server.stat.exists
+  when: not non_sharded_server.stat.exists
 
 
 - name: List of the running services (if sharded)
