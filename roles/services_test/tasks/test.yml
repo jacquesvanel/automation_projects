@@ -12,7 +12,7 @@
 
 - name: Display the output
   debug:
-    var: non_sharded_server
+    var: non_sharded_server.stdout_lines
 - name: List of NON SHARDED servers
   debug:
     msg: "{{ ansible_hostname }}"
