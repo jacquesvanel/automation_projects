@@ -14,16 +14,11 @@
 #- name: Print Response
 #  debug:
 #    var: ops_manager_info.json
-- name: ensure pexpect is installed in the playbook python
-  pip:
-    name: pexpect
-    state: present
-
 - name: Run credentialstool command with input
-  expect:
-    command: /opt/mongodb/mms/bin/credentialstool --username mms --password
-    responses:
-      'Enter password:': 'Qwerty#12345px\n'
+  shell: |
+    credentialstool --username mms --password
+  args:
+    stdin: 'Qwerty#12345px'
   register: credentialstool_output
 
 - name: Display credentialstool output
