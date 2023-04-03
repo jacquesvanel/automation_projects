@@ -9,30 +9,26 @@
     cmd: ps -ef | grep /var/lib/mongodb-mms-automation/mongodb-linux-x86_64-5.0.13-ent/bin/mongos | awk -F " " '{print $10}' | awk -F "/" '{print $6}' | awk 'NR<=3'
   register: shell_result2
 
-- name: Check if pat exist
-  stat:
-    path: /data/{{ env }}/config
-  register: non_sharded_server
 
 - name: Display the output
   debug:
-    msg: "{{ non_shared_server }}"
-      #- name: List of NON SHARDED servers
-      #debug:
-      # msg: "{{ ansible_hostname }}"
-      #when: non_sharded_server.stat.exists
+    var: non_shared_server
+- name: List of NON SHARDED servers
+  debug:
+    msg: "{{ ansible_hostname }}"
+  when: non_sharded_server.stat.exists
 
-      #- name: List of SHARDED Database Server
-      # debug:
-      #msg: "{{ ansible_hostname }}"
-      #when: not non_sharded_server.stat.exists
+- name: List of SHARDED Database Server
+  debug:
+    msg: "{{ ansible_hostname }}"
+  when: not non_sharded_server.stat.exists
 
 
-      #- name: List of the running services (if sharded)
-      # debug:
-      #var: shell_result1.stdout_lines
-      #when: not non_sharded_server.stat.exists
-      #- name: list of the running mongo services (if non sharded)
-      #debug:
-      #var: shell_result2.stdout_lines
-      #when: non_sharded_server.stat.exists 
+- name: List of the running services (if sharded)
+  debug:
+    var: shell_result1.stdout_lines
+  when: not non_sharded_server.stat.exists
+- name: list of the running mongo services (if non sharded)
+  debug:
+    var: shell_result2.stdout_lines
+  when: non_sharded_server.stat.exists 
