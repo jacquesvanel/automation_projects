@@ -16,9 +16,9 @@
 
 - name: List of the running services (if sharded)
   debug:
-    var: shell_result1
+    var: shell_result1.stdout_lines
   when: not non_sharded_server.stat.exists
 - name: list of the running mongo services (if non sharded)
   debug:
-    var: shell_result2
-  when: non_sharded_server.exists 
+    var: shell_result2.stdout_lines
+  when: not non_sharded_server.exists 
