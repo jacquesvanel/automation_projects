@@ -2,5 +2,5 @@
 - name: Checking mongo services
   hosts: "{{ target }}"
   roles:
-    - role: service_test  
+    - role: services_test  
   
