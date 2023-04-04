@@ -6,4 +6,4 @@
 
 - name: Show output of shell cmd
   debug:
-    msg: "{{ processes.stdout }}"    
+    msg: "{{ processes.stdout_lines }}"    
