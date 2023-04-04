@@ -16,4 +16,20 @@
   debug:
     var: ops_manager_info.json
 
+- name: Create a new group in MongoDB Ops Manager
+  uri:
+    url: "{{ ops_manager_host }}{{ api }}/groups?pretty=true"
+    method: POST
+    user: "{{ PUBLIC-KEY }}"
+    password: "{{ PRIVATE-KEY }}"
+    headers:
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      name: "test_project"
+  register: group_creation_result
+
+- name: Print the result of creating a new group
+  debug:
+    var: group_creation_result.json
 
