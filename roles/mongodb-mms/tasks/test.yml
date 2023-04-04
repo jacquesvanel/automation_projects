@@ -4,8 +4,8 @@
   uri:
     url: "{{ ops_manager_host }}/groups/{{ project_id }}/agents?pretty=true"
     method: GET
-    user: "{{ public_key }}"
-    password: "{{ private_key }}"
+    user: "{{ public_key1 }}"
+    password: "{{ private_key1 }}"
     body_format: json
     headers:
       Accept: "application/json"
