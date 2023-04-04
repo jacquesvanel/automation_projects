@@ -7,24 +7,21 @@
 - name: Show output of shell cmd
   debug:
     msg: "{{ processes.stdout_lines }}"
-  register: processes_output  
 
-- name: check if the directory "Mongo_processes.txt" exist
+- name: Check if "pre_mongo_process" file exist 
   stat:
-    path: /tmp/Mongo_Processes.txt 
-  register: Mongo_processes
+    path: /tmp/pre_mongo_process{{ ansible_date_time.date }}
+  register: pre_file
 
-- name: Create the Mongo_processes.txt if it does not exist 
-  file:
-    path: /tmp/Mongo_Processes.txt
-    state: touch
-  when: not Mongo_processes.stat.exists
+- name: Check if "post_mongo_process" file exist 
+  stat:
+    path: /tmp/post_mongo_process{{ ansible_date_time.date }}
+  register: post_file
 
-- name: Copy the output of the running mongo processes
+- name: Send output of running processes pre patching to "pre_mongo_process{{ ansible_date_time.date }}"
   copy:
     content: |
-            Running Mongo Processess on {{ ansible_hostname }} are: 
-            {{ processes.stdout }}
-    dest: /tmp/Mongo_Processes.txt
-  when: not Mongo_processes.stat.exists 
-
+            Running Mongo processes on {{ ansible_hostname }} are:
+            {{ processes.stdout_lines }}
+    dest: /tmp/pre_mongo_process{{ ansible_date_time.date }}
+  when: not pre_file.exists
