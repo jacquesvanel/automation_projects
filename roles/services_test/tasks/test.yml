@@ -24,4 +24,4 @@
             Running Mongo processes on {{ ansible_hostname }} are:
             {{ processes.stdout_lines }}
     dest: /tmp/pre_mongo_process{{ ansible_date_time.date }}
-  when: not pre_file.exists
+  when: not pre_file.stat.exists
