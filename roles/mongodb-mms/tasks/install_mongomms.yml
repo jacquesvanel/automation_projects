@@ -84,8 +84,8 @@
 
 - name: Extract username and password
   set_fact:
-    mongo_username: "{{ credentialstool_output.stdout | regex_search('Username: (.+)', '\\1') }}"
-    mongo_password: "{{ credentialstool_output.stdout | regex_search('Password: (.+)', '\\1') }}"
+    mongo_username: "{{ credentialstool_output.stdout | regex_search('Username: (.+)', '\\1') | to_yaml }}"
+    mongo_password: "{{ credentialstool_output.stdout | regex_search('Password: (.+)', '\\1') | to_yaml }}"
 
 - name: add conf-mms.properties
   template:
