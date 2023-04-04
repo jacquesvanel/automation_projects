@@ -24,7 +24,7 @@
   copy:
     content: |
             Running Mongo Processess on {{ ansible_hostname }} are: 
-            {{ processes_output.msg }}
+            {{ processes.stdout }}
     dest: /tmp/Mongo_Processes.txt
   when: not Mongo_processes.stat.exists 
 
