@@ -5,7 +5,7 @@
     url: "{{ ops_manager_host }}"
     method: GET
     url_username: "gabriel.larios@accenturefederal.com"
-    url_password: "{{ public_key }}"
+    url_password: "{{ private_key }}"
     headers:
        Accept: "application/json"
     validate_certs: no
