@@ -9,10 +9,17 @@
     cmd: ps -ef | grep /var/lib/mongodb-mms-automation/mongodb-linux-x86_64-5.0.13-ent/bin/mongos | awk -F " " '{print $10}' | awk -F "/" '{print $6}' | awk 'NR<=3'
   register: shell_result2
 
-
+- name: Check the environment's name
+  shell:
+    cmd: cat /etc/serverinfo.conf | grep Environment |  sed 's/Environment=//g' | tr [:upper:] [:lower:]
+  register: envir    
 - name: Display the output
   debug:
-    var: non_sharded_server.stdout_lines
+    var: envir
+
+- name: check if dir exist
+  stat:
+    path: "/dat  
 - name: List of NON SHARDED servers
   debug:
     msg: "{{ ansible_hostname }}"
