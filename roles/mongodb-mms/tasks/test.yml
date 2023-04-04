@@ -1,14 +1,16 @@
 ---
-Get MongoDB Ops Manager Info
+#Get MongoDB Ops Manager Info
 - name: Make API Call
   uri:
-    url: "{{ ops_manger_host }}/groups/{{ project_id }}/"
+    url: "{{ ops_manager_host }}/groups/{{ project_id }}/agents?pretty=true"
     method: GET
+    user: "{{ public_key }}"
+    password: "{{ private_key }}"
+    body_format: json
     headers:
       Accept: "application/json"
       Content-Type: "application/json"
-      Authorization: "Bearer {{ public_key }}"
-    return_content: yes
+    return_content: true
   register: ops_manager_info
 
 - name: Print Response
