@@ -27,6 +27,7 @@
     body_format: json
     body:
       name: "test_project"
+      orgid: "{{ org_id }}"
   register: group_creation_result
 
 - name: Print the result of creating a new group

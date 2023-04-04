@@ -8,7 +8,7 @@ private_key: aeb3df77-80ce-41d2-9d6d-41aa942feb67
 project_id: 642c413a9948ee7556f0267c
 ops_manager_host: "http://ae1rsbxlmdb005.opr.afsiep.net:8080"
 api: "/api/public/v1.0"
-
+org_id: 642c41399948ee7556f02678
 mongomms:
   - https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz
   - https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz.sig
