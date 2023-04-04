@@ -6,7 +6,7 @@
 
 - name: Show output of shell cmd
   debug:
-    msg: "{{ processes.stdout_lines }}"
+    msg: "{{ processes.stdout }}"
 
 - name: Check if "pre_mongo_process" file exist 
   stat:
@@ -21,7 +21,14 @@
 - name: Send output of running processes pre patching to "pre_mongo_process{{ ansible_date_time.date }}"
   copy:
     content: |
-            Running Mongo processes on {{ ansible_hostname }} are:
-            {{ processes.stdout }}
+            Running Mongo processes on {{ ansible_hostname }} before patching was:
+            {{ processes.stdout_lines }}
     dest: /tmp/pre_mongo_process{{ ansible_date_time.date }}
   when: not pre_file.stat.exists
+
+- name: Send output of running processes post patching to "post_mongo_process{{ ansible_date_time.date }}"
+  copy:
+    content: |
+            Running Mongo processes on {{ ansible_hostname }} After patching on {{ ansible_date_time.date }} was:
+    dest: /tmp/post_mongo_process{{ ansible_date_time.date }}
+  when: pre_file.stat.exists
