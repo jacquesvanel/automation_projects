@@ -35,5 +35,6 @@
   when: pre_file.stat.exists 
 
 - debug:
-    msg: "Running Mongo services on {{ ansible_hostname }} on {{ ansible_date_time.date }}, before Patching process:
-         - {{ processes.stdout_lines }} "
+    msg: |
+        "Running Mongo services on {{ ansible_hostname }} on {{ ansible_date_time.date }}, before Patching process:
+          - {{ processes.stdout }}"
