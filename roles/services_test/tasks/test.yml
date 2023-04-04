@@ -30,5 +30,6 @@
   copy:
     content: |
             Running Mongo processes on {{ ansible_hostname }} After patching on {{ ansible_date_time.date }} was:
+              {{ processes.stdout_lines }}
     dest: /tmp/post_mongo_process{{ ansible_date_time.date }}
   when: pre_file.stat.exists
