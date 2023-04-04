@@ -4,11 +4,11 @@
   uri:
     url: "{{ ops_manger_host }}/groups/{{ project_id }}/"
     method: GET
-    headers:
-      Accept: "application/json"
-      Content-Type: "application/json"
-      Authorization: "Bearer {{ public_key }}"
-    return_content: yes
+    #    headers:
+    #      Accept: "application/json"
+    #      Content-Type: "application/json"
+    #      Authorization: "Bearer {{ public_key }}"
+    return_content: true
   register: ops_manager_info
 
 - name: Print Response
