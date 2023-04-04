@@ -1,35 +1,18 @@
 ---
-#Get MongoDB Ops Manager Info
-#- name: Make API Call
-#  uri:
-#    url: "https://your-ops-manager-url.com/api/public/v1.0/groups/{{ group_id }}"
-#    method: GET
-#    headers:
-#      Accept: "application/json"
-#      Content-Type: "application/json"
-#      Authorization: "Bearer {{ your_api_key }}"
-#    return_content: yes
-#  register: ops_manager_info
+Get MongoDB Ops Manager Info
+- name: Make API Call
+  uri:
+    url: "{{ ops_manger_host }}/groups/{{ project_id }}/"
+    method: GET
+    headers:
+      Accept: "application/json"
+      Content-Type: "application/json"
+      Authorization: "Bearer {{ public_key }}"
+    return_content: yes
+  register: ops_manager_info
 
-#- name: Print Response
-#  debug:
-#    var: ops_manager_info.json
-- name: Run credentialstool command with input
-  shell: |
-    /opt/mongodb/mms/bin/credentialstool --username mms --password
-  args:
-    stdin: 'Qwerty#12345px'
-  register: credentialstool_output
-
-- name: Extract username and password
-  set_fact:
-    mongo_username: "{{ credentialstool_output.stdout | regex_search('Username: (.+)', '\\1') }}"
-    mongo_password: "{{ credentialstool_output.stdout | regex_search('Password: (.+)', '\\1') }}"
-
-- name: Display extracted username and password
+- name: Print Response
   debug:
-    var:
-      - mongo_username
-      - mongo_password  
+    var: ops_manager_info.json
 
 
