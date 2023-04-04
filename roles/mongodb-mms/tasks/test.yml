@@ -4,10 +4,10 @@
   uri:
     url: "{{ ops_manager_host }}"
     method: GET
-    #    user: "gabriel.larios@accenturefederal.com"
-    #    password: "{{ public_key }}"
-    #    headers:
-    #      Accept: "application/json"
+    url_username: "gabriel.larios@accenturefederal.com"
+    url_password: "{{ public_key }}"
+    headers:
+       Accept: "application/json"
     return_content: true
   register: ops_manager_info
 
