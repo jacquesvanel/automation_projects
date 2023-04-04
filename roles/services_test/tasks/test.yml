@@ -2,40 +2,8 @@
 - name:   Run shell to check the mongo services present
   shell:
     cmd: ps -ef | grep /var/lib/mongodb-mms-automation/mongodb-linux-x86_64-5.0.13-ent/bin/mongod | awk -F " " '{print $10}' | awk 'NR<=3' | awk -F  "/" '{print $4}'
-  register: shell_result1
+  register: processes
 
-- name: Run shell command to check mongo services present 
-  shell: 
-    cmd: ps -ef | grep /var/lib/mongodb-mms-automation/mongodb-linux-x86_64-5.0.13-ent/bin/mongos | awk -F " " '{print $10}' | awk -F "/" '{print $6}' | awk 'NR<=3'
-  register: shell_result2
-
-- name: Check the environment's name
-  shell:
-    cmd: cat /etc/serverinfo.conf | grep Environment |  sed 's/Environment=//g' | tr [:upper:] [:lower:]
-  register: envir    
-- name: Display the output
+- name: Show output of shell cmd
   debug:
-    var: envir
-
-- name: check if dir exist
-  stat:
-    path: "/dat  
-- name: List of NON SHARDED servers
-  debug:
-    msg: "{{ ansible_hostname }}"
-  when: non_sharded_server.exists
-
-- name: List of SHARDED Database Server
-  debug:
-    msg: "{{ ansible_hostname }}"
-  when: not non_sharded_server.exists
-
-
-- name: List of the running services (if sharded)
-  debug:
-    var: shell_result1.stdout_lines
-  when: not non_sharded_server.exists
-- name: list of the running mongo services (if non sharded)
-  debug:
-    var: shell_result2.stdout_lines
-  when: non_sharded_server.exists 
+    msg: "{{ processes.stdout }}":    
