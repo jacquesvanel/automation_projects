@@ -4,8 +4,8 @@
   uri:
     url: "{{ ops_manager_host }}"
     method: GET
-    user: "{{ public_key1 }}"
-    password: "{{ private_key1 }}"
+    user: "{{ public_key }}"
+    password: "{{ private_key }}"
     headers:
       Accept: "application/json"
     return_content: true
