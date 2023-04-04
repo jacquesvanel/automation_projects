@@ -4,7 +4,7 @@
   uri:
     url: "{{ ops_manager_host }}"
     method: GET
-    user: gabriel.larios@accenturefederal.com
+    user: "gabriel.larios@accenturefederal.com"
     password: "{{ private_key }}"
     headers:
       Accept: "application/json"
