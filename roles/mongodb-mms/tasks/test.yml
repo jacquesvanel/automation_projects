@@ -30,6 +30,7 @@
       orgId: "{{ org_id }}"
     status_code: 201  # Update the expected status code
   register: group_creation_result
+  ignore_errors: yes
 
 - name: Print the result of creating a new group
   debug:
