@@ -20,8 +20,8 @@
   uri:
     url: "{{ ops_manager_host }}{{ api }}/groups?pretty=true"
     method: POST
-    user: "{{ PUBLIC-KEY }}"
-    password: "{{ PRIVATE-KEY }}"
+    user: "{{ public_key }}"
+    password: "{{ private_key }}"
     headers:
       Content-Type: "application/json"
     body_format: json
