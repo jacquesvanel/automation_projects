@@ -2,8 +2,8 @@
 # tasks file for mongodb-mms
 - name: set fact
   import_tasks: set_fact.yml
-  tags:
-    - always
+  #  tags:
+          #    - always
 
 - name: install and configure tuned
   import_tasks: install_tuned.yml
