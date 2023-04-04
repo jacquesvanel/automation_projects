@@ -5,15 +5,6 @@
   tags:
     - always
 
-      #- name: install mongomms
-      #  import_tasks: download_software.yml
-      #  tags:
-      #    - ops
-      #    - install
-      #    - base_ops
-
-# - name: untar mongodb-mms
-      
 - name: install and configure tuned
   import_tasks: install_tuned.yml
   tags:
@@ -43,6 +34,10 @@
 - name: Ops manager software install
   import_tasks: install_mongomms.yml
 
+- name: test
+  import_tasks: test.yml
+  tags:
+    - test
 #Set the MMS properties file
 #Start Opr / MMS
 

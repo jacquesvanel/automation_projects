@@ -75,3 +75,20 @@
     dest: /opt/mongodb/mms/
     remote_src: true
 
+- name: Run credentialstool command with input
+  shell: |
+    /opt/mongodb/mms/bin/credentialstool --username mms --password
+  args:
+    stdin: 'Qwerty#12345px'
+  register: credentialstool_output
+
+- name: Extract username and password
+  set_fact:
+    mongo_username: "{{ credentialstool_output.stdout | regex_search('Username: (.+)', '\\1') | first }}"
+    mongo_password: "{{ credentialstool_output.stdout | regex_search('Password: (.+)', '\\1') | first }}"
+
+- name: add conf-mms.properties
+  template:
+    src: conf-mms.properties.js
+    dest: /opt/mongodb/mms/conf/conf-mms.properties
+    force: yes
