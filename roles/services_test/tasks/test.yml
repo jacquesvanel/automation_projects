@@ -6,7 +6,7 @@
 
 - name: Show output of shell cmd
   debug:
-    msg: "{{ processes.stdout }}"
+    msg: "{{ processes.stdout_lines }}"
 
 - name: Check if "pre_mongo_process" file exist 
   stat:
