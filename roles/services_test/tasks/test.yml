@@ -34,7 +34,3 @@
     dest: /tmp/post_mongo_services_status{{ ansible_date_time.date }}
   when: pre_file.stat.exists 
 
-- debug:
-    msg: 
-        "Running Mongo services on {{ ansible_hostname }} on {{ ansible_date_time.date }}, before Patching process:"
-           "{{ processes.stdout.split('\n') }}"
