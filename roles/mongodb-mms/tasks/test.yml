@@ -20,13 +20,15 @@
   uri:
     url: "{{ ops_manager_host }}{{ api }}/groups?pretty=true"
     method: POST
-    user: "{{ PUBLIC-KEY }}"
-    password: "{{ PRIVATE-KEY }}"
+    user: "{{ public_key }}"
+    password: "{{ private_key }}"
     headers:
       Content-Type: "application/json"
     body_format: json
     body:
       name: "test_project"
+      orgId: "{{ org_id }}"
+  status_code: 201  # Update the expected status code
   register: group_creation_result
 
 - name: Print the result of creating a new group
