@@ -6,4 +6,25 @@
 
 - name: Show output of shell cmd
   debug:
-    msg: "{{ processes.stdout_lines }}"    
+    msg: "{{ processes.stdout_lines }}"
+  register: processes_output  
+
+- name: check if the directory "Mongo_processes.txt" exist
+  stat:
+    path: /tmp/Mongo_Processes.txt 
+  register: Mongo_processes
+
+- name: Create the Mongo_processes.txt if it does not exist 
+  file:
+    path: /tmp/Mongo_Processes.txt
+    state: touch
+  when: not Mongo_processes.stat.exists
+
+- name: Copy the output of the running mongo processes
+  copy:
+    content: |
+            Running Mongo Processess on {{ ansible_hostname }} are: 
+            {{ processes_output }}
+    dest: /tmp/Mongo_Processes.txt
+  when: not Mongo_processes.stat.exists 
+
