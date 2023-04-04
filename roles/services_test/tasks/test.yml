@@ -18,7 +18,7 @@
   file:
     path: /tmp/Mongo_Processes.txt
     state: touch
-  when: not Mongo_processes.txt.stat.exists
+  when: not Mongo_processes.stat.exists
 
 - name: Copy the output of the running mongo processes
   copy:
