@@ -9,14 +9,14 @@
     headers:
        Accept: "application/json"
     return_content: true
-  register: ops_manager_info
+  register: ops_manager_org
 
 - name: Print Response
   debug:
-    var: ops_manager_info.json
+    var: ops_manager_org.json
 
 - set_fact:
-    api_key: "{{ ops_manager_info.json.results[0].id }}"
-
+    org_id: "{{ ops_manager_org.json.results[0].id }}"
+    
 - debug:
-    var: api_key
+    var: org_id
