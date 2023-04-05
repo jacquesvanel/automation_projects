@@ -16,7 +16,7 @@
     var: ops_manager_info.json
 
 - set_fact:
-    api_key: "{{ ops_manager_info.json.id | first }}"
+    api_key: "{{ ops_manager_info.json.results[0].id }}"
 
 - debug:
     var: api_key
