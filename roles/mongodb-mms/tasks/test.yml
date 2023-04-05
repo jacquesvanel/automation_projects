@@ -106,8 +106,8 @@
       user: "{{ public_key }}"
       password: "{{ private_key }}"
       headers:
-        Accept: "application/json"
         Content-Type: "application/json"
+      body_format: json
       body:
         desc: "New agent API Key for project"
       return_content: yes
