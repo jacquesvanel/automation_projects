@@ -109,7 +109,7 @@
         Accept: "application/json"
         Content-Type: "application/json"
       body:
-        desc: "New agent API Key for {{ project_name }} project"
+        desc: "New agent API Key for project"
       return_content: yes
     register: new_api_key_result
 
