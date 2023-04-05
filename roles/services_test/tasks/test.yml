@@ -22,7 +22,7 @@
   copy:
     content: |
             Running Mongo processes/services on {{ ansible_hostname }} before patching were:
-            {{ processes.stdout_lines }}
+            {{ processes.stdout }}
     dest: /tmp/pre_mongo_services_status_{{ ansible_date_time.date }}
   when: not pre_file.stat.exists
 
@@ -30,10 +30,7 @@
   copy:
     content: |
             Running Mongo processes/services on {{ ansible_hostname }} After patching on {{ ansible_date_time.date }} were:
-            {{ processes.stdout_lines }}
+            {{ processes.stdout }}
     dest: /tmp/post_mongo_services_status{{ ansible_date_time.date }}
   when: pre_file.stat.exists 
 
-- debug:
-    msg: "Running Mongo services on {{ ansible_hostname }} on {{ ansible_date_time.date }}, before Patching process:"
-         " - {{ processes.stdout_lines }} "
