@@ -4,7 +4,7 @@
 # Enter your Project ID - It can be found in the Ops Manager UI under Settings ->
 # Group Settings.
 #
-mmsGroupId=63459128eb52414995d12317
+mmsGroupId={{ project_id }}
 
 #
 # REQUIRED
@@ -12,7 +12,7 @@ mmsGroupId=63459128eb52414995d12317
 # Enter your API key - It can be found in the Ops Manager UI under Settings ->
 # Group Settings.
 #
-mmsApiKey=6345917deb52414995d1239ab482f5ef0ece67e6ea974ffb6257cd40
+mmsApiKey={{ project_api_key }}
 
 #
 # Hostname of the Ops Manager web server. The hostname will match what is used
@@ -20,7 +20,11 @@ mmsApiKey=6345917deb52414995d1239ab482f5ef0ece67e6ea974ffb6257cd40
 # is 8080.
 #
 # ex. http://opsmanaager.<company>.com:8080
+{% if env is defined and env == 'prod' %}
+mmsBaseUrl=http://aw1rprdlmdb0034.opr.afsiep.net:8080
+{% else %}
 mmsBaseUrl=http://ae1rshrlmdb0019.opr.afsiep.net:8080
+{% endif %}
 
 #
 # Path to log file

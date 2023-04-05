@@ -1,19 +1,27 @@
 ---
 #Get MongoDB Ops Manager Info
-- name: Get Organization 
+#Get organization info and parse out org_id
+- name: Get Org
   uri:
-    url: "{{ ops_manager_host }}{{ api }}/orgs/" #groups/{{ project_id }}/hosts?pretty=true"
+    url: "{{ ops_manager_host }}{{ api }}/orgs" #groups/{{ project_id }}/hosts?pretty=true"
     method: GET
-    url_username: "{{ public_key }}" 
+    url_username: "{{ public_key }}"
     url_password: "{{ private_key }}"
     headers:
        Accept: "application/json"
     return_content: true
-  register: ops_manager_info
+  register: ops_manager_org
 
 - name: Print Response
   debug:
-    var: ops_manager_info.json
+    var: ops_manager_org.json
+
+- set_fact:
+    org_id: "{{ ops_manager_org.json.results[0].id }}"
+
+- debug:
+    var: org_id
+#################################################################
 
 
 
