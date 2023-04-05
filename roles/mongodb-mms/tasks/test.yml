@@ -66,32 +66,61 @@
       var: project_creation_result.json
 
   - set_fact:
-      project_api_key: "{{ project_creation_result.json.agentApiKey }}"
+      agent_api_key: "{{ project_creation_result.json.agentApiKey }}"
 
   - name: show api_key
     debug:
       var: project_api_key
   when: project_name not in project_names_list
 #####################################################################
-#get project info and parse out api key
-- name: Get Project info from MongoDB Ops Manager
-  uri:
-    url: "{{ ops_manager_host }}{{ api }}/groups/byName/{{ project_name }}?pretty=true"
-    method: GET
-    user: "{{ public_key }}"
-    password: "{{ private_key }}"
-    headers:
-      Content-Type: "application/json"
-  register: project_info_result
-  ignore_errors: yes
+#get project info and parse out project id 
+- block:
+  - name: Get Project info from MongoDB Ops Manager
+    uri:
+      url: "{{ ops_manager_host }}{{ api }}/groups/byName/{{ project_name }}?pretty=true"
+      method: GET
+      user: "{{ public_key }}"
+      password: "{{ private_key }}"
+      headers:
+        Content-Type: "application/json"
+      return_content: true
+    register: project_info_result
+    ignore_errors: yes
 
-- name: Print the result of creating a new group
-  debug:
-    var: project_info_result.json
+  - name: Print the result of creating a new group
+    debug:
+      var: project_info_result.json
 
-- set_fact:
-    api_key: "{{ project_info_result.json.agentApiKey }}"
+  - set_fact:
+      project_id: "{{ project_info_result.json.id }}"
 
-- name: show api key
-  debug:
-    var: api_key 
+  - debug:
+      var: project_id
+
+##########################################################################
+# create new api key for existing project
+  - name: Create Agent API Key for project
+    uri:
+      url: "{{ ops_manager_host }}{{ api }}/groups/{{ project_id }}/agentapikeys?pretty=true"
+      method: POST
+      user: "{{ public_key }}"
+      password: "{{ private_key }}"
+      headers:
+        Accept: "application/json"
+        Content-Type: "application/json"
+      body:
+        desc: "New agent API Key for {{ project_name }} project"
+      return_content: yes
+    register: new_api_key_result
+
+  - name: Print response
+    debug:
+      var: new_api_key_result.json
+
+  - set_fact:
+      agent_api_key: "{{ new_api_key_result.json.key }}"
+
+  - name: show api key
+    debug:
+      var: agent_api_key
+  when: project_name in project_names_list
