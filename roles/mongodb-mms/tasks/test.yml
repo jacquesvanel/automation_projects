@@ -36,3 +36,10 @@
 - name: Print Response
   debug:
     var: ops_manager_projects.json
+
+- name: Extract project names
+  set_fact:
+    project_names: "{{ ops_manager_projects.json.results | map(attribute='name') | list }}"
+
+- debug:
+    msg: "{{ project_names }}"
