@@ -111,6 +111,7 @@
       body:
         desc: "New agent API Key for project"
       return_content: yes
+      status_code: 201  # Update the expected status code
     register: new_api_key_result
 
   - name: Print response
