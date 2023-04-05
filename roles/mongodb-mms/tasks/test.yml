@@ -67,4 +67,4 @@
 
   - set_fact:
       api_key: "{{ project_creation_result.json.agentApiKey }}"
-  when: "{{ project_name }} not in project_names_list"
+  when: {{ project_name }} not in {{ project_names_list }}
