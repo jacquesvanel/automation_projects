@@ -40,34 +40,58 @@
 
 - name: Extract project names
   set_fact:
-    project_names: "{{ ops_manager_projects.json.results | map(attribute='name') | list }}"
+    project_names_list: "{{ ops_manager_projects.json.results | map(attribute='name') | list }}"
 
 - debug:
-    msg: "{{ project_names }}"
+    msg: "{{ project_names_list }}"
 
 ###################################################################
+#create new project if project doesnt exist
+- block:
+  - name: Create a new Project in MongoDB Ops Manager
+    uri:
+      url: "{{ ops_manager_host }}{{ api }}/groups?pretty=true"
+      method: POST
+      user: "{{ public_key }}"
+      password: "{{ private_key }}"
+      headers:
+        Content-Type: "application/json"
+      body_format: json
+      body:
+        name: "{{ project_name }}"
+        orgId: "{{ org_id }}"
+      status_code: 201  # Update the expected status code
+    register: project_creation_result
+    ignore_errors: yes
 
+  - name: Print the result of creating a new group
+    debug:
+      var: project_creation_result.json
 
-- name: Create a new Project in MongoDB Ops Manager
+  - set_fact:
+      project_api_key: "{{ project_creation_result.json.agentApiKey }}"
+
+  - name: show api_key
+    debug:
+      var: project_api_key
+  when: project_name not in project_names_list
+#####################################################################
+#get project info and parse out api key
+- name: Get Project info from MongoDB Ops Manager
   uri:
-    url: "{{ ops_manager_host }}{{ api }}/groups?pretty=true"
-    method: POST
+    url: "{{ ops_manager_host }}{{ api }}/groups/byName/{{ project_name }}?pretty=true"
+    method: GET
     user: "{{ public_key }}"
     password: "{{ private_key }}"
     headers:
       Content-Type: "application/json"
-    body_format: json
-    body:
-      name: "test_project"
-      orgId: "{{ org_id }}"
-    status_code: 201  # Update the expected status code
-  register: group_creation_result
+  register: project_info_result
   ignore_errors: yes
 
 - name: Print the result of creating a new group
   debug:
-    var: group_creation_result.json
-
+    var: project_info_result.json
+######################################################################
 - name: Create a new host in MongoDB Ops Manager
   uri:
     url: "{{ ops_manager_host }}{{ api }}/groups/{{ project_id }}/hosts?pretty=true"

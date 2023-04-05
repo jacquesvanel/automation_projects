@@ -71,4 +71,20 @@
   - name: show api_key
     debug:
       var: project_api_key
-  when: project_name not in project_names_list 
+  when: project_name not in project_names_list
+#####################################################################
+#get project info and parse out api key
+- name: Get Project info from MongoDB Ops Manager
+  uri:
+    url: "{{ ops_manager_host }}{{ api }}/groups/byName/{{ project_name }}?pretty=true"
+    method: GET
+    user: "{{ public_key }}"
+    password: "{{ private_key }}"
+    headers:
+      Content-Type: "application/json"
+  register: project_info_result
+  ignore_errors: yes
+
+- name: Print the result of creating a new group
+  debug:
+    var: project_info_result.json 
