@@ -87,4 +87,11 @@
 
 - name: Print the result of creating a new group
   debug:
-    var: project_info_result.json 
+    var: project_info_result.json
+
+- set_fact:
+    api_key: "{{ project_info_result.json.agentApiKey }}"
+
+- name: show api key
+  debug:
+    var: api_key 
