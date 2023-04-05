@@ -125,3 +125,18 @@
     debug:
       var: agent_api_key
   when: project_name in project_names_list
+
+- name: layout template for /etc/mongodb-mms/automation-agent.config
+  template:
+    src:  mongomms_automation_agent.config.j2
+    dest: "/etc/mongodb-mms/automation-agent.config"
+    owner: mongod
+    group: mongod
+    mode: '0600'
+    force: yes
+
+- name: restart mongodb-mms-agent
+  systemd:
+     name: mongodb-mms-automation-agent
+     state: restarted
+     enable: true
