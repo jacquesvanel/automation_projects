@@ -8,7 +8,9 @@ processManagement:
   fork: true
   pidFilePath: "{{ item.pid_path }}"
 security:
+{% if item.name != 'mongos0' or item.name != 'mongos1' or item.name != 'mongos2' %}
    authorization: "enabled"
+{% endif %}
    clusterAuthMode: x509
    ldap:
       servers: "opr.afsiep.net:636"
@@ -32,8 +34,10 @@ security:
                ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
             }
          ]'
+{% if item.name != 'mongos0' or item.name != 'mongos1' or item.name != 'mongos2' %}
       authz:
          queryTemplate: "{USER}?memberOf?base"
+{% endif %}
 setParameter:
    authenticationMechanisms: PLAIN, SCRAM-SHA-1, SCRAM-SHA-256
    ocspEnabled: false
