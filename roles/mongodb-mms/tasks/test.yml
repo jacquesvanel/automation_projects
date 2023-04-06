@@ -139,4 +139,4 @@
   systemd:
      name: mongodb-mms-automation-agent
      state: restarted
-     enable: true
+     enabled: true
