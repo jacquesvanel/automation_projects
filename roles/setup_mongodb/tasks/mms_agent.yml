@@ -141,26 +141,25 @@
      state: restarted
      enabled: true
 
-- block:
-  - name: Create a new host in MongoDB Ops Manager
-    uri:
-      url: "{{ ops_manager_host }}{{ api }}/groups/{{ project_id }}/hosts?pretty=true"
-      method: POST
-      user: "{{ public_key }}"
-      password: "{{ private_key }}"
-      headers:
-        Content-Type: "application/json"
-      body_format: json
-      body:
-        hostname: "{{ ansible_fqdn }}"
-        port: "{{ port }}"
-      status_code: 201  # Update the expected status code
-    register: host_creation_result
-    loop:
-      - "{{ db_servers }}"
-      - "{{ mongos_servers }}"
-
-  - name: Print the result of creating a new group
-    debug:
-      var: host_creation_result.json
+- name: Create a new host in MongoDB Ops Manager
+  uri:
+    url: "{{ ops_manager_host }}{{ api }}/groups/{{ project_id }}/hosts?pretty=true"
+    method: POST
+    user: "{{ public_key }}"
+    password: "{{ private_key }}"
+    headers:
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      hostname: "{{ ansible_fqdn }}"
+      port: "{{ item.port }}"
+    status_code: 201  # Update the expected status code
+  register: host_creation_result
   when: "{{ item.name }} is defined and ansible_hostname == {{ item.name }}"
+  loop:
+    - "{{ db_servers }}"
+    - "{{ mongos_servers }}"
+
+- name: Print the result of creating a new group
+  debug:
+    var: host_creation_result.json
