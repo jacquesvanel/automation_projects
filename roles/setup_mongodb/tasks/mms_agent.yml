@@ -71,7 +71,7 @@
   - name: show api_key
     debug:
       var: project_api_key
-  when: project_name not in project_names_list and ansible_hostname == {{ configsvr_rsa }}
+  when: project_name not in project_names_list and ansible_hostname == configsvr_rsa
 #####################################################################
 #get project info and parse out project id 
 - block:
