@@ -60,7 +60,6 @@
       status_code: 201  # Update the expected status code
     register: project_creation_result
     ignore_errors: yes
-    delegate_to: "{{ configsvr_rsa }}"
 
   - name: Print the result of creating a new group
     debug:
@@ -72,7 +71,7 @@
   - name: show api_key
     debug:
       var: project_api_key
-  when: project_name not in project_names_list
+  when: "project_name not in project_names_list and ansible_hostname == {{ configsvr_rsa }}"
 #####################################################################
 #get project info and parse out project id 
 - block:
