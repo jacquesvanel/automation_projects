@@ -156,9 +156,7 @@
     status_code: 201  # Update the expected status code
   register: host_creation_result
   when: "{{ item.name }} is defined and ansible_hostname == {{ item.name }}"
-  loop:
-    - "{{ db_servers }}"
-    - "{{ mongos_servers }}"
+  loop: "{{ db_servers }}"
 
 - name: Print the result of creating a new group
   debug:
