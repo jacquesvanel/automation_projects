@@ -157,6 +157,8 @@
   register: host_creation_result
   when: "{{ item.name }} is defined and ansible_hostname == {{ item.name }}"
   loop: "{{ db_servers }}"
+  loop_control:
+     label: "{{ item.name }}" 
 
 - name: Print the result of creating a new group
   debug:
