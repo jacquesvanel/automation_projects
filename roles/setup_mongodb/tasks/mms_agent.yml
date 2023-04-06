@@ -72,6 +72,28 @@
     debug:
       var: agent_api_key
   when: project_name not in project_names_list and ansible_hostname == configsvr_rsa
+###################################################################
+- name: Get Projects again
+  uri:
+    url: "{{ ops_manager_host }}{{ api }}/groups/" #{{ project_id }}/hosts?pretty=true"
+    method: GET
+    url_username: "{{ public_key }}"
+    url_password: "{{ private_key }}"
+    headers:
+       Accept: "application/json"
+    return_content: true
+  register: ops_manager_projects
+
+- name: Print Response
+  debug:
+    var: ops_manager_projects.json
+
+- name: Extract project names
+  set_fact:
+    project_names_list: "{{ ops_manager_projects.json.results | map(attribute='name') | list }}"
+
+- debug:
+    msg: "{{ project_names_list }}"
 #####################################################################
 #get project info and parse out project id 
 - name: Get Project info from MongoDB Ops Manager
@@ -118,16 +140,13 @@
     debug:
       var: new_api_key_result.json
 
-      #  - set_fact:
-      #      agent_api_key: "{{ new_api_key_result.json.key }}"
+  - set_fact:
+      agent_api_key: "{{ new_api_key_result.json.key }}"
 
   - name: show api key
     debug:
       var: agent_api_key
   when: project_name in project_names_list
-
-- set_fact:
-    agent_api_key: "{{ new_api_key_result.json.key }}"  
 
 - name: layout template for /etc/mongodb-mms/automation-agent.config
   template:
