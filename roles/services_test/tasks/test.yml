@@ -34,3 +34,26 @@
     dest: /tmp/post_mongo_services_status{{ ansible_date_time.date }}
   when: pre_file.stat.exists 
 
+- name: Generate diff
+    shell: diff /tmp/Mongo_processes/pre_mongo_services_status_{{ ansible_date_time.date }} /tmp/Mongo_processes/post_mongo_services_status_{{ ansible_date_time.date }} 
+  register: processes_diff
+  ignore_errors: yes
+
+- debug:
+    msg: " {{ processes_diff.stdout_lines}}"                   
+
+- name: Fail module for processes
+  fail:
+    msg: |
+         "Mongodb files are different from eachother"
+           "{{ processes_diff.stdout_lines }}"
+    when: processes_diff.rc !=0
+  when: pre_file.stat.exists and post_file.stat.exists 
+
+# delete old files older than 90 days
+- name: Find files older the 90 days old
+  find:
+    paths: /tmp/Mongo_processes
+    patterns: *mongo_services_status*
+    age: 90d
+    recurse: yes
