@@ -56,6 +56,6 @@
 - name: Find files older the 90 days old
   find:
     paths: /tmp/Mongo_processes
-    patterns: *mongo_services_status*
+    patterns: '*mongo_services_status*'
     age: 90d
     recurse: yes
