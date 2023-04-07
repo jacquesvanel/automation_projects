@@ -89,6 +89,12 @@
   systemd:
     name: mongo
     state: restarted
+
+- name: mms agent
+  import_tasks: mms_agent.yml
+  tags:
+    - reinstall
+    - mms_agent
 #####################################################################
 - name: install sadi config
   import_tasks: sadi_dsit.yml

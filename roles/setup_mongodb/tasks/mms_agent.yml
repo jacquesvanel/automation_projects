@@ -70,35 +70,35 @@
 
   - name: show api_key
     debug:
-      var: project_api_key
-  when: project_name not in project_names_list
-#####################################################################
+      var: agent_api_key
+  when: project_name not in project_names_list and ansible_hostname == configsvr_rsa
+###################################################################
 #get project info and parse out project id 
-- block:
-  - name: Get Project info from MongoDB Ops Manager
-    uri:
-      url: "{{ ops_manager_host }}{{ api }}/groups/byName/{{ project_name }}?pretty=true"
-      method: GET
-      user: "{{ public_key }}"
-      password: "{{ private_key }}"
-      headers:
-        Content-Type: "application/json"
-      return_content: true
-    register: project_info_result
-    ignore_errors: yes
+- name: Get Project info from MongoDB Ops Manager
+  uri:
+    url: "{{ ops_manager_host }}{{ api }}/groups/byName/{{ project_name }}?pretty=true"
+    method: GET
+    user: "{{ public_key }}"
+    password: "{{ private_key }}"
+    headers:
+      Content-Type: "application/json"
+    return_content: true
+  register: project_info_result
+  ignore_errors: yes
 
-  - name: Print the result of creating a new group
-    debug:
-      var: project_info_result.json
+- name: Print the result of creating a new group
+  debug:
+    var: project_info_result.json
 
-  - set_fact:
-      project_id: "{{ project_info_result.json.id }}"
+- set_fact:
+    project_id: "{{ project_info_result.json.id }}"
 
-  - debug:
-      var: project_id
+- debug:
+    var: project_id
 
 ##########################################################################
 # create new api key for existing project
+- block:
   - name: Create Agent API Key for project
     uri:
       url: "{{ ops_manager_host }}{{ api }}/groups/{{ project_id }}/agentapikeys?pretty=true"
@@ -124,7 +124,7 @@
   - name: show api key
     debug:
       var: agent_api_key
-  when: project_name in project_names_list
+  when: not project_creation_result.changed
 
 - name: layout template for /etc/mongodb-mms/automation-agent.config
   template:
@@ -152,9 +152,16 @@
     body_format: json
     body:
       hostname: "{{ ansible_fqdn }}"
-      port: "27017"
+      port: "{{ item.port }}"
+      profilerEnabled: "true"
+      logsEnabled: "true"
+      alertsEnabled: "true"
     status_code: 201  # Update the expected status code
   register: host_creation_result
+  when: "{{ item.name }} is defined and ansible_hostname == {{ item.name }}"
+  loop: "{{ db_servers }}"
+  loop_control:
+     label: "{{ item.name }}" 
 
 - name: Print the result of creating a new group
   debug:

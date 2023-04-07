@@ -22,6 +22,8 @@ mmsApiKey={{ agent_api_key }}
 # ex. http://opsmanaager.<company>.com:8080
 {% if env is defined and env == 'prod' %}
 mmsBaseUrl=http://aw1rprdlmdb0034.opr.afsiep.net:8080
+{% elif env is defined and env == 'sbx' %}
+mmsBaseUrl=http://ae1rsbxlmdb005.opr.afsiep.net:8080
 {% else %}
 mmsBaseUrl=http://ae1rshrlmdb0019.opr.afsiep.net:8080
 {% endif %}

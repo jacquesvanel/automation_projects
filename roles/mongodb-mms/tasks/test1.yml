@@ -1,0 +1,55 @@
+---
+#Get MongoDB Ops Manager Info
+- name: Make API Call
+  uri:
+    url: "{{ ops_manager_host }}{{ api }}/groups/{{ project_id }}/hosts?pretty=true"
+    method: GET
+    url_username: "{{ public_key }}" 
+    url_password: "{{ private_key }}"
+    headers:
+       Accept: "application/json"
+    return_content: true
+  register: ops_manager_info
+
+- name: Print Response
+  debug:
+    var: ops_manager_info.json
+
+- name: Create a new group in MongoDB Ops Manager
+  uri:
+    url: "{{ ops_manager_host }}{{ api }}/groups?pretty=true"
+    method: POST
+    user: "{{ public_key }}"
+    password: "{{ private_key }}"
+    headers:
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      name: "test_project"
+      orgId: "{{ org_id }}"
+    status_code: 201  # Update the expected status code
+  register: group_creation_result
+  ignore_errors: yes
+
+- name: Print the result of creating a new group
+  debug:
+    var: group_creation_result.json
+
+- name: Create a new host in MongoDB Ops Manager
+  uri:
+    url: "{{ ops_manager_host }}{{ api }}/groups/{{ project_id }}/hosts?pretty=true"
+    method: POST
+    user: "{{ public_key }}"
+    password: "{{ private_key }}"
+    headers:
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      hostname: "ae1rsbxlmdb004.opr.afsiep.net"
+      port: "27017"
+    status_code: 201  # Update the expected status code
+  register: host_creation_result
+
+- name: Print the result of creating a new group
+  debug:
+    var: host_creation_result.json
