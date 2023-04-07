@@ -2,7 +2,7 @@
 - block:
   - name: (mongos.yml) layout template on the server
     template:
-      src:  mongod.conf.j2
+      src:  mongos.conf.j2
       dest: "{{ item.dest }}"
       owner: "{{ owner }}"
       group: "{{ group }}"
