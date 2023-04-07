@@ -35,7 +35,7 @@
   when: pre_file.stat.exists 
 
 - name: Generate diff
-    shell: diff /tmp/Mongo_processes/pre_mongo_services_status_{{ ansible_date_time.date }} /tmp/Mongo_processes/post_mongo_services_status_{{ ansible_date_time.date }} 
+    shell: diff /tmp/Mongo_processes/pre_mongo_services_status_{{ ansible_date_time.date }}  /tmp/Mongo_processes/post_mongo_services_status_{{ ansible_date_time.date }} 
   register: processes_diff
   ignore_errors: yes
 
