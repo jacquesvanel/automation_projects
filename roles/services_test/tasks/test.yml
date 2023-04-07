@@ -10,12 +10,12 @@
 
 - name: Check if "pre_mongo_process" file exist 
   stat:
-    path: /tmp/pre_mongo_process{{ ansible_date_time.date }}
+    path: /tmp/Mongo_processes/pre_mongo_process{{ ansible_date_time.date }}
   register: pre_file
 
 - name: Check if "post_mongo_process" file exist 
   stat:
-    path: /tmp/post_mongo_process{{ ansible_date_time.date }}
+    path: /tmp/Mongo_processes/post_mongo_process{{ ansible_date_time.date }}
   register: post_file
 
 - name: Send output of running processes/services pre patching to "pre_mongo_process{{ ansible_date_time.date }}"
@@ -23,7 +23,7 @@
     content: |
             Running Mongo processes/services on {{ ansible_hostname }} before patching were:
             {{ processes.stdout }}
-    dest: /tmp/pre_mongo_services_status_{{ ansible_date_time.date }}
+    dest: /tmp/Mongo_processes/pre_mongo_services_status_{{ ansible_date_time.date }}
   when: not pre_file.stat.exists
 
 - name: Send output of running processes/services post patching to "post_mongo_process{{ ansible_date_time.date }}"
@@ -31,7 +31,7 @@
     content: |
             Running Mongo processes/services on {{ ansible_hostname }} After patching on {{ ansible_date_time.date }} were:
             {{ processes.stdout }}
-    dest: /tmp/post_mongo_services_status{{ ansible_date_time.date }}
+    dest: /tmp/Mongo_processes/post_mongo_services_status{{ ansible_date_time.date }}
   when: pre_file.stat.exists 
 
 - name: Generate diff
