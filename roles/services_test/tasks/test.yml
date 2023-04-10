@@ -38,7 +38,7 @@
             Running Mongo processes/services on {{ ansible_hostname }} After patching on {{ ansible_date_time.date }} were:
             {{ processes.stdout }}
     dest: /tmp/Mongo_processes/post_mongo_services_status_{{ ansible_date_time.date }}
-  when: pre_file.stat.exists and not post_file.stat.exists
+  when: pre_file.stat.exists
 
 - name: Generate diff
   shell: 
