@@ -13,7 +13,7 @@
   - name: (add_shards.yml) layout template on server
     template:
       src:  add_shards_to_cluster.js.j2
-      dest: "/etc/mongo/{{ env }}/scripts/add_shards_to_cluster.js"
+      dest: "/etc/mongo/{{ env }}/scripts/add_shards_to_cluster_{{ item.name }}.js"
       owner: "{{ owner }}"
       group: "{{ group }}"
       mode: '0644'
@@ -23,7 +23,7 @@
       label: "{{ item.name }}"
 
   - name: (add_shards.yml) add shards to cluster
-    shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/add_shards_to_cluster.js -u amkanda -p Qwerty#12345px
+    shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/add_shards_to_cluster_{{ item.name }}.js -u amkanda -p Qwerty#12345px
     register: add_shards_result
     with_items: "{{ db_servers }}"
     loop_control:
