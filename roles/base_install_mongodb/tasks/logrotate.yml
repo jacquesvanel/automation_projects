@@ -12,7 +12,7 @@
   cron:
     name: "logrotate for mongodb logs"
     minute: "23"
-    job: "/usr/sbin/logrotate -f /etc/logrotate.d/mongo"
+    job: "/usr/sbin/logrotate /etc/logrotate.d/mongo"
 
 - name: add cronjob for diagnostic.data
   cron:
