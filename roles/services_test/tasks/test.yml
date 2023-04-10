@@ -47,9 +47,6 @@
   ignore_errors: yes
   when: pre_file.stat.exists and post_file.stat.exists 
 
-- name: Displaying the difference bettween pre and post validation for Mongo processes.
-  debug:
-    msg: "{{ processes_diff.stdout_lines }}"                   
   
 - name: Fail module for processes
   fail:
