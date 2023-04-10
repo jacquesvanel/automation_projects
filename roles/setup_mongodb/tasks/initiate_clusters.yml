@@ -14,7 +14,7 @@
   - name: (initiate_clusters.yml) layout initiate.js template on the server
     template:
       src:  initiate.js.j2
-      dest: "/etc/mongo/{{ env }}/scripts/initiate.js"
+      dest: "/etc/mongo/{{ env }}/scripts/initiate_{{ item.name }}.js"
       owner: root
       group: root
       mode: '0644'
@@ -24,7 +24,7 @@
       label: "{{ item.name }}"
 
   - name: (initiate_clusters.yml) set up initiate on  server
-    shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/initiate.js -u amkanda -p Qwerty#12345px
+    shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/initiate_{{ item.name }}.js -u amkanda -p Qwerty#12345px
     register: initiate_result
     with_items: "{{ db_servers }}"
     loop_control:
