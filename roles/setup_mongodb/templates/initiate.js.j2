@@ -27,7 +27,7 @@ config = { _id: "{{ repset }}",
 };
 var output = rs.initiate(config);
 printjson(output)
-{% elif shard1a is defined and ansible_hostname == shard1a %}
+{% elif shard2a is defined and ansible_hostname == shard2a %}
 config = { _id: "{{ repset }}",
         members:[
          { _id : 0, host : "{{ shard2a }}.opr.afsiep.net:{{ shard2a_port }}", priority: 100 },
@@ -41,7 +41,7 @@ config = { _id: "{{ repset }}",
 };
 var output = rs.initiate(config);
 printjson(output)
-{% elif shard1a is defined and ansible_hostname == shard1a %}
+{% elif shard3a is defined and ansible_hostname == shard3a %}
 config = { _id: "{{ repset }}",
         members:[
          { _id : 0, host : "{{ shard3a }}.opr.afsiep.net:{{ shard3a_port }}", priority: 100 },
