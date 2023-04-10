@@ -18,6 +18,12 @@
     path: /tmp/Mongo_processes/post_mongo_services_status_{{ ansible_date_time.date }}
   register: post_file
 
+
+- name: Creating directory "Mongo_processes" 
+  file:
+    path: /tmp/Mongo_processes
+    state: directory
+   
 - name: Send output of running processes/services pre patching to "pre_mongo_process_{{ ansible_date_time.date }}"
   copy:
     content: |
@@ -32,22 +38,24 @@
             Running Mongo processes/services on {{ ansible_hostname }} After patching on {{ ansible_date_time.date }} were:
             {{ processes.stdout }}
     dest: /tmp/Mongo_processes/post_mongo_services_status_{{ ansible_date_time.date }}
-  when: pre_file.stat.exists 
+  when: pre_file.stat.exists and not post_file.stat.exists
 
 - name: Generate diff
   shell: 
     cmd: diff "/tmp/Mongo_processes/pre_mongo_services_status_{{ ansible_date_time.date }}" "/tmp/Mongo_processes/post_mongo_services_status_{{ ansible_date_time.date }}" 
   register: processes_diff
   ignore_errors: yes
+  when: pre_file.stat.exists and post_file.stat.exists 
 
 - name: Displaying the difference bettween pre and post validation for Mongo processes.
   debug:
     msg: "{{ processes_diff.stdout_lines }}"                   
-
+  
 - name: Fail module for processes
   fail:
     msg: |
-         "Mongodb files are different from eachother"
+         "THERE HAS BEEN A CHANGE IN THE LIST OF MONGO PROCESSES FROM PRE PATCHING ON:
+           - {{ ansible_hostname }}"
            "{{ processes_diff.stdout_lines }}"
     when: processes_diff.rc !=0
   when: pre_file.stat.exists and post_file.stat.exists 
