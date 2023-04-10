@@ -13,7 +13,7 @@
   - name: (create_role.yml) layout role template for the server
     template:
       src:  createrole.js.j2
-      dest: "/etc/mongo/{{ env }}/scripts/createrole.js"
+      dest: "/etc/mongo/{{ env }}/scripts/createrole_{{ item.name }}.js"
       owner: "{{ owner }}"
       group: "{{ group }}"
       mode: '0644'
@@ -23,7 +23,7 @@
       label: "{{ item.name }}"
 
   - name: (create_role.yml) set up role on config server
-    shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/createrole.js
+    shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/createrole_{{ item.name }}.js
     register: role_result
     loop: "{{ db_servers }}"
     loop_control:
