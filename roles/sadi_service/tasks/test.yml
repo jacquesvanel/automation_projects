@@ -1,34 +1,34 @@
 ---
-- name:   Run shell to check the mongo services present
+- name: Run shell to check the mongo services present
   shell:
-    cmd: ps -ef | grep /var/lib/mongodb-mms-automation/mongodb-linux-x86_64-5.0.13-ent/bin/mongod | awk -F " " '{print $10}' | awk 'NR<=3' | awk -F  "/" '{print $4}'
-  register: processes
+    cmd: ps -ef | grep /var/lib/mongodb-mms-automation/mongodb-linux-x86_64-5.0.13-ent/bin/mongos | awk -F " " '{print $10}' | awk -F "/" '{print $6}' | awk 'NR<=3'
+  register: sadi_processes
 
 - name: Show output of shell cmd
   debug:
-    msg: "{{ processes.stdout_lines }}"
+    msg: "{{ sadi_processes.stdout_lines }}"
 
-- name: Check if "pre_mongo_process" file exist 
+- name: Check if "pre_mongo_process" file exist
   stat:
     path: /tmp/Mongo_processes/pre_mongo_services_status{{ ansible_date_time.date }}
   register: pre_file
 
-- name: Check if "post_mongo_process" file exist 
+- name: Check if "post_mongo_process" file exist
   stat:
     path: /tmp/Mongo_processes/post_mongo_services_status_{{ ansible_date_time.date }}
   register: post_file
 
 
-- name: Creating directory "Mongo_processes" 
+- name: Creating directory "Mongo_processes"
   file:
     path: /tmp/Mongo_processes
     state: directory
-   
+
 - name: Send output of running processes/services pre patching to "pre_mongo_process_{{ ansible_date_time.date }}"
   copy:
     content: |
             Running Mongo processes/services on {{ ansible_hostname }} before patching were:
-            {{ processes.stdout }}
+            {{ sadi_processes.stdout }}
     dest: /tmp/Mongo_processes/pre_mongo_services_status_{{ ansible_date_time.date }}
   when: not pre_file.stat.exists
 
@@ -36,26 +36,26 @@
   copy:
     content: |
             Running Mongo processes/services on {{ ansible_hostname }} After patching on {{ ansible_date_time.date }} were:
-            {{ processes.stdout }}
+            {{ sadi_processes.stdout }}
     dest: /tmp/Mongo_processes/post_mongo_services_status_{{ ansible_date_time.date }}
   when: pre_file.stat.exists
 
 - name: Generate diff
-  shell: 
-    cmd: diff "/tmp/Mongo_processes/pre_mongo_services_status_{{ ansible_date_time.date }}" "/tmp/Mongo_processes/post_mongo_services_status_{{ ansible_date_time.date }}" 
-  register: processes_diff
+  shell:
+    cmd: diff "/tmp/Mongo_processes/pre_mongo_services_status_{{ ansible_date_time.date }}" "/tmp/Mongo_processes/post_mongo_services_status_{{ ansible_date_time.date }}"
+  register: sadi_processes_diff
   ignore_errors: yes
-  when: pre_file.stat.exists and post_file.stat.exists 
+  when: pre_file.stat.exists and post_file.stat.exists
 
-  
+
 - name: Fail module for processes
   fail:
     msg: |
          "THERE HAS BEEN A CHANGE IN THE LIST OF MONGO PROCESSES FROM PRE PATCHING ON:
            - {{ ansible_hostname }}"
            "{{ processes_diff.stdout_lines }}"
-    when: processes_diff.rc !=0
-  when: pre_file.stat.exists and post_file.stat.exists 
+    when: sadi_processes_diff.rc !=0
+  when: pre_file.stat.exists and post_file.stat.exists
 
 # delete old files older than 90 days
 - name: Find files older the 90 days old
