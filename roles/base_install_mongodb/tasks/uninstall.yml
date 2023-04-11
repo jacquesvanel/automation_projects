@@ -80,7 +80,7 @@
   file:
     path: "{{ item }}"
     state: absent
-    recurse: true
+    #recurse: true
   loop: "{{ files1.files | map(attribute='path') | list }}"
   loop_control:
     label: files
