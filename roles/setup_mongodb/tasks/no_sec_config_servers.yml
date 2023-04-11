@@ -48,4 +48,3 @@
     loop: "{{ config_servers }}"
     loop_control:
       label: "{{ item.name }}"
-  when: item.name is defined and ansible_hostname == {{ item.name }}
