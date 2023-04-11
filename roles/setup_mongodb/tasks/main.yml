@@ -27,21 +27,21 @@
 
 - name: add configsvr config/service files 
   import_tasks: no_sec_config_servers.yml
-   when: "item.name is defined and ansible_hostname == {{ item.name }}" 
+  when: "ansible_hostname is match('config')"
   tags:
     - reinstall
     - no_sec_config_servers
 
 - name: add shardsvr config/service files
   import_tasks: no_sec_shard_servers.yml
-   when: "item.name is defined and ansible_hostname == {{ item.name }}"
+  when: "ansible_hostname is match('shard')"
   tags:
     - reinstall
     - no_sec_servers
 
 - name: add single_repset_svr config/service files
   import_tasks: no_sec_single_repset_servers.yml
-   when: "item.name is defined and ansible_hostname == {{ item.name }}" 
+  when: "ansible_hostname is match('rs_')" 
   tags:
     - reinstall
     - no_sec_servers
