@@ -72,7 +72,7 @@ ieproot: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/M
 cacert: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/CA_Root_Inter.pem
 env: sbx
 
-db_servers:
+config_servers:
   - name: configsvr_rsa
     log_path: "/var/log/mongodb/{{ env }}/config-rs_a.log"
     pid_path: "/var/run/mongodb/{{ env }}/mongod-config-rs_a.pid"
@@ -114,7 +114,8 @@ db_servers:
     host_config: config-rs_c
     db: "{{ appname }}_{{ env }}_db"
     description: MongoDB Config Server
-  
+ 
+shard_servers:    
   - name: shard1a
     log_path: "/var/log/mongodb/{{ env }}/sh1-rs_a.log"
     pid_path: "/var/run/mongodb/{{ env }}/mongod-sh1-rs_a.pid"
@@ -241,6 +242,7 @@ db_servers:
     db: "{{ appname }}_{{ env }}_db"
     description: MongoDB Shard Server
 
+single_repset_servers:
   - name: rs_1
     log_path: "/var/log/mongodb/{{ env }}/rs_a.log"
     pid_path: "/var/run/mongodb/{{ env }}/mongod-rs_a.pid"
