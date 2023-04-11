@@ -35,15 +35,15 @@
       - "/etc/systemd/system/"
       - "/var/log/"
       - "/var/run/"
-      - "/data/{{ env }}"
+      - "/data/{{ env }}/"
       - "/var/lib/"
-      - "/etc/"
+      - "/etc/mongo/"
       - "/etc/logrotate.d/"
         #      - "/usr/local/bin/"
         #      - "/opt/scripts/"
       - "/tmp/"
     patterns: "mongo*"
-    recurse: yes
+    recurse: true
   register: files 
 
 - debug:
@@ -56,6 +56,7 @@
   file:
     path: "{{ item }}"
     state: absent
+    recurse: true
   loop: "{{ files.files | map(attribute='path') | list }}"
   loop_control:
     label: files
