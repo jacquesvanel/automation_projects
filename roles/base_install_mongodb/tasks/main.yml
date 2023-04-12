@@ -23,12 +23,6 @@
     - reinstall
     - dbtools
 
-- name: install mongodb_mms_agent
-  import_tasks: install_mms_agent.yml
-  tags:
-    - reinstall
-    - mms_agent
-
 - name: make directories
   import_tasks: make_file.yml
   tags:
@@ -53,3 +47,8 @@
     - reinstall
     - hugepages
 
+- name: install mongodb_mms_agent
+  import_tasks: install_mms_agent.yml
+  tags:
+    - reinstall
+    - mms_agent
