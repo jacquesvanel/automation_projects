@@ -8,7 +8,7 @@
   loop: "{{ db_servers }}"
   loop_control:
     label: "{{ item.name }}"
-  when:  ansible_hostname == {{ item.name }} and item.name == 'rs_1'
+    #when:  ansible_hostname == {{ item.name }} and item.name == 'rs_1'
 
 - name: (setup_users.yml) layout user template for the server
   template:
@@ -21,7 +21,7 @@
   loop: "{{ db_servers }}"
   loop_control:
     label: "{{ item.name }}"
-  when:  ansible_hostname == {{ item.name }} and item.name == 'rs_1'
+    #  when:  ansible_hostname == {{ item.name }} and item.name == 'rs_1'
 
 - name: (setup_users.yml) set up users on config server
   shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/user_setup_{{ item.name }}.js
@@ -29,13 +29,11 @@
   with_items: "{{ db_servers }}"
   loop_control:
     label: "{{ item.name }}"
-  when:  ansible_hostname == {{ item.name }} and item.name == 'rs_1'
+    #  when:  ansible_hostname == {{ item.name }} and item.name == 'rs_1'
   ignore_errors: yes
 
 - name: (setup_users.yml) show user result
   debug:
     var: user_result.results
-    #when:  ansible_hostname == {{ item.name }} and item.name == 'rs_1'
-    #  with_items: "{{ db_servers }}"
   ignore_errors: yes
 

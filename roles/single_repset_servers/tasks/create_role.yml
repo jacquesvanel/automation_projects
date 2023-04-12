@@ -31,6 +31,6 @@
   
   - name: (create_role.yml) show role result
     debug:
-      msg: "{{ role_result.stdout }}"
-  when: ansible_hostname == {{ item.name }} and item.name == 'rs_1'
+      msg: "{{ role_result.results }}"
+      #  when: ansible_hostname == {{ item.name }} and item.name == 'rs_1'
   ignore_errors: yes
