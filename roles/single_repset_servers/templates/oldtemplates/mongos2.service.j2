@@ -1,0 +1,24 @@
+[Unit]
+Description=mongos
+After=syslog.target
+After=network.target
+
+[Service]
+User=mongod
+Group=opr-db-admin
+PIDFile=/var/run/mongodb/{{ env }}/mongos-37019.pid
+ExecStartPre=/usr/bin/mkdir -p /var/run/mongodb
+ExecStartPre=/usr/bin/chown mongod:mongod /var/run/mongodb/{{ env }}
+ExecStartPre=/usr/bin/chmod 0755 /var/run/mongodb/{{ env }}
+PermissionsStartOnly=true
+ExecStart=/usr/bin/mongos --quiet \
+    --config /etc/mongo/{{ env }}/mongoS2.cfg 
+LimitFSIZE=infinity
+LimitCPU=infinity
+LimitAS=infinity
+LimitNOFILE=64000
+LimitNPROC=64000
+TasksAccounting=false
+
+[Install]
+WantedBy=multi-user.target

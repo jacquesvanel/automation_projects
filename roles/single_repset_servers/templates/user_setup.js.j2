@@ -1,0 +1,136 @@
+db.createUser(
+{       user: "gmani",
+        pwd: "Qwerty#12345px",
+"roles" : [
+    { "role" : "readWrite",
+      "db" : "{{ item.db }}"
+    },
+    { "role" : "userAdminAnyDatabase",
+      "db" : "admin"
+    },
+    { "role" : "clusterAdmin",
+      "db" : "admin"
+    },
+    { "role" : "root",
+      "db" : "admin"
+    }
+]});
+
+db.createUser(
+{       user: "amkanda",
+        pwd: "Qwerty#12345px",
+"roles" : [
+    { "role" : "readWrite",
+      "db" : "{{ item.db }}"
+    },
+    { "role" : "userAdminAnyDatabase",
+      "db" : "admin"
+    },
+    { "role" : "clusterAdmin",
+      "db" : "admin"
+    },
+    { "role" : "root",
+      "db" : "admin"
+    }
+]});
+
+db.createUser(
+{       user: "superUserAdmin",
+        pwd: "Qwerty#12345px",
+"roles" : [
+    { "role" : "userAdminAnyDatabase",
+      "db" : "admin"
+    }
+]});
+
+db.createUser(
+{       user: "svc_monitoring",
+        pwd: "LiB13JbRhm#j!",
+"roles" : [
+    { "role" : "read",
+      "db" : "{{ item.db }}"
+    },
+    { "role" : "clusterMonitor",
+      "db" : "admin"
+    }
+]});
+
+db.createUser(
+{       user: "svc_ansible_automation",
+        pwd: "Qwerty#12345px",
+"roles" : [
+    { "role" : "readWrite",
+      "db" : "{{ item.db }}"
+    },
+    { "role" : "userAdminAnyDatabase",
+      "db" : "admin"
+    },
+    { "role" : "clusterAdmin",
+      "db" : "admin"
+    },
+    { "role" : "root",
+      "db" : "admin"
+    }
+]});
+
+db.createUser(
+{    user: "root",
+     pwd: "Qwerty#12345px",
+"roles" : ['root']
+
+});
+
+db.createUser(
+{    user: "mms",
+     pwd: "Qwerty#12345px",
+"roles" : [
+    { db: "admin",
+      role: "readWriteAnyDatabase"
+    }, 
+    { db: "admin",
+      role: "dbAdminAnyDatabase"
+    },
+    { db: "admin",
+      role: "clusterMonitor"
+    }
+]});
+
+db.createUser(
+{   user: "mms_backup",
+    pwd: "Qwerty#12345px",
+"roles" : [
+    { db: "admin",
+      role: "readWriteAnyDatabase"
+    },
+    { db: "admin",
+      role: "dbAdminAnyDatabase"
+    },
+    { db: "admin",
+      role: "clusterMonitor"
+    }
+]});
+
+db.createUser(
+{  user: "mms-automation",
+   pwd: "Qwerty#12345px",
+"roles" : [
+    { db: "admin",
+      role: "readWriteAnyDatabase"
+    },
+    { db: "admin",
+      role: "dbAdminAnyDatabase"
+    },
+    { db: "admin",
+      role: "clusterAdmin"
+    }, 
+    { db: "admin",
+      role: "userAdminAnyDatabase"
+    }, 
+    { db: "admin",
+      role: "backup"
+    },
+    { db: "admin",
+      role: "restore"
+    }
+]})
+
