@@ -34,9 +34,9 @@
 
 - name: (setup_users.yml) show user result
   debug:
-    msg: "{{ user_result.stdout_lines }}"
-  when:  ansible_hostname == {{ item.name }} and item.name == 'rs_1'
-  with_items: "{{ db_servers }}"
+    var: user_result.stdout_lines 
+    #when:  ansible_hostname == {{ item.name }} and item.name == 'rs_1'
+    #  with_items: "{{ db_servers }}"
   ignore_errors: yes
 
 
