@@ -16,22 +16,16 @@
 
 - name: setup users
   import_tasks: setup_users.yml
-  when:  ansible_hostname == {{ item.name }} and item.name == 'rs_1'
-  with_items: "{{ db_servers }}"
   tags: 
     - setup_users
 
 - name: create role
   import_tasks: create_role.yml
-  when:  ansible_hostname == {{ item.name }} and item.name == 'rs_1'
-  with_items: "{{ db_servers }}"
   tags: 
     - create_role
     
 - name: change ldap interval
   import_tasks: ldap_interval.yml
-  when:  ansible_hostname == {{ item.name }} and item.name == 'rs_1'
-  with_items: "{{ db_servers }}"
   tags:
     - ldap_interval  
 
@@ -42,8 +36,6 @@
 
 - name: initiate clusters
   import_tasks: initiate_clusters.yml
-  when:  ansible_hostname == {{ item.name }} and item.name == 'rs_1'
-  with_items: "{{ db_servers }}"
   tags:
     - initiate_clusters
 

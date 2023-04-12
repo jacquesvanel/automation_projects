@@ -31,7 +31,7 @@
 
   - name: (ldap_interval.yml) show ldap result
     debug:
-      var: ldap_result.stdout_lines
+      var: ldap_result.results
     loop: "{{ db_servers }}"
     loop_control:
       label: "{{ item.name }}"

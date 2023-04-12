@@ -32,7 +32,7 @@
 
   - name: (initiate_clusters.yml) show result
     debug:
-      msg: "{{ initiate_result.stdout }}"
+      msg: "{{ initiate_result.results }}"
   when: ansible_hostname == {{ item.name }} and item.name == 'rs_1'
   ignore_errors: yes
 
