@@ -1,0 +1,327 @@
+---
+# vars file for mongo_config
+public_key: ujumosek
+private_key: aeb3df77-80ce-41d2-9d6d-41aa942feb67
+project_id: 642c413a9948ee7556f0267c
+ops_manager_host: "http://ae1rsbxlmdb005.opr.afsiep.net:8080"
+api: "/api/public/v1.0"
+project_name: test_project
+
+base_packages:
+  - mongodb-enterprise-5.0.13-1.el8
+  - mongodb-enterprise-cryptd-5.0.13-1.el8
+  - mongodb-enterprise-shell-5.0.13-1.el8
+  - mongodb-enterprise-server-5.0.13-1.el8
+  - mongodb-enterprise-mongos-5.0.13-1.el8
+  - mongodb-enterprise-database-5.0.13-1.el8
+  - mongodb-mongosh
+
+dbtools:
+  - mongodb-enterprise-database-tools-extra
+  - mongodb-enterprise-tools
+  - mongodb-database-tools
+
+owner: mongod
+group: opr-db-admin
+
+configsvr_rsa_port: 57040
+configsvr_rsb_port: 57041
+configsvr_rsc_port: 57042
+
+shard1a_port: 37040
+shard1b_port: 37041
+shard1c_port: 37042
+
+shard2a_port: 47017
+shard2b_port: 47018
+shard2c_port: 47019
+
+shard3a_port: 57017
+shard3b_port: 57018
+shard3c_port: 57019
+
+mongos0_port: 37017
+mongos1_port: 37018
+mongos2_port: 37019
+
+   # placing keyfile cert #
+keyfile_dest: '/data/{{ env }}/keyfile.pem' 
+        # placing keywcert cert #
+keycert_dest: '/var/lib/mongodb/cert/KeyWCert.pem' 
+        # placing ieproot cert #
+ieproot_dest: '/etc/openldap/certs/iep_root_intermediate.pem' 
+        # placing ldap.conf #
+ldap_dest: '/etc/openldap/ldap.conf' 
+        # placing CA cert #
+cacert_dest: '/var/lib/mongodb/cert/CA_Root_Inter.pem' 
+
+
+
+#prod_query_user: "svc_mdbprd_ldap@opr.afsiep.net"
+#prod_query_password: "MI!iseji7ubope"
+
+#nonprod_query_user: "svc_mdbnprd_ldap@opr.afsiep.net"
+#nonprod_query_password: "36W=qR*AeoI0:h"
+
+
+keyfile: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/keys/keyfile.pem
+keycert: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/keys/KeyWCert.pem
+#tls_password: 22w#SBR5nfvZOt23
+ldap: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/ldap.conf
+ieproot: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/iep_root_intermediate.pem 
+cacert: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/CA_Root_Inter.pem
+env: sbx
+
+#config_servers:
+db_servers:
+  - name: configsvr_rsa
+    log_path: "/var/log/mongodb/{{ env }}/config-rs_a.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-config-rs_a.pid"
+    db_path: /data/{{ env }}/config/rs_a
+    dest: /etc/mongo/{{ env }}/rs_a.cfg
+    service: mongod_config
+    dest2: "/usr/lib/systemd/system/mongod_config.service"
+    port: 57040
+    cluster: configsvr
+    repset: config_{{ env }}
+    host_config: config-rs_a
+    db: "{{ appname }}_{{ env }}_db"
+    description: MongoDB Config Server
+
+  - name: configsvr_rsb
+    log_path: "/var/log/mongodb/{{ env }}/config-rs_b.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-config-rs_b.pid"
+    db_path: /data/{{ env }}/config/rs_b
+    dest: /etc/mongo/{{ env }}/rs_b.cfg
+    service: mongod_config
+    dest2: "/usr/lib/systemd/system/mongod_config.service"
+    port: 57041
+    cluster: configsvr
+    repset: config_{{ env }}
+    host_config: config-rs_b
+    db: "{{ appname }}_{{ env }}_db"
+    description: MongoDB Config Server
+
+  - name: configsvr_rsc
+    log_path: "/var/log/mongodb/{{ env }}/config-rs_c.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-config-rs_c.pid"
+    db_path: /data/{{ env }}/config/rs_c
+    dest: /etc/mongo/{{ env }}/rs_c.cfg
+    service: mongod_config
+    dest2: "/usr/lib/systemd/system/mongod_config.service"
+    port: 57042
+    cluster: configsvr
+    repset: config_{{ env }}
+    host_config: config-rs_c
+    db: "{{ appname }}_{{ env }}_db"
+    description: MongoDB Config Server
+ 
+    #shard_servers:    
+  - name: shard1a
+    log_path: "/var/log/mongodb/{{ env }}/sh1-rs_a.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-sh1-rs_a.pid"
+    db_path: /data/{{ env }}/shard1/rs_a
+    dest: "/etc/mongo/{{ env }}/shard1_rs_a.cfg"
+    service: mongod_shard1
+    dest2: "/usr/lib/systemd/system/mongod_shard1.service"
+    port: 37040
+    cluster: shardsvr
+    repset: sh1_{{ env }}
+    host_config: sh1-rs_a
+    db: "{{ appname }}_{{ env }}_db"
+    description: MongoDB Shard Server
+
+  - name: shard1b
+    log_path: "/var/log/mongodb/{{ env }}/sh1-rs_b.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-sh1-rs_b.pid"
+    db_path: /data/{{ env }}/shard1/rs_b
+    dest: "/etc/mongo/{{ env }}/shard1_rs_b.cfg"
+    service: mongod_shard1
+    dest2: "/usr/lib/systemd/system/mongod_shard1.service"
+    port: 37041
+    cluster: shardsvr
+    repset: sh1_{{ env }}
+    host_config: sh1-rs_b
+    db: "{{ appname }}_{{ env }}_db"
+    description: MongoDB Shard Server
+
+  - name: shard1c
+    log_path: "/var/log/mongodb/{{ env }}/sh1-rs_c.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-sh1-rs_c.pid"
+    db_path: /data/{{ env }}/shard1/rs_c
+    dest: "/etc/mongo/{{ env }}/shard1_rs_c.cfg"
+    service: mongod_shard1
+    dest2: "/usr/lib/systemd/system/mongod_shard1.service"
+    port: 37042
+    cluster: shardsvr
+    repset: sh1_{{ env }}
+    host_config: sh1-rs_c
+    db: "{{ appname }}_{{ env }}_db"
+    description: MongoDB Shard Server
+
+  - name: shard2a
+    log_path: "/var/log/mongodb/{{ env }}/sh2-rs_a.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-sh2-rs_a.pid"
+    db_path: /data/{{ env }}/shard2/rs_a
+    dest: "/etc/mongo/{{ env }}/shard2_rs_a.cfg"
+    service: mongod_shard2
+    dest2: "/usr/lib/systemd/system/mongod_shard2.service"
+    port: 47017
+    cluster: shardsvr
+    repset: sh2_{{ env }}
+    host_config: sh2-rs_a
+    db: "{{ appname }}_{{ env }}_db"
+    description: MongoDB Shard Server
+
+  - name: shard2b
+    log_path: "/var/log/mongodb/{{ env }}/sh2-rs_b.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-sh2-rs_b.pid"
+    db_path: /data/{{ env }}/shard2/rs_b
+    dest: "/etc/mongo/{{ env }}/shard2_rs_b.cfg"
+    service: mongod_shard2
+    dest2: "/usr/lib/systemd/system/mongod_shard2.service"
+    port: 47018
+    cluster: shardsvr
+    repset: sh2_{{ env }}
+    host_config: sh2-rs_b
+    db: "{{ appname }}_{{ env }}_db"
+    description: MongoDB Shard Server
+
+  - name: shard2c
+    log_path: "/var/log/mongodb/{{ env }}/sh2-rs_c.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-sh2-rs_c.pid"
+    db_path: /data/{{ env }}/shard2/rs_c
+    dest: "/etc/mongo/{{ env }}/shard2_rs_c.cfg"
+    service: mongod_shard2
+    dest2: "/usr/lib/systemd/system/mongod_shard2.service"
+    port: 47019
+    cluster: shardsvr
+    repset: sh2_{{ env }}
+    host_config: sh2-rs_c
+    db: "{{ appname }}_{{ env }}_db"
+    description: MongoDB Shard Server
+
+  - name: shard3a
+    log_path: "/var/log/mongodb/{{ env }}/sh3-rs_a.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-sh3-rs_a.pid"
+    db_path: /data/{{ env }}/shard3/rs_a
+    dest: "/etc/mongo/{{ env }}/shard3_rs_a.cfg"
+    service: mongod_shard3
+    dest2: "/usr/lib/systemd/system/mongod_shard3.service"
+    port: 57017
+    cluster: shardsvr
+    repset: sh3_{{ env }}
+    host_config: sh3-rs_a
+    db: "{{ appname }}_{{ env }}_db"
+    description: MongoDB Shard Server
+
+  - name: shard3b
+    log_path: "/var/log/mongodb/{{ env }}/sh3-rs_b.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-sh3-rs_b.pid"
+    db_path: /data/{{ env }}/shard3/rs_b
+    dest: "/etc/mongo/{{ env }}/shard3_rs_b.cfg"
+    service: mongod_shard3
+    dest2: "/usr/lib/systemd/system/mongod_shard3.service"
+    port: 57018
+    cluster: shardsvr
+    repset: sh3_{{ env }}
+    host_config: sh3-rs_b
+    db: "{{ appname }}_{{ env }}_db"
+    description: MongoDB Shard Server
+
+  - name: shard3c
+    log_path: "/var/log/mongodb/{{ env }}/sh3-rs_c.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-sh3-rs_c.pid"
+    db_path: /data/{{ env }}/shard3/rs_c
+    dest: "/etc/mongo/{{ env }}/shard3_rs_c.cfg"
+    service: mongod_shard3
+    dest2: "/usr/lib/systemd/system/mongod_shard3.service"
+    port: 57019
+    cluster: shardsvr
+    repset: sh3_{{ env }}
+    host_config: sh3-rs_c
+    db: "{{ appname }}_{{ env }}_db"
+    description: MongoDB Shard Server
+
+single_repset_servers:
+  - name: rs_1
+    log_path: "/var/log/mongodb/{{ env }}/rs_a.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-rs_a.pid"
+    db_path: /data/{{ env }}/
+    dest: "/etc/mongo/{{ env }}/rs_a.cfg"
+    service: mongod_config
+    dest2: "/usr/lib/systemd/system/mongod_config.service"
+    port: 37018
+    repset: rs_{{ appname }}_{{ env }}
+    host_config: rs_a
+    db: sadiauth
+    description: MongoDB Server
+
+  - name: rs_2
+    log_path: "/var/log/mongodb/{{ env }}/rs_a.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-rs_a.pid"
+    db_path: /data/{{ env }}/
+    dest: "/etc/mongo/{{ env }}/rs_a.cfg"
+    service: mongod_config
+    dest2: "/usr/lib/systemd/system/mongod_config.service"
+    port: 37018
+    repset: rs_{{ appname }}_{{ env }}
+    host_config: rs_a
+    db: sadiauth
+    description: MongoDB Server
+
+  - name: rs_3
+    log_path: "/var/log/mongodb/{{ env }}/rs_a.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-rs_a.pid"
+    db_path: /data/{{ env }}/
+    dest: "/etc/mongo/{{ env }}/rs_a.cfg"
+    service: mongod_config
+    dest2: "/usr/lib/systemd/system/mongod_config.service"
+    port: 37018
+    repset: rs_{{ appname }}_{{ env }}
+    host_config: rs_a
+    db: sadiauth
+    description: MongoDB Server
+
+mongos_servers:
+  - name: mongos0
+    log_path: "/var/log/mongodb/{{ env }}/mongos0.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongos-37017.pid"
+    db_path: /data/{{ env }}/config/rs_a
+    dest: /etc/mongo/{{ env }}/mongos0.cfg
+    service: mongos0
+    dest2: "/usr/lib/systemd/system/mongos0.service"
+    port: 37017
+    cluster: configsvr
+    repset: config_{{ env }}
+    host_config: mongos0
+    db: "{{ appname }}_{{ env }}_db"
+    description: MongoDB Mongos Server
+
+  - name: mongos1
+    log_path: "/var/log/mongodb/{{ env }}/mongos1.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongos-37018.pid"
+    db_path: /data/{{ env }}/config/rs_a
+    dest: /etc/mongo/{{ env }}/mongos1.cfg
+    service: mongos1 
+    dest2: "/usr/lib/systemd/system/mongos1.service"
+    port: 37018
+    cluster: configsvr
+    repset: config_{{ env }}
+    host_config: mongos1
+    db: "{{ appname }}_{{ env }}_db"
+    description: MongoDB Mongos Server
+
+  - name: mongos2
+    log_path: "/var/log/mongodb/{{ env }}/mongos2.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongos-37019.pid"
+    db_path: /data/{{ env }}/config/rs_a
+    dest: /etc/mongo/{{ env }}/mongos2.cfg
+    service: mongos2
+    dest2: "/usr/lib/systemd/system/mongos2.service"
+    port: 37019
+    cluster: configsvr
+    repset: config_{{ env }}
+    host_config: mongos0
+    db: "{{ appname }}_{{ env }}_db"
+    description: MongoDB Mongos Server

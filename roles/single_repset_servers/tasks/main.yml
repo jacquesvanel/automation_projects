@@ -14,67 +14,48 @@
     - mongo_service
 
 - name: add single_repset_svr config/service files
-  include_tasks: no_sec_single_repset_servers.yml
-  loop: "{{ single_repset_servers }}"
-  loop_control:
-    label: "{{ item.name }}"
-  when: "ansible_hostname in [rs_1, rs_2, rs_3]" 
+  import_tasks: no_sec_single_repset_servers.yml
   tags:
-    - reinstall
     - no_sec_servers
-
-- name: add mongos config/service files
-  import_tasks: mongos.yml
-  tags: 
-    - reinstall
-    - mongos
 
 - name: setup users
   import_tasks: setup_users.yml
   tags: 
-    - reinstall
     - setup_users
 
 - name: create role
   import_tasks: create_role.yml
   tags: 
-    - reinstall
     - create_role
     
 - name: change ldap interval
   import_tasks: ldap_interval.yml
   tags:
-    - reinstall
     - ldap_interval  
 
 - name: start mongos
   include_tasks: start_mongos.yml
   tags:
-    - reinstall
     - start_mongos
 
 - name: add configsvr config/service files
   import_tasks: servers.yml
   tags:
-    - reinstall
     - servers
 
 - name: initiate clusters
   import_tasks: initiate_clusters.yml
   tags:
-    - reinstall
     - initiate_clusters
 
 - name: add keep alive line to sysctl.conf
   import_tasks: add_line_to_sys.yml
   tags:
-    - reinstall
     - keepalive
 
 - name: add shards to cluster
   import_tasks: add_shards.yml
   tags:
-    - reinstall
     - add_shards
 
 - name: start mongo
@@ -85,7 +66,6 @@
 - name: mms agent
   import_tasks: mms_agent.yml
   tags:
-    - reinstall
     - mms_agent
 #####################################################################
 - name: install sadi config

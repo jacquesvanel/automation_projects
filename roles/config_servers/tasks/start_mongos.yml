@@ -1,0 +1,10 @@
+---
+- name: (start_mongos.yml) start and enable mongos.service
+  systemd:
+    name: "{{ item.service }}"
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+  with_items: "{{ mongos_servers }}"
+  loop_control:
+    label: "{{ item.name }}"

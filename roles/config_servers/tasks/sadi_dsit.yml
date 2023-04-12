@@ -1,0 +1,139 @@
+---
+- name: make dbpath file directory /data/{{ env }}/config/rs_a
+  file:
+    path: /data/{{ env }}
+    state: directory
+    mode: '2775'
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+
+- name: layout template for /etc/mongo/{{ env }}/rs_a.cfg on the config server
+  template:
+    src:  no_sec_sadi_dsit_mongod.conf.j2
+    dest: "/etc/mongo/{{ env }}/rs_a.cfg"
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+    mode: '0644'
+    force: yes
+
+- name: layout template for added mongod_config.service on the server
+  template:
+    src: sadi_dsit_mongod_config.service.j2
+    dest: "/usr/lib/systemd/system/mongod_config.service"
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+    mode: '0640'
+    force: yes
+
+- name: start mongod_config
+  systemd:
+    name: mongod_config
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+  ###################################################################################
+- name: make directory for /etc/mongo/{{ env }}/scripts/
+  file:
+    dest: /etc/mongo/{{ env }}/scripts/
+    state: directory
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+  tags: setup_users
+
+- name: layout user template for the server
+  template:
+    src:  sadi_dsit_user_setup.js.j2
+    dest: "/etc/mongo/{{ env }}/scripts/user_setup.js"
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+    mode: '0644'
+    force: yes
+  tags: setup_users
+
+- block:
+  - name: set up users on config server
+    shell: mongo {{ configsvr_rsa }}.opr.afsiep.net:37018/admin /etc/mongo/{{ env }}/scripts/user_setup.js
+    register: config_result
+
+  - name: show config shell result
+    debug:
+      var: config_result.stdout_lines
+  when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
+  ignore_errors: yes
+  tags: setup_users
+######################################################################################
+- name: layout role template for the server
+  template:
+    src:  sadi_dsit_createrole.js.j2
+    dest: "/etc/mongo/{{ env }}/scripts/createrole.js"
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+    mode: '0644'
+    force: yes
+  tags: create_role
+
+- block:
+  - name: set up role on config server
+    shell: mongo {{ configsvr_rsa }}.opr.afsiep.net:37018/admin /etc/mongo/{{ env }}/scripts/createrole.js
+    register: config_result
+
+  - name: show config shell result
+    debug:
+      var: config_result.stdout_lines
+  when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
+  ignore_errors: yes
+  tags: create_role
+########################################################################################
+- name: layout user template for the server
+  template:
+    src:  ldapintervalchange.js.j2
+    dest: "/etc/mongo/{{ env }}/scripts/ldapintervalchange.js"
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+    mode: '0644'
+    force: yes
+  tags: ldap_interval_change
+
+- block:
+  - name: set up ldap change
+    shell: mongo {{ configsvr_rsa }}.opr.afsiep.net:37018/admin /etc/mongo/{{ env }}/scripts/ldapintervalchange.js
+    register: config_result
+
+  - name: show config shell result
+    debug:
+      var: config_result.stdout_lines
+  when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
+  ignore_errors: yes
+  tags: ldap_interval_change
+###########################################################################################
+- name: layout template for /etc/mongo/{{ env }}/rs_a.cfg on the config server
+  template:
+    src:  sadi_dsit_mongod.conf.j2
+    dest: "/etc/mongo/{{ env }}/rs_a.cfg"
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+    mode: '0644'
+    force: yes
+
+- name: start mongod_config
+  systemd:
+    name: mongod_config
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+
+- name: layout template for /etc/mongo/{{ env }}/scripts/initiate.cluster.js server
+  template:
+    src:  sadi_dsit_initiate.cluster.js.j2
+    dest: "/etc/mongo/{{ env }}/scripts/initiate.cluster.js"
+    owner: root
+    group: root
+    mode: '0644'
+    force: yes
+
+- name: initiate shard replica set
+  shell: mongo {{ configsvr_rsa }}.opr.afsiep.net:37018/admin /etc/mongo/{{ env }}/scripts/initiate.cluster.js -u amkanda -p Qwerty#12345px
+  register: shell_result
+
+- debug:
+    msg: "{{ shell_result.stdout_lines }}"

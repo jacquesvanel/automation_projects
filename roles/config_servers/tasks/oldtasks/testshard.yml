@@ -1,0 +1,332 @@
+---
+# block for shard1a
+- name: make file directory "/etc/mongo/{{ env }}/"
+  file:
+    path: "/etc/mongo/{{ env }}/"
+    state: directory
+    
+- block:
+  - name: make dbpath file directory /data/{{ env }}/shard1/rs_a
+    file:
+      path: /data/{{ env }}/shard1/rs_a
+      state: directory
+      mode: '2775'
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+
+  - name: layout template for /etc/mongo/{{ env }}/shard1_rs_a.cfg on the shard1 server
+    template:
+      src: no_sec_sh1.conf.j2
+      dest: "/etc/mongo/{{ env }}/shard1_rs_a.cfg"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0644'
+      force: yes
+
+  - name: layout template for added mongod_shard1.service on the server
+    template:
+      src: mongod_shard1.service.j2
+      dest: "/usr/lib/systemd/system/mongod_shard1.service"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0640'
+      force: yes
+
+  - name: start mongod_shard1
+    systemd:
+      name: mongod_shard1
+      state: stopped
+      enabled: yes
+      daemon_reload: yes
+  when: (shard1a is defined) and (ansible_hostname == shard1a)
+  ignore_errors: yes
+
+# block for shard1b
+- block:
+  - name: make dbpath file directory /data/{{ env }}/shard1/rs_b
+    file:
+      path: /data/{{ env }}/shard1/rs_b
+      state: directory
+      mode: '2775'
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+
+  - name: layout template for /etc/mongo/{{ env }}/shard1_rs_b.cfg on the shard1 server
+    template:
+      src: no_sec_sh1.conf.j2
+      dest: "/etc/mongo/{{ env }}/shard1_rs_b.cfg"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0644'
+      force: yes
+
+  - name: layout template for added mongod_shard1.service on the server
+    template:
+      src: mongod_shard1.service.j2
+      dest: "/usr/lib/systemd/system/mongod_shard1.service"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0640'
+      force: yes
+
+  - name: start mongod_shard1
+    systemd:
+      name: mongod_shard1
+      state: stopped
+      enabled: yes
+      daemon_reload: yes
+  when: (shard1b is defined) and (ansible_hostname == shard1b)
+  ignore_errors: yes
+
+# block for shard1c
+- block:
+  - name: make dbpath file directory /data/{{ env }}/shard1/rs_c
+    file:
+      path: /data/{{ env }}/shard1/rs_c
+      state: directory
+      mode: '2775'
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+
+  - name: layout template for /etc/mongo/{{ env }}/shard1_rs_c.cfg on the shard1 server
+    template:
+      src: no_sec_sh1.conf.j2
+      dest: "/etc/mongo/{{ env }}/shard1_rs_c.cfg"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0644'
+      force: yes
+
+  - name: layout template for added mongod_shard1.service on the server
+    template:
+      src: mongod_shard1.service.j2
+      dest: "/usr/lib/systemd/system/mongod_shard1.service"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0640'
+      force: yes
+
+  - name: start mongod_shard1
+    systemd:
+      name: mongod_shard1
+      state: stopped
+      enabled: yes
+      daemon_reload: yes
+  when: (shard1c is defined) and (ansible_hostname == shard1c)
+  ignore_errors: yes
+
+- block:
+  - name: make dbpath file directory /data/{{ env }}/shard2/rs_a
+    file:
+      path: /data/{{ env }}/shard2/rs_a
+      state: directory
+      mode: '2775'
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+
+  - name: layout template for /etc/mongo/{{ env }}/shard2_rs_a.cfg on the shard2 server
+    template:
+      src:  no_sec_sh2.conf.j2
+      dest: "/etc/mongo/{{ env }}/shard2_rs_a.cfg"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0644'
+      force: yes
+
+  - name: layout template for added mongod_shard2.service on the server
+    template:
+      src: mongod_shard2.service.j2
+      dest: "/usr/lib/systemd/system/mongod_shard2.service"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0640'
+      force: yes
+
+  - name: start mongod_shard2
+    systemd:
+      name: mongod_shard2
+      state: restarted
+      enabled: yes
+      daemon_reload: yes
+  when: (shard2a is defined) and (ansible_hostname == shard2a)
+  ignore_errors: yes
+# block for shard2b
+- block:
+  - name: make dbpath file directory /data/{{ env }}/shard2/rs_b
+    file:
+      path: /data/{{ env }}/shard2/rs_b
+      state: directory
+      mode: '2775'
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+
+  - name: layout template for /etc/mongo/{{ env }}/shard2_rs_b.cfg on the shard2 server
+    template:
+      src:  no_sec_sh2.conf.j2
+      dest: "/etc/mongo/{{ env }}/shard2_rs_b.cfg"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0644'
+      force: yes
+
+  - name: layout template for added mongod_shard2.service on the server
+    template:
+      src: mongod_shard2.service.j2
+      dest: "/usr/lib/systemd/system/mongod_shard2.service"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0640'
+      force: yes
+
+  - name: start mongod_shard2
+    systemd:
+      name: mongod_shard2
+      state: restarted
+      enabled: yes
+      daemon_reload: yes
+  when: (shard2b is defined) and (ansible_hostname == shard2b)
+  ignore_errors: yes
+# block for shard2c
+- block:
+  - name: make dbpath file directory /data/{{ env }}/shard2/rs_c
+    file:
+      path: /data/{{ env }}/shard2/rs_c
+      state: directory
+      mode: '2775'
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+
+  - name: layout template for /etc/mongo/{{ env }}/shard2_rs_c.cfg on the shard2 server
+    template:
+      src:  no_sec_sh2.conf.j2
+      dest: "/etc/mongo/{{ env }}/shard2_rs_c.cfg"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0644'
+      force: yes
+
+  - name: layout template for added mongod_shard2.service on the server
+    template:
+      src: mongod_shard2.service.j2
+      dest: "/usr/lib/systemd/system/mongod_shard2.service"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0640'
+      force: yes
+
+  - name: start mongod_shard2
+    systemd:
+      name: mongod_shard2
+      state: restarted
+      enabled: yes
+      daemon_reload: yes
+  when: (shard2c is defined) and (ansible_hostname == shard2c)
+  ignore_errors: yes
+# block for shard3a
+- block:
+  - name: make dbpath file directory /data/{{ env }}/shard3/rs_a
+    file:
+      path: /data/{{ env }}/shard3/rs_a
+      state: directory
+      mode: '2775'
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+
+  - name: layout template for /etc/mongo/{{ env }}/shard3_rs_a.cfg on the shard3 server
+    template:
+      src:  no_sec_sh3.conf.j2
+      dest: "/etc/mongo/{{ env }}/shard3_rs_a.cfg"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0644'
+      force: yes
+
+  - name: layout template for added mongod_shard3.service on the server
+    template:
+      src: mongod_shard3.service.j2
+      dest: "/usr/lib/systemd/system/mongod_shard3.service"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0640'
+      force: yes
+
+  - name: start mongod_shard3
+    systemd:
+      name: mongod_shard3
+      state: restarted
+      enabled: yes
+      daemon_reload: yes
+  when: (shard3a is defined) and (ansible_hostname == shard3a)
+  ignore_errors: yes
+# block for shard3b
+- block:
+  - name: make dbpath file directory /data/{{ env }}/shard3/rs_b
+    file:
+      path: /data/{{ env }}/shard3/rs_b
+      state: directory
+      mode: '2775'
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+
+  - name: layout template for /etc/mongo/{{ env }}/shard3_rs_b.cfg on the shard3 server
+    template:
+      src:  no_sec_sh3.conf.j2
+      dest: "/etc/mongo/{{ env }}/shard3_rs_b.cfg"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0644'
+      force: yes
+
+  - name: layout template for added mongod_shard3.service on the server
+    template:
+      src: mongod_shard3.service.j2
+      dest: "/usr/lib/systemd/system/mongod_shard3.service"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0640'
+      force: yes
+
+  - name: start mongod_shard3
+    systemd:
+      name: mongod_shard3
+      state: restarted
+      enabled: yes
+      daemon_reload: yes
+  when: (shard3b is defined) and (ansible_hostname == shard3b)
+  ignore_errors: yes
+# block for shard3a
+- block:
+  - name: make dbpath file directory /data/{{ env }}/shard3/rs_c
+    file:
+      path: /data/{{ env }}/shard3/rs_c
+      state: directory
+      mode: '2775'
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+
+  - name: layout template for /etc/mongo/{{ env }}/shard3_rs_c.cfg on the shard3 server
+    template:
+      src:  no_sec_sh3.conf.j2
+      dest: "/etc/mongo/{{ env }}/shard3_rs_c.cfg"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0644'
+      force: yes
+
+  - name: layout template for added mongod_shard3.service on the server
+    template:
+      src: mongod_shard3.service.j2
+      dest: "/usr/lib/systemd/system/mongod_shard3.service"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0640'
+      force: yes
+
+  - name: start mongod_shard3
+    systemd:
+      name: mongod_shard3
+      state: restarted
+      enabled: yes
+      daemon_reload: yes
+  when: (shard3c is defined) and (ansible_hostname == shard3c)
+  ignore_errors: yes

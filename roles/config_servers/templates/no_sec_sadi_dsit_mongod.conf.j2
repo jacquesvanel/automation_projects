@@ -1,0 +1,17 @@
+systemLog:
+  destination: file
+  path: "/var/log/mongodb/{{ env }}/rs_a.log"
+  logAppend: true
+  logRotate: reopen
+processManagement:
+  fork: true
+  pidFilePath: "/var/run/mongodb/{{ env }}/rs_a.pid"
+net:
+  port: 37018 
+  bindIp: localhost,{{ ansible_fqdn }}
+storage:
+  dbPath: /data/{{ env }}
+#  wiredTiger:
+#    engineConfig:
+#      cacheSizeGB: 5
+

@@ -32,10 +32,5 @@
   - name: (create_role.yml) show role result
     debug:
       msg: "{{ role_result.stdout }}"
-  when: >
-        ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa' or
-        ansible_hostname == {{ item.name }} and item.name == 'shard1a' or
-        ansible_hostname == {{ item.name }} and item.name == 'shard2a' or
-        ansible_hostname == {{ item.name }} and item.name == 'shard3a' or
-        ansible_hostname == {{ item.name }} and item.name == 'rs_1'
+  when: ansible_hostname == {{ item.name }} and item.name == 'rs_1'
   ignore_errors: yes

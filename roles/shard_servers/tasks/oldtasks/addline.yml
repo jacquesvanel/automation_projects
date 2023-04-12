@@ -1,0 +1,77 @@
+---
+- name: find config files on server
+  find:
+    paths: "/etc/mongo/{{ env }}/"
+    patterns: "*.cfg"
+    recurse: yes
+  register: cfgs
+
+- name: make backup
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/mongo/"
+    remote_src: yes
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}" 
+
+- name: remove block for config file
+  shell: sed -i '/userToDNMapping:/g' "{{ item }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+- name: remove char
+  shell: sed -i "/'\[/g" "{{ item }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+- name:  remove char
+  shell: sed -i '/{/g' "{{ item }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+- name:  remove char
+  shell: sed -i '/authz:/g' "{{ item }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+- name:  remove char
+  shell: sed -i '/match/g' "{{ item }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+- name:  remove char
+  shell: sed -i '/}/g' "{{ item }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+- name:  remove char
+  shell: sed -i "/\]'/g" "{{ item }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+- name: remove empty lines
+  shell: sed -i '/^$/d' "{{ item }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+- name: insert block for config file
+  blockinfile:
+    path: "{{ item }}"
+    insertafter: "transportSecurity: tls"
+    block: "{{ lookup('template', 'addline.j2') }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+- name: remove ansible managed lines
+  shell:  sed -i '/# BEGIN/d' "{{ item }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+- name: remove anisble managed lines
+  shell:  sed -i '/# END/d' "{{ item }}"
+  with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+- name: remove lines from mongos
+  shell: sed -i '/queryTemplate:/d' "{{ item }}"
+  with_items:
+    - "/etc/mongo/{{ env }}/mongos0.cfg"
+    - "/etc/mongo/{{ env }}/mongos1.cfg"
+    - "/etc/mongo/{{ env }}/mongos2.cfg"  
+
+- name: remove lines from mongos
+  shell: sed -i '/authz:/d' "{{ item }}"
+  with_items:
+    - "/etc/mongo/{{ env }}/mongos0.cfg"
+    - "/etc/mongo/{{ env }}/mongos1.cfg"
+    - "/etc/mongo/{{ env }}/mongos2.cfg"
+
+

@@ -1,0 +1,10 @@
+---
+# placing mongo.service file #
+- name: layout mongo-mms service template
+  template:
+    src:  "mongomms.service.j2"
+    dest: "/etc/systemd/system/mongo_mms.service"
+    owner: root
+    group: root
+    mode: '0640'
+    force: yes

@@ -1,0 +1,6 @@
+---
+- name: add service file template
+  template: 
+    src: mongodb-mms-automation-agent.service.j2
+    dest: "/etc/systemd/system/"
+    mode: 0755

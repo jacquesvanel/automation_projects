@@ -1,0 +1,15 @@
+#/etc/logrotate.d/
+/var/log/mongodb/*/*.log {
+    daily
+    rotate 5
+    compress
+    delaycompress
+    size 4000k
+    missingok
+    notifempty
+    sharedscripts
+    copytruncate
+    postrotate
+        /bin/kill -SIGUSR1 `find /var/run/mongodb/ -name "*.pid" -exec cat {} \; 2> /dev/null|xargs` 2> /dev/null || true
+    endscript
+}

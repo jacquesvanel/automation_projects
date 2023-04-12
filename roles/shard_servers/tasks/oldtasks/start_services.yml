@@ -1,0 +1,90 @@
+---
+- name: start mongod on config servers 
+  systemd:
+    name: mongod_config
+    state: restarted
+  when: "{{ start_mongod_config }}"
+  loop:
+    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
+    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
+    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
+  loop_control:
+    loop_var: start_mongod_config
+
+- block:      
+  - name: start mongod_shard1.service
+    systemd:
+      name: mongod_shard1
+      state: restarted
+    when: "{{ start_mongod_shard1 }}"
+    loop:
+      - "(shard1a is defined) and (ansible_hostname == shard1a)"
+      - "(shard1b is defined) and (ansible_hostname == shard1b)"
+      - "(shard1c is defined) and (ansible_hostname == shard1c)"
+    loop_control:
+      loop_var: start_mongod_shard1
+  ignore_errors: yes
+
+- block:
+  - name: start mongod_shard2.service
+    systemd:
+      name: mongod_shard2
+      state: restarted
+    when: "{{ start_mongod_shard2 }}"
+    loop:
+      - "(shard2a is defined) and (ansible_hostname == shard2a)"
+      - "(shard2b is defined) and (ansible_hostname == shard2b)"
+      - "(shard2c is defined) and (ansible_hostname == shard2c)" 
+    loop_control:
+      loop_var: start_mongod_shard2
+  ignore_errors: yes
+
+- block:
+  - name: start mongod_shard3.service
+    systemd:
+      name: mongod_shard3
+      state: restarted
+    when: "{{ start_mongod_shard3 }}"
+    loop:
+      - "(shard3a is defined) and (ansible_hostname == shard3a)"
+      - "(shard3b is defined) and (ansible_hostname == shard3b)"
+      - "(shard3c is defined) and (ansible_hostname == shard3c)"
+    loop_control:
+      loop_var: start_mongod_shard3
+  ignore_errors: yes
+
+- name: start mongos0
+  systemd:
+    name: mongos0
+    state: restarted
+  when: "{{ start_mongos0 }}"
+  loop:
+    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
+    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
+    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
+  loop_control:
+    loop_var: start_mongos0
+
+- name: start mongos1
+  systemd:
+    name: mongos1
+    state: restarted
+  when: "{{ start_mongos1 }}"
+  loop:
+    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
+    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
+    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
+  loop_control:
+    loop_var: start_mongos1
+
+- name: start mongos2.service
+  systemd:
+    name: mongos2
+    state: restarted
+  when: "{{ start_mongos2 }}"
+  loop:
+    - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
+    - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
+    - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
+  loop_control:
+    loop_var: start_mongos2

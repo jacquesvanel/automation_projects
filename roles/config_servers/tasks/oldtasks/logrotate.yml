@@ -1,0 +1,38 @@
+---
+- name: layout templates
+  template:
+    src:  logrotate.conf.j2
+    dest: "/etc/logrotate.d/mongo"
+    owner: root
+    group: root
+    mode: '0640'
+    force: yes
+
+- name: add cronjob for logrotate
+  cron:
+    name: "logrotate for mongodb logs"
+    minute: "23"
+    job: "/usr/sbin/logrotate -f /etc/logrotate.d/mongo"
+
+- name: add cronjob for diagnostic.data
+  cron:
+    name: "remove old binaries from diagnostic.data"
+    hour: "23"
+    job: "/usr/bin/find /var/log/mongodb/*/*.diagnostic.data/*  -type f -mtime +5 -delete"
+    state: absent
+    
+    #- name: delete old diagnostic files
+    #  shell: "find /var/log/mongodb/*/*.diagnostic.data/  -type f -mtime +5 -delete"
+    #  ignore_errors: yes
+
+    #- name: delete old log files
+    #  shell: "find /var/log/mongodb/*/*.log*  -type f -mtime +5 -delete"
+
+    #- name: remove files
+    #  file:
+    #    path: "{{ item }}" 
+    #    state: absent
+    #  loop:
+    #    - "/var/log/mongodb/{{ env }}/mongoS0.log"
+    #    - "/var/log/mongodb/{{ env }}/mongoS1.log"
+    #    - "/var/log/mongodb/{{ env }}/mongoS2.log"

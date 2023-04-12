@@ -1,0 +1,94 @@
+---
+- name: find all service files associated with mongo
+  find:
+    paths:
+      - "/usr/lib/systemd/system/"
+      - "/etc/systemd/system/"
+    patterns: "mongo*.service"
+    recurse: yes
+  register: service
+
+#run them through systemd
+- name: checking mongo config service
+  systemd:
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
+  register: status
+  with_items: "{{ service.files | map(attribute='path')| map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| map('regex_replace','\\/etc\\/systemd\\/system\\/','') | list }}"
+  ignore_errors: yes
+
+- name: uninstall mongo services
+  yum:
+    name: "{{ item }}"
+    state: absent 
+    autoremove: true
+  with_items: 
+    - "{{ base_packages }}"
+    - "{{ dbtools }}"
+  ignore_errors: yes
+
+- name: find all files associated with mongo
+  find:
+    paths:
+      - "/usr/lib/systemd/system/"
+      - "/etc/systemd/system/"
+      - "/var/log/"
+      - "/var/run/"
+      - "/data/{{ env }}"
+      - "/var/lib/"
+      - "/etc/"
+      - "/etc/logrotate.d/"
+        #      - "/usr/local/bin/"
+        #      - "/opt/scripts/"
+      - "/tmp/"
+    patterns: "mongo*"
+    recurse: yes
+  register: files 
+
+- debug:
+    msg: "{{ item }}"
+  loop: "{{ files.files | map(attribute='path') | list }}"
+  loop_control:
+    label: files
+
+- name: delete directory "{{ item }}"
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop: "{{ files.files | map(attribute='path') | list }}"
+  loop_control:
+    label: files
+  ignore_errors: yes
+  #- name: delete directory "{{ item }}"
+  #  file:
+  #    path: "{{ item }}"
+  #    state: absent
+  #  with_items:
+  #      - /var/log/mongo
+  #      - /var/run/mongo
+  #      - /data/{{ env }}
+  #    - /var/lib/mongo
+  #    - /etc/mongo
+  #    - /etc/logrotate.d/mongo
+  #    - /etc/systemd/system/mongodb-hugepage-fix.service
+  #    - /usr/local/bin/
+  #    - /opt/scripts/
+  #    - /var/log/mongodb
+  #    - /var/run/mongodb
+  #    - /tmp/mongo
+  #    - /usr/lib/systemd/system/mongod.service
+  #    - /usr/lib/systemd/system/mongos.service  
+  #    - /usr/lib/systemd/system/mongod_config.service
+  #    - /usr/lib/systemd/system/mongod_shard1.service
+  #    - /usr/lib/systemd/system/mongod_shard2.service
+  #    - /usr/lib/systemd/system/mongod_shard3.service
+  #    - /etc/systemd/system/mongos0.service
+  #    - /etc/systemd/system/mongos1.service
+  #    - /etc/systemd/system/mongos2.service
+  #    - /etc/systemd/system/mongo.service 
+  #    - /etc/mongod.conf  
+  #ignore_errors: yes
+
+
+

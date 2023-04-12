@@ -8,10 +8,10 @@
       mode: '2775'
       owner: "{{ owner }}"
       group: "{{ group }}"
-      #    loop: "{{ single_repset_servers }}"
-      #    loop_control:
-      #      label: "{{ item.name }}"
-    #ignore_errors: yes
+    loop: "{{ db_servers }}"
+    loop_control:
+      label: "{{ item.name }}"
+      #ignore_errors: yes
 
   - name: (no_sec_servers.yml) layout mongod.conf template on the server
     template:
@@ -21,10 +21,10 @@
       group: "{{ group }}"
       mode: '0644'
       force: yes
-    #ignore_errors: yes
-    #loop: "{{ single_repset_servers }}"
-    #loop_control:
-    #  label: "{{ item.name }}"
+    ignore_errors: yes
+    loop: "{{ db_servers }}"
+    loop_control:
+      label: "{{ item.name }}"
 
   - name: (no_sec_servers.yml) layout mongod.service template on the server
     template:
@@ -34,9 +34,9 @@
       group: "{{ group }}"
       mode: '0640'
       force: yes
-      #loop: "{{ single_repset_servers }}"
-      #loop_control:
-      #label: "{{ item.name }}"
+    loop: "{{ db_servers }}"
+    loop_control:
+      label: "{{ item.name }}"
 
   - name: (no_sec_servers.yml) start mongod service
     systemd:
@@ -44,8 +44,8 @@
       state: restarted
       enabled: yes
       daemon_reload: yes
-    #ignore_errors: yes
-    #loop: "{{ single_repset_servers }}"
-  #loop_control:
-  #  label: "{{ item.name }}"
+    ignore_errors: yes
+    loop: "{{ db_servers }}"
+    loop_control:
+      label: "{{ item.name }}"
   when: item.name is defined and ansible_hostname == {{ item.name }}
