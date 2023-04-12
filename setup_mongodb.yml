@@ -2,6 +2,9 @@
 - name: Configure MongoDB
   hosts: "{{ target }}"
   tasks:
+    - name: set_fact
+      import_tasks: /roles/setup_mongodb/tasks/set_fact.yml
+
     - name: config_filesystem
       include_role:
         name: config_filesystem
