@@ -3,8 +3,10 @@
   hosts: "{{ target }}"
   tasks:
     - name: setup
-      include_role: setup_mongodb
+      include_role:
+        name: setup_mongodb
       when: "ansible_hostname in [configsvr_rsa, configsvr_rsb, configsvr_rsc]"
     - name: single
-      include_role: single_repset_servers
+      include_role:
+        name: single_repset_servers
       when: "ansible_hostname in [rs_1, rs_2, rs_3]"
