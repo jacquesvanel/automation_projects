@@ -34,8 +34,7 @@
 
 - name: (setup_users.yml) show user result
   debug:
-    var: item.stdout
-  loop: "{{ user_result.results | json_query('[*].stdout') }}"
+    var: "{{ user_result.results | json_query('[*].stdout') }}"
     #when:  ansible_hostname == {{ item.name }} and item.name == 'rs_1'
     #  with_items: "{{ db_servers }}"
   ignore_errors: yes
