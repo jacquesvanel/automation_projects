@@ -30,6 +30,7 @@
   loop_control:
     label: "{{ item.name }}"
   when:  ansible_hostname == {{ item.name }} and item.name == 'rs_1'
+  ignore_errors: yes
 
 - name: (setup_users.yml) show user result
   debug:
