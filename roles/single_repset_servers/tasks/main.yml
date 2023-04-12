@@ -15,7 +15,7 @@
     - no_sec_servers
 
 - name: setup users
-  include_tasks: setup_users.yml
+  import_tasks: setup_users.yml
   tags: 
     - setup_users
 
