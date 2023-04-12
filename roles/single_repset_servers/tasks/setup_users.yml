@@ -34,9 +34,15 @@
 
 - name: (setup_users.yml) show user result
   debug:
-    var: user_result.stdout_lines 
+    var: user_result 
     #when:  ansible_hostname == {{ item.name }} and item.name == 'rs_1'
     #  with_items: "{{ db_servers }}"
   ignore_errors: yes
 
+- name: Create MongoDB user
+  mongodb_user:
+    database: test
+    name: test_user
+    password: secret
+    roles: readWrite
 
