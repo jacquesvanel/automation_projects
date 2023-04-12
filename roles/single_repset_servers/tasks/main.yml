@@ -1,9 +1,5 @@
 ---
 ################################  testing  ################################
-- name: set facts
-  import_tasks: set_fact.yml
-  tags:
-    - always
 
 
 ##########start of config##################################################
@@ -14,7 +10,7 @@
     - mongo_service
 
 - name: add single_repset_svr config/service files
-  import_tasks: no_sec_single_repset_servers.yml
+  import_tasks: no_sec_servers.yml
   tags:
     - no_sec_servers
 
@@ -33,11 +29,6 @@
   tags:
     - ldap_interval  
 
-- name: start mongos
-  include_tasks: start_mongos.yml
-  tags:
-    - start_mongos
-
 - name: add configsvr config/service files
   import_tasks: servers.yml
   tags:
@@ -53,10 +44,10 @@
   tags:
     - keepalive
 
-- name: add shards to cluster
-  import_tasks: add_shards.yml
-  tags:
-    - add_shards
+      #- name: add shards to cluster
+      #  import_tasks: add_shards.yml
+      #  tags:
+      #    - add_shards
 
 - name: start mongo
   systemd:
@@ -68,8 +59,3 @@
   tags:
     - mms_agent
 #####################################################################
-- name: install sadi config
-  import_tasks: sadi_dsit.yml
-  tags:
-    - never
-    - sadi

@@ -46,19 +46,10 @@ net:
    allowConnectionsWithoutCertificates: true
    certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
    certificateKeyFilePassword: {{ cert_password }}
-{% if item.name == 'rs_1' or item.name == 'rs_2' or item.name == 'rs_3'%}
 replication:
   replSetName: {{ item.repset }}
 storage:
   dbPath: {{ item.db_path }}
-{% else %}
-sharding:
-  clusterRole: {{ item.cluster }}
-replication:
-  replSetName: {{ item.repset }}
-storage:
-  dbPath: {{ item.db_path }}
-{% endif %}
   # wiredTiger:
   #   engineConfig:
   #     cacheSizeGB: 5

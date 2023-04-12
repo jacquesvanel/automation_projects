@@ -1,12 +1,12 @@
 #jinja2: lstrip_blocks: "True"
 systemLog:
   destination: file
-  path: "/var/log/mongodb/{{ env }}/{{ item.host_config }}.log"
+  path: "{{ item.log_path }}"
   logAppend: true
   logRotate: reopen
 processManagement:
   fork: true
-  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-{{ item.host_config }}.pid"
+  pidFilePath: "{{ item.pid_path }}"
 net:
   port: {{ item.port }}
   bindIp: localhost,{{ ansible_fqdn }}
