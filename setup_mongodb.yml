@@ -2,7 +2,9 @@
 - name: Configure MongoDB
   hosts: "{{ target }}"
   tasks:
-    - include_role: setup_mongodb
+    - name: setup
+      include_role: setup_mongodb
       when: "ansible_hostname in [configsvr_rsa, configsvr_rsb, configsvr_rsc]"
-    - include_role: single_repset_servers
+    - name: single
+      include_role: single_repset_servers
       when: "ansible_hostname in [rs_1, rs_2, rs_3]"
