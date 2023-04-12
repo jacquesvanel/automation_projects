@@ -35,4 +35,3 @@
   when:  ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa' 
   ignore_errors: yes
 
-

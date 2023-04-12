@@ -1,31 +1,5 @@
 ---
 - name: Configure MongoDB
   hosts: "{{ target }}"
-  tasks:
-    - name: set_fact
-      import_tasks: roles/setup_mongodb/tasks/set_fact.yml
-
-    - name: config_filesystem
-      include_role:
-        name: config_filesystem
-      when: "config_filesystem == 'yes'"
-
-    - name: base install
-      include_role:
-        name: base_install_mongodb
-      when: "base_install == 'yes'"
-
-    - name: setup config servers
-      include_role:
-        name: config_servers
-      when: "ansible_hostname in [configsvr_rsa, configsvr_rsb, configsvr_rsc]"
-
-    - name: setup shard servers
-      include_role:
-        name: shard_servers
-      when: "ansible_hostname in [shard1a, shard1b, shard1c, shard2a, shard2b, shard2c, shard3a, shard3b, shard3c]"
-
-    - name: setup single repset servers
-      include_role:
-        name: single_repset_servers
-      when: "ansible_hostname in [rs_1, rs_2, rs_3]"
+  roles:
+     - role: setup_mongodb

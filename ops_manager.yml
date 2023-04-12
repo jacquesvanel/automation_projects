@@ -2,4 +2,4 @@
 - name: Install MongoDB-MMS
   hosts: "{{ target }}"
   roles:
-    - role: mongodb-mms
+    - role: ops_manager
