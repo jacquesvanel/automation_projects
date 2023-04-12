@@ -29,10 +29,10 @@
     with_items: "{{ db_servers }}"
     loop_control:
       label: "{{ item.name }}"
-
-  - name: (initiate_clusters.yml) show result
-    debug:
-      msg: "{{ initiate_result.results }}"
   when: ansible_hostname == {{ item.name }} and item.name == 'rs_1'
   ignore_errors: yes
+
+- name: (initiate_clusters.yml) show result
+  debug:
+    var: initiate_result
 
