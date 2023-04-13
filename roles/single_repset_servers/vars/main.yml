@@ -1,5 +1,7 @@
 ---
 # vars file for mongo_config
+ansible_python_interpreter: /usr/libexec/platform-python
+
 public_key: ujumosek
 private_key: aeb3df77-80ce-41d2-9d6d-41aa942feb67
 project_id: 642c413a9948ee7556f0267c
