@@ -29,7 +29,7 @@
     with_items: "{{ db_servers }}"
     loop_control:
       label: "{{ item.name }}"
-  delegate_to: "{{ rs_1 }}"
+    delegate_to: "{{ rs_1 }}"
       #when: ansible_hostname == {{ item.name }} and item.name == 'rs_1'
   ignore_errors: yes
 
