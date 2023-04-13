@@ -14,19 +14,16 @@
 
   - debug:
       msg: "{{ health.stdout.split('\n') }}"
-  when: not secondary.stdout == 'true'
 
   #- name: Check health and stateStr values
   #  fail:
   #  msg: "Health check failed"
   #when: "'health: 0' in health.msg "
 
-- name: Fail if MongoDB health check fails
-  fail:
-    msg: "MongoDB health check failed"
-  when:
-          #- "'(not reachable/healthy)' in health_output"
-    - "0 in health_output"
-  loop: "{{ health.stdout_lines | select('match', '(health|stateStr):') | list }}"
-
+  - name: Fail if MongoDB health check fails
+    fail:
+      msg: "MongoDB health check failed"
+    when: "0 in health_output"
+    loop: "{{ health.stdout_lines | select('match', '(health|stateStr):') | list }}"
+  when: not secondary.stdout == 'true'
 
