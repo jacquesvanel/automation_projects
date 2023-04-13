@@ -35,5 +35,5 @@
 
 - name: (initiate_clusters.yml) show result
   debug:
-    var: initiate_result.json
+    var: initiate_result
 
