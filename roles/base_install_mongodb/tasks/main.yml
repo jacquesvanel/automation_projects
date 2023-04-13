@@ -1,9 +1,9 @@
 ---
 # tasks file for base_install_mongodb
-- name: set facts
-  import_tasks: set_fact.yml
-  tags:
-    - always
+#- name: set facts
+#  import_tasks: set_fact.yml
+#  tags:
+#    - always
 
 - name: uninstall
   import_tasks: uninstall.yml
