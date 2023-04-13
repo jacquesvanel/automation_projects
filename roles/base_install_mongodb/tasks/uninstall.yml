@@ -66,7 +66,7 @@
         #      - "/opt/scripts/"
         #      - "/tmp/"
         #patterns: "mongo*"
-    recurse: true
+        #recurse: true
   register: files1 
 
 - debug:
@@ -75,7 +75,7 @@
   loop_control:
     label: files
 
-- name: delete directory "{{ item }}"
+- name: delete all files assosiated with mongo
   file:
     path: "{{ item }}"
     state: absent
