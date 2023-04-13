@@ -6,11 +6,11 @@
 - debug:
     msg: "{{ secondary.stdout }}"
 
-- name: get health of repset
-  shell: "mongosh {{ ansible_hostname }}.opr.afsiep.net:37018/admin -u amkanda -p Qwerty#12345px --eval 'db.adminCommand( { replSetGetStatus: 1 } ).members' | less | grep 'stateStr:\\|health:\\|name:'"
-  register: health
-  when: not secondary.stdout == 'true'
+- block:
+  - name: get health of repset
+    shell: "mongosh {{ ansible_hostname }}.opr.afsiep.net:37018/admin -u amkanda -p Qwerty#12345px --eval 'db.adminCommand( { replSetGetStatus: 1 } ).members' | less | grep 'stateStr:\\|health:\\|name:'"
+    register: health
+    when: not secondary.stdout == 'true'
 
-
-- debug:
-    msg: "{{ health.stdout }}"
+  - debug:
+      msg: "{{ health.stdout.split('\n') }}"
