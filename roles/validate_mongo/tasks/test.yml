@@ -19,11 +19,14 @@
   #  fail:
   #  msg: "Health check failed"
   #when: "'health: 0' in health.msg "
+  - debug:
+      msg: "{{ health.stdout_lines | select('match', '(health|stateStr):') | list }}"
 
   - name: Fail if MongoDB health check fails
     fail:
       msg: "MongoDB health check failed"
     when: "0 in health_output"
-    loop: "{{ health.stdout_lines | select('match', '(health|stateStr):') | list }}"
+  vars:
+    health_output:  "{{ health.stdout_lines | select('match', '(health|stateStr):') | list }}"
   when: not secondary.stdout == 'true'
 
