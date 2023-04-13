@@ -7,7 +7,7 @@
     msg: "{{ secondary.stdout }}"
 
 - name: get health of repset
-  raw: "mongosh {{ ansible_hostname }}.opr.afsiep.net:37018/admin -u amkanda -p Qwerty#12345px --eval 'db.adminCommand( { replSetGetStatus: 1 } ).members' | less | grep 'stateStr:\|health:\|name:'"
+  shell: "mongosh {{ ansible_hostname }}.opr.afsiep.net:37018/admin -u amkanda -p Qwerty#12345px --eval 'db.adminCommand( { replSetGetStatus: 1 } ).members' | less | grep 'stateStr:\\|health:\\|name:'"
   register: health
   when: not secondary.stdout == 'true'
 
