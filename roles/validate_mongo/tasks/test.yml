@@ -15,3 +15,9 @@
   - debug:
       msg: "{{ health.stdout.split('\n') }}"
   when: not secondary.stdout == 'true'
+
+- name: Check health and stateStr values
+  fail:
+    msg: "Health or stateStr value is not valid"
+  when: "'health: 0' in health.msg or 'stateStr: \\'(not reachable/healthy)\\'' in health.msg"
+
