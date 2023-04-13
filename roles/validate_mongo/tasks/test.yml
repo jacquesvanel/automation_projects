@@ -13,7 +13,7 @@
     #when: not secondary.stdout == 'true'
 
   - debug:
-      msg: "{{ health.stdout.json.split('\n') }}"
+      msg: "{{ health.stdout.split('\n') }}"
 
   #- name: Check health and stateStr values
   #  fail:

@@ -5,6 +5,7 @@
       - "/usr/lib/systemd/system/"
       - "/etc/systemd/system/"
     patterns: "mongo*.service"
+    #excludes: "mongodb-mms-automation-agent.service"
     recurse: yes
   register: service
 
@@ -33,7 +34,8 @@
     paths:
       - "/usr/lib/systemd/system/"
       - "/etc/systemd/system/"
-    patterns: "mongo*"
+    patterns: "mongo*.service"
+    excludes: "mongodb-mms-automation-agent.service"
     recurse: true
   register: files
 
