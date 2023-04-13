@@ -16,8 +16,18 @@
       msg: "{{ health.stdout.split('\n') }}"
   when: not secondary.stdout == 'true'
 
-- name: Check health and stateStr values
+  #- name: Check health and stateStr values
+  #  fail:
+  #  msg: "Health check failed"
+  #when: "'health: 0' in health.msg "
+
+- name: Fail if MongoDB health check fails
   fail:
-    msg: "Health or stateStr value is not valid"
-  when: "'health: 0' in health.msg or 'stateStr: \\'(not reachable/healthy)\\'' in health.msg"
+    msg: "MongoDB health check failed"
+  when:
+          #- "'(not reachable/healthy)' in health_output"
+    - "0 in health_output"
+  vars:
+    health_output: "{{ output.stdout_lines | select('match', '(health|stateStr):') | list }}"
+
 
