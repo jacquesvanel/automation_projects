@@ -165,4 +165,4 @@
 
 - name: Print the result of creating a new group
   debug:
-    var: host_creation_result.json
+    var: host_creation_result
