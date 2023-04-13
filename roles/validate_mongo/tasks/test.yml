@@ -27,6 +27,6 @@
   when:
           #- "'(not reachable/healthy)' in health_output"
     - "0 in health_output"
-  loop: "{{ output.stdout_lines | select('match', '(health|stateStr):') | list }}"
+  loop: "{{ health.stdout_lines | select('match', '(health|stateStr):') | list }}"
 
 
