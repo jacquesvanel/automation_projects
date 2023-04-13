@@ -1,15 +1,16 @@
 ---
+- name: check if server is primary or secondary
+  shell: mongo "{{ ansible_hostname }}".opr.afsiep.net:37018/admin -u amkanda -p Qwerty#12345px  --eval 'rs.isMaster().secondary' | sort -r | head -1
+  register: secondary
+
 - debug:
-    msg:
-      -  "Mount: {{ item.mount }}"
-      -  "Device: {{ item.device }}"
-      -  "Fstype: {{ item.fstype }}"
-      -  "Disk Available: {{ disk_available }}GB"
-      -  "Disk Used: {{ disk_usage }}GB"
-      -  "Disk Total: {{ disk_total }}GB"
-      -  "Percent Used: {{ disk_percent }}%"
-      -  "{{item.mount}} is using {{ disk_percent }}% of allocated space"
-  loop: "{{ ansible_mounts | list }}"
-  loop_control:
-    label: 'mount'
-  when: item.mount == "/data" or item.mount == "/var/log" or item.mount == "/opt"
+    msg: "{{ secondary.stdout }}"
+
+- name: get health of repset
+  shell: mongosh "{{ ansible_hostname }}".opr.afsiep.net:37018/admin -u amkanda -p Qwerty#12345px --eval 'db.adminCommand( { replSetGetStatus: 1 } ).members' | less | grep 'stateStr:\|health:\|name:'
+  register: health
+  when: not secondary.stdout == 'true'
+
+
+- debug:
+    msg: "{{ health.stdout }}"
