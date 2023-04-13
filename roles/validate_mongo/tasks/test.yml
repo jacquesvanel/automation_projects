@@ -20,7 +20,7 @@
   #  msg: "Health check failed"
   #when: "'health: 0' in health.msg "
   - debug:
-      msg: "{{ health.stdout_lines | select('match', '(health|stateStr):') | list }}"
+      msg: "{{ health.stdout | select('match', '(health|stateStr):') | list }}"
 
   - name: Fail if MongoDB health check fails
     fail:
