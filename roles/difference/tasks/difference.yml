@@ -18,12 +18,15 @@
   register: replicatset0
   ignore_errors: yes
 
-- name: type of host
-  debug:
-    msg: " {{ ansible_hostname }} is a REPLICATSET"
-  when:
-    - "'sharding' not in replicatset0.stdout" 
-    - envi.stdout == "sbx"
+- debug:
+  msg: " {{ replicatset0.stdout }} "
+
+    #- name: type of host
+    # debug:
+    #msg: " {{ ansible_hostname }} is a REPLICATSET"
+    #when:
+    #- "'sharding' not in replicatset0.stdout" 
+    #- envi.stdout == "sbx"
 
 
 - name: Check type of host (for DSIT envi)
