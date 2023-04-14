@@ -21,9 +21,12 @@
 
 - name: uninstall mongo packages
   yum:
-    name: ['{{ base_packages }}','{{ dbtools }}']
+    name: "{{ item }}"
     state: absent 
     autoremove: true
+  with_items:
+    - "{{ base_packages }}"
+    - "{{ dbtools }}"
   ignore_errors: yes
 
 - name: find all service files associated with mongo
