@@ -5,12 +5,13 @@
 
 - name: show env variable
   debug:
-    msg: "{{ envi.stdout_lines }}"
+    msg: "{{ envi.stdout }}"
+  register: enviro    
 
 - name: check if path exist
   shell:
-    cmd: cat /etc/mongo/{{ envi.stdout_lines }}/rs_a.cfg | grep -i sharding
+    cmd: cat /etc/mongo/{{ enviro }}/rs_a.cfg | grep -i sharding
   register: replicatset
 
 - debug:
-    msg: "{{ replicatset.stdout_lines }}"  
+    msg: "{{ replicatset.stdout }}"  
