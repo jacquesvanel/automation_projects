@@ -6,11 +6,10 @@
 - name: show env variable
   debug:
     msg: "{{ envi.stdout }}"    
-  register: enviro
 
 - name: check type of host (SBX)
   shell:
-    cmd: cat /etc/mongo/{{ enviro }}/{{ item }} | grep -i sharding
+    cmd: cat /etc/mongo/sbx/{{ item }} | grep -i sharding
   loop: 
     - rs_a.cfg
     - rs_b.cfg
