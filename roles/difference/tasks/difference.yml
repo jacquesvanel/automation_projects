@@ -19,39 +19,26 @@
   when: envi.stdout == "sbx"
 
 
-    #- name: type of host
-    # debug:
-    #msg: " {{ ansible_hostname }} is a REPLICATSET"
-    #when:
-    #- "'sharding' not in replicatset0.stdout" 
-    #- envi.stdout == "sbx"
-
-
-- name: Check type of host (for DSIT envi)
-  shell:
-    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_a.cfg | grep -i clusterRole: configsvr "
-  register: dsit_a 
-  ignore_errors: yes
-
-- name: Check type of host (for DSIT envi)
-  shell:
-    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_b.cfg | grep -i clusterRole: configsvr "
-  register: dsit_b
-  ignore_errors: yes
-
-- name: Check type of host (for DSIT envi)
-  shell:
-    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_c.cfg | grep -i clusterRole: configsvr "
-  register: dsit_c
-  ignore_errors: yes    
-- name: Check type of host (for DSIT envi)
-  shell:
-    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_d.cfg | grep -i clusterRole: configsvr "
-  register: dsit_d
-  ignore_errors: yes    
-
-
-- name: Type of host (for DSIT envi)
+- name: type of host
   debug:
-    msg: " {{ ansible_hostname }} is a CONFIG SERVER"
-  when: "'clusterRole: configsvr' in dsit_a.stdout or 'clusterRole: configsvr' in dsit_b.stdout or or 'clusterRole: configsvr' in dsit_c.stdout or or 'clusterRole: configsvr' in dsit_d.stdout"    
+    msg: " {{ ansible_hostname }} is a REPLICATSET"
+  when: "'sharding' not in replicatset0.stdout"
+
+
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/{{ item }} | grep -i clusterRole: configsvr "
+  loop:
+    - rs_a.cfg
+    - rs_b.cfg
+    - rs_c.cfg
+  register: config    
+  when: envi.stdout == "dsit"    
+
+- debug:
+    msg: "{{ config.stdout }}"  
+
+      #- name: Type of host (for DSIT envi)
+      #debug:
+      #msg: " {{ ansible_hostname }} is a CONFIG SERVER"
+      #when: "'clusterRole: configsvr' in config.stdout"    
