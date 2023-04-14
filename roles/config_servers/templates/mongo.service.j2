@@ -1,0 +1,14 @@
+[Unit]
+Description=Start/Stop Mongod Services
+Documentation=https://docs.mongodb.org/manual
+After=network-online.target
+Wants=network-online.target
+Wants=mongod_config.service mongod_shard1.service mongod_shard2.service mongod_shard3.service mongos0.service mongos1.service mongos2.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/true
+RemainAfterExit=True
+
+[Install]
+WantedBy=multi-user.target

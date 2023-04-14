@@ -1,0 +1,52 @@
+[Unit]
+{% if item is defined and item == 'mongos0' %}
+Description=Mongos0 Service
+{% endif %}
+{% if item is defined and item == 'mongos1' %}
+Description=Mongos1 Service
+{% endif %}
+{% if item is defined and item == 'mongos2' %}
+Description=Mongos2 Service
+{% endif %}
+After=syslog.target
+After=network.target
+After=mongo.service mongod_config.service
+Requires=mongo.service mongod_config
+Wait=mongod_config.service
+
+
+[Service]
+User=mongod
+Group=opr-db-admin
+{% if item is defined and item == 'mongos0' %}
+PIDFile=/var/run/mongodb/{{ env }}/mongos-{{ mongos0_port }}.pid
+{% endif %}
+{% if item is defined and item == 'mongos1' %}
+PIDFile=/var/run/mongodb/{{ env }}/mongos-{{ mongos1_port }}.pid
+{% endif %}
+{% if item is defined and item == 'mongos2' %}
+PIDFile=/var/run/mongodb/{{ env }}/mongos-{{ mongos2_port }}.pid
+{% endif %}
+ExecStartPre=/usr/bin/mkdir -p /var/run/mongodb/{{ env }}
+ExecStartPre=/usr/bin/chown mongod:mongod /var/run/mongodb/{{ env }}
+ExecStartPre=/usr/bin/chmod 0755 /var/run/mongodb/{{ env }}
+PermissionsStartOnly=true
+ExecStart=/usr/bin/mongos --quiet \
+{% if item is defined and item == 'mongos0' %}
+    --config /etc/mongo/{{ env }}/mongos0.cfg
+{% endif %}
+{% if item is defined and item == 'mongos1' %}
+    --config /etc/mongo/{{ env }}/mongos1.cfg
+{% endif %}
+{% if item is defined and item == 'mongos2' %}
+    --config /etc/mongo/{{ env }}/mongos2.cfg
+{% endif %}
+LimitFSIZE=infinity
+LimitCPU=infinity
+LimitAS=infinity
+LimitNOFILE=64000
+LimitNPROC=64000
+TasksAccounting=false
+
+[Install]
+WantedBy=multi-user.target

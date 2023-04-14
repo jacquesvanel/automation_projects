@@ -26,7 +26,25 @@
     - mongo_service
 
 - name: add configsvr config/service files 
-  import_tasks: no_sec_servers.yml
+  import_tasks: no_sec_config_servers.yml
+  when: "ansible_hostname in [configsvr_rsa, configsvr_rsb, configsvr_rsc]"
+      #  tags:
+      #    - reinstall
+      #- no_sec_config_servers
+
+      #- name: add shardsvr config/service files
+      #import_tasks: no_sec_shard_servers.yml
+      #when: "ansible_hostname is match('shard')"
+      #tags:
+      #- reinstall
+      #- no_sec_servers
+
+- name: add single_repset_svr config/service files
+  include_tasks: no_sec_single_repset_servers.yml
+  loop: "{{ single_repset_servers }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when: "ansible_hostname in [rs_1, rs_2, rs_3]" 
   tags:
     - reinstall
     - no_sec_servers

@@ -1,0 +1,92 @@
+systemLog:
+  destination: file
+{% if shard1a is defined and ansible_hostname == shard1a %}
+  path: "/var/log/mongodb/{{ env }}/sh1-rs_a.log"
+{% elif shard1b is defined and ansible_hostname == shard1b %}
+  path: "/var/log/mongodb/{{ env }}/sh1-rs_b.log"
+{% elif shard1c is defined and ansible_hostname == shard1c %}
+  path: "/var/log/mongodb/{{ env }}/sh1-rs_c.log"
+{% endif %}
+  logAppend: true
+  logRotate: reopen
+processManagement:
+  fork: true 
+{% if shard1 is defined and ansible_hostname == shard1 %}
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh1-{{ repset }}.pid"
+{% endif %}
+{% if shard2 is defined and ansible_hostname == shard2 %}
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh2-{{ repset }}.pid"
+{% endif %}
+{% if shard3 is defined and ansible_hostname == shard3 %}
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh3-{{ repset }}.pid"
+{% endif %}
+#security:
+#  keyFile: "/data/{{ env }}/keyfile.pem"
+net:
+{% if ( (shard1 is defined and ansible_hostname == shard1) and
+        (repset is defined and repset == 'rs_a') ) %}
+  port: {{ shard1a_port }}
+{% endif %}
+{% if ( (shard1 is defined and ansible_hostname == shard1) and
+        (repset is defined and repset == 'rs_b') ) %}
+  port: {{ shard1b_port }}
+{% endif %}
+{% if ( (shard1 is defined and ansible_hostname == shard1) and
+        (repset is defined and repset == 'rs_c') ) %}
+  port: {{ shard1c_port }}
+{% endif %}
+{% if ( (shard2 is defined and ansible_hostname == shard2) and
+        (repset is defined and repset == 'rs_a') ) %}
+  port: {{ shard2a_port }}
+{% endif %}
+{% if ( (shard2 is defined and ansible_hostname == shard2) and
+        (repset is defined and repset == 'rs_b') ) %}
+  port: {{ shard2b_port }}
+{% endif %}
+{% if ( (shard2 is defined and ansible_hostname == shard2) and
+        (repset is defined and repset == 'rs_c') ) %}
+  port: {{ shard2c_port }}
+{% endif %}
+{% if ( (shard3 is defined and ansible_hostname == shard3) and
+        (repset is defined and repset == 'rs_a') ) %}
+  port: {{ shard3a_port }}
+{% endif %}
+{% if ( (shard3 is defined and ansible_hostname == shard3) and
+        (repset is defined and repset == 'rs_b') ) %}
+  port: {{ shard2b_port }}
+{% endif %}
+{% if ( (shard3 is defined and ansible_hostname == shard3) and
+        (repset is defined and repset == 'rs_c') ) %}
+  port: {{ shard3c_port }}
+{% endif %}
+  bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
+  tls:
+   mode: allowTLS
+   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
+   certificateKeyFilePassword: {{ tlspass }}
+sharding:
+  clusterRole: shardsvr
+replication:
+{% if shard1 is defined and ansible_hostname == shard1 %}
+  replSetName: sh1_{{ env }}
+{% endif %}
+{% if shard2 is defined and ansible_hostname == shard2 %}
+  replSetName: sh2_{{ env }}
+{% endif %}
+{% if shard3 is defined and ansible_hostname == shard3 %}
+  replSetName: sh3_{{ env }}
+{% endif %}
+storage:
+{% if shard1 is defined and ansible_hostname == shard1 %}
+  dbPath: /data/{{ env }}/shard1/{{ repset }}
+{% endif %}
+{% if shard2 is defined and ansible_hostname == shard2 %}
+  dbPath: /data/{{ env }}/shard2/{{ repset }}
+{% endif %}
+{% if shard3 is defined and ansible_hostname == shard3 %}
+  dbPath: /data/{{ env }}/shard3/{{ repset }}
+{% endif %}
+#  wiredTiger:
+#    engineConfig:
+#      cacheSizeGB: 2 
+

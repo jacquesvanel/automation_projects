@@ -1,0 +1,79 @@
+#jinja2: lstrip_blocks: "True"
+{% set hosts = { configsvr_rsa: {'host_config': 'config-rs_a', 'port': configsvr_rsa_port, 'db_path': 'config/rs_a', 'cluster': 'configsvr', 'repset': 'config' },
+                 configsvr_rsb: {'host_config': 'config-rs_b', 'port': configsvr_rsb_port, 'db_path': 'config/rs_b', 'cluster': 'configsvr', 'repset': 'config' },
+                 configsvr_rsc: {'host_config': 'config-rs_c', 'port': configsvr_rsc_port, 'db_path': 'config/rs_c', 'cluster': 'configsvr', 'repset': 'config' },
+                 shard1a: {'host_config': 'sh1-rs_a', 'port': shard1a_port, 'db_path': 'shard1/rs_a', 'cluster': 'shardsvr', 'repset': 'sh1' },
+                 shard1b: {'host_config': 'sh1-rs_b', 'port': shard1b_port, 'db_path': 'shard1/rs_b', 'cluster': 'shardsvr', 'repset': 'sh1' },
+                 shard1c: {'host_config': 'sh1-rs_c', 'port': shard1c_port, 'db_path': 'shard1/rs_c', 'cluster': 'shardsvr', 'repset': 'sh1' },
+                 shard2a: {'host_config': 'sh2-rs_a', 'port': shard2a_port, 'db_path': 'shard2/rs_a', 'cluster': 'shardsvr', 'repset': 'sh2' },
+                 shard2b: {'host_config': 'sh2-rs_b', 'port': shard2b_port, 'db_path': 'shard2/rs_b', 'cluster': 'shardsvr', 'repset': 'sh2' },
+                 shard2c: {'host_config': 'sh2-rs_c', 'port': shard2c_port, 'db_path': 'shard2/rs_c', 'cluster': 'shardsvr', 'repset': 'sh2' },
+                 shard3a: {'host_config': 'sh3-rs_a', 'port': shard3a_port, 'db_path': 'shard3/rs_a', 'cluster': 'shardsvr', 'repset': 'sh3' },
+                 shard3b: {'host_config': 'sh3-rs_b', 'port': shard3b_port, 'db_path': 'shard3/rs_b', 'cluster': 'shardsvr', 'repset': 'sh3' },
+                 shard3c: {'host_config': 'sh3-rs_c', 'port': shard3c_port, 'db_path': 'shard3/rs_c', 'cluster': 'shardsvr', 'repset': 'sh3' }} %}
+{% if ansible_hostname in hosts %}
+  {% set host_config = hosts[ansible_hostname]['host_config'] %}
+  {% set log_path = "/var/log/mongodb/" ~ env ~ "/" ~ host_config ~ ".log" %}
+  {% set pid_path = "/var/run/mongodb/" ~ env ~ "/mongod-" ~ host_config ~ ".pid" %}
+  {% set port = hosts[ansible_hostname]['port'] %}
+  {% set db_path = hosts[ansible_hostname]['db_path'] %}
+  {% set cluster = hosts[ansible_hostname]['cluster'] %}
+  {% set repset = hosts[ansible_hostname]['repset'] %}
+systemLog:
+  destination: file
+  path: {{ log_path }}
+  logAppend: true
+  logRotate: reopen
+processManagement:
+  fork: true
+  pidFilePath: {{ pid_path }}
+security:
+   authorization: "enabled"
+   clusterAuthMode: x509
+   ldap:
+      servers: "opr.afsiep.net:636"
+      bind:
+{% if env is defined and env == 'prod' %}
+         queryUser: {{ prod_user }}
+         queryPassword: {{ prod_pw }}
+{% else %}
+         queryUser: {{ nonprod_user }}
+         queryPassword: {{ nonprod_pw }}
+{% endif %}
+      transportSecurity: tls
+      userToDNMapping:
+         '[
+            {
+               match : "(.+)",
+               ldapQuery: "ou=IRS,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
+            },
+            {
+               match : "(.+)",
+               ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
+            }
+         ]'
+      authz:
+         queryTemplate: "{USER}?memberOf?base"
+setParameter:
+   authenticationMechanisms: PLAIN, SCRAM-SHA-1, SCRAM-SHA-256
+   ocspEnabled: false
+net:
+  port: {{ port }}
+  bindIp: localhost,{{ ansible_fqdn }}
+  tls:
+   mode: preferTLS
+   CAFile: /var/lib/mongodb/cert/CA_Root_Inter.pem
+   allowConnectionsWithoutCertificates: true
+   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
+   certificateKeyFilePassword: {{ cert_password }}
+sharding:
+  clusterRole: {{ cluster }}
+replication:
+  replSetName: {{ repset }}_{{ env }}
+storage:
+  dbPath: /data/{{ env }}/{{ db_path }}
+  # wiredTiger:
+  #   engineConfig:
+  #     cacheSizeGB: 5
+{% endif %}
+

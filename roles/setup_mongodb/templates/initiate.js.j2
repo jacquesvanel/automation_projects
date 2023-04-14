@@ -1,6 +1,6 @@
 #jinja2: lstrip_blocks: "True"
 {% if configsvr_rsa is defined and ansible_hostname == configsvr_rsa %}
-config = { _id: "{{ repset }}",
+config = { _id: "{{ item.repset }}",
         members:[
          { _id : 0, host : "{{ configsvr_rsa }}.opr.afsiep.net:{{ configsvr_rsa_port }}", priority: 100 },
 {% if configsvr_rsb is defined and configsvr_rsb|length %}
@@ -14,7 +14,7 @@ config = { _id: "{{ repset }}",
 var output = rs.initiate(config);
 printjson(output)
 {% elif shard1a is defined and ansible_hostname == shard1a %}
-config = { _id: "{{ repset }}",
+config = { _id: "{{ item.repset }}",
         members:[
          { _id : 0, host : "{{ shard1a }}.opr.afsiep.net:{{ shard1a_port }}", priority: 100 },
 {% if shard1b is defined and shard1b|length %}
@@ -27,8 +27,8 @@ config = { _id: "{{ repset }}",
 };
 var output = rs.initiate(config);
 printjson(output)
-{% elif shard1a is defined and ansible_hostname == shard1a %}
-config = { _id: "{{ repset }}",
+{% elif shard2a is defined and ansible_hostname == shard2a %}
+config = { _id: "{{ item.repset }}",
         members:[
          { _id : 0, host : "{{ shard2a }}.opr.afsiep.net:{{ shard2a_port }}", priority: 100 },
 {% if shard2b is defined and shard2b|length %}
@@ -41,8 +41,8 @@ config = { _id: "{{ repset }}",
 };
 var output = rs.initiate(config);
 printjson(output)
-{% elif shard1a is defined and ansible_hostname == shard1a %}
-config = { _id: "{{ repset }}",
+{% elif shard3a is defined and ansible_hostname == shard3a %}
+config = { _id: "{{ item.repset }}",
         members:[
          { _id : 0, host : "{{ shard3a }}.opr.afsiep.net:{{ shard3a_port }}", priority: 100 },
 {% if shard3b is defined and shard3b|length %}
@@ -56,7 +56,7 @@ config = { _id: "{{ repset }}",
 var output = rs.initiate(config);
 printjson(output)
 {% elif rs_1 is defined and ansible_hostname == rs_1 %}
-config = { _id: "{{ repset }}",
+config = { _id: "{{ item.repset }}",
         members:[
          { _id : 0, host : "{{ rs_1 }}.opr.afsiep.net:37018", priority: 100 },
 {% if rs_2 is defined and rs_2|length %}

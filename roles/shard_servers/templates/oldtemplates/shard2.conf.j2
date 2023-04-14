@@ -1,0 +1,92 @@
+systemLog:
+  destination: file
+{% if shard2a is defined and ansible_hostname == shard2a %}
+  path: "/var/log/mongodb/{{ env }}/sh2-rs_a.log"
+{% endif %}
+{% if shard2b is defined and ansible_hostname == shard2b %}
+  path: "/var/log/mongodb/{{ env }}/sh2-rs_b.log"
+{% endif %}
+{% if shard2c is defined and ansible_hostname == shard2c %}
+  path: "/var/log/mongodb/{{ env }}/sh2-rs_c.log"
+{% endif %}
+  logAppend: true
+  logRotate: reopen
+processManagement:
+  fork: true 
+{% if shard2a is defined and ansible_hostname == shard2a %}
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh2-rs_a.pid"
+{% endif %}
+{% if shard2b is defined and ansible_hostname == shard2b %}
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh2-rs_b.pid"
+{% endif %}
+{% if shard2c is defined and ansible_hostname == shard2c %}
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-sh2-rs_c.pid"
+{% endif %}
+security:
+   authorization: "enabled"
+   clusterAuthMode: x509
+   ldap:
+      servers: "opr.afsiep.net:636"
+      bind:
+{% if env is defined and env == 'prod' %}
+         queryUser: {{ prod_user }}
+         queryPassword: {{ prod_pw }} 
+{% else %}
+         queryUser: {{ nonprod_user }}
+         queryPassword: {{ nonprod_pw }}
+{% endif %}
+      transportSecurity: tls
+      userToDNMapping:
+         '[
+            {
+               match : "(.+)",
+               ldapQuery: "ou=IRS,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
+            },
+            {
+               match : "(.+)",
+               ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
+            }
+         ]'
+      authz:
+         queryTemplate: "{USER}?memberOf?base"
+setParameter:
+   authenticationMechanisms: PLAIN, SCRAM-SHA-1, SCRAM-SHA-256
+   ocspEnabled: false
+   ldapUserCacheInvalidationInterval: 86400
+   ldapConnectionPoolMaximumConnectionsPerHost: 2147483647
+   ldapConnectionPoolMaximumConnectionsInProgressPerHost: 2147483647
+net:
+{% if shard2a is defined and ansible_hostname == shard2a %}
+  port: {{ shard2a_port }}
+{% endif %}
+{% if shard2b is defined and ansible_hostname == shard2b %}
+  port: {{ shard2b_port }}
+{% endif %}
+{% if shard2c is defined and ansible_hostname == shard2c %}
+  port: {{ shard2c_port }}
+{% endif %}
+  bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
+  tls:
+   mode: preferTLS
+   CAFile: /var/lib/mongodb/cert/CA_Root_Inter.pem
+   allowConnectionsWithoutCertificates: true
+   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
+   certificateKeyFilePassword: {{ cert_password }}
+sharding:
+  clusterRole: shardsvr
+replication:
+  replSetName: sh2_{{ env }}
+storage:
+{% if shard2a is defined and ansible_hostname == shard2a %}
+  dbPath: /data/{{ env }}/shard2/rs_a
+{% endif %}
+{% if shard2b is defined and ansible_hostname == shard2b %}
+  dbPath: /data/{{ env }}/shard2/rs_b
+{% endif %}
+{% if shard2c is defined and ansible_hostname == shard2c %}
+  dbPath: /data/{{ env }}/shard2/rs_c
+{% endif %}
+#  wiredTiger:
+#    engineConfig:
+#      cacheSizeGB: 2 
+

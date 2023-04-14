@@ -1,0 +1,22 @@
+---
+- name: install tasks for mongodb
+  include_tasks: install_mongodb.yml
+
+- name: setup configs for servers 
+  include_tasks: config_tasks.yml
+
+- name: initiate db
+  include_tasks: initiate_tasks.yml
+
+- name: create role
+  include_tasks: createrole.yml
+
+- name: change ldap interval
+  include_tasks: ldapintervalchange.yml
+
+- name: stop services
+  include_tasks: stop_services.yml
+
+- name: update configs
+  include_tasks: v2config_tasks.yml
+

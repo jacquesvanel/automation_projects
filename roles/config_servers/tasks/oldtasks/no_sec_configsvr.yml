@@ -1,0 +1,46 @@
+---
+#Configure MongoDB config servers
+- block:
+  - name: make dbpath file directory {{ item.path }}
+    file:
+      path: "{{ item.path }}"
+      state: directory
+      mode: '2775'
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+    loop: "{{ config_servers }}"
+    #when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
+    ignore_errors: yes
+
+  - name: layout template for {{ item.dest }} on the config server
+    template:
+      src: no_sec_mongod.conf.j2
+      dest: "{{ item.dest }}"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0644'
+      force: yes
+    #when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
+    ignore_errors: yes
+    loop: "{{ config_servers }}"
+
+  - name: layout template for added mongod_config.service on the server
+    template:
+      src: mongod.service.j2
+      dest: "/usr/lib/systemd/system/mongod_config.service"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0640'
+      force: yes
+    loop: "{{ config_servers }}"
+
+  - name: start mongod_config
+    systemd:
+      name: mongod_config
+      state: restarted
+      enabled: yes
+      daemon_reload: yes
+    #when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
+    ignore_errors: yes
+    loop: "{{ config_servers }}"
+  when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"

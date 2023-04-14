@@ -1,0 +1,99 @@
+---
+- name: make file directory
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: "{{ item.mode }}"
+    owner: mongod
+    group: opr-db-admin
+  loop:
+        # directory for config files #
+    - { path: '/etc/mongo/{{ env }}/', mode: '2770' }
+        # directory for log files #
+    - { path: '/var/log/mongodb/{{ env }}/', mode: '2755' }
+        # directory for pid files #
+    - { path: '/var/run/mongodb/{{ env }}/', mode: '2750' }
+        # directory for data paths #
+    - { path: '/data/{{ env }}/', mode: '2770' }
+        # directory for certs #
+    - { path: '/var/lib/mongodb/cert/', mode: '2770' }
+        # directory for js scripts #
+    - { path: '/etc/mongo/{{ env }}/scripts/', mode: '2770' }
+        # directory for ldap conf #
+    - { path: '/etc/openldap/', mode: '2770' }
+        # directory for ldap certs #
+    - { path: '/etc/openldap/certs/', mode: '2770' }
+  tags: 
+   - make_file
+   - install
+
+- name: Get certs and place them in designated folders
+  get_url:
+    url: "{{ item.url }}"
+    dest: "{{ item.dest }}"
+    owner: mongod
+    group: opr-db-admin
+    mode: '0600'
+  loop:
+        # placing keyfile cert #
+    - { url: '{{ keyfile }}', dest: '/data/{{ env }}/keyfile.pem' }
+        # placing keywcert cert #
+    - { url: '{{ keycert }}', dest: '/var/lib/mongodb/cert/KeyWCert.pem' }
+        # placing ieproot cert #
+    - { url: '{{ ieproot }}', dest: '/etc/openldap/certs/iep_root_intermediate.pem' }
+        # placing ldap.conf #
+    - { url: '{{ ldap }}', dest: '/etc/openldap/ldap.conf' }
+        # placing CA cert #
+    - { url: '{{ cacert }}', dest: '/var/lib/mongodb/cert/CA_Root_Inter.pem' }
+  tags: 
+    - add_certs
+    - install
+
+# placing logrotate script #
+- name: layout logrotate template
+  template:
+    src:  "logrotate.conf.j2"
+    dest: "/etc/logrotate.d/mongo"
+    owner: root
+    group: root
+    mode: '0640'
+    force: yes
+  tags: 
+    - logrotate
+    - install
+
+# placing hugepages.service file #
+- name: layout hugepages template
+  template:
+    src:  "hugepages_service.j2"
+    dest: "/etc/systemd/system/mongodb-hugepage-fix.service"
+    owner: root
+    group: root
+    mode: '0640'
+    force: yes
+  tags: 
+    - hugepages
+    - install
+
+# placing mongo.service file #        
+- name: layout hugepages template
+  template:
+    src:  "mongo.service.j2"
+    dest: "/etc/systemd/system/mongo.service"
+    owner: root
+    group: root
+    mode: '0640'
+    force: yes
+  tags: 
+    - mongo_service
+    - install  
+   
+- name: start hugepagesfix
+  systemd:
+    name: mongodb-hugepage-fix
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+  tags: 
+    - hugepages
+    - install

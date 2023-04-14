@@ -1,0 +1,6 @@
+---
+- name: install net-tools
+  yum:
+    name:
+      - net-tools
+    state: installed

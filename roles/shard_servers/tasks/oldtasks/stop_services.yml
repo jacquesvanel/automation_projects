@@ -1,0 +1,122 @@
+---
+- block:
+  - name: stop mongod
+    systemd:
+      name: mongod.service
+      state: stopped
+      enabled: no 
+
+  - name: stop mongoS0
+    systemd:
+      name: mongoS0.service
+      state: stopped
+      enabled: no
+
+  - name: stop mongoS1
+    systemd:
+      name: mongoS1.service
+      state: stopped
+      enabled: no
+       
+  - name: stop mongoS2
+    systemd:
+      name: mongoS2.service
+      state: stopped
+      enabled: no
+
+  - name: remove mongod.service
+    file:
+      path: /usr/lib/systemd/system/mongod.service
+      state: absent
+
+  - name: stop mongod on config servers 
+    systemd:
+      name: mongod_config
+      state: stopped
+    when: "{{ stop_config }}"
+    loop:
+      - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
+      - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
+      - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
+    loop_control:
+      loop_var: stop_config
+
+  - name: stop mongos0
+    systemd:
+      name: mongos0
+      state: stopped
+    when: "{{ stop_mongos0 }}"
+    loop:
+      - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
+      - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
+      - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
+    loop_control:
+      loop_var: stop_mongos0
+
+  - name: stop mongos1
+    systemd:
+      name: mongos1
+      state: stopped
+    when: "{{ stop_mongos1 }}"
+    loop:
+      - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
+      - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
+      - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
+    loop_control:
+      loop_var: stop_mongos1
+
+  - name: stop mongos2.service
+    systemd:
+      name: mongos2
+      state: stopped
+    when: "{{ stop_mongos2 }}"
+    loop:
+      - "(configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)"
+      - "(configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)"
+      - "(configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)"
+    loop_control:
+      loop_var: stop_mongos2
+  ignore_errors: yes
+
+- block:      
+  - name: stop mongod_shard1.service
+    systemd:
+      name: mongod_shard1
+      state: stopped
+    when: "{{ stop_mongod_shard1 }}"
+    loop:
+      - "(shard1a is defined) and (ansible_hostname == shard1a)"
+      - "(shard1b is defined) and (ansible_hostname == shard1b)"
+      - "(shard1c is defined) and (ansible_hostname == shard1c)"
+    loop_control:
+      loop_var: stop_mongod_shard1
+  ignore_errors: yes
+
+- block:
+  - name: stop mongod_shard2.service
+    systemd:
+      name: mongod_shard2
+      state: stopped
+    when: "{{ stop_mongod_shard2 }}"
+    loop:
+      - "(shard2a is defined) and (ansible_hostname == shard2a)"
+      - "(shard2b is defined) and (ansible_hostname == shard2b)"
+      - "(shard2c is defined) and (ansible_hostname == shard2c)" 
+    loop_control:
+      loop_var: stop_mongod_shard2
+  ignore_errors: yes
+
+- block:
+  - name: stop mongod_shard3.service
+    systemd:
+      name: mongod_shard3
+      state: stopped
+    when: "{{ stop_mongod_shard3 }}"
+    loop:
+      - "(shard3a is defined) and (ansible_hostname == shard3a)"
+      - "(shard3b is defined) and (ansible_hostname == shard3b)"
+      - "(shard3c is defined) and (ansible_hostname == shard3c)"
+    loop_control:
+      loop_var: stop_mongod_shard3
+  ignore_errors: yes
+

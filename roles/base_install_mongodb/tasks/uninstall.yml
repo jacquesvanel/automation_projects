@@ -5,11 +5,12 @@
       - "/usr/lib/systemd/system/"
       - "/etc/systemd/system/"
     patterns: "mongo*.service"
+    #excludes: "mongodb-mms-automation-agent.service"
     recurse: yes
   register: service
 
 #run them through systemd
-- name: checking mongo config service
+- name: stop all mongo related services
   systemd:
     name: "{{ item }}"
     state: stopped
@@ -18,33 +19,29 @@
   with_items: "{{ service.files | map(attribute='path')| map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| map('regex_replace','\\/etc\\/systemd\\/system\\/','') | list }}"
   ignore_errors: yes
 
-- name: uninstall mongo services
+- name: uninstall mongo packages
   yum:
-    name: "{{ item }}"
+    name: "{{ base_packages }}"
     state: absent 
     autoremove: true
-  with_items: 
-    - "{{ base_packages }}"
-    - "{{ dbtools }}"
   ignore_errors: yes
 
-- name: find all files associated with mongo
+- name: uninstall mongo packages
+  yum:
+    name: "{{ dbtools }}"
+    state: absent
+    autoremove: true
+  ignore_errors: yes
+
+- name: find all service files associated with mongo
   find:
     paths:
       - "/usr/lib/systemd/system/"
       - "/etc/systemd/system/"
-      - "/var/log/"
-      - "/var/run/"
-      - "/data/{{ env }}"
-      - "/var/lib/"
-      - "/etc/"
-      - "/etc/logrotate.d/"
-        #      - "/usr/local/bin/"
-        #      - "/opt/scripts/"
-      - "/tmp/"
-    patterns: "mongo*"
-    recurse: yes
-  register: files 
+    patterns: "mongo*.service"
+    excludes: "mongodb-mms-automation-agent.service"
+    recurse: true
+  register: files
 
 - debug:
     msg: "{{ item }}"
@@ -52,13 +49,47 @@
   loop_control:
     label: files
 
-- name: delete directory "{{ item }}"
+- name: delete service files
   file:
     path: "{{ item }}"
     state: absent
+    #recurse: true
   loop: "{{ files.files | map(attribute='path') | list }}"
   loop_control:
+    label: "{{ item }}"
+  ignore_errors: yes
+
+- name: find all files associated with mongo
+  find:
+    paths:
+      - "/var/log/mongodb/{{ env }}"
+      - "/var/run/mongodb/{{ env }}"
+      - "/data/{{ env }}/"
+      - "/var/lib/mongo/"
+      - "/var/lib/mongodb/cert/"
+      - "/etc/mongo/{{ env }}"
+      - "/etc/logrotate.d/mongo"
+        #      - "/usr/local/bin/"
+        #      - "/opt/scripts/"
+        #      - "/tmp/"
+        #patterns: "mongo*"
+        #recurse: true
+  register: files1 
+
+- debug:
+    msg: "{{ item }}"
+  loop: "{{ files1.files | map(attribute='path') | list }}"
+  loop_control:
     label: files
+
+- name: delete all files assosiated with mongo
+  file:
+    path: "{{ item }}"
+    state: absent
+    #recurse: true
+  loop: "{{ files1.files | map(attribute='path') | list }}"
+  loop_control:
+    label: "{{ item }}"
   ignore_errors: yes
   #- name: delete directory "{{ item }}"
   #  file:

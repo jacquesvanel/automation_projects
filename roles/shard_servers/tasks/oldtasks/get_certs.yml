@@ -1,0 +1,19 @@
+---
+- name: Get certs and place them in designated folders
+  get_url:
+    url: "{{ item.url }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+    mode: '0600'
+  loop:
+        # placing keyfile cert #
+    - { url: '{{ keyfile }}', dest: '/data/{{ env }}/keyfile.pem' }
+        # placing keywcert cert #
+    - { url: '{{ keycert }}', dest: '/var/lib/mongodb/cert/KeyWCert.pem' }
+        # placing ieproot cert #
+    - { url: '{{ ieproot }}', dest: '/etc/openldap/certs/iep_root_intermediate.pem' }
+        # placing ldap.conf #
+    - { url: '{{ ldap }}', dest: '/etc/openldap/ldap.conf' }
+        # placing CA cert #
+    - { url: '{{ cacert }}', dest: '/var/lib/mongodb/cert/CA_Root_Inter.pem' }

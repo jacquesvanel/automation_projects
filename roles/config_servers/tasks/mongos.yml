@@ -1,0 +1,25 @@
+---
+- block:
+  - name: (mongos.yml) layout template on the server
+    template:
+      src:  mongos.conf.j2
+      dest: "{{ item.dest }}"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0644'
+      force: yes
+    loop: "{{ mongos_servers }}"
+    loop_control:
+      label: "{{ item.name }}"
+
+  - name: (mongos.yml) Ensure mongos.service file exists
+    template:
+      src: mongod.service.j2
+      dest: "{{ item.dest2 }}"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0640'
+      force: yes
+    loop: "{{ mongos_servers }}"
+    loop_control:
+      label: "{{ item.name }}"

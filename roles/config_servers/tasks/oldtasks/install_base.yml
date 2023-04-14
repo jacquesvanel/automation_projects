@@ -1,0 +1,19 @@
+---
+#- name: enable repo services
+#  shell: subscription-manager repos --enable=AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
+
+- name: install mongo services
+  yum:
+    name: '{{ base_packages }}'
+    state: installed 
+    enablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
+    disablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
+    skip_broken: yes
+    #    autoremove: yes
+  register: yum_result
+  ignore_errors: yes
+  
+- debug: 
+    msg: "{{ yum_result.results }}"
+
+

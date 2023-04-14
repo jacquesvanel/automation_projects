@@ -1,0 +1,89 @@
+systemLog:
+  destination: file
+{% if configsvr_rsa is defined and ansible_hostname == configsvr_rsa %}
+  path: "/var/log/mongodb/{{ env }}/config-rs_a.log"
+{% endif %}
+{% if configsvr_rsb is defined and ansible_hostname == configsvr_rsb %}
+  path: "/var/log/mongodb/{{ env }}/config-rs_b.log"
+{% endif %}
+{% if configsvr_rsc is defined and ansible_hostname == configsvr_rsc %}
+  path: "/var/log/mongodb/{{ env }}/config-rs_c.log"
+{% endif %}
+  logAppend: true
+  logRotate: reopen
+processManagement:
+  fork: true
+{% if configsvr_rsa is defined and ansible_hostname == configsvr_rsa %}
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-config-rs_a.pid"
+{% endif %}
+{% if configsvr_rsb is defined and ansible_hostname == configsvr_rsb %}
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-config-rs_b.pid"
+{% endif %}
+{% if configsvr_rsc is defined and ansible_hostname == configsvr_rsc %}
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongod-config-rs_c.pid"
+{% endif %}
+security:
+   authorization: "enabled"
+   clusterAuthMode: x509
+   ldap:
+      servers: "opr.afsiep.net:636"
+      bind:
+{% if env is defined and env == 'prod' %}
+         queryUser: {{ prod_user }}
+         queryPassword: {{ prod_pw }}
+{% else %}
+         queryUser: {{ nonprod_user }}
+         queryPassword: {{ nonprod_pw }}
+{% endif %}
+      transportSecurity: tls
+      userToDNMapping:
+         '[
+            {
+               match : "(.+)",
+               ldapQuery: "ou=IRS,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
+            },
+            {
+               match : "(.+)",
+               ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
+            }
+         ]'
+      authz:
+         queryTemplate: "{USER}?memberOf?base"
+setParameter:
+   authenticationMechanisms: PLAIN, SCRAM-SHA-1, SCRAM-SHA-256
+   ocspEnabled: false
+net:
+{% if configsvr_rsa is defined and ansible_hostname == configsvr_rsa %}
+  port: {{ configsvr_rsa_port }}
+{% endif %}
+{% if configsvr_rsb is defined and ansible_hostname == configsvr_rsb %}
+  port: {{ configsvr_rsb_port }}
+{% endif %}
+{% if configsvr_rsc is defined and ansible_hostname == configsvr_rsc %}
+  port: {{ configsvr_rsc_port }}
+{% endif %}
+  bindIp: localhost,{{ ansible_hostname }}.opr.afsiep.net
+  tls:
+   mode: preferTLS
+   CAFile: /var/lib/mongodb/cert/CA_Root_Inter.pem
+   allowConnectionsWithoutCertificates: true
+   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
+   certificateKeyFilePassword: {{ cert_password }}
+sharding:
+  clusterRole: configsvr
+replication:
+  replSetName: config_{{ env }}
+storage:
+{% if configsvr_rsa is defined and ansible_hostname == configsvr_rsa %}
+  dbPath: /data/{{ env }}/config/rs_a
+{% endif %}
+{% if configsvr_rsb is defined and ansible_hostname == configsvr_rsb %}
+  dbPath: /data/{{ env }}/config/rs_b
+{% endif %}
+{% if configsvr_rsc is defined and ansible_hostname == configsvr_rsc %}
+  dbPath: /data/{{ env }}/config/rs_c
+{% endif %}
+#  wiredTiger:
+#    engineConfig:
+#      cacheSizeGB: 5
+

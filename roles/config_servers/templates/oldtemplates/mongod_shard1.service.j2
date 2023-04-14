@@ -1,0 +1,58 @@
+[Unit]
+Description=MongoDB Shard1 Database Server
+Documentation=https://docs.mongodb.org/manual
+After=network-online.target
+Wants=network-online.target
+After=mongo.service
+Requires=mongo.service
+
+[Service]
+User=mongod
+Group=opr-db-admin
+{% if shard1a is defined and ansible_hostname == shard1a %}
+Environment="OPTIONS=-f /etc/mongo/{{ env }}/shard1_rs_a.cfg"
+{% endif %}
+{% if shard1b is defined and ansible_hostname == shard1b %}
+Environment="OPTIONS=-f /etc/mongo/{{ env }}/shard1_rs_b.cfg"
+{% endif %}
+{% if shard1c is defined and ansible_hostname == shard1c %}
+Environment="OPTIONS=-f /etc/mongo/{{ env }}/shard1_rs_c.cfg"
+{% endif %}
+EnvironmentFile=-/etc/sysconfig/mongod
+ExecStart=/usr/bin/mongod $OPTIONS
+ExecStartPre=/usr/bin/mkdir -p /var/run/mongodb/{{ env }}
+ExecStartPre=/usr/bin/chown mongod:mongod /var/run/mongodb/{{ env }}
+ExecStartPre=/usr/bin/chmod 0755 /var/run/mongodb/{{ env }}
+PermissionsStartOnly=true
+{% if shard1a is defined and ansible_hostname == shard1a %}
+PIDFile=/var/run/mongodb/{{ env }}/mongod-sh1-rs_a.pid
+{% endif %}
+{% if shard1b is defined and ansible_hostname == shard1b %}
+PIDFile=/var/run/mongodb/{{ env }}/mongod-sh1-rs_b.pid
+{% endif %}
+{% if shard1c is defined and ansible_hostname == shard1c %}
+PIDFile=/var/run/mongodb/{{ env }}/mongod-sh1-rs_c.pid
+{% endif %}
+Restart=on-failure
+RestartSec=10s
+Type=forking
+# file size
+LimitFSIZE=infinity
+# cpu time
+LimitCPU=infinity
+# virtual memory size
+LimitAS=infinity
+# open files
+LimitNOFILE=64000
+# processes/threads
+LimitNPROC=64000
+# locked memory
+LimitMEMLOCK=infinity
+# total threads (user+kernel)
+TasksMax=infinity
+TasksAccounting=false
+# Recommended limits for mongod as specified in
+# https://docs.mongodb.com/manual/reference/ulimit/#recommended-ulimit-settings
+
+[Install]
+WantedBy=multi-user.target

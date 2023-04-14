@@ -1,0 +1,77 @@
+---
+# vars file for mongo_config
+ansible_python_interpreter: /usr/libexec/platform-python
+
+public_key: ujumosek
+private_key: aeb3df77-80ce-41d2-9d6d-41aa942feb67
+project_id: 642c413a9948ee7556f0267c
+ops_manager_host: "http://ae1rsbxlmdb005.opr.afsiep.net:8080"
+api: "/api/public/v1.0"
+project_name: test_project
+
+
+owner: mongod
+group: opr-db-admin
+
+configsvr_rsa_port: 57040
+configsvr_rsb_port: 57041
+configsvr_rsc_port: 57042
+
+shard1a_port: 37040
+shard1b_port: 37041
+shard1c_port: 37042
+
+shard2a_port: 47017
+shard2b_port: 47018
+shard2c_port: 47019
+
+shard3a_port: 57017
+shard3b_port: 57018
+shard3c_port: 57019
+
+mongos0_port: 37017
+mongos1_port: 37018
+mongos2_port: 37019
+
+
+env: sbx
+
+db_servers:
+  - name: rs_1
+    log_path: "/var/log/mongodb/{{ env }}/rs_a.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-rs_a.pid"
+    db_path: /data/{{ env }}/
+    dest: "/etc/mongo/{{ env }}/rs_a.cfg"
+    service: mongod_config
+    dest2: "/usr/lib/systemd/system/mongod_config.service"
+    port: 37018
+    repset: rs_{{ appname }}_{{ env }}
+    host_config: rs_a
+    db: sadiauth
+    description: MongoDB Server
+
+  - name: rs_2
+    log_path: "/var/log/mongodb/{{ env }}/rs_a.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-rs_a.pid"
+    db_path: /data/{{ env }}/
+    dest: "/etc/mongo/{{ env }}/rs_a.cfg"
+    service: mongod_config
+    dest2: "/usr/lib/systemd/system/mongod_config.service"
+    port: 37018
+    repset: rs_{{ appname }}_{{ env }}
+    host_config: rs_a
+    db: sadiauth
+    description: MongoDB Server
+
+  - name: rs_3
+    log_path: "/var/log/mongodb/{{ env }}/rs_a.log"
+    pid_path: "/var/run/mongodb/{{ env }}/mongod-rs_a.pid"
+    db_path: /data/{{ env }}/
+    dest: "/etc/mongo/{{ env }}/rs_a.cfg"
+    service: mongod_config
+    dest2: "/usr/lib/systemd/system/mongod_config.service"
+    port: 37018
+    repset: rs_{{ appname }}_{{ env }}
+    host_config: rs_a
+    db: sadiauth
+    description: MongoDB Server

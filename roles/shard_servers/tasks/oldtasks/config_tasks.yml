@@ -1,0 +1,63 @@
+---
+  #starts install of config files
+- name: deploy configsvr template
+  include_tasks: configsvr_template.yml
+  when: 'configsvr'
+  loop:
+    - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
+    - (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)
+    - (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)
+  loop_control:
+    loop_var: configsvr
+  tags: configsvr
+
+- name: deploy shard1_template
+  include_tasks: shard1_template.yml
+  when: 'shard1'
+  loop:
+    - (shard1a is defined) and (ansible_hostname == shard1a)
+    - (shard1b is defined) and (ansible_hostname == shard1b)
+    - (shard1c is defined) and (ansible_hostname == shard1c)
+  loop_control:
+    loop_var: shard1
+  tags: shard1
+
+- name: deploy shard2_template
+  include_tasks: shard2_template.yml
+  when: 'shard2'
+  loop:
+    - (shard2a is defined) and (ansible_hostname == shard2a)
+    - (shard2b is defined) and (ansible_hostname == shard2b)
+    - (shard2c is defined) and (ansible_hostname == shard2c)
+  loop_control:
+    loop_var: shard2
+  tags: shard2
+
+- name: deploy shard3 template
+  include_tasks: shard3_template.yml
+  when: 'shard3'
+  loop:
+    - (shard3a is defined) and (ansible_hostname == shard3a)
+    - (shard3b is defined) and (ansible_hostname == shard3b)
+    - (shard3c is defined) and (ansible_hostname == shard3c)
+  loop_control:
+    loop_var: shard3
+  tags: shard3
+
+- name: deploy mongos_template
+  include_tasks: mongos_template.yml
+  when: 'mongos'
+  loop:
+    - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
+    - (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)
+    - (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)
+  loop_control:
+    loop_var: mongos
+  tags: mongos
+
+- name: start mongo.service
+  systemd:
+    name: mongo
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
