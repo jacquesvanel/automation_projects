@@ -16,7 +16,7 @@
 
 - name: Check type of host (for DSIT envi)
   shell:
-    cmd: cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_a.cfg | grep -i "clusterRole: configsvr"
+    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_a.cfg | grep -i clusterRole: configsvr "
   register: replicatset1 
   ignore_errors: yes  
 
