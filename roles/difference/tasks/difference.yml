@@ -48,10 +48,10 @@
 
 - name: Type of host (for DSIT envi)
   debug:
-    msg: " {{ ansible_hostname }} is a CONFIG SERVER"
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
   when: config_dev.stdout | search('clusterRole: configsvr') and envi.stdout == "dev"
 
 - name: type of host (SBX)
   debug:
-    msg: " {{ ansible_hostname }} is a REPLICATSET"
+    msg: "{{ ansible_hostname }} is a REPLICATSET"
   when: replicatset.stdout | search('sharding') and envi.stdout == "sbx"     
