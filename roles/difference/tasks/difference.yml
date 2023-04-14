@@ -5,8 +5,7 @@
 
 - name: show env variable
   debug:
-    msg: "{{ envi.stdout }}"
-  register: enviro    
+    msg: "{{ envi.stdout }}"    
 
 - name: check type of host
   shell:
@@ -16,10 +15,8 @@
     - rs_b.cfg
     - rs_c.cfg
   register: replicatset0
-  ignore_errors: yes
+ when: "'sharding' not in replicatset0.stdout" or envi.stdout == "sbx"
 
-- debug:
-    msg: "{{ replicatset0.stdout }}"
 
     #- name: type of host
     # debug:
