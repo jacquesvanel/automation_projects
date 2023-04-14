@@ -6,7 +6,7 @@
 - name: show env variable
   debug:
     msg: "{{ envi.stdout }}"    
- register: enviro
+  register: enviro
 
 - name: check type of host
   shell:
