@@ -15,7 +15,7 @@
     - rs_b.cfg
     - rs_c.cfg
   register: replicatset0
- when: "'sharding' not in replicatset0.stdout" or envi.stdout == "sbx"
+ when: "'sharding' not in replicatset0.stdout or envi.stdout == sbx"
 
 
     #- name: type of host
