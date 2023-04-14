@@ -8,7 +8,7 @@
     msg: "{{ envi.stdout }}"    
   register: enviro
 
-- name: check type of host
+- name: check type of host (SBX)
   shell:
     cmd: cat /etc/mongo/{{ enviro }}/{{ item }} | grep -i sharding
   loop: 
@@ -18,13 +18,6 @@
   register: replicatset0
   when: envi.stdout == "sbx"
 
-
-- name: type of host
-  debug:
-    msg: " {{ ansible_hostname }} is a REPLICATSET"
-  when: "'sharding' not in replicatset0.stdout"
-
-
 - name: Check type of host (for DSIT envi)
   shell:
     cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/{{ item }} | grep -i clusterRole: configsvr "
@@ -32,13 +25,31 @@
     - rs_a.cfg
     - rs_b.cfg
     - rs_c.cfg
-  register: config    
-  when: envi.stdout == "dsit"    
+  register: config_dsit    
+  when: envi.stdout == "dsit"
 
-- debug:
-    msg: "{{ config.stdout }}"  
+- name: Check type of host (for DEV)
+  shell:
+    cmd: " cat /etc/mongo/dev_defunct_managed_by_ops_now/{{ item }} | grep -i clusterRole: configsvr "
+  loop:
+    - rs_a.cfg
+    - rs_b.cfg
+    - rs_c.cfg
+  register: config_dev
+  when: envi.stdout == "dev"
+  
 
-      #- name: Type of host (for DSIT envi)
-      #debug:
-      #msg: " {{ ansible_hostname }} is a CONFIG SERVER"
-      #when: "'clusterRole: configsvr' in config.stdout"    
+- name: Type of host (for DSIT envi)
+  debug:
+    msg: " {{ ansible_hostname }} is a CONFIG SERVER"
+  when: config_dsit.stdout | search('clusterRole: configsvr') and envi.stdout == "dsit"
+
+- name: Type of host (for DSIT envi)
+  debug:
+    msg: " {{ ansible_hostname }} is a CONFIG SERVER"
+  when: config_dev.stdout | search('clusterRole: configsvr') and envi.stdout == "dev"
+
+- name: type of host (SBX)
+  debug:
+    msg: " {{ ansible_hostname }} is a REPLICATSET"
+  when: replicatset.stdout | search('sharding') and envi.stdout == "sbx"     
