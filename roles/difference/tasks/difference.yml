@@ -16,5 +16,5 @@
 
 - debug:
     msg: "{{ replicatset.stdout }}"
-  when: replicatset.changed    
+  when: replicatset is changed    
 
