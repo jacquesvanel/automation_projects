@@ -13,19 +13,37 @@
     cmd: cat /etc/mongo/{{ enviro }}/rs_a.cfg | grep -i sharding
   register: replicatset0
   ignore_errors: yes
+- name: type of host
+  debug:
+    msg: " {{ ansible_hostname }} is a REPLICATSET"
+  when: "'sharding' not in replicatset0.stdout"
+
 
 - name: Check type of host (for DSIT envi)
   shell:
     cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_a.cfg | grep -i clusterRole: configsvr "
-  register: replicatset1 
-  ignore_errors: yes  
+  register: dsit_a 
+  ignore_errors: yes
 
-- name: type of host
-  debug: 
-    msg: " {{ ansible_hostname }} is a REPLICATSET"
-  when: "'sharding' not in replicatset0.stdout"
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_b.cfg | grep -i clusterRole: configsvr "
+  register: dsit_b
+  ignore_errors: yes
+
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_c.cfg | grep -i clusterRole: configsvr "
+  register: dsit_c
+  ignore_errors: yes    
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_d.cfg | grep -i clusterRole: configsvr "
+  register: dsit_d
+  ignore_errors: yes    
+
 
 - name: Type of host (for DSIT envi)
   debug:
     msg: " {{ ansible_hostname }} is a CONFIG SERVER"
-  when: "'clusterRole: configsvr' in replicatset1.stdout"    
+  when: "'clusterRole: configsvr' in dsit_a.stdout or 'clusterRole: configsvr' in dsit_b.stdout or or 'clusterRole: configsvr' in dsit_c.stdout or or 'clusterRole: configsvr' in dsit_d.stdout"    
