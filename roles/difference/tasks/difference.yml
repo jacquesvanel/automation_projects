@@ -1,23 +1,16 @@
 ---
 - name: get env
   shell: cat /etc/serverinfo.conf | grep Environment | sed 's/Environment=//g' | tr [:upper:] [:lower:]
-  args:
-    warn: no
   register: envi
-
-- name: setting env variable
-  set_fact:
-    env: "{{ envi.stdout_lines }}"
-
 
 - name: show env variable
   debug:
-    var: envi.stdout_lines
+    msg: "{{ envi.stdout_lines }}"
 
 - name: check if path exist
   shell:
-    cmd: cat /etc/mongo/{{ envi }}/rs_a.cfg | grep -i sharding
+    cmd: cat /etc/mongo/{{ envi.stdout_lines }}/rs_a.cfg | grep -i sharding
   register: replicatset
 
 - debug:
-    msg: "{{ replicatset }}"  
+    msg: "{{ replicatset.stdout_lines }}"  
