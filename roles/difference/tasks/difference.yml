@@ -8,13 +8,13 @@
     msg: "{{ envi.stdout }}"
   register: enviro    
 
-- name: check if path exist
+- name: check type of host
   shell:
     cmd: cat /etc/mongo/{{ enviro }}/rs_a.cfg | grep -i sharding
   register: replicatset
   ignore_errors: yes
 
-- debug:
-    msg: "{{ replicatset.stdout }}"
-  when: replicatset is changed    
-
+- name: type of host
+  debug: 
+    msg: " {{ ansible_hostname }} is a REPLICATSET"
+  when: "'sharding' in replicatset.stdout"    
