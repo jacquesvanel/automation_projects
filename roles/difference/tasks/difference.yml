@@ -11,7 +11,7 @@
 
 - name: show env variable
   debug:
-    var: envi
+    var: envi.stdout
 
 - name: check if path exist
   shell:
