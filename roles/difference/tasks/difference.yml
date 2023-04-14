@@ -10,33 +10,21 @@
 
 - name: check type of host
   shell:
-    cmd: cat /etc/mongo/{{ enviro }}/rs_a.cfg | grep -i sharding
+    cmd: cat /etc/mongo/{{ enviro }}/{{ item }} | grep -i sharding
+  loop: 
+    - "{{ rs_a.cfg }}"
+    - "{{ rs_b.cfg }}"
+    - "{{ rs_c.cfg }}"
   register: replicatset0
   ignore_errors: yes
-- name: type of host
-  debug:
-    msg: " {{ ansible_hostname }} is a REPLICATSET"
-  when: "'sharding' not in replicatset0.stdout"
 
-- name: check type of host
-  shell:
-    cmd: cat /etc/mongo/{{ enviro }}/rs_b.cfg | grep -i sharding
-  register: replicatset1
-  ignore_errors: yes
 - name: type of host
   debug:
     msg: " {{ ansible_hostname }} is a REPLICATSET"
-  when: "'sharding' not in replicatset1.stdout"
+  when:
+    - "'sharding' not in replicatset0.stdout" 
+    - envi.stdout == "sbx"
 
-- name: check type of host
-  shell:
-    cmd: cat /etc/mongo/{{ enviro }}/rs_c.cfg | grep -i sharding
-  register: replicatset0
-  ignore_errors: yes
-- name: type of host
-  debug:
-    msg: " {{ ansible_hostname }} is a REPLICATSET"
-  when: "'sharding' not in replicatset2.stdout"    
 
 - name: Check type of host (for DSIT envi)
   shell:
