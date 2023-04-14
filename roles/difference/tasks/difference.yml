@@ -19,7 +19,7 @@
   ignore_errors: yes
 
 - debug:
-    msg: " {{ replicatset0.stdout }} "
+    var: replicatset0.stdout
 
     #- name: type of host
     # debug:
