@@ -28,12 +28,6 @@
     owner: mongodb-mms
     group: mongodb-mms
     
-#As Mongodb-mms:
-#- name: copy mongodb-mms software
-#  shell: curl -H "X-JFrog-Art-Api:AKCp8nHPEh61X3BeHXSMUK1Kf16XfGBMC7HitRrrad3yFrm2Q8MRinEyokJCnmnwZHy4w4BHn" -O "https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-mms-6.0.6.100.20221102T1837Z.tar.gz"
-#  args:
-#    chdir: /data/mongo_software
-
 - name: Copy mongodb-mms software
   ansible.builtin.get_url:
     url: "https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-mms-6.0.6.100.20221102T1837Z.tar.gz"
@@ -56,17 +50,21 @@
     group: mongodb-mms
 
 #--mongosh ( as of 12/6/2022 latest is mongosh….tgz ) 
-- name: copy mongo mms and opsmanager files into temp
-  shell: "{{ item }}"
-  args:
-    chdir: /opt/mongodb/mms/mongodb-releases
+- name: Copy mongodb-mms software
+  ansible.builtin.get_url:
+    url: "{{ item }}"
+    dest: /opt/mongodb/mms/mongodb-releases
+    tmp_dest: /data/
   with_items:
      #--Mongotools
-     - curl -H "X-JFrog-Art-Api:AKCp8nHPEh61X3BeHXSMUK1Kf16XfGBMC7HitRrrad3yFrm2Q8MRinEyokJCnmnwZHy4w4BHn" -O "https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Mongo-DB/mongodb-database-tools-rhel80-x86_64-100.6.0.tgz"
+     #- curl -H "X-JFrog-Art-Api:AKCp8nHPEh61X3BeHXSMUK1Kf16XfGBMC7HitRrrad3yFrm2Q8MRinEyokJCnmnwZHy4w4BHn" -O 
+     - "https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Mongo-DB/mongodb-database-tools-rhel80-x86_64-100.6.0.tgz"
      #--5.0.8
-     - curl -k -H "X-JFrog-Art-Api:AKCp8nyNrUhuBNKkwD44QG5ketVmNbEFYnBKLtkTMfSKLpUoysUzbgo6gJnedZdxZZZEDWoC1" -O "https://va1imgtlmvn0001.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-linux-x86_64-enterprise-rhel80-5.0.8.tgz"
+     #- curl -k -H "X-JFrog-Art-Api:AKCp8nyNrUhuBNKkwD44QG5ketVmNbEFYnBKLtkTMfSKLpUoysUzbgo6gJnedZdxZZZEDWoC1" -O 
+     - "https://va1imgtlmvn0001.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-linux-x86_64-enterprise-rhel80-5.0.8.tgz"
      #--5.0.13
-     - curl -k -H "X-JFrog-Art-Api:AKCp8nyNrUhuBNKkwD44QG5ketVmNbEFYnBKLtkTMfSKLpUoysUzbgo6gJnedZdxZZZEDWoC1" -O "https://va1imgtlmvn0001.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-linux-x86_64-enterprise-rhel80-5.0.13.tgz"
+     #- curl -k -H "X-JFrog-Art-Api:AKCp8nyNrUhuBNKkwD44QG5ketVmNbEFYnBKLtkTMfSKLpUoysUzbgo6gJnedZdxZZZEDWoC1" -O 
+     - "https://va1imgtlmvn0001.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-linux-x86_64-enterprise-rhel80-5.0.13.tgz"
 
 #cp -r /data/mongo_software/mongodb-mms/* /opt/mongodb/mms
 - name: Copy file 
