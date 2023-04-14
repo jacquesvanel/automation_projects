@@ -23,7 +23,7 @@
 - name: type of host
   debug: 
     msg: " {{ ansible_hostname }} is a REPLICATSET"
-  when: "'sharding' in replicatset0.stdout"
+  when: "'sharding' not in replicatset0.stdout"
 
 - name: Type of host (for DSIT envi)
   debug:
