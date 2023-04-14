@@ -12,6 +12,9 @@
   shell:
     cmd: cat /etc/mongo/{{ enviro }}/rs_a.cfg | grep -i sharding
   register: replicatset
+ ignore: yes
 
 - debug:
-    msg: "{{ replicatset.stdout }}"  
+    msg: "{{ replicatset.stdout }}"
+  when: replicatset.changed    
+
