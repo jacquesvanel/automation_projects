@@ -7,11 +7,12 @@
 
 - name: setting env variable
   set_fact:
-    env: "{{ envi.stdout }}"
+    env: "{{ envi.stdout_lines }}"
+
 
 - name: show env variable
   debug:
-    var: envi.stdout
+    var: envi.stdout_lines
 
 - name: check if path exist
   shell:
