@@ -28,6 +28,9 @@
   register: config_dsit    
   when: envi.stdout == "dsit"
   ignore_errors: yes
+- name: showing output of "config_dsit"
+  debug:
+    var: "{{ config_dsit.stdout }}"
 
 - name: Check type of host (for DEV)
   shell:
