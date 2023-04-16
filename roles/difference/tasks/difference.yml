@@ -16,6 +16,7 @@
     - rs_c.cfg
   register: replicatset0
   when: envi.stdout == "sbx"
+  ignore_errors: yes
 
 - name: Check type of host (for DSIT envi)
   shell:
@@ -26,6 +27,7 @@
     - rs_c.cfg
   register: config_dsit    
   when: envi.stdout == "dsit"
+  ignore_errors: yes
 
 - name: Check type of host (for DEV)
   shell:
@@ -36,7 +38,7 @@
     - rs_c.cfg
   register: config_dev
   when: envi.stdout == "dev"
-  
+  ignore_errors: yes
 
 - name: Type of host (for DSIT envi)
   debug:
