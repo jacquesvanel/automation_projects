@@ -44,7 +44,7 @@
   debug:
     msg: "{{ ansible_hostname }} is a CONFIG SERVER"
   when: 
-    - "'clusterRole: configsvr' in {{ config_dsit.stdout_lines}} "
+    - '"clusterRole: configsvr" in config_dsit.stdout'
     - envi.stdout == "dsit"
 
 - name: Type of host (for DSIT envi)
