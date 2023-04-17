@@ -2,7 +2,7 @@
 # tasks file for mongodb-mms
 - name: set fact
   import_tasks: set_fact.yml
-  when: env is not defined
+  #  when: env is not defined
   #  tags:
           #    - always
 
@@ -43,7 +43,7 @@
     - never
 
 - name: start ops manager
-  shell: /opt/mongodb/mms/bin/mongodb-mms start; tail -f /opt/mongodb/mms/logs/mms0.log
+  shell: /opt/mongodb/mms/bin/mongodb-mms start
   register: start_ops
 
 - debug:
