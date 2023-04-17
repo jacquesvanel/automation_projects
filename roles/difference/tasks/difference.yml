@@ -119,7 +119,7 @@
 
 - name: showing output 
   debug:
-    msg: "{{ config_dsita.stdout }}"  
+    msg: "{{ config_dsitb.stdout }}"  
 
        #SHOW THE TYPE OF MONGODB SERVER
 - name: Type of host (for DSIT envi)
