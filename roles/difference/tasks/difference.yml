@@ -125,7 +125,7 @@
   ignore_errors: yes
   register: replicaset_server_type_c_sbx
 #### SHARDED    
-  - name: show server type (SBX envi)
+- name: show server type (SBX envi)
   debug:
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
