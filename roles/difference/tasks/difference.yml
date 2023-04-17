@@ -153,22 +153,30 @@
 - name: Type of host (for DSIT envi)
   debug:
     msg: "{{ ansible_hostname }} is a CONFIG SERVER"
-  when: 
-    - (envi.stdout == "dsit" and config_dsita is changed) or (envi.stdout == "dsit" and config_dsitb is changed) or (envi.stdout == "dsit" and config_dsitc is changed) 
-    - 'configsvr' in config_dsita.stdout" or 'configsvr' in config_dsitb.stdout or 'configsvr' in config_dsitc.stdout  
+  when:  >
+    (envi.stdout == "dsit") and (
+      config_dsita.stdout.find("configsvr") != -1 or
+      config_dsitb.stdout.find("configsvr") != -1 or
+      config_dsitc.stdout.find("configsvr") != -1
+    ) 
 - name: Type of host (for DSIT envi)
   debug:
     msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
-  when:
-    - (envi.stdout == "dsit" and config_dsita is changed) or (envi.stdout == "dsit" and config_dsitb is changed) or (envi.stdout == "dsit" and config_dsitc is changed)
-    - "'sharding' not in config_dsita.stdout" or "'sharding' not in config_dsitb.stdout" or "'sharding' not in config_dsitc.stdout"  
+  when: >
+  (envi.stdout == "dsit") and (
+    config_dsita.stdout.find("sharding") == -1 and
+    config_dsitb.stdout.find("sharding") == -1 and
+    config_dsitc.stdout.find("sharding") == -1
+  )
 - name: Type of host (for DSIT envi)
   debug:
     msg: "{{ ansible_hostname }} is a SHARD SERVER"
-  when: 
-    - "'shardsvr' in config_dsita.stdout" or "'shardsvr' in config_dsitb.stdout" or "'shardsvr' in config_dsitc.stdout"
-    - (envi.stdout == "dsit" and config_dsita is changed) or (envi.stdout == "dsit" and config_dsitb is changed) or (envi.stdout == "dsit" and config_dsitc is changed)  
-
+  when:  >
+    (envi.stdout == "dsit") and (
+      config_dsita.stdout.find("shardsvr") != -1 or
+      config_dsitb.stdout.find("shardsvr") != -1 or
+      config_dsitc.stdout.find("shardsvr") != -1
+    )
 
     ############# DEV ######################
 - name: Check type of host (for DEV)
