@@ -117,6 +117,9 @@
   when:  envi.stdout == "dsit"
   register: config_dsitc    
 
+- name: showing output 
+  debug:
+    msg: "{{ config_dsita.stdout }}"  
 
        #SHOW THE TYPE OF MONGODB SERVER
 - name: Type of host (for DSIT envi)
