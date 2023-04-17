@@ -103,7 +103,7 @@
   debug:
     msg: "{{ ansible_hostname }} is a CONFIG SERVER"
   when:
-    - config_dsita.stdout | regex_search('configsvr') or config_dsitb.stdout | regex_search('configsvr') or config_dsita.stdout | regex_search('configsvr')
+    - "'rs_a.cfg' in config_dsita.stdout" or  "'rs_b.cfg' in config_dsitb.stdout" or  "'rs_c.cfg' in config_dsitc.stdout"
     - envi.stdout == "dsit"
 
 
