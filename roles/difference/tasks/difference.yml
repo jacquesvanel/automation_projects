@@ -19,22 +19,22 @@
   ignore_errors: yes
 
 - name: Checking config file name(DSIT - rs_a.cfg)
-  find:
-    path: /etc/mongo/dsit_defunct_managed_by_ops_now/rs_a.cfg
+  shell:
+    cmd: ls /etc/mongo/dsit_defunct_managed_by_ops_now | grep -i rs_a.cfg
   ignore_errors: yes
   when:  envi.stdout == "dsit"
   register: config_file_rs_a.cfg
  
 - name: Checking config file name(DSIT - rs_b.cfg)
-  find:
-    path: /etc/mongo/dsit_defunct_managed_by_ops_now/rs_b.cfg
+  shell:
+    cmd: ls /etc/mongo/dsit_defunct_managed_by_ops_now | grep -i rs_b.cfg
   ignore_errors: yes
   when:  envi.stdout == "dsit"
   register: config_file_rs_b.cfg
 
 - name: Checking config file name(DSIT - rs_c.cfg)
-  find:
-    path: /etc/mongo/dsit_defunct_managed_by_ops_now/rs_c.cfg
+  shell:
+    cmd: ls /etc/mongo/dsit_defunct_managed_by_ops_now | grep -i rs_c.cfg
   ignore_errors: yes
   when:  envi.stdout == "dsit"
   register: config_file_rs_c.cfg    
