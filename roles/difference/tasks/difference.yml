@@ -102,11 +102,7 @@
 - name: Type of host (for DSIT envi)
   debug:
     msg: "{{ ansible_hostname }} is a CONFIG SERVER"
-  when:
-    - "'rs_a.cfg' in config_dsita.stdout" or 
-    - "'rs_b.cfg' in config_dsitb.stdout" or 
-    - "'rs_c.cfg' in config_dsitc.stdout"
-    - envi.stdout == "dsit"
+  when: ( "'rs_a.cfg' in config_dsita.stdout" or "'rs_b.cfg' in config_dsitb.stdout" or "'rs_c.cfg' in config_dsitc.stdout" ) and envi.stdout == "dsit"
 
 
 - name: Check type of host (for DEV)
