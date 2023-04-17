@@ -15,22 +15,19 @@
 - name: Checking config file name(SBX - rs_a.cfg)
   stat:
     path: /etc/mongo/sbx/rs_a.cfg
-  ignore_errors: yes
-  when:  envi.stdout == "sbx"
+  when: envi.stdout == "sbx"
   register: config_file_rs_a_sbx
 
 - name: Checking config file name(SBX - rs_b.cfg)
   stat:
     path: /etc/mongo/sbx/rs_b.cfg
-  ignore_errors: yes    
-  when:  envi.stdout == "sbx"
+  when: envi.stdout == "sbx"
   register: config_file_rs_b_sbx
 
 - name: Checking config file name(SBX - rs_c.cfg)
   stat:
     path: /etc/mongo/sbx/rs_c.cfg
-  ignore_errors: yes
-  when:  envi.stdout == "sbx"
+  when: envi.stdout == "sbx"
   register: config_file_rs_c_sbx
 
 
@@ -43,7 +40,7 @@
   register: config_sbxa
   when:
     - envi.stdout == "sbx"
-    - config_file_rs_a_sbx.statexists
+    - config_file_rs_a_sbx.stat.exists
   ignore_errors: yes
 
 - name: Check type of host (for SBX envi)
