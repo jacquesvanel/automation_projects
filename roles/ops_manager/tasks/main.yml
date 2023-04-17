@@ -1,7 +1,8 @@
 ---
 # tasks file for mongodb-mms
-#- name: set fact
-#  import_tasks: set_fact.yml
+- name: set fact
+  import_tasks: set_fact.yml
+  when: env is not defined
   #  tags:
           #    - always
 
