@@ -63,7 +63,7 @@
 
 - name: Check type of host (for SBX envi)
   shell:
-    cmd: "cat /etc/mongo/sbx/shard1_rs_a.cfg |  grep -i 'clusterRole: configsvr'"
+    cmd: "cat /etc/mongo/sbx/shard1_rs_a.cfg |  grep -i 'clusterRole: shardsvr'"
   register: shard_sbxa
   when:
     - envi.stdout == "sbx"
@@ -80,7 +80,7 @@
 
 - name: Check type of host (for SBX envi)
   shell:
-    cmd: "cat /etc/mongo/sbx/shard1_rs_b.cfg |  grep -i 'clusterRole: configsvr'"
+    cmd: "cat /etc/mongo/sbx/shard1_rs_b.cfg |  grep -i 'clusterRole: shardsvr'"
   register: shard_sbxb
   when:
     - envi.stdout == "sbx"
@@ -98,7 +98,7 @@
 
 - name: Check type of host (for SBX envi)
   shell:
-    cmd: "cat /etc/mongo/sbx/shard1_rs_c.cfg |  grep -i 'clusterRole: configsvr'"
+    cmd: "cat /etc/mongo/sbx/shard1_rs_c.cfg |  grep -i 'clusterRole: shardsvr'"
   register: shard_sbxc
   when:
     - envi.stdout == "sbx"
@@ -177,7 +177,7 @@
   when:
     - envi.stdout == "sbx"
     - config_file_shard1_rs_a_sbx.stat.exists
-    - "'configsvr' not in shard_sbxa.stdout"
+    - "'shardsvr' not in shard_sbxa.stdout"
   ignore_errors: yes    
   register: sharded_server_type_a_sbx 
 
@@ -187,7 +187,7 @@
   when:
     - envi.stdout == "sbx"
     - config_file_shard1_rs_b_sbx.stat.exists
-    - "'configsvr' not in shard_sbxb.stdout"
+    - "'shardsvr' not in shard_sbxb.stdout"
   ignore_errors: yes
   register: sharded_server_type_b_sbx
 
@@ -197,7 +197,7 @@
   when:
     - envi.stdout == "sbx"
     - config_file_shard1_rs_c_sbx.stat.exists
-    - "'configsvr' not in shard_sbxc.stdout"
+    - "'shardsvr' not in shard_sbxc.stdout"
   ignore_errors: yes
   register: sharded_server_type_c_sbx
   
@@ -259,7 +259,7 @@
 
 - name: Check type of host (for DSIT envi)
   shell:
-    cmd: "cat /etc/mongo/dsit_defunct_managed_by_ops_now/shard1_rs_a.cfg |  grep -i 'clusterRole: configsvr'"
+    cmd: "cat /etc/mongo/dsit_defunct_managed_by_ops_now/shard1_rs_a.cfg |  grep -i 'clusterRole: shardsvr'"
   register: shard_dsita
   when:
     - envi.stdout == "dsit"
@@ -277,7 +277,7 @@
 
 - name: Check type of host (for DSIT envi)
   shell:
-    cmd: "cat /etc/mongo/dsit_defunct_managed_by_ops_now/shard1_rs_b.cfg |  grep -i 'clusterRole: configsvr'"
+    cmd: "cat /etc/mongo/dsit_defunct_managed_by_ops_now/shard1_rs_b.cfg |  grep -i 'clusterRole: shardsvr'"
   register: shard_dsitb
   when:
     - envi.stdout == "dsit"
@@ -295,7 +295,7 @@
 
 - name: Check type of host (for DSIT envi)
   shell:
-    cmd: "cat /etc/mongo/dsit_defunct_managed_by_ops_now/shard1_rs_c.cfg |  grep -i 'clusterRole: configsvr'"
+    cmd: "cat /etc/mongo/dsit_defunct_managed_by_ops_now/shard1_rs_c.cfg |  grep -i 'clusterRole: shardsvr'"
   register: shard_dsitc
   when:
     - envi.stdout == "dsit"
