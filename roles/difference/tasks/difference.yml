@@ -100,22 +100,24 @@
         #CHECK IF IT IS A CONFIG SERVER  
 - name: Check type of server(DSIT - rs_a.cfg)
   shell:
-    cmd: cat /etc/mongo/dsit_defunct_managed_by_ops_now | grep -i rs_a.cfg
+    cmd: cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_a.cfg
   ignore_errors: yes
   when:  envi.stdout == "dsit"
   register: config_dsita
 - name: Check type of server(DSIT - rs_b.cfg)
   shell:
-    cmd: cat /etc/mongo/dsit_defunct_managed_by_ops_now | grep -i rs_b.cfg
+    cmd: cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_b.cfg
   ignore_errors: yes
   when:  envi.stdout == "dsit"
   register: config_dsitb
-- name: Check type of server(DSIT - rs_b.cfg)
+- name: Check type of server(DSIT - rs_c.cfg)
   shell:
-    cmd: cat /etc/mongo/dsit_defunct_managed_by_ops_now | grep -i rs_c.cfg
+    cmd: cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_c.cfg
   ignore_errors: yes
   when:  envi.stdout == "dsit"
   register: config_dsitc    
+
+
        #SHOW THE TYPE OF MONGODB SERVER
 - name: Type of host (for DSIT envi)
   debug:
