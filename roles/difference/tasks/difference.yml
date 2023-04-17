@@ -5,7 +5,7 @@
   register: envi
 - name: show env variable
   debug:
-    msg: "{{ envi.stdout }}" 
+    msg: "{{ envi.stdout }}"
 
 
 
@@ -31,7 +31,7 @@
     cmd: ls /etc/mongo/sbx | grep -i rs_c.cfg
   ignore_errors: yes
   when:  envi.stdout == "sbx"
-  register: config_file_rs_c_sbx    
+  register: config_file_rs_c_sbx
 
 
 
@@ -62,25 +62,25 @@
   when:
     - envi.stdout == "sbx"
     - "'rs_c.cfg' in config_file_rs_c_sbx.stdout"
-  ignore_errors: yes    
+  ignore_errors: yes
 - name: Type of host (for SBX envi)
   debug:
     msg: "{{ ansible_hostname }} is a CONFIG SERVER"
-  when: ( "'rs_a.cfg' in config_sbxa.stdout" or "'rs_b.cfg' in config_sbxb.stdout" or "'rs_c.cfg' in config_sbxc.stdout" ) and envi.stdout == "sbx"    
+  when: ( "'rs_a.cfg' in config_sbxa.stdout" or "'rs_b.cfg' in config_sbxb.stdout" or "'rs_c.cfg' in config_sbxc.stdout" ) and envi.stdout == "sbx"
 
 
 
 
     ########## DSIT #########
 
-#CHECK THE NAME OF THE CONFIF FILE, IN DSIT ENVIRONMENT    
+#CHECK THE NAME OF THE CONFIF FILE, IN DSIT ENVIRONMENT
 - name: Checking config file name(DSIT - rs_a.cfg)
   shell:
     cmd: ls /etc/mongo/dsit_defunct_managed_by_ops_now | grep -i rs_a.cfg
   ignore_errors: yes
   when:  envi.stdout == "dsit"
   register: config_file_rs_a_dsit
- 
+
 - name: Checking config file name(DSIT - rs_b.cfg)
   shell:
     cmd: ls /etc/mongo/dsit_defunct_managed_by_ops_now | grep -i rs_b.cfg
@@ -93,33 +93,61 @@
     cmd: ls /etc/mongo/dsit_defunct_managed_by_ops_now | grep -i rs_c.cfg
   ignore_errors: yes
   when:  envi.stdout == "dsit"
-  register: config_file_rs_c_dsit    
+  register: config_file_rs_c_dsit
 
 
-#CHECING THE TYPE OF MONGODB IN DSIT  
-        #CHECK IF IT IS A CONFIG SERVER  
-- name: Check type of server(DSIT - rs_a.cfg)
+#CHECING THE TYPE OF MONGODB IN DSIT
+        #CHECK IF IT IS A CONFIG SERVER
+- name: Check type of host (for DSIT envi)
   shell:
-    cmd: cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_a.cfg
-  ignore_errors: yes
-  when:  envi.stdout == "dsit"
+    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_a.cfg | grep -i 'clusterRole: configsvr' "
   register: config_dsita
-- name: Check type of server(DSIT - rs_b.cfg)
-  shell:
-    cmd: cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_b.cfg
+  when:
+    - envi.stdout == "dsit"
+    - "'rs_a.cfg' in config_file_rs_a_dsit.stdout"
   ignore_errors: yes
-  when:  envi.stdout == "dsit"
-  register: config_dsitb
-- name: Check type of server(DSIT - rs_c.cfg)
-  shell:
-    cmd: cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_c.cfg
-  ignore_errors: yes
-  when:  envi.stdout == "dsit"
-  register: config_dsitc    
 
-- name: showing output 
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_b.cfg | grep -i 'clusterRole: configsvr' "
+  register: config_dsitb
+  when:
+    - envi.stdout == "dsit"
+    - "'rs_b.cfg' in config_file_rs_b_dsit.stdout"
+  ignore_errors: yes
+
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_c.cfg | grep -i 'clusterRole: configsvr' "
+  register: config_dsitc
+  when:
+    - envi.stdout == "dsit"
+    - "'rs_c.cfg' in config_file_rs_c_dsit.stdout"
+  ignore_errors: yes
+
+- name: showing output of "config_dsit"
   debug:
-    msg: "{{ config_dsitb.stdout }}"  
+    msg: "{{config_dsita.stdout}}"
+  when:
+    - envi.stdout == "dsit"
+    - "'rs_a.cfg' in config_file_rs_a_dsit.stdout"
+
+- name: showing output of "config_dsit"
+  debug:
+    msg: "{{config_dsitb.stdout}}"
+  when:
+    - envi.stdout == "dsit"
+    - "'rs_b.cfg' in config_file_rs_b_dsit.stdout"
+
+- name: showing output of "config_dsit"
+  debug:
+    msg: "{{config_dsitc.stdout}}"
+  when:
+    - envi.stdout == "dsit"
+    - "'rs_c.cfg' in config_file_rs_c_dsit.stdout"
+
+
+
 
        #SHOW THE TYPE OF MONGODB SERVER
 - name: Type of host (for DSIT envi)
@@ -133,8 +161,8 @@
 - name: Type of host (for DSIT envi)
   debug:
     msg: "{{ ansible_hostname }} is a SHARD SERVER"
-  when: ( "'shardsvr' in config_dsita.stdout" or "'shardsvr' in config_dsitb.stdout" or "'shardsvr' in config_dsitc.stdout" ) and envi.stdout == "dsit"    
- 
+  when: ( "'shardsvr' in config_dsita.stdout" or "'shardsvr' in config_dsitb.stdout" or "'shardsvr' in config_dsitc.stdout" ) and envi.stdout == "dsit"
+
 
     ############# DEV ######################
 - name: Check type of host (for DEV)
@@ -153,5 +181,5 @@
   debug:
     msg: "{{ ansible_hostname }} is a REPLICATSET"
   when:
-    - replicatset.stdout | search('sharding') 
-    - envi.stdout == "sbx"  
+    - replicatset.stdout | search('sharding')
+    - envi.stdout == "sbx"
