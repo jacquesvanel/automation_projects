@@ -23,21 +23,21 @@
     cmd: ls /etc/mongo/dsit_defunct_managed_by_ops_now | grep -i rs_a.cfg
   ignore_errors: yes
   when:  envi.stdout == "dsit"
-  register: config_file_rs_a.cfg
+  register: config_file_rs_a
  
 - name: Checking config file name(DSIT - rs_b.cfg)
   shell:
     cmd: ls /etc/mongo/dsit_defunct_managed_by_ops_now | grep -i rs_b.cfg
   ignore_errors: yes
   when:  envi.stdout == "dsit"
-  register: config_file_rs_b.cfg
+  register: config_file_rs_b
 
 - name: Checking config file name(DSIT - rs_c.cfg)
   shell:
     cmd: ls /etc/mongo/dsit_defunct_managed_by_ops_now | grep -i rs_c.cfg
   ignore_errors: yes
   when:  envi.stdout == "dsit"
-  register: config_file_rs_c.cfg    
+  register: config_file_rs_c    
 
 - name: Check type of host (for DSIT envi)
   shell:
@@ -45,7 +45,7 @@
   register: config_dsita    
   when: 
     - envi.stdout == "dsit" 
-    - config_file_rs_a.cfg.changed == "true"
+    - config_file_rs_a.changed == "true"
   ignore_errors: yes
 
 - name: Check type of host (for DSIT envi)
@@ -54,7 +54,7 @@
   register: config_dsitb
   when:
     - envi.stdout == "dsit" 
-    - config_file_rs_b.cfg.changed == "true"
+    - config_file_rs_b.changed == "true"
   ignore_errors: yes    
 
 - name: Check type of host (for DSIT envi)
@@ -63,7 +63,7 @@
   register: config_dsitc
   when:
     - envi.stdout == "dsit"
-    - config_file_rs_c.cfg.changed == "true"
+    - config_file_rs_c.changed == "true"
   ignore_errors: yes
 
 - name: showing output of "config_dsit"
