@@ -13,22 +13,22 @@
 
 #CHECK THE NAME OF THE CONFIF FILE, IN SBX ENVIRONMENT
 - name: Checking config file name(SBX - rs_a.cfg)
-  shell:
-    cmd: ls /etc/mongo/sbx | grep -i rs_a.cfg
+  stat:
+    path: /etc/mongo/sbx/rs_a.cfg
   ignore_errors: yes
   when:  envi.stdout == "sbx"
   register: config_file_rs_a_sbx
 
 - name: Checking config file name(SBX - rs_b.cfg)
-  shell:
-    cmd: ls /etc/mongo/sbx | grep -i rs_b.cfg
-  ignore_errors: yes
+  stat:
+    path: /etc/mongo/sbx/rs_b.cfg
+  ignore_errors: yes    
   when:  envi.stdout == "sbx"
   register: config_file_rs_b_sbx
 
 - name: Checking config file name(SBX - rs_c.cfg)
-  shell:
-    cmd: ls /etc/mongo/sbx | grep -i rs_c.cfg
+  stat:
+    path: /etc/mongo/sbx/rs_c.cfg
   ignore_errors: yes
   when:  envi.stdout == "sbx"
   register: config_file_rs_c_sbx
@@ -39,29 +39,29 @@
           #CHECK IF IT IS A CONFIG SERVER
 - name: Check type of host (for SBX envi)
   shell:
-    cmd: cat /etc/mongo/sbx/{{ item }} | grep -i sharding
+    cmd: cat /etc/mongo/sbx/rs_a.cfg | grep -i sharding
   register: config_sbxa
   when:
     - envi.stdout == "sbx"
-    - "'rs_a.cfg' in config_file_rs_a_sbx.stdout"
+    - config_file_rs_a_sbx.statexists
   ignore_errors: yes
 
 - name: Check type of host (for SBX envi)
   shell:
-    cmd: cat /etc/mongo/sbx/{{ item }} | grep -i sharding
+    cmd: cat /etc/mongo/sbx/rs_b.cfg | grep -i sharding
   register: config_sbxb
   when:
     - envi.stdout == "sbx"
-    - "'rs_b.cfg' in config_file_rs_b_sbx.stdout"
+    - config_file_rs_b_sbx.stat.exists
   ignore_errors: yes
 
 - name: Check type of host (for SBX envi)
   shell:
-    cmd: cat /etc/mongo/sbx/{{ item }} | grep -i sharding
+    cmd: cat /etc/mongo/sbx/rs_c.cfg | grep -i sharding
   register: config_sbxc
   when:
     - envi.stdout == "sbx"
-    - "'rs_c.cfg' in config_file_rs_c_sbx.stdout"
+    - config_file_rs_c_sbx.stat.exists
   ignore_errors: yes
 
 # SHOW THE TYPE OF MONGODB SERVER THE HOST IS IN SBX
@@ -70,7 +70,7 @@
     msg: "{{ ansible_hostname }} is a CONFIG SERVER"
   when:
     - envi.stdout == "sbx"
-    - config_file_rs_a_sbx.stdout == "rs_a.cfg"
+    - config_file_rs_a_sbx.stat.exists
     - "'configsvr' in config_sbxa.stdout"
   ignore_errors: yes
   register: config_server_type_a_sbx  
@@ -80,7 +80,7 @@
     msg: "{{ ansible_hostname }} is a CONFIG SERVER"
   when:
     - envi.stdout == "sbx"
-    - config_file_rs_b_sbx.stdout == "rs_b.cfg"
+    - config_file_rs_b_sbx.stat.exists
     - "'configsvr' in config_sbxb.stdout"
   ignore_errors: yes
   register: config_server_type_b_sbx
@@ -90,7 +90,7 @@
     msg: "{{ ansible_hostname }} is a CONFIG SERVER"
   when:
     - envi.stdout == "sbx"
-    - config_file_rs_c_sbx.stdout == "rs_c.cfg"
+    - config_file_rs_c_sbx.stat.exists
     - "'configsvr' in config_sbxc.stdout"
   ignore_errors: yes
   register: config_server_type_c_sbx
@@ -100,7 +100,7 @@
     msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
   when:
     - envi.stdout == "sbx"
-    - config_file_rs_a_sbx.stdout == "rs_a.cfg"
+    - config_file_rs_a_sbx.stat.exists
     - "'sharding' not in config_sbxa.stdout"
   ignore_errors: yes
   register: replicaset_server_type_a_sbx
@@ -110,7 +110,7 @@
     msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
   when:
     - envi.stdout == "sbx"
-    - config_file_rs_b_sbx.stdout == "rs_b.cfg"
+    - config_file_rs_b_sbx.stat.exists
     - "'sharding' not in config_sbxb.stdout"
   ignore_errors: yes
   register: replicaset_server_type_b_sbx
@@ -120,7 +120,7 @@
     msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
   when:
     - envi.stdout == "sbx"
-    - config_file_rs_c_sbx.stdout == "rs_c.cfg"
+    - config_file_rs_c_sbx.stat.exists
     - "'sharding' not in config_sbxc.stdout"
   ignore_errors: yes
   register: replicaset_server_type_c_sbx
@@ -130,7 +130,7 @@
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
     - envi.stdout == "sbx"
-    - config_file_rs_a_sbx.stdout == "rs_a.cfg"
+    - config_file_rs_a_sbx.stat.exists
     - "'shardsvr' in config_sbxa.stdout"
   ignore_errors: yes
   register: sharded_server_type_a_dsit
@@ -139,7 +139,7 @@
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
     - envi.stdout == "sbx"
-    - config_file_rs_b_sbx.stdout == "rs_b.cfg"
+    - config_file_rs_b_sbx.stat.exists
     - "'shardsvr' in config_sbxb.stdout"
   ignore_errors: yes
   register: sharded_server_type_b_sbx
@@ -148,7 +148,7 @@
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
     - envi.stdout == "sbx"
-    - config_file_rs_c_sbx.stdout == "rs_c.cfg"
+    - config_file_rs_c_sbx.stat.exists
     - "'shardsvr' in config_sbxc.stdout"
   ignore_errors: yes
   register: sharded_server_type_c_sbx
