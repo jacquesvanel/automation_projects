@@ -4,7 +4,20 @@
     cmd: ps -ef | grep /var/lib/mongodb-mms-automation/mongodb-linux-x86_64-5.0.13-ent/bin/mongod | awk -F " " '{print $10}' | awk 'NR<=3' | awk -F  "/" '{print $4}'
   register: processes
 
-- name: Show output of shell cmd
+    #- name: Run shell to check mongo services (NON SHARDED)
+    #shell:
+    # cmd: ll /etc/mongo | awk -F " " '{print $9}' | awk 'NR>=3'
+    #register: non_sharded
+
+    #- name: Show output of shell (NON SHARDED)
+    #debug:
+    #msg: "{{ non_sharded.stdout_lines }}"
+
+- name: check if it's a sharded server or non sharded
+  stat:
+    path: 
+
+- name: Show output of shell cmd (SHARDED)
   debug:
     msg: "{{ processes.stdout_lines }}"
 
