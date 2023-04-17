@@ -163,7 +163,7 @@
   debug:
     msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
   when:  >
-  (envi.stdout == "dsit") and (
+    (envi.stdout == "dsit") and (
     config_dsita.stdout.find("sharding") == -1 and
     config_dsitb.stdout.find("sharding") == -1 and
     config_dsitc.stdout.find("sharding") == -1
