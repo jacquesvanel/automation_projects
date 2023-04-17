@@ -80,17 +80,23 @@
 - name: showing output of "config_dsit"
   debug:
     msg: "{{config_dsita.stdout}}"
-  when: config_dsita == "true"
+  when:
+    - envi.stdout == "dsit"
+    - "'rs_a.cfg' in config_file_rs_a.stdout"
 
 - name: showing output of "config_dsit"
   debug:
     msg: "{{config_dsitb.stdout}}"
-  when: config_dsitb == "true"
+  when:
+    - envi.stdout == "dsit"
+    - "'rs_b.cfg' in config_file_rs_b.stdout"
 
 - name: showing output of "config_dsit"
   debug:
     msg: "{{config_dsitc.stdout}}"
-  when: config_dsitc == "true"
+  when:
+    - envi.stdout == "dsit"
+    - "'rs_c.cfg' in config_file_rs_c.stdout"
 
 
 - name: Type of host (for DSIT envi)
