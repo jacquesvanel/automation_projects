@@ -18,13 +18,13 @@
   shell: cat /etc/serverinfo.conf | grep Environment | sed 's/Environment=//g' | tr [:upper:] [:lower:]
   args:
     warn: no
-  register: env
+  register: env1
   when: env is not defined
 
 - set_fact:
-    env: "{{ env.stdout }}"
-  when: env.changed
+    env: "{{ env1.stdout }}"
+  when: env1.changed
 
 - debug:
     var: env
-  when: env.changed
+  when: env1.changed
