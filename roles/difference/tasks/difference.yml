@@ -127,24 +127,27 @@
 
 - name: showing output of "config_dsit"
   debug:
-    msg: "{{config_dsita.stdout}}"
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
   when:
     - envi.stdout == "dsit"
-    - "'rs_a.cfg' in config_file_rs_a_dsit.stdout"
+    - config_file_rs_a_dsit.stdout == "rs_a.cfg"
+    - config_dsita.stdout == "configsvr"  
 
 - name: showing output of "config_dsit"
   debug:
-    msg: "{{config_dsitb.stdout}}"
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
   when:
     - envi.stdout == "dsit"
-    - "'rs_b.cfg' in config_file_rs_b_dsit.stdout"
+    - config_file_rs_b_dsit.stdout == "rs_b.cfg"
+    - config_dsitb.stdout == "configsvr"
 
 - name: showing output of "config_dsit"
   debug:
-    msg: "{{config_dsitc.stdout}}"
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
   when:
     - envi.stdout == "dsit"
-    - "'rs_c.cfg' in config_file_rs_c_dsit.stdout"
+    - config_file_rs_c_dsit.stdout == "rs_c.cfg"
+    - config_dsitc.stdout == "configsvr"
 
 
 
