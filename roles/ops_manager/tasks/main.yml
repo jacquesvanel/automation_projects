@@ -43,7 +43,7 @@
     - never
 
 - name: start ops manager
-  shell: /opt/mongodb/mms/bin/mongodb-mms start; tail -f /opt/mongodb/mms/logs/mms0.log
+  shell: /opt/mongodb/mms/bin/mongodb-mms start
   register: start_ops
 
 - debug:
