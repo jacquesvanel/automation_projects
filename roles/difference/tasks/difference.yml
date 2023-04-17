@@ -155,7 +155,7 @@
     msg: "{{ ansible_hostname }} is a CONFIG SERVER"
   when: 
     - (envi.stdout == "dsit" and config_dsita is changed) or (envi.stdout == "dsit" and config_dsitb is changed) or (envi.stdout == "dsit" and config_dsitc is changed) 
-    - "'configsvr' in config_dsita.stdout" or "'configsvr' in config_dsitb.stdout" or "'configsvr' in config_dsitc.stdout"  
+    - 'configsvr' in config_dsita.stdout" or 'configsvr' in config_dsitb.stdout or 'configsvr' in config_dsitc.stdout  
 - name: Type of host (for DSIT envi)
   debug:
     msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
