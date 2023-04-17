@@ -362,8 +362,8 @@
     - envi.stdout == "dev"
     - config_file_rs_a_dev.stdout == "rs_a.cfg"
     - "'configsvr' in config_deva.stdout"
- ignore_errors: yes
- register: config_server_type_a_dev
+  ignore_errors: yes
+  register: config_server_type_a_dev
 
 - name: show server type (DEV envi)
   debug:
