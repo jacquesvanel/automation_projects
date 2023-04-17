@@ -153,12 +153,7 @@
 - name: Type of host (for DSIT envi)
   debug:
     msg: "{{ ansible_hostname }} is a CONFIG SERVER"
-  when:  >
-    (envi.stdout == "dsit") and (
-      config_dsita.stdout.find("configsvr") != -1 or
-      config_dsitb.stdout.find("configsvr") != -1 or
-      config_dsitc.stdout.find("configsvr") != -1
-    ) 
+  when: (envi.stdout == "dsit") and (config_dsita.stdout.find("configsvr") != -1 or config_dsitb.stdout.find("configsvr") != -1 or config_dsitc.stdout.find("configsvr") != -1) 
 - name: Type of host (for DSIT envi)
   debug:
     msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
