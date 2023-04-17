@@ -1,12 +1,15 @@
 ---
+#CHECK THE ENVIRONMENT
 - name: get env
   shell: cat /etc/serverinfo.conf | grep Environment | sed 's/Environment=//g' | tr [:upper:] [:lower:]
   register: envi
-
 - name: show env variable
   debug:
     msg: "{{ envi.stdout }}"    
 
+
+
+#CHECK WHAT TYPE OF MONGODB HOST FOR SBX ENVIRONMENT       
 - name: check type of host (SBX)
   shell:
     cmd: cat /etc/mongo/sbx/{{ item }} | grep -i sharding
@@ -18,6 +21,10 @@
   when: envi.stdout == "sbx"
   ignore_errors: yes
 
+
+
+
+#CHECK THE NAME OF THE CONFIF FILE, IN DSIT ENVIRONMENT    
 - name: Checking config file name(DSIT - rs_a.cfg)
   shell:
     cmd: ls /etc/mongo/dsit_defunct_managed_by_ops_now | grep -i rs_a.cfg
@@ -39,13 +46,17 @@
   when:  envi.stdout == "dsit"
   register: config_file_rs_c    
 
+
+
+
+#CHECING THE TYPE OF MONGODB IN DSIT    
 - name: Check type of host (for DSIT envi)
   shell:
     cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_a.cfg | grep -i 'clusterRole: configsvr' "
   register: config_dsita    
   when: 
     - envi.stdout == "dsit" 
-    - config_file_rs_a.changed == "true"
+    - "'rs_a.cfg' in config_file_rs_a.stdout"
   ignore_errors: yes
 
 - name: Check type of host (for DSIT envi)
@@ -54,7 +65,7 @@
   register: config_dsitb
   when:
     - envi.stdout == "dsit" 
-    - config_file_rs_b.changed == "true"
+    - "'rs_b.cfg' in config_file_rs_b.stdout"
   ignore_errors: yes    
 
 - name: Check type of host (for DSIT envi)
@@ -63,7 +74,7 @@
   register: config_dsitc
   when:
     - envi.stdout == "dsit"
-    - config_file_rs_c.changed == "true"
+    - "'rs_c.cfg' in config_file_rs_c.stdout"
   ignore_errors: yes
 
 - name: showing output of "config_dsit"
