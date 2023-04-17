@@ -24,21 +24,20 @@
       when: "ansible_hostname in [ops_server_1, ops_server_2, ops_server_3]"
       tags: [ tuned, appdb, no_sec_mongod, repset, users, ops_manager, mongod, test ]
 
-    - name: setup config servers
+    - name: setup mongodb servers
       include_role:
-        name: config_servers
-      when: "ansible_hostname in [configsvr_rsa, configsvr_rsb, configsvr_rsc]"
-      tags: [ mongo_service, no_sec_servers, mongos, setup_users, create_role, ldap_interval, start_mongos, servers, initiate_clusters, keepalive, add_shards, mms_agent, test ]
+        name: setup_mongodb
+      tags: [ mongo_service, no_sec_config_servers, no_sec_shard_servers, no_sec_single_repset_servers, mongos, setup_users, create_role, ldap_interval, start_mongos, config_servers, shard_servers, single_repset_servers, initiate_clusters, keepalive, add_shards, mms_agent, test ]
 
-    - name: setup shard servers
-      include_role:
-        name: shard_servers
-      when: "ansible_hostname in [shard1a, shard1b, shard1c, shard2a, shard2b, shard2c, shard3a, shard3b, shard3c]"
-      tags: [ mongo_service, no_sec_servers, setup_users, create_role, ldap_interval, servers, initiate_clusters, keepalive, add_shards, mms_agent, test ]
+      #    - name: setup shard servers
+      #      include_role:
+      #        name: shard_servers
+      #      when: "ansible_hostname in [shard1a, shard1b, shard1c, shard2a, shard2b, shard2c, shard3a, shard3b, shard3c]"
+      #      tags: [ mongo_service, no_sec_servers, setup_users, create_role, ldap_interval, servers, initiate_clusters, keepalive, add_shards, mms_agent, test ]
 
-    - name: setup single repset servers
-      include_role:
-        name: single_repset_servers
-      when: "ansible_hostname in [rs_1, rs_2, rs_3]"
-      tags: [ mongo_service, no_sec_servers, setup_users, create_role, ldap_interval, servers, initiate_clusters, keepalive, mms_agent, test ]
+      #    - name: setup single repset servers
+      #      include_role:
+      #        name: single_repset_servers
+      #      when: "ansible_hostname in [rs_1, rs_2, rs_3]"
+      #      tags: [ mongo_service, no_sec_servers, setup_users, create_role, ldap_interval, servers, initiate_clusters, keepalive, mms_agent, test ]
 

@@ -9,7 +9,7 @@ mms.mail.port=25
 mms.mail.ssl=false
 mms.mail.transport=smtp
 mms.publicApi.whitelistEnabled=true
-mongo.mongoUri=mongodb://{{ mongo_username }}:{{ mongo_password }}@{{ ops_server_1 }}.opr.afsiep.net:37019{% if ops_server_2 is defined and ops_server_2|length %},{{ ops_server_2 }}.opr.afsiep.net:37019{% elif ops_server_3 is defined and ops_server_3|length %},{{ ops_server_3 }}.opr.afsiep.net:37019{% endif %}/?maxPoolSize=150{% if ops_server_2|length or ops_server_3|length %}&replicaSet=appdbRS{% endif %}
+mongo.mongoUri=mongodb://{{ mongo_username }}:{{ mongo_password }}@{{ ops_server_1 }}.opr.afsiep.net:37019{% if ops_server_2 is defined and ops_server_2|length %},{{ ops_server_2 }}.opr.afsiep.net:37019{% elif ops_server_3 is defined and ops_server_3|length %},{{ ops_server_3 }}.opr.afsiep.net:37019{% endif %}/?maxPoolSize=150{% if ops_server_2|length or ops_server_3|length %}&replicaSet=appdbRS{% endif %}  
 mongo.encryptedCredentials=true
 automation.versions.source=local
 mongo.ssl=false
