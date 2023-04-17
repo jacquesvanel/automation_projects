@@ -162,7 +162,7 @@
 - name: Type of host (for DSIT envi)
   debug:
     msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
-  when: >
+  when:  >
   (envi.stdout == "dsit") and (
     config_dsita.stdout.find("sharding") == -1 and
     config_dsitb.stdout.find("sharding") == -1 and
