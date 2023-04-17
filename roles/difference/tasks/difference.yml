@@ -18,20 +18,77 @@
   when: envi.stdout == "sbx"
   ignore_errors: yes
 
+- name: Checking config file name(DSIT - rs_a.cfg)
+  find:
+    path: /etc/mongo/dsit_defunct_managed_by_ops_now/rs_a.cfg
+  ignore_errors: yes
+  when:  envi.stdout == "dsit"
+  register: config_file_rs_a.cfg
+ 
+- name: Checking config file name(DSIT - rs_b.cfg)
+  find:
+    path: /etc/mongo/dsit_defunct_managed_by_ops_now/rs_b.cfg
+  ignore_errors: yes
+  when:  envi.stdout == "dsit"
+  register: config_file_rs_b.cfg
+
+- name: Checking config file name(DSIT - rs_c.cfg)
+  find:
+    path: /etc/mongo/dsit_defunct_managed_by_ops_now/rs_c.cfg
+  ignore_errors: yes
+  when:  envi.stdout == "dsit"
+  register: config_file_rs_c.cfg    
+
 - name: Check type of host (for DSIT envi)
   shell:
-    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/{{ item }} | grep -i 'clusterRole: configsvr' "
-  loop:
-    - rs_a.cfg
-    - rs_b.cfg
-    - rs_c.cfg
-  register: config_dsit    
-  when: envi.stdout == "dsit"
+    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_a.cfg | grep -i 'clusterRole: configsvr' "
+  register: config_dsita    
+  when: 
+    - envi.stdout == "dsit" 
+    - config_file_rs_a.cfg.changed == "true"
+  ignore_errors: yes
+
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_b.cfg | grep -i 'clusterRole: configsvr' "
+  register: config_dsitb
+  when:
+    - envi.stdout == "dsit" 
+    - config_file_rs_b.cfg.changed == "true"
+  ignore_errors: yes    
+
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_c.cfg | grep -i 'clusterRole: configsvr' "
+  register: config_dsitc
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_c.cfg.changed == "true"
   ignore_errors: yes
 
 - name: showing output of "config_dsit"
   debug:
-    var: config_dsit
+    msg: "{{config_dsita.stdout}}"
+  when: config_dsita == "true"
+
+- name: showing output of "config_dsit"
+  debug:
+    msg: "{{config_dsitb.stdout}}"
+  when: config_dsitb == "true"
+
+- name: showing output of "config_dsit"
+  debug:
+    msg: "{{config_dsitc.stdout}}"
+  when: config_dsitc == "true"
+
+
+- name: Type of host (for DSIT envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
+  when:
+    - config_dsita.stdout | regex_search('configsvr') or config_dsitb.stdout | regex_search('configsvr') or config_dsita.stdout | regex_search('configsvr')
+    - envi.stdout == "dsit"
+
 
 - name: Check type of host (for DEV)
   shell:
@@ -43,13 +100,6 @@
   register: config_dev
   when: envi.stdout == "dev"
   ignore_errors: yes
-
-- name: Type of host (for DSIT envi)
-  debug:
-    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
-  when: 
-    - config_dsit.stdout | regex_search('configsvr')
-    - envi.stdout == "dsit"
 
 - name: Type of host (for DSIT envi)
   debug:
