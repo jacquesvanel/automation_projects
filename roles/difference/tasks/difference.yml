@@ -131,7 +131,7 @@
   when:
     - envi.stdout == "dsit"
     - config_file_rs_a_dsit.stdout == "rs_a.cfg"
-    - config_dsita.stdout == "clusterRole: configsvr"  
+    - "'configsvr' in config_dsita.stdout"  
 
 - name: showing output of "config_dsit"
   debug:
@@ -139,7 +139,7 @@
   when:
     - envi.stdout == "dsit"
     - config_file_rs_b_dsit.stdout == "rs_b.cfg"
-    - config_dsitb.stdout == "clusterRole: configsvr"
+    - "'configsvr' in config_dsitb.stdout"
 
 - name: showing output of "config_dsit"
   debug:
@@ -147,7 +147,7 @@
   when:
     - envi.stdout == "dsit"
     - config_file_rs_c_dsit.stdout == "rs_c.cfg"
-    - config_dsitc.stdout == "clusterRole: configsvr"
+    - "'configsvr' in config_dsitc.stdout"
 
 
 
