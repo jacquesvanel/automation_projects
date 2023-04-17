@@ -72,8 +72,8 @@
     - envi.stdout == "sbx"
     - config_file_rs_a_sbx.stdout == "rs_a.cfg"
     - "'configsvr' in config_sbxa.stdout"
- ignore_errors: yes
- register: config_server_type_a_sbx  
+  ignore_errors: yes
+  register: config_server_type_a_sbx  
 
 - name: show server type (SBX envi)
   debug:
