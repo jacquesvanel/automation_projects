@@ -9,7 +9,9 @@
 
 
 
-      ############## SBX ############
+
+
+      ################################################################################## SBX ###########################################################################################
 
 #CHECK THE NAME OF THE CONFIF FILE, IN SBX ENVIRONMENT
 - name: Checking config file name(SBX - rs_a.cfg)
@@ -33,7 +35,6 @@
 
 
 #CHECING THE TYPE OF MONGODB IN SBX
-          #CHECK IF IT IS A CONFIG SERVER
 - name: Check type of host (for SBX envi)
   shell:
     cmd: cat /etc/mongo/sbx/rs_a.cfg | grep -i sharding
@@ -61,7 +62,8 @@
     - config_file_rs_c_sbx.stat.exists
   ignore_errors: yes
 
-# SHOW THE TYPE OF MONGODB SERVER THE HOST IS IN SBX
+
+### CONFIG SERVER CHECK
 - name: show server type (SBX envi)
   debug:
     msg: "{{ ansible_hostname }} is a CONFIG SERVER"
@@ -91,6 +93,7 @@
     - "'configsvr' in config_sbxc.stdout"
   ignore_errors: yes
   register: config_server_type_c_sbx
+
 ##### REPLICASET SERVER CHECK
 - name: show server type (SBX envi)
   debug:
@@ -121,6 +124,7 @@
     - "'sharding' not in config_sbxc.stdout"
   ignore_errors: yes
   register: replicaset_server_type_c_sbx
+
 #### SHARDED    
 - name: show server type (SBX envi)
   debug:
@@ -151,41 +155,42 @@
   register: sharded_server_type_c_sbx
   
   
-  
-    ########## DSIT #########
+
+
+
+    ############################################################################################################## DSIT ######################################################################################
 
 #CHECK THE NAME OF THE CONFIF FILE, IN DSIT ENVIRONMENT
 - name: Checking config file name(DSIT - rs_a.cfg)
-  shell:
-    cmd: ls /etc/mongo/dsit_defunct_managed_by_ops_now | grep -i rs_a.cfg
+  stat:
+    path: /etc/mongo/dsit_defunct_managed_by_ops_now/rs_a.cfg
   ignore_errors: yes
   when:  envi.stdout == "dsit"
   register: config_file_rs_a_dsit
 
 - name: Checking config file name(DSIT - rs_b.cfg)
-  shell:
-    cmd: ls /etc/mongo/dsit_defunct_managed_by_ops_now | grep -i rs_b.cfg
+  stat:
+    path: /etc/mongo/dsit_defunct_managed_by_ops_now/rs_b.cfg
   ignore_errors: yes
   when:  envi.stdout == "dsit"
   register: config_file_rs_b_dsit
 
 - name: Checking config file name(DSIT - rs_c.cfg)
-  shell:
-    cmd: ls /etc/mongo/dsit_defunct_managed_by_ops_now | grep -i rs_c.cfg
+  stat:
+    path: /etc/mongo/dsit_defunct_managed_by_ops_now/rs_c.cfg
   ignore_errors: yes
   when:  envi.stdout == "dsit"
   register: config_file_rs_c_dsit
 
 
 #CHECING THE TYPE OF MONGODB IN DSIT
-        #CHECK IF IT IS A CONFIG SERVER
 - name: Check type of host (for DSIT envi)
   shell:
     cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_a.cfg | grep -i 'clusterRole: configsvr' "
   register: config_dsita
   when:
     - envi.stdout == "dsit"
-    - "'rs_a.cfg' in config_file_rs_a_dsit.stdout"
+    - config_file_rs_a_dsit.stat.exists  
   ignore_errors: yes
 
 - name: Check type of host (for DSIT envi)
@@ -194,7 +199,7 @@
   register: config_dsitb
   when:
     - envi.stdout == "dsit"
-    - "'rs_b.cfg' in config_file_rs_b_dsit.stdout"
+    - config_file_rs_b_dsit.stat.exists  
   ignore_errors: yes
 
 - name: Check type of host (for DSIT envi)
@@ -203,57 +208,27 @@
   register: config_dsitc
   when:
     - envi.stdout == "dsit"
-    - "'rs_c.cfg' in config_file_rs_c_dsit.stdout"
+    - config_file_rs_c_dsit.stat.exists  
   ignore_errors: yes
 
 
-# SHOW THE TYPE OF MONGODB SERVER THE HOST IS IN DSIT
-- name: show server type (DSIT envi)
-  debug:
-    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
-  when:
-    - envi.stdout == "dsit"
-    - config_file_rs_a_dsit.stdout == "rs_a.cfg"
-    - "'configsvr' in config_dsita.stdout"  
-  ignore_errors: yes
-  register: config_server_type_a_dsit
-
-- name: show server type (DSIT envi)
-  debug:
-    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
-  when:
-    - envi.stdout == "dsit"
-    - config_file_rs_b_dsit.stdout == "rs_b.cfg"
-    - "'configsvr' in config_dsitb.stdout"
-  ignore_errors: yes
-  register: config_server_type_b_dsit
-
-- name: show server type (DSIT envi)
-  debug:
-    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
-  when:
-    - envi.stdout == "dsit"
-    - config_file_rs_c_dsit.stdout == "rs_c.cfg"
-    - "'configsvr' in config_dsitc.stdout"
-  ignore_errors: yes
-  register: config_server_type_c_dsit
-##### REPLICASET SERVER CHECK    
+##### REPLICASET SERVER CHECK
 - name: show server type (DSIT envi)
   debug:
     msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
   when:
     - envi.stdout == "dsit"
-    - config_file_rs_a_dsit.stdout == "rs_a.cfg"
+    - config_file_rs_a_dsit.stat.exists
     - "'sharding' not in config_dsita.stdout"
   ignore_errors: yes
-  register: replicaset_server_type_a_dsit    
+  register: replicaset_server_type_a_dsit
 
 - name: show server type (DSIT envi)
   debug:
     msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
   when:
     - envi.stdout == "dsit"
-    - config_file_rs_b_dsit.stdout == "rs_b.cfg"
+    - config_file_rs_b_dsit.stat.exists
     - "'sharding' not in config_dsitb.stdout"
   ignore_errors: yes
   register: replicaset_server_type_b_dsit
@@ -263,17 +238,18 @@
     msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
   when:
     - envi.stdout == "dsit"
-    - config_file_rs_c_dsit.stdout == "rs_c.cfg"
+    - config_file_rs_c_dsit.stat.exists
     - "'sharding' not in config_dsitc.stdout"
   ignore_errors: yes
-  register: replicaset_server_type_c_dsit    
-###### SHARDED SERVER CHECK
+  register: replicaset_server_type_c_dsit
+
+ ###### SHARDED SERVER CHECK
 - name: show server type (DSIT envi)
   debug:
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
     - envi.stdout == "dsit"
-    - config_file_rs_a_dsit.stdout == "rs_a.cfg"
+    - config_file_rs_a_dsit.stat.exists
     - "'shardsvr' in config_dsita.stdout"
   ignore_errors: yes
   register: sharded_server_type_a_dsit
@@ -282,22 +258,53 @@
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
     - envi.stdout == "dsit"
-    - config_file_rs_b_dsit.stdout == "rs_b.cfg"
+    - config_file_rs_b_dsit.stat.exists
     - "'shardsvr' in config_dsitb.stdout"
   ignore_errors: yes
-  register: sharded_server_type_b_dsit    
+  register: sharded_server_type_b_dsit
 - name: show server type (DSIT envi)
   debug:
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
     - envi.stdout == "dsit"
-    - config_file_rs_c_dsit.stdout == "rs_c.cfg"
+    - config_file_rs_c_dsit.stat.exists
     - "'shardsvr' in config_dsitc.stdout"
   ignore_errors: yes
   register: sharded_server_type_c_dsit
 
+##### CONFIG SERVER CHECK
+- name: show server type (DSIT envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_a_dsit.stat.exists
+    - "'configsvr' in config_dsita.stdout"  
+  ignore_errors: yes
+  register: config_server_type_a_dsit
 
-    ############# DEV ######################
+- name: show server type (DSIT envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_b_dsit.stat.exists 
+    - "'configsvr' in config_dsitb.stdout"
+  ignore_errors: yes
+  register: config_server_type_b_dsit
+
+- name: show server type (DSIT envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_c_dsit.stat.exists
+    - "'configsvr' in config_dsitc.stdout"
+  ignore_errors: yes
+
+
+
+    ######################################################################################################### ############# DEV #################################################################################################
 #CHECK THE NAME OF THE CONFIF FILE, IN DEV ENVIRONMENT
 - name: Checking config file name(DEV - rs_a.cfg)
   shell:
