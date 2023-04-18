@@ -7,6 +7,13 @@ ops_manager_host: "http://ae1rsbxlmdb005.opr.afsiep.net:8080"
 api: "/api/public/v1.0"
 project_name: test_project
 
+public_key: njtxfgan
+private_key: cf95ad25-610c-42fd-acc9-1a1cfaea0de2
+project_id: 642c413a9948ee7556f0267c
+ops_manager_host: "http://ae1rsbxlmdb006.opr.afsiep.net:8080"
+api: "/api/public/v1.0"
+project_name: test_project
+
 base_packages:
   - mongodb-enterprise-5.0.13-1.el8
   - mongodb-enterprise-cryptd-5.0.13-1.el8
@@ -44,19 +51,6 @@ mongos0_port: 37017
 mongos1_port: 37018
 mongos2_port: 37019
 
-   # placing keyfile cert #
-keyfile_dest: '/data/{{ env }}/keyfile.pem' 
-        # placing keywcert cert #
-keycert_dest: '/var/lib/mongodb/cert/KeyWCert.pem' 
-        # placing ieproot cert #
-ieproot_dest: '/etc/openldap/certs/iep_root_intermediate.pem' 
-        # placing ldap.conf #
-ldap_dest: '/etc/openldap/ldap.conf' 
-        # placing CA cert #
-cacert_dest: '/var/lib/mongodb/cert/CA_Root_Inter.pem' 
-
-
-
 #prod_query_user: "svc_mdbprd_ldap@opr.afsiep.net"
 #prod_query_password: "MI!iseji7ubope"
 
@@ -72,8 +66,12 @@ ieproot: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/M
 cacert: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/CA_Root_Inter.pem
 env: sbx
 
-#config_servers:
 db_servers:
+  - "{{ config_servers }}"
+  - "{{ shard_servers }}"
+  - "{{ single_repset_servers }}"
+
+config_servers:
   - name: configsvr_rsa
     log_path: "/var/log/mongodb/{{ env }}/config-rs_a.log"
     pid_path: "/var/run/mongodb/{{ env }}/mongod-config-rs_a.pid"
@@ -116,7 +114,7 @@ db_servers:
     db: "{{ appname }}_{{ env }}_db"
     description: MongoDB Config Server
  
-    #shard_servers:    
+shard_servers:    
   - name: shard1a
     log_path: "/var/log/mongodb/{{ env }}/sh1-rs_a.log"
     pid_path: "/var/run/mongodb/{{ env }}/mongod-sh1-rs_a.pid"

@@ -3,13 +3,15 @@
 #  debug:
 #    msg: "Port value is {{ db_servers | selectattr('name', 'equalto', 'configsvr_rsa') | map(attribute='port') }}"
 
-- name: start hugepagesfix
-  systemd:
-    name: mongodb-hugepage-fix
-  register: status
+#- name: start hugepagesfix
+#  systemd:
+#    name: mongodb-hugepage-fix
+#  register: status
 
 #get status of services
-- name: (service_files.yml) status of all services
-  debug:
-    msg: "{{ status.results }}"
+#- name: (service_files.yml) status of all services
+#  debug:
+#    msg: "{{ status.results }}"
           #msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
+          #
+
