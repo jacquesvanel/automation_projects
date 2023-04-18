@@ -60,7 +60,9 @@
     - envi.stdout == "sbx"
     - config_file_rs_a_sbx.stat.exists
   ignore_errors: yes
-
+- name: output " config_sbxa"
+  debug:
+    msg: "{{ config_sbxa.stdout }}"
 - name: Check type of host (for SBX envi)
   shell:
     cmd: "cat /etc/mongo/sbx/shard1_rs_a.cfg |  grep -i 'clusterRole: shardsvr'"
