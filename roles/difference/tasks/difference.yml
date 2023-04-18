@@ -207,47 +207,48 @@
 #CHECK THE NAME OF THE CONFIF FILE, IN DSIT ENVIRONMENT
 - name: Checking config file name(DSIT - rs_a.cfg)
   stat:
-    path: /etc/mongo/dsit_defunct_managed_by_ops_now/rs_a.cfg
+    path: /etc/mongo/rs_a.cfg    
   ignore_errors: yes
   when:  envi.stdout == "dsit"
   register: config_file_rs_a_dsit
+-    
 
 - name: checking config file name(DSIT - shard1_rs_a.cfg)
   stat:
-    path: /etc/mongo/dsit_defunct_managed_by_ops_now/shard1_rs_a.cfg
+    path: /etc/mongo/shard1_rs_a.cfg
   when: envi.stdout == "dsit"
   register: config_file_shard1_rs_a_dsit
 
 - name: Checking config file name(DSIT - rs_b.cfg)
   stat:
-    path: /etc/mongo/dsit_defunct_managed_by_ops_now/rs_b.cfg
+    path: /etc/mongo/rs_b.cfg
   ignore_errors: yes
   when:  envi.stdout == "dsit"
   register: config_file_rs_b_dsit
 
 - name: checking config file name(DSIT - shard1_rs_b.cfg)
   stat:
-    path: /etc/mongo/dsit_defunct_managed_by_ops_now/shard1_rs_b.cfg
+    path: /etc/mongo/shard1_rs_b.cfg
   when: envi.stdout == "dsit"
   register: config_file_shard1_rs_b_dsit    
 
 - name: Checking config file name(DSIT - rs_c.cfg)
   stat:
-    path: /etc/mongo/dsit_defunct_managed_by_ops_now/rs_c.cfg
+    path: /etc/mongo/rs_c.cfg
   ignore_errors: yes
   when:  envi.stdout == "dsit"
   register: config_file_rs_c_dsit
 
 - name: checking config file name(DSIT - shard1_rs_c.cfg)
   stat:
-    path: /etc/mongo/dsit_defunct_managed_by_ops_now/shard1_rs_c.cfg
+    path: /etc/mongo/shard1_rs_c.cfg
   when: envi.stdout == "dsit"
   register: config_file_shard1_rs_c_dsit 
 
 #CHECING THE TYPE OF MONGODB IN DSIT
 - name: Check type of host (for DSIT envi)
   shell:
-    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_a.cfg | grep -i 'clusterRole: configsvr' "
+    cmd: " cat /etc/mongo/rs_a.cfg | grep -i 'clusterRole: configsvr' "
   register: config_dsita
   when:
     - envi.stdout == "dsit"
@@ -256,7 +257,7 @@
 
 - name: Check type of host (for DSIT envi)
   shell:
-    cmd: "cat /etc/mongo/dsit_defunct_managed_by_ops_now/shard1_rs_a.cfg |  grep -i 'clusterRole: shardsvr'"
+    cmd: "cat /etc/mongo/shard1_rs_a.cfg |  grep -i 'clusterRole: shardsvr'"
   register: shard_dsita
   when:
     - envi.stdout == "dsit"
@@ -265,7 +266,7 @@
 
 - name: Check type of host (for DSIT envi)
   shell:
-    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_b.cfg | grep -i 'clusterRole: configsvr' "
+    cmd: " cat /etc/mongo/rs_b.cfg | grep -i 'clusterRole: configsvr' "
   register: config_dsitb
   when:
     - envi.stdout == "dsit"
@@ -274,7 +275,7 @@
 
 - name: Check type of host (for DSIT envi)
   shell:
-    cmd: "cat /etc/mongo/dsit_defunct_managed_by_ops_now/shard1_rs_b.cfg |  grep -i 'clusterRole: shardsvr'"
+    cmd: "cat /etc/mongo/shard1_rs_b.cfg |  grep -i 'clusterRole: shardsvr'"
   register: shard_dsitb
   when:
     - envi.stdout == "dsit"
@@ -283,7 +284,7 @@
 
 - name: Check type of host (for DSIT envi)
   shell:
-    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_c.cfg | grep -i 'clusterRole: configsvr' "
+    cmd: " cat /etc/mongo/rs_c.cfg | grep -i 'clusterRole: configsvr' "
   register: config_dsitc
   when:
     - envi.stdout == "dsit"
@@ -292,7 +293,7 @@
 
 - name: Check type of host (for DSIT envi)
   shell:
-    cmd: "cat /etc/mongo/dsit_defunct_managed_by_ops_now/shard1_rs_c.cfg |  grep -i 'clusterRole: shardsvr'"
+    cmd: "cat /etc/mongo/shard1_rs_c.cfg |  grep -i 'clusterRole: shardsvr'"
   register: shard_dsitc
   when:
     - envi.stdout == "dsit"
@@ -306,8 +307,7 @@
   when:
     - envi.stdout == "dsit"
     - config_file_rs_a_dsit.stat.exists
-    - "'configsvr' not in config_dsita.stdout"
-    - "'shardsvr' not in config_dsita.stdout"
+    - config_dsita.stdout == ""
   ignore_errors: yes
   register: replicaset_server_type_a_dsit
 
@@ -317,8 +317,7 @@
   when:
     - envi.stdout == "dsit"
     - config_file_rs_b_dsit.stat.exists
-    - "'configsvr' not in config_dsitb.stdout"
-    - "'shardsvr' not in config_dsitb.stdout"
+    - config_dsitb.stdout == ""
   ignore_errors: yes
   register: replicaset_server_type_b_dsit
 
@@ -328,8 +327,7 @@
   when:
     - envi.stdout == "dsit"
     - config_file_rs_c_dsit.stat.exists
-    - "'configsvr' not in config_dsitc.stdout"
-    - "'shardsvr' not in config_dsitc.stdout"
+    - config_dsitc.stdout == ""
   ignore_errors: yes
   register: replicaset_server_type_c_dsit
 
