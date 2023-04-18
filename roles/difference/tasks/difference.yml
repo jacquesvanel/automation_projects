@@ -60,9 +60,7 @@
     - envi.stdout == "sbx"
     - config_file_rs_a_sbx.stat.exists
   ignore_errors: yes
-- name: output " config_sbxa"
-  debug:
-    msg: "{{ config_sbxa.stdout }}"
+
 - name: Check type of host (for SBX envi)
   shell:
     cmd: "cat /etc/mongo/sbx/shard1_rs_a.cfg |  grep -i 'clusterRole: shardsvr'"
@@ -145,8 +143,7 @@
   when:
     - envi.stdout == "sbx"
     - config_file_rs_a_sbx.stat.exists
-    - "'configsvr' not in config_sbxa.stdout"
-    - "'shardsvr' not in config_sbxb.stdout"
+    - config_sbxa.stdout == ""
   ignore_errors: yes
   register: replicaset_server_type_a_sbx
 
@@ -156,7 +153,7 @@
   when:
     - envi.stdout == "sbx"
     - config_file_rs_b_sbx.stat.exists
-    - config_sbxa is succeeded 
+    - config_sbxb.stdout == ""
   ignore_errors: yes
   register: replicaset_server_type_b_sbx
 
@@ -166,8 +163,7 @@
   when:
     - envi.stdout == "sbx"
     - config_file_rs_c_sbx.stat.exists
-    - "'sharding' not in config_sbxc.stdout"
-    - "'configsvr' not in config_sbxc.stdout"
+    - config_sbxc.stdout == ""
   ignore_errors: yes
   register: replicaset_server_type_c_sbx
 
