@@ -154,8 +154,7 @@
   when:
     - envi.stdout == "sbx"
     - config_file_rs_b_sbx.stat.exists
-    - "'configsvr' not in config_sbxb.stdout"
-    - "'shardsvr' not in config_sbxb.stdout" 
+    - config_sbxa is succeeded 
   ignore_errors: yes
   register: replicaset_server_type_b_sbx
 
