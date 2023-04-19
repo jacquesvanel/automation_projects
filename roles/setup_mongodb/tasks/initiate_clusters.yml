@@ -7,6 +7,9 @@
       state: directory
       owner: "{{ owner }}"
       group: "{{ group }}"
+    with_items: "{{ db_servers }}"
+    loop_control:
+      label: "{{ item.name }}"
 
   - name: (initiate_clusters.yml) layout initiate.js template on the server
     template:
@@ -30,6 +33,9 @@
   - name: (initiate_clusters.yml) show result
     debug:
       msg: "{{ initiate_result.stdout }}"
+    with_items: "{{ db_servers }}"
+    loop_control:
+      label: "{{ item.name }}"
   when: ansible_hostname == {{ item.name }} 
   ignore_errors: yes
 

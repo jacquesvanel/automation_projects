@@ -74,12 +74,6 @@
     - reinstall
     - start_mongos
 
-      #- name: add configsvr config/service files
-      #  import_tasks: servers.yml
-      #  tags:
-      #    - reinstall
-      #    - servers
-
 - name: add configsvr config/service files
   include_tasks: config_servers.yml
   when: "ansible_hostname in [configsvr_rsa, configsvr_rsb, configsvr_rsc]"
@@ -127,7 +121,7 @@
     state: restarted
 
 - name: mms agent
-  include_tasks: mms_agent.yml
+  import_tasks: mms_agent.yml
   tags:
     - reinstall
     - mms_agent
