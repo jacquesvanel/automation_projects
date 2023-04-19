@@ -761,3 +761,138 @@
     - "'shardsvr' in shard_petc.stdout"
   ignore_errors: yes
   register: sharded_server_type_c_pet
+
+
+
+
+         #####################      PROD     ####################
+#CHECK THE NAME OF THE CONFIF FILE, IN PROD ENVIRONMENT
+- name: Checking config file name(PROD - rs_a.cfg)
+  stat:
+    path: /etc/mongo/pte_defunct_managed_by_ops_now/rs_a.cfg
+  ignore_errors: yes
+  when: envi.stdout == "prod"
+  register: config_file_rs_a_prod
+- name: checking config file name(PROD - shard1_rs_a.cfg)
+  stat:
+    path: /etc/mongo/pte_defunct_managed_by_ops_now/shard1_rs_a.cfg
+  when: envi.stdout == "prod"
+  register: config_file_shard1_rs_a_prod
+- name: Checking config file name(PROD - rs_b.cfg)
+  stat:
+    path: /etc/mongo/pte_defunct_managed_by_ops_now/rs_b.cfg
+  ignore_errors: yes
+  when: envi.stdout == "prod"
+  register: config_file_rs_b_prod
+- name: checking config file name(PROD - shard1_rs_b.cfg)
+  stat:
+    path: /etc/mongo/pte_defunct_managed_by_ops_now/shard1_rs_b.cfg
+  when: envi.stdout == "prod"
+  register: config_file_shard1_rs_b_prod
+- name: Checking config file name(PROD - rs_c.cfg)
+  stat:
+    path: /etc/mongo/pte_defunct_managed_by_ops_now/rs_c.cfg
+  ignore_errors: yes
+  when: envi.stdout == "prod"
+  register: config_file_rs_c_prod
+- name: checking config file name(PROD - shard1_rs_c.cfg)
+  stat:
+    path: /etc/mongo/pte_defunct_managed_by_ops_now/shard1_rs_c.cfg
+  when: envi.stdout == "prod"
+  register: config_file_shard1_rs_c_prod
+
+
+###### SHARDED SERVER CHECK
+- name: show server type (PROD envi shard1_rs_a)
+  debug:
+    msg: "{{ ansible_hostname }} is a SHARDED SERVER"
+  when:
+    - envi.stdout == "prod"
+    - config_file_shard1_rs_a_prod.stat.exists
+    - "'shardsvr' in shard_proda.stdout"
+  ignore_errors: yes
+  register: sharded_server_type_a_prod
+
+- name: show server type (PROD envi shard1_rs_b)
+  debug:
+    msg: "{{ ansible_hostname }} is a SHARDED SERVER"
+  when:
+    - envi.stdout == "prod"
+    - config_file_shard1_rs_b_prod.stat.exists
+    - "'shardsvr' in shard_prodb.stdout"
+  ignore_errors: yes
+  register: sharded_server_type_b_prod
+
+- name: show server type (PROD envi shard1_rs_c)
+  debug:
+    msg: "{{ ansible_hostname }} is a SHARDED SERVER"
+  when:
+    - envi.stdout == "prod"
+    - config_file_shard1_rs_c_prod.stat.exists
+    - "'shardsvr' in shard_prodc.stdout"
+  ignore_errors: yes
+  register: sharded_server_type_c_prod
+
+
+##### REPLICASET SERVER CHECK
+- name: show server type (PROD envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
+  when:
+    - envi.stdout == "prod"
+    - config_file_rs_a_pet.stat.exists
+    - config_proda.stdout == ""
+  ignore_errors: yes
+  register: replicaset_server_type_a_prod
+
+- name: show server type (PROD envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
+  when:
+    - envi.stdout == "prod"
+    - config_file_rs_b_prod.stat.exists
+    - config_prodb.stdout == ""
+  ignore_errors: yes
+  register: replicaset_server_type_b_prod
+
+- name: show server type (PROD envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
+  when:
+    - envi.stdout == "prod"
+    - - config_file_rs_c_prod.stat.exists
+    - config_prodc.stdout == ""
+  ignore_errors: yes
+  register: replicaset_server_type_c_prod
+
+
+##### REPLICASET SERVER CHECK
+- name: show server type (PROD envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
+  when:
+    - envi.stdout == "prod"
+    - config_file_rs_a_prod.stat.exists
+    - config_proda.stdout == ""
+  ignore_errors: yes
+  register: replicaset_server_type_a_prod
+
+- name: show server type (PROD envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
+  when:
+    - envi.stdout == "prod"
+    - config_file_rs_b_prod.stat.exists
+    - config_prodb.stdout == ""
+  ignore_errors: yes
+  register: replicaset_server_type_b_prod
+
+- name: show server type (PROD envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
+  when:
+    - envi.stdout == "prod"
+    - - config_file_rs_c_prod.stat.exists
+    - config_prodc.stdout == ""
+  ignore_errors: yes
+  register: replicaset_server_type_c_prod    
