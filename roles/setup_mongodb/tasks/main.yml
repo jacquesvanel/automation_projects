@@ -55,12 +55,14 @@
 
 - name: create role
   include_tasks: create_role.yml
+  when: "ansible_hostname in [configsvr_rsa, shard1a, shard2a, shard3a, rs_1]"
   tags: 
     - reinstall
     - create_role
     
 - name: change ldap interval
   include_tasks: ldap_interval.yml
+  when: "ansible_hostname in [configsvr_rsa, shard1a, shard2a, shard3a, rs_1]"
   tags:
     - reinstall
     - ldap_interval  
@@ -101,6 +103,7 @@
 
 - name: initiate clusters
   include_tasks: initiate_clusters.yml
+  when: "ansible_hostname in [configsvr_rsa, shard1a, shard2a, shard3a, rs_1]"
   tags:
     - reinstall
     - initiate_clusters
@@ -113,6 +116,7 @@
 
 - name: add shards to cluster
   include_tasks: add_shards.yml
+  when: "ansible_hostname in [configsvr_rsa, shard1a, shard2a, shard3a, rs_1]"
   tags:
     - reinstall
     - add_shards
