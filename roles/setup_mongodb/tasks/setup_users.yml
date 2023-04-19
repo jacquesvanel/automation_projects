@@ -18,9 +18,9 @@
     group: "{{ group }}"
     mode: '0644'
     force: yes
-      #    loop: "{{ db_servers }}"
-      #    loop_control:
-      #      label: "{{ item.name }}"
+    loop: "{{ db_servers }}"
+    loop_control:
+      label: "{{ item.name }}"
 
 - name: (setup_users.yml) set up users on config server
   shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js
