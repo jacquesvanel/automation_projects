@@ -6,9 +6,9 @@
     owner: "{{ owner }}"
     group: "{{ group }}"
 
-- name: (setup_users.yml) layout user template for the server
+- name: (setup_users.yml) layout user template for server
   template:
-    src:  user_setup.js.j2
+    src: user_setup.js.j2
     dest: "/etc/mongo/{{ env }}/scripts/user_setup.js"
     owner: "{{ owner }}"
     group: "{{ group }}"
