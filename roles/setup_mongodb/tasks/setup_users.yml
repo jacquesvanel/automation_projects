@@ -31,7 +31,8 @@
 
 - name: (setup_users.yml) show user result
   debug:
-    msg: "{{ user_result.stdout }}"
+    msg: "{{ user_result }}"
+  ignore_errors: yes
       #  when: ansible_hostname == {{ item.name }} 
 
 

@@ -116,7 +116,7 @@
 
 - name: add shards to cluster
   include_tasks: add_shards.yml
-  when: "ansible_hostname in [configsvr_rsa, shard1a, shard2a, shard3a, rs_1]"
+  when: "ansible_hostname in [configsvr_rsa]"
   tags:
     - reinstall
     - add_shards

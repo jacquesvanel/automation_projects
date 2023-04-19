@@ -7,14 +7,11 @@
       state: directory
       owner: "{{ owner }}"
       group: "{{ group }}"
-    with_items: "{{ db_servers }}"
-    loop_control:
-      label: "{{ item.name }}"
 
   - name: (initiate_clusters.yml) layout initiate.js template on the server
     template:
       src:  initiate.js.j2
-      dest: "/etc/mongo/{{ env }}/scripts/initiate_{{ item.name }}.js"
+      dest: "/etc/mongo/{{ env }}/scripts/initiate.js"
       owner: root
       group: root
       mode: '0644'
@@ -24,7 +21,7 @@
       label: "{{ item.name }}"
 
   - name: (initiate_clusters.yml) set up initiate on  server
-    shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/initiate_{{ item.name }}.js -u amkanda -p Qwerty#12345px
+    shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/initiate.js -u amkanda -p Qwerty#12345px
     register: initiate_result
     with_items: "{{ db_servers }}"
     loop_control:
@@ -33,11 +30,6 @@
   - name: (initiate_clusters.yml) show result
     debug:
       msg: "{{ initiate_result.stdout }}"
-  when: >
-          ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa' or
-          ansible_hostname == {{ item.name }} and item.name == 'shard1a' or
-          ansible_hostname == {{ item.name }} and item.name == 'shard2a' or
-          ansible_hostname == {{ item.name }} and item.name == 'shard3a' or
-          ansible_hostname == {{ item.name }} and item.name == 'rs_1'
+  when: ansible_hostname == {{ item.name }} 
   ignore_errors: yes
 
