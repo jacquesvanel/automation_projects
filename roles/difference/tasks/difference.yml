@@ -11,8 +11,7 @@
 
 
 
-      ################################################################################## SBX ###########################################################################################
-
+             ################################################### SBX ###################################################
 #CHECK THE NAME OF THE CONFIF FILE, IN SBX ENVIRONMENT
 - name: Checking config file name(SBX - rs_a.cfg)
   stat:
@@ -162,7 +161,7 @@
   register: replicaset_server_type_c_sbx
 
 #### SHARDED    
-- name: show server type (SBX envi)
+- name: show server type (SBX envi shard1_rs_a)
   debug:
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
@@ -172,7 +171,7 @@
   ignore_errors: yes    
   register: sharded_server_type_a_sbx 
 
-- name: show server type (SBX envi)
+- name: show server type (SBX envi shard1_rs_b)
   debug:
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
@@ -182,7 +181,7 @@
   ignore_errors: yes
   register: sharded_server_type_b_sbx
 
-- name: show server type (SBX envi)
+- name: show server type (SBX envi shard1_rs_c)
   debug:
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
@@ -326,7 +325,7 @@
   register: replicaset_server_type_c_dsit
 
  ###### SHARDED SERVER CHECK
-- name: show server type (DSIT envi)
+- name: show server type (DSIT envi shard1_rs_a)
   debug:
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
@@ -336,7 +335,7 @@
   ignore_errors: yes
   register: sharded_server_type_a_dsit
 
-- name: show server type (DSIT envi)
+- name: show server type (DSIT envi shard1_rs_b)
   debug:
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
@@ -346,7 +345,7 @@
   ignore_errors: yes
   register: sharded_server_type_b_dsit
 
-- name: show server type (DSIT envi)
+- name: show server type (DSIT envishard1_rs_c)
   debug:
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
@@ -540,10 +539,10 @@
     - - config_file_rs_c_dev.stat.exists
     - config_devc.stdout == ""
   ignore_errors: yes
-  register: replicaset_server_type_c_dsit
+  register: replicaset_server_type_c_dev
 
 ###### SHARDED SERVER CHECK
-- name: show server type (DEV envi)
+- name: show server type (DEV envi shard1_rs_a)
   debug:
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
@@ -553,7 +552,7 @@
   ignore_errors: yes
   register: sharded_server_type_a_dev
 
-- name: show server type (DEV envi)
+- name: show server type (DEV envi shard1_rs_b)
   debug:
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
@@ -563,7 +562,7 @@
   ignore_errors: yes
   register: sharded_server_type_b_dev
 
-- name: show server type (DEV envi)
+- name: show server type (DEV envi shard1_rs_c)
   debug:
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
@@ -572,3 +571,193 @@
     - "'shardsvr' in shard_devc.stdout"
   ignore_errors: yes
   register: sharded_server_type_c_dev
+
+
+
+     #####################      PET     ####################
+#CHECK THE NAME OF THE CONFIF FILE, IN DEV ENVIRONMENT    
+- name: Checking config file name(PET - rs_a.cfg)
+  stat:
+    path: /etc/mongo/pte_defunct_managed_by_ops_now/rs_a.cfg
+  ignore_errors: yes
+  when: envi.stdout == "pet"
+  register: config_file_rs_a_pet
+- name: checking config file name(PET - shard1_rs_a.cfg)
+  stat:
+    path: /etc/mongo/pte_defunct_managed_by_ops_now/shard1_rs_a.cfg
+  when: envi.stdout == "pet"
+  register: config_file_shard1_rs_a_pet
+- name: Checking config file name(PET - rs_b.cfg)
+  stat:
+    path: /etc/mongo/pte_defunct_managed_by_ops_now/rs_b.cfg
+  ignore_errors: yes
+  when: envi.stdout == "pet"
+  register: config_file_rs_b_pet
+- name: checking config file name(PET - shard1_rs_b.cfg)
+  stat:
+    path: /etc/mongo/pte_defunct_managed_by_ops_now/shard1_rs_b.cfg
+  when: envi.stdout == "pet"
+  register: config_file_shard1_rs_b_pet
+- name: Checking config file name(PET - rs_c.cfg)
+  stat:
+    path: /etc/mongo/pte_defunct_managed_by_ops_now/rs_c.cfg
+  ignore_errors: yes
+  when: envi.stdout == "pet"
+  register: config_file_rs_c_pet
+- name: checking config file name(PET - shard1_rs_c.cfg)
+  stat:
+    path: /etc/mongo/pte_defunct_managed_by_ops_now/shard1_rs_c.cfg
+  when: envi.stdout == "pet"
+  register: config_file_shard1_rs_c_pet
+
+
+#CHECKING THE TYPE OF MONGODB IN PET
+- name: Check type of host (for PET envi)
+  shell:
+    cmd: " cat /etc/mongo//pte_defunct_managed_by_ops_now/rs_a.cfg | grep -i 'clusterRole: configsvr' "
+  register: config_peta
+  when:
+    - envi.stdout == "pet"
+    - config_file_rs_a_pet.stat.exists
+
+- name: Check type of host (for PET shard1_rs_a envi)
+  shell:
+    cmd: "cat /etc/mongo/pte_defunct_managed_by_ops_now/shard1_rs_a.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_peta
+  when:
+    - envi.stdout == "pet"
+    - config_file_shard1_rs_a_pet.stat.exists
+  ignore_errors: yes
+
+- name: Check type of host (for PET envi)
+  shell:
+    cmd: " cat /etc/mongo/pte_defunct_managed_by_ops_now/rs_b.cfg | grep -i 'clusterRole: configsvr' "
+  register: config_petb
+  when:
+    - envi.stdout == "pet"
+    - config_file_rs_b_pet.stat.exists
+
+- name: Check type of host (for PET shard1_rs_b envi)
+  shell:
+    cmd: "cat /etc/mongo/pte_defunct_managed_by_ops_now/shard1_rs_b.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_petb
+  when:
+    - envi.stdout == "pet"
+    - config_file_shard1_rs_b_pet.stat.exists
+  ignore_errors: yes
+
+- name: Check type of host (for PET envi)
+  shell:
+    cmd: " cat /etc/mongo/pte_defunct_managed_by_ops_now/rs_c.cfg | grep -i 'clusterRole: configsvr' "
+  register: config_petc
+  when:
+    - envi.stdout == "pet"
+    - config_file_rs_c_pet.stat.exists
+
+- name: Check type of host (for PET shard1_rs_c envi)
+  shell:
+    cmd: "cat /etc/mongo/pte_defunct_managed_by_ops_now/shard1_rs_c.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_petc
+  when:
+    - envi.stdout == "pet"
+    - config_file_shard1_rs_c_pet.stat.exists
+  ignore_errors: yes
+
+
+
+#### CONFIG SERVER CHECK
+- name: show server type (PET envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
+  when:
+    - envi.stdout == "pet"
+    - config_file_rs_a_pet.stat.exists
+    - "'configsvr' in config_peta.stdout"
+  ignore_errors: yes
+  register: config_server_type_a_pet
+
+- name: show server type (PET envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
+  when:
+    - envi.stdout == "pet"
+    - config_file_rs_b_pet.stat.exists
+    - "'configsvr' in config_petb.stdout"
+  ignore_errors: yes
+  register: config_server_type_b_pet
+
+- name: show server type (PET envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
+  when:
+    - envi.stdout == "pet"
+     - config_file_rs_a_pet.stat.exists
+    - "'configsvr' in config_petc.stdout"
+  ignore_errors: yes
+  register: config_server_type_c_pet
+
+
+
+##### REPLICASET SERVER CHECK
+- name: show server type (PET envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
+  when:
+    - envi.stdout == "pet"
+    - config_file_rs_a_pet.stat.exists
+    - config_peta.stdout == ""
+  ignore_errors: yes
+  register: replicaset_server_type_a_pet
+
+- name: show server type (PET envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
+  when:
+    - envi.stdout == "pet"
+    - config_file_rs_b_pet.stat.exists
+    - config_petb.stdout == ""
+  ignore_errors: yes
+  register: replicaset_server_type_b_pet
+
+- name: show server type (PET envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
+  when:
+    - envi.stdout == "pet"
+    - - config_file_rs_c_pet.stat.exists
+    - config_petc.stdout == ""
+  ignore_errors: yes
+  register: replicaset_server_type_c_pet
+
+
+
+###### SHARDED SERVER CHECK
+- name: show server type (PET envi shard1_rs_a)
+  debug:
+    msg: "{{ ansible_hostname }} is a SHARDED SERVER"
+  when:
+    - envi.stdout == "pet"
+    - config_file_shard1_rs_a_pet.stat.exists
+    - "'shardsvr' in shard_peta.stdout"
+  ignore_errors: yes
+  register: sharded_server_type_a_pet
+
+- name: show server type (PET envi shard1_rs_b)
+  debug:
+    msg: "{{ ansible_hostname }} is a SHARDED SERVER"
+  when:
+    - envi.stdout == "pet"
+    - config_file_shard1_rs_b_pet.stat.exists
+    - "'shardsvr' in shard_petb.stdout"
+  ignore_errors: yes
+  register: sharded_server_type_b_pet
+
+- name: show server type (PET envi shard1_rs_c)
+  debug:
+    msg: "{{ ansible_hostname }} is a SHARDED SERVER"
+  when:
+    - envi.stdout == "pet"
+    - config_file_shard1_rs_c_dev.stat.exists
+    - "'shardsvr' in shard_petc.stdout"
+  ignore_errors: yes
+  register: sharded_server_type_c_pet
