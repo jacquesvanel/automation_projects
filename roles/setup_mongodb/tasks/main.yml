@@ -1,5 +1,10 @@
 ---
 ################################  testing  ################################
+- name: Skip tasks when condition is not met
+  meta:
+    skip: true
+  when: "ansible_hostname not in [configsvr_rsa, configsvr_rsb, configsvr_rsc]"
+
 - name: set facts
   import_tasks: set_fact.yml
   tags:
