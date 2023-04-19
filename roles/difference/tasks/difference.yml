@@ -436,6 +436,15 @@
     - envi.stdout == "dev"
     - config_file_rs_a_dev.stat.exists
 
+- name: Check type of host (for DEV shard1_rs_a envi)
+  shell:
+    cmd: "cat /etc/mongo/shard1_rs_a.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_deva
+  when:
+    - envi.stdout == "dev"
+    - config_file_shard1_rs_a_dev.stat.exists
+  ignore_errors: yes
+
 - name: Check type of host (for DEV envi)
   shell:
     cmd: " cat /etc/mongo/rs_b.cfg | grep -i 'clusterRole: configsvr' "
@@ -444,6 +453,15 @@
     - envi.stdout == "dev"
     - config_file_rs_b_dev.stat.exists
 
+- name: Check type of host (for DEV shard1_rs_b envi)
+  shell:
+    cmd: "cat /etc/mongo/shard1_rs_b.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_devb
+  when:
+    - envi.stdout == "dev"
+    - config_file_shard1_rs_b_dev.stat.exists
+  ignore_errors: yes      
+
 - name: Check type of host (for DEV envi)
   shell:
     cmd: " cat /etc/mongo/rs_c.cfg | grep -i 'clusterRole: configsvr' "
@@ -451,6 +469,15 @@
   when:
     - envi.stdout == "dev"
     - config_file_rs_c_dev.stat.exists
+
+- name: Check type of host (for DEV shard1_rs_c envi)
+  shell:
+    cmd: "cat /etc/mongo/shard1_rs_c.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_devc
+  when:
+    - envi.stdout == "dev"
+    - config_file_shard1_rs_c_dev.stat.exists
+  ignore_errors: yes      
 
 
 #### CONFIG SERVER CHECK
@@ -522,7 +549,7 @@
   when:
     - envi.stdout == "dev"
     - config_file_shard1_rs_a_dev.stat.exists
-    - "'shardsvr' in config_deva.stdout"
+    - "'shardsvr' in shard_deva.stdout"
   ignore_errors: yes
   register: sharded_server_type_a_dev
 
@@ -532,7 +559,7 @@
   when:
     - envi.stdout == "dev"
     - config_file_shard1_rs_b_dev.stat.exists
-    - "'shardsvr' in config_devb.stdout"
+    - "'shardsvr' in shard_devb.stdout"
   ignore_errors: yes
   register: sharded_server_type_b_dev
 
@@ -542,6 +569,6 @@
   when:
     - envi.stdout == "dev"
     - config_file_shard1_rs_c_dev.stat.exists
-    - "'shardsvr' in config_devc.stdout"
+    - "'shardsvr' in shard_devc.stdout"
   ignore_errors: yes
   register: sharded_server_type_c_dev
