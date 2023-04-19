@@ -610,7 +610,6 @@
   when: envi.stdout == "pet"
   register: config_file_shard1_rs_c_pet
 
-
 #CHECKING THE TYPE OF MONGODB IN PET
 - name: Check type of host (for PET envi)
   shell:
@@ -802,6 +801,61 @@
   register: config_file_shard1_rs_c_prod
 
 
+
+#CHECKING THE TYPE OF MONGODB IN PROD
+- name: Check type of host (for PROD envi)
+  shell:
+    cmd: " cat /etc/mongo//pte_defunct_managed_by_ops_now/rs_a.cfg | grep -i 'clusterRole: configsvr' "
+  register: config_proda
+  when:
+    - envi.stdout == "prod"
+    - config_file_rs_a_prod.stat.exists
+
+- name: Check type of host (for PROD shard1_rs_a envi)
+  shell:
+    cmd: "cat /etc/mongo/pte_defunct_managed_by_ops_now/shard1_rs_a.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_proda
+  when:
+    - envi.stdout == "prod"
+    - config_file_shard1_rs_a_prod.stat.exists
+  ignore_errors: yes
+
+- name: Check type of host (for PROD envi)
+  shell:
+    cmd: " cat /etc/mongo/pte_defunct_managed_by_ops_now/rs_b.cfg | grep -i 'clusterRole: configsvr' "
+  register: config_prodb
+  when:
+    - envi.stdout == "prod"
+    - config_file_rs_b_prod.stat.exists
+
+- name: Check type of host (for PROD shard1_rs_b envi)
+  shell:
+    cmd: "cat /etc/mongo/pte_defunct_managed_by_ops_now/shard1_rs_b.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_prodb
+  when:
+    - envi.stdout == "prod"
+    - config_file_shard1_rs_b_prod.stat.exists
+  ignore_errors: yes
+
+- name: Check type of host (for PROD envi)
+  shell:
+    cmd: " cat /etc/mongo/pte_defunct_managed_by_ops_now/rs_c.cfg | grep -i 'clusterRole: configsvr' "
+  register: config_prodc
+  when:
+    - envi.stdout == "prod"
+    - config_file_rs_c_prod.stat.exists
+
+- name: Check type of host (for PROD shard1_rs_c envi)
+  shell:
+    cmd: "cat /etc/mongo/pte_defunct_managed_by_ops_now/shard1_rs_c.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_prodc
+  when:
+    - envi.stdout == "prod"
+    - config_file_shard1_rs_c_prod.stat.exists
+  ignore_errors: yes
+
+
+
 ###### SHARDED SERVER CHECK
 - name: show server type (PROD envi shard1_rs_a)
   debug:
@@ -840,38 +894,6 @@
     msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
   when:
     - envi.stdout == "prod"
-    - config_file_rs_a_pet.stat.exists
-    - config_proda.stdout == ""
-  ignore_errors: yes
-  register: replicaset_server_type_a_prod
-
-- name: show server type (PROD envi)
-  debug:
-    msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
-  when:
-    - envi.stdout == "prod"
-    - config_file_rs_b_prod.stat.exists
-    - config_prodb.stdout == ""
-  ignore_errors: yes
-  register: replicaset_server_type_b_prod
-
-- name: show server type (PROD envi)
-  debug:
-    msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
-  when:
-    - envi.stdout == "prod"
-    - - config_file_rs_c_prod.stat.exists
-    - config_prodc.stdout == ""
-  ignore_errors: yes
-  register: replicaset_server_type_c_prod
-
-
-##### REPLICASET SERVER CHECK
-- name: show server type (PROD envi)
-  debug:
-    msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
-  when:
-    - envi.stdout == "prod"
     - config_file_rs_a_prod.stat.exists
     - config_proda.stdout == ""
   ignore_errors: yes
@@ -892,7 +914,7 @@
     msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
   when:
     - envi.stdout == "prod"
-    - - config_file_rs_c_prod.stat.exists
+    - config_file_rs_c_prod.stat.exists
     - config_prodc.stdout == ""
   ignore_errors: yes
   register: replicaset_server_type_c_prod    
