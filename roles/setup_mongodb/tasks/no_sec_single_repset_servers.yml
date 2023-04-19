@@ -9,8 +9,8 @@
       owner: "{{ owner }}"
       group: "{{ group }}"
     loop: "{{ single_repset_servers }}"
-      loop_control:
-         label: "{{ item.name }}"
+    loop_control:
+       label: "{{ item.name }}"
     ignore_errors: yes
 
   - name: (no_sec_servers.yml) layout mongod.conf template on the server

@@ -1,0 +1,24 @@
+---
+# tasks file for common_tasks
+- name: add mongo service file
+  import_tasks: mongo_service.yml
+  tags:
+    - reinstall
+    - mongo_service
+
+- name: setup users
+  import_tasks: setup_users.yml
+  tags:
+    - reinstall
+    - setup_users
+
+- name: create role
+  import_tasks: create_role.yml
+  tags:
+
+- name: change ldap interval
+  import_tasks: ldap_interval.yml
+  tags:
+    - reinstall
+    - ldap_interval
+

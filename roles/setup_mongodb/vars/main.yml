@@ -1,14 +1,10 @@
 ---
 # vars file for mongo_config
-public_key: ujumosek
-private_key: aeb3df77-80ce-41d2-9d6d-41aa942feb67
-project_id: 642c413a9948ee7556f0267c
-ops_manager_host: "http://ae1rsbxlmdb005.opr.afsiep.net:8080"
-api: "/api/public/v1.0"
-project_name: test_project
+public_key: begbrrkw
+private_key: a7442977-c253-4698-b0ab-d36541c3b552
 
-public_key: njtxfgan
-private_key: cf95ad25-610c-42fd-acc9-1a1cfaea0de2
+public_key1: njtxfgan
+private_key1: cf95ad25-610c-42fd-acc9-1a1cfaea0de2
 project_id: 642c413a9948ee7556f0267c
 ops_manager_host: "http://ae1rsbxlmdb006.opr.afsiep.net:8080"
 api: "/api/public/v1.0"
