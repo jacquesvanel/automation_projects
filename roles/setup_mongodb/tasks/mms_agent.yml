@@ -71,7 +71,7 @@
   - name: show api_key
     debug:
       var: agent_api_key
-  when: project_name not in project_names_list and ansible_hostname == configsvr_rsa
+  when: project_name not in project_names_list and ansible_hostname in [configsvr_rsa, rs_1]
 ###################################################################
 #get project info and parse out project id 
 - name: Get Project info from MongoDB Ops Manager
