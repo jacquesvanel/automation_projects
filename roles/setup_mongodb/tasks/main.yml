@@ -40,7 +40,7 @@
     - no_sec_single_repset_servers
 
 - name: add mongos config/service files
-  import_tasks: mongos.yml
+  include_tasks: mongos.yml
   when: "ansible_hostname in [configsvr_rsa, configsvr_rsb, configsvr_rsc]"
   tags: 
     - reinstall
@@ -59,7 +59,7 @@
     - create_role
     
 - name: change ldap interval
-  import_tasks: ldap_interval.yml
+  include_tasks: ldap_interval.yml
   tags:
     - reinstall
     - ldap_interval  
@@ -78,14 +78,14 @@
       #    - servers
 
 - name: add configsvr config/service files
-  import_tasks: config_servers.yml
+  include_tasks: config_servers.yml
   when: "ansible_hostname in [configsvr_rsa, configsvr_rsb, configsvr_rsc]"
   tags:
     - reinstall
     - config_servers
 
 - name: add shardsvr config/service files
-  import_tasks: shard_servers.yml
+  include_tasks: shard_servers.yml
   when: "ansible_hostname in [shard1a, shard1b, shard1c, shard2a, shard2b, shard2c, shard3a, shard3b, shard3c]"
   tags:
     - reinstall
@@ -99,19 +99,19 @@
     - single_repset_servers
 
 - name: initiate clusters
-  import_tasks: initiate_clusters.yml
+  include_tasks: initiate_clusters.yml
   tags:
     - reinstall
     - initiate_clusters
 
 - name: add keep alive line to sysctl.conf
-  import_tasks: add_line_to_sys.yml
+  include_tasks: add_line_to_sys.yml
   tags:
     - reinstall
     - keepalive
 
 - name: add shards to cluster
-  import_tasks: add_shards.yml
+  include_tasks: add_shards.yml
   tags:
     - reinstall
     - add_shards
@@ -122,7 +122,7 @@
     state: restarted
 
 - name: mms agent
-  import_tasks: mms_agent.yml
+  include_tasks: mms_agent.yml
   tags:
     - reinstall
     - mms_agent
