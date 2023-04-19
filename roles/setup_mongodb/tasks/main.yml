@@ -127,8 +127,3 @@
     - reinstall
     - mms_agent
 #####################################################################
-- name: install sadi config
-  import_tasks: sadi_dsit.yml
-  tags:
-    - never
-    - sadi
