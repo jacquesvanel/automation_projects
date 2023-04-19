@@ -19,14 +19,14 @@
     - mongo_service
 
 - name: add configsvr config/service files 
-  import_tasks: no_sec_config_servers.yml
+  include_tasks: no_sec_config_servers.yml
   when: "ansible_hostname in [configsvr_rsa, configsvr_rsb, configsvr_rsc]"
   tags:
     - reinstall
     - no_sec_config_servers
 
 - name: add shardsvr config/service files
-  import_tasks: no_sec_shard_servers.yml
+  include_tasks: no_sec_shard_servers.yml
   when: "ansible_hostname in [shard1a, shard1b, shard1c, shard2a, shard2b, shard2c, shard3a, shard3b, shard3c]"
   tags:
     - reinstall
@@ -47,13 +47,13 @@
     - mongos
 
 - name: setup users
-  import_tasks: setup_users.yml
+  include_tasks: setup_users.yml
   tags: 
     - reinstall
     - setup_users
 
 - name: create role
-  import_tasks: create_role.yml
+  include_tasks: create_role.yml
   tags: 
     - reinstall
     - create_role

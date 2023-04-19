@@ -1,0 +1,6 @@
+---
+- name: line insert
+  lineinfile:
+    path: /etc/sysctl.conf
+    line: 'net.ipv4.tcp_keepalive_time = 120'
+    
