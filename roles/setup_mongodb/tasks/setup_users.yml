@@ -6,25 +6,26 @@
       state: directory
       owner: "{{ owner }}"
       group: "{{ group }}"
-    loop: "{{ db_servers }}"
-    loop_control:
-      label: "{{ item.name }}"
+      #    loop: "{{ db_servers }}"
+      #    loop_control:
+      #      label: "{{ item.name }}"
 
   - name: (setup_users.yml) layout user template for the server
     template:
       src:  user_setup.js.j2
-      dest: "/etc/mongo/{{ env }}/scripts/user_setup_{{ item.name }}.js"
+      dest: "/etc/mongo/{{ env }}/scripts/user_setup.js"
       owner: "{{ owner }}"
       group: "{{ group }}"
       mode: '0644'
       force: yes
-    loop: "{{ db_servers }}"
-    loop_control:
-      label: "{{ item.name }}"
+      #    loop: "{{ db_servers }}"
+      #    loop_control:
+      #      label: "{{ item.name }}"
 
   - name: (setup_users.yml) set up users on config server
-    shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/user_setup_{{ item.name }}.js
+    shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js
     register: user_result
+    when: ansible_hostname == {{ item.name }}
     with_items: "{{ db_servers }}"
     loop_control:
       label: "{{ item.name }}"
@@ -32,7 +33,7 @@
   - name: (setup_users.yml) show user result
     debug:
       msg: "{{ user_result.stdout }}"
-  when: ansible_hostname == {{ item.name }} and (item.name == 'configsvr_rsa' or item.name == 'shard1a' or item.name == 'shard2a' or item.name == 'shard3a' or item.name == 'rs_1')
+      #  when: ansible_hostname == {{ item.name }} 
   ignore_errors: yes
 
 
