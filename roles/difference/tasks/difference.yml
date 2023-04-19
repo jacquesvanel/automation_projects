@@ -521,7 +521,7 @@
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
     - envi.stdout == "dev"
-    - config_file_rs_a_dev.stat.exists
+    - config_file_shard1_rs_a_dev.stat.exists
     - "'shardsvr' in config_deva.stdout"
   ignore_errors: yes
   register: sharded_server_type_a_dev
@@ -531,7 +531,7 @@
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
     - envi.stdout == "dev"
-    - config_file_rs_b_dev.stat.exists
+    - config_file_shard1_rs_b_dev.stat.exists
     - "'shardsvr' in config_devb.stdout"
   ignore_errors: yes
   register: sharded_server_type_b_dev
@@ -541,7 +541,7 @@
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
     - envi.stdout == "dev"
-    - config_file_rs_c_dev.stat.exists
+    - config_file_shard1_rs_c_dev.stat.exists
     - "'shardsvr' in config_devc.stdout"
   ignore_errors: yes
   register: sharded_server_type_c_dev
