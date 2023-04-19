@@ -60,7 +60,6 @@
     - envi.stdout == "sbx"
     - config_file_rs_a_sbx.stat.exists
   ignore_errors: yes
-
 - name: Check type of host (for SBX envi)
   shell:
     cmd: "cat /etc/mongo/sbx/shard1_rs_a.cfg |  grep -i 'clusterRole: shardsvr'"
@@ -68,7 +67,6 @@
   when:
     - envi.stdout == "sbx"
     - config_file_shard1_rs_a_sbx.stat.exists 
-
 - name: Check type of host (for SBX envi)
   shell:
     cmd: "cat /etc/mongo/sbx/rs_b.cfg |  grep -i 'clusterRole: configsvr'"
@@ -77,7 +75,6 @@
     - envi.stdout == "sbx"
     - config_file_rs_b_sbx.stat.exists
   ignore_errors: yes
-
 - name: Check type of host (for SBX envi)
   shell:
     cmd: "cat /etc/mongo/sbx/shard1_rs_b.cfg |  grep -i 'clusterRole: shardsvr'"
@@ -85,7 +82,6 @@
   when:
     - envi.stdout == "sbx"
     - config_file_shard1_rs_b_sbx.stat.exists    
-
 - name: Check type of host (for SBX envi)
   shell:
     cmd: "cat /etc/mongo/sbx/rs_c.cfg |  grep -i 'clusterRole: configsvr'"
@@ -94,8 +90,6 @@
     - envi.stdout == "sbx"
     - config_file_rs_c_sbx.stat.exists
   ignore_errors: yes
-
-
 - name: Check type of host (for SBX envi)
   shell:
     cmd: "cat /etc/mongo/sbx/shard1_rs_c.cfg |  grep -i 'clusterRole: shardsvr'"
@@ -143,8 +137,7 @@
   when:
     - envi.stdout == "sbx"
     - config_file_rs_a_sbx.stat.exists
-    - "'configsvr' not in config_sbxa.stdout"
-    - "'shardsvr' not in config_sbxb.stdout"
+    - config_sbxa.stdout == ""
   ignore_errors: yes
   register: replicaset_server_type_a_sbx
 
@@ -154,8 +147,7 @@
   when:
     - envi.stdout == "sbx"
     - config_file_rs_b_sbx.stat.exists
-    - "'configsvr' not in config_sbxb.stdout"
-    - "'shardsvr' not in config_sbxb.stdout" 
+    - config_sbxb.stdout == ""
   ignore_errors: yes
   register: replicaset_server_type_b_sbx
 
@@ -165,8 +157,7 @@
   when:
     - envi.stdout == "sbx"
     - config_file_rs_c_sbx.stat.exists
-    - "'sharding' not in config_sbxc.stdout"
-    - "'configsvr' not in config_sbxc.stdout"
+    - config_sbxc.stdout == ""
   ignore_errors: yes
   register: replicaset_server_type_c_sbx
 
@@ -210,47 +201,48 @@
 #CHECK THE NAME OF THE CONFIF FILE, IN DSIT ENVIRONMENT
 - name: Checking config file name(DSIT - rs_a.cfg)
   stat:
-    path: /etc/mongo/dsit_defunct_managed_by_ops_now/rs_a.cfg
+    path: /etc/mongo/rs_a.cfg    
   ignore_errors: yes
   when:  envi.stdout == "dsit"
   register: config_file_rs_a_dsit
+-    
 
 - name: checking config file name(DSIT - shard1_rs_a.cfg)
   stat:
-    path: /etc/mongo/dsit_defunct_managed_by_ops_now/shard1_rs_a.cfg
+    path: /etc/mongo/shard1_rs_a.cfg
   when: envi.stdout == "dsit"
   register: config_file_shard1_rs_a_dsit
 
 - name: Checking config file name(DSIT - rs_b.cfg)
   stat:
-    path: /etc/mongo/dsit_defunct_managed_by_ops_now/rs_b.cfg
+    path: /etc/mongo/rs_b.cfg
   ignore_errors: yes
   when:  envi.stdout == "dsit"
   register: config_file_rs_b_dsit
 
 - name: checking config file name(DSIT - shard1_rs_b.cfg)
   stat:
-    path: /etc/mongo/dsit_defunct_managed_by_ops_now/shard1_rs_b.cfg
+    path: /etc/mongo/shard1_rs_b.cfg
   when: envi.stdout == "dsit"
   register: config_file_shard1_rs_b_dsit    
 
 - name: Checking config file name(DSIT - rs_c.cfg)
   stat:
-    path: /etc/mongo/dsit_defunct_managed_by_ops_now/rs_c.cfg
+    path: /etc/mongo/rs_c.cfg
   ignore_errors: yes
   when:  envi.stdout == "dsit"
   register: config_file_rs_c_dsit
 
 - name: checking config file name(DSIT - shard1_rs_c.cfg)
   stat:
-    path: /etc/mongo/dsit_defunct_managed_by_ops_now/shard1_rs_c.cfg
+    path: /etc/mongo/shard1_rs_c.cfg
   when: envi.stdout == "dsit"
   register: config_file_shard1_rs_c_dsit 
 
 #CHECING THE TYPE OF MONGODB IN DSIT
 - name: Check type of host (for DSIT envi)
   shell:
-    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_a.cfg | grep -i 'clusterRole: configsvr' "
+    cmd: " cat /etc/mongo/rs_a.cfg | grep -i 'clusterRole: configsvr' "
   register: config_dsita
   when:
     - envi.stdout == "dsit"
@@ -259,7 +251,7 @@
 
 - name: Check type of host (for DSIT envi)
   shell:
-    cmd: "cat /etc/mongo/dsit_defunct_managed_by_ops_now/shard1_rs_a.cfg |  grep -i 'clusterRole: shardsvr'"
+    cmd: "cat /etc/mongo/shard1_rs_a.cfg |  grep -i 'clusterRole: shardsvr'"
   register: shard_dsita
   when:
     - envi.stdout == "dsit"
@@ -268,7 +260,7 @@
 
 - name: Check type of host (for DSIT envi)
   shell:
-    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_b.cfg | grep -i 'clusterRole: configsvr' "
+    cmd: " cat /etc/mongo/rs_b.cfg | grep -i 'clusterRole: configsvr' "
   register: config_dsitb
   when:
     - envi.stdout == "dsit"
@@ -277,7 +269,7 @@
 
 - name: Check type of host (for DSIT envi)
   shell:
-    cmd: "cat /etc/mongo/dsit_defunct_managed_by_ops_now/shard1_rs_b.cfg |  grep -i 'clusterRole: shardsvr'"
+    cmd: "cat /etc/mongo/shard1_rs_b.cfg |  grep -i 'clusterRole: shardsvr'"
   register: shard_dsitb
   when:
     - envi.stdout == "dsit"
@@ -286,7 +278,7 @@
 
 - name: Check type of host (for DSIT envi)
   shell:
-    cmd: " cat /etc/mongo/dsit_defunct_managed_by_ops_now/rs_c.cfg | grep -i 'clusterRole: configsvr' "
+    cmd: " cat /etc/mongo/rs_c.cfg | grep -i 'clusterRole: configsvr' "
   register: config_dsitc
   when:
     - envi.stdout == "dsit"
@@ -295,7 +287,7 @@
 
 - name: Check type of host (for DSIT envi)
   shell:
-    cmd: "cat /etc/mongo/dsit_defunct_managed_by_ops_now/shard1_rs_c.cfg |  grep -i 'clusterRole: shardsvr'"
+    cmd: "cat /etc/mongo/shard1_rs_c.cfg |  grep -i 'clusterRole: shardsvr'"
   register: shard_dsitc
   when:
     - envi.stdout == "dsit"
@@ -309,8 +301,7 @@
   when:
     - envi.stdout == "dsit"
     - config_file_rs_a_dsit.stat.exists
-    - "'configsvr' not in config_dsita.stdout"
-    - "'shardsvr' not in config_dsita.stdout"
+    - config_dsita.stdout == ""
   ignore_errors: yes
   register: replicaset_server_type_a_dsit
 
@@ -320,8 +311,7 @@
   when:
     - envi.stdout == "dsit"
     - config_file_rs_b_dsit.stat.exists
-    - "'configsvr' not in config_dsitb.stdout"
-    - "'shardsvr' not in config_dsitb.stdout"
+    - config_dsitb.stdout == ""
   ignore_errors: yes
   register: replicaset_server_type_b_dsit
 
@@ -331,8 +321,7 @@
   when:
     - envi.stdout == "dsit"
     - config_file_rs_c_dsit.stat.exists
-    - "'configsvr' not in config_dsitc.stdout"
-    - "'shardsvr' not in config_dsitc.stdout"
+    - config_dsitc.stdout == ""
   ignore_errors: yes
   register: replicaset_server_type_c_dsit
 
@@ -402,55 +391,93 @@
     ######################################################################################################### ############# DEV #################################################################################################
 #CHECK THE NAME OF THE CONFIF FILE, IN DEV ENVIRONMENT
 - name: Checking config file name(DEV - rs_a.cfg)
-  shell:
-    cmd: ls /etc/mongo/dev_defunct_managed_by_ops_now | grep -i rs_a.cfg
+  stat:
+    path: /etc/mongo/rs_a.cfg
   ignore_errors: yes
   when:  envi.stdout == "dev"
   register: config_file_rs_a_dev
-
+- name: checking config file name(DEV - shard1_rs_a.cfg)
+  stat:
+    path: /etc/mongo/shard1_rs_a.cfg
+  when: envi.stdout == "dev"
+  register: config_file_shard1_rs_a_dev
 - name: Checking config file name(DEV - rs_b.cfg)
-  shell:
-    cmd: ls /etc/mongo/dev_defunct_managed_by_ops_now | grep -i rs_b.cfg
+  stat:
+    path: /etc/mongo/rs_b.cfg
   ignore_errors: yes
   when:  envi.stdout == "dev"
   register: config_file_rs_b_dev
-
+- name: checking config file name(DEV - shard1_rs_b.cfg)
+  stat:
+    path: /etc/mongo/shard1_rs_b.cfg
+  when: envi.stdout == "dev"
+  register: config_file_shard1_rs_b_dev
 - name: Checking config file name(DEV - rs_c.cfg)
-  shell:
-    cmd: ls /etc/mongo/dev_defunct_managed_by_ops_now | grep -i rs_c.cfg
+  stat:
+    path: /etc/mongo/rs_c.cfg
   ignore_errors: yes
   when:  envi.stdout == "dev"
   register: config_file_rs_c_dev
+- name: checking config file name(DEV - shard1_rs_c.cfg)
+  stat:
+    path: /etc/mongo/shard1_rs_c.cfg
+  when: envi.stdout == "dev"
+  register: config_file_shard1_rs_c_dev
 
 
-#CHECING THE TYPE OF MONGODB IN DEV
-        #CHECK IF IT IS A CONFIG SERVER
+
+
+#CHECKING THE TYPE OF MONGODB IN DEV
 - name: Check type of host (for DEV envi)
   shell:
-    cmd: " cat /etc/mongo/dev_defunct_managed_by_ops_now/rs_a.cfg | grep -i 'clusterRole: configsvr' "
+    cmd: " cat /etc/mongo/rs_a.cfg | grep -i 'clusterRole: configsvr' "
   register: config_deva
   when:
     - envi.stdout == "dev"
-    - "'rs_a.cfg' in config_file_rs_a_dev.stdout"
+    - config_file_rs_a_dev.stat.exists
+
+- name: Check type of host (for DEV shard1_rs_a envi)
+  shell:
+    cmd: "cat /etc/mongo/shard1_rs_a.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_deva
+  when:
+    - envi.stdout == "dev"
+    - config_file_shard1_rs_a_dev.stat.exists
   ignore_errors: yes
 
 - name: Check type of host (for DEV envi)
   shell:
-    cmd: " cat /etc/mongo/dev_defunct_managed_by_ops_now/rs_b.cfg | grep -i 'clusterRole: configsvr' "
+    cmd: " cat /etc/mongo/rs_b.cfg | grep -i 'clusterRole: configsvr' "
   register: config_devb
   when:
     - envi.stdout == "dev"
-    - "'rs_b.cfg' in config_file_rs_b_dev.stdout"
-  ignore_errors: yes
+    - config_file_rs_b_dev.stat.exists
+
+- name: Check type of host (for DEV shard1_rs_b envi)
+  shell:
+    cmd: "cat /etc/mongo/shard1_rs_b.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_devb
+  when:
+    - envi.stdout == "dev"
+    - config_file_shard1_rs_b_dev.stat.exists
+  ignore_errors: yes      
 
 - name: Check type of host (for DEV envi)
   shell:
-    cmd: " cat /etc/mongo/dev_defunct_managed_by_ops_now/rs_c.cfg | grep -i 'clusterRole: configsvr' "
+    cmd: " cat /etc/mongo/rs_c.cfg | grep -i 'clusterRole: configsvr' "
   register: config_devc
   when:
     - envi.stdout == "dev"
-    - "'rs_c.cfg' in config_file_rs_c_dev.stdout"
-  ignore_errors: yes
+    - config_file_rs_c_dev.stat.exists
+
+- name: Check type of host (for DEV shard1_rs_c envi)
+  shell:
+    cmd: "cat /etc/mongo/shard1_rs_c.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_devc
+  when:
+    - envi.stdout == "dev"
+    - config_file_shard1_rs_c_dev.stat.exists
+  ignore_errors: yes      
 
 
 #### CONFIG SERVER CHECK
@@ -483,6 +510,7 @@
     - "'configsvr' in config_devc.stdout"
   ignore_errors: yes
   register: config_server_type_c_dev
+
 ##### REPLICASET SERVER CHECK
 - name: show server type (DEV envi)
   debug:
@@ -490,8 +518,7 @@
   when:
     - envi.stdout == "dev"
     - config_file_rs_a_dev.stat.exists
-    - "'sharding' not in config_deva.stdout"
-    - "'configsvr' not in config_deva.stdout"  
+    - config_deva.stdout == ""  
   ignore_errors: yes
   register: replicaset_server_type_a_dev
 
@@ -501,8 +528,7 @@
   when:
     - envi.stdout == "dev"
     - config_file_rs_b_dev.stat.exists
-    - "'sharding' not in config_devb.stdout"
-    - "'configsvr' not in config_devb.stdout"
+    - config_devb.stdout == ""
   ignore_errors: yes
   register: replicaset_server_type_b_dev
 
@@ -512,35 +538,37 @@
   when:
     - envi.stdout == "dev"
     - - config_file_rs_c_dev.stat.exists
-    - "'sharding' not in config_devc.stdout"
-    - "'configsvr' not in config_devc.stdout"
+    - config_devc.stdout == ""
   ignore_errors: yes
   register: replicaset_server_type_c_dsit
+
 ###### SHARDED SERVER CHECK
 - name: show server type (DEV envi)
   debug:
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
     - envi.stdout == "dev"
-    - config_file_rs_a_dev.stat.exists
-    - "'shardsvr' in config_deva.stdout"
+    - config_file_shard1_rs_a_dev.stat.exists
+    - "'shardsvr' in shard_deva.stdout"
   ignore_errors: yes
   register: sharded_server_type_a_dev
+
 - name: show server type (DEV envi)
   debug:
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
     - envi.stdout == "dev"
-    - config_file_rs_b_dev.stat.exists
-    - "'shardsvr' in config_devb.stdout"
+    - config_file_shard1_rs_b_dev.stat.exists
+    - "'shardsvr' in shard_devb.stdout"
   ignore_errors: yes
   register: sharded_server_type_b_dev
+
 - name: show server type (DEV envi)
   debug:
     msg: "{{ ansible_hostname }} is a SHARDED SERVER"
   when:
     - envi.stdout == "dev"
-    - config_file_rs_c_dev.stat.exists
-    - "'shardsvr' in config_devc.stdout"
+    - config_file_shard1_rs_c_dev.stat.exists
+    - "'shardsvr' in shard_devc.stdout"
   ignore_errors: yes
   register: sharded_server_type_c_dev
