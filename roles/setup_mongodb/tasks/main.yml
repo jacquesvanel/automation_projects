@@ -48,6 +48,7 @@
 
 - name: setup users
   include_tasks: setup_users.yml
+  when: "ansible_hostname in [configsvr_rsa, shard1a, shard2a, shard3a, rs_1]"
   tags: 
     - reinstall
     - setup_users

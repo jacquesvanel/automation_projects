@@ -32,7 +32,7 @@
   - name: (setup_users.yml) show user result
     debug:
       msg: "{{ user_result.stdout }}"
-  when: ansible_hostname == {{ item.name }} and (item.name == 'configsvr_rsa' or item.name == 'shard1a' or item.name == 'shard2a' or item.name == 'shard3a' or item.name == 'rs_1')
+  when: ansible_hostname == {{ item.name }} 
   ignore_errors: yes
 
 
