@@ -2,9 +2,8 @@
 ################################  testing  ################################
 - name: set facts
   import_tasks: set_fact.yml
-  when: env is not defined
   tags:
-    - always
+    - set_facts 
 
 - name: test task
   import_tasks: test.yml
