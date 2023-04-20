@@ -103,7 +103,7 @@
       Content-Type: "application/json"
     body_format: json
     #body:
-    remote_src: true
+    #remote_src: true
     src: roles/setup_mongodb/files/currentAutomationConfig.json
   register: result
   ignore_errors: yes
