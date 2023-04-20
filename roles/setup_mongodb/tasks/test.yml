@@ -104,7 +104,7 @@
     body_format: json
     #body:
     remote_src: true
-    src: currentAutomationConfig.json
+    src: roles/setup_mongodb/files/currentAutomationConfig.json
   register: result
   ignore_errors: yes
 
