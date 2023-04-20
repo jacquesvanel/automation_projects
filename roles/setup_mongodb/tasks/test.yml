@@ -104,7 +104,7 @@
     body_format: json
     #body:
     remote_src: true
-    src: /var/lib/mongodb-mms-automation/currentAutomationConfig.json
+    src: currentAutomationConfig.json
   register: result
   ignore_errors: yes
 
