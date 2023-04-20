@@ -102,8 +102,9 @@
     headers:
       Content-Type: "application/json"
     body_format: json
-    body:
-      src: currentAutomationConfig.json
+    #body:
+    remote_src: true
+    src: /var/lib/mongodb-mms-automation/currentAutomationConfig.json
   register: result
   ignore_errors: yes
 
