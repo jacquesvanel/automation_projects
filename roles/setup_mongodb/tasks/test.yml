@@ -93,21 +93,21 @@
 
 ##########################################################################
 # Update Automation Config
-#- name: PUT request to update Automation Config
-#  uri:
-#    url: "https://<OpsManagerHost>:<Port>/api/public/v1.0/groups/{PROJECT-ID}/automationConfig?pretty=true"
-#    method: PUT
-#    user: "{{ public_key }}"
-#    password: "{{ private_key }}"
-#    headers:
-#      Content-Type: "application/json"
-#    body_format: json
-#    body:
-#      src: currentAutomationConfig.json
-#  register: result
-#  ignore_errors: yes
-#
-#- name: Display Response
-#  debug:
-#    var: result.json
+- name: PUT request to update Automation Config
+  uri:
+    url: "https://<OpsManagerHost>:<Port>/api/public/v1.0/groups/{PROJECT-ID}/automationConfig?pretty=true"
+    method: PUT
+    user: "{{ public_key }}"
+    password: "{{ private_key }}"
+    headers:
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      src: currentAutomationConfig.json
+  register: result
+  ignore_errors: yes
+
+- name: Display Response
+  debug:
+    var: result.json
 
