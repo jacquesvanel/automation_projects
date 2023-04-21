@@ -1,8 +1,8 @@
 ---
 # tasks file for base_install_mongodb
 - name: set facts
-  import_tasks: set_fact.yml
-#  when: env is not defined
+  include_tasks: set_fact.yml
+  when: env is not defined
 #  tags:
 #    - always
 
