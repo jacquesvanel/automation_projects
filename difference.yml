@@ -4,4 +4,4 @@
   hosts: "{{ target }}"
   roles: 
     - difference
-    - service_test  
+    - services_test  
