@@ -19,8 +19,8 @@
    sharded_server_type_b_dev is succeeded or
    sharded_server_type_c_dev is succeeded) and
    envi.stdout == "dev" and
-  ops_manager_check.stdout == "mongodb-mms-automation-agent.service" and
-  ops_manager_status.stdout == "running"
+   ops_manager_check.stdout == "mongodb-mms-automation-agent.service" and
+   ops_manager_status.stdout == "running"
 
 - name: Run shell to check the mongo services present (CONFIG SERVER))
   shell:
