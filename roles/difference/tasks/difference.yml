@@ -337,7 +337,7 @@
 
 - name: show server type (DSIT envi shard1_rs_b)
   debug:
-    msg: "{{ ansible_hostname }} is a SHARDED SERVER"
+    msg: "{{ ansible_hostname }} is part of a  SHARDED CLUSTER"
   when:
     - envi.stdout == "dsit"
     - config_file_shard1_rs_b_dsit.stat.exists
@@ -347,7 +347,7 @@
 
 - name: show server type (DSIT envishard1_rs_c)
   debug:
-    msg: "{{ ansible_hostname }} is a SHARDED SERVER"
+    msg: "{{ ansible_hostname }} is part of a SHARDED CLUSTER"
   when:
     - envi.stdout == "dsit"
     - config_file_shard1_rs_c_dsit.stat.exists
@@ -513,7 +513,7 @@
 ##### REPLICASET SERVER CHECK
 - name: show server type (DEV envi)
   debug:
-    msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
+    msg: "{{ ansible_hostname }} is a STAND ALONE SERVER"
   when:
     - envi.stdout == "dev"
     - config_file_rs_a_dev.stat.exists
@@ -523,7 +523,7 @@
 
 - name: show server type (DEV envi)
   debug:
-    msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
+    msg: "{{ ansible_hostname }} is a STAND ALONE SERVER"
   when:
     - envi.stdout == "dev"
     - config_file_rs_b_dev.stat.exists
@@ -533,7 +533,7 @@
 
 - name: show server type (DEV envi)
   debug:
-    msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
+    msg: "{{ ansible_hostname }} is a STAND ALONE SERVER"
   when:
     - envi.stdout == "dev"
     - - config_file_rs_c_dev.stat.exists
@@ -544,7 +544,7 @@
 ###### SHARDED SERVER CHECK
 - name: show server type (DEV envi shard1_rs_a)
   debug:
-    msg: "{{ ansible_hostname }} is a SHARDED SERVER"
+    msg: "{{ ansible_hostname }} is part of a SHARDED CLUSTER"
   when:
     - envi.stdout == "dev"
     - config_file_shard1_rs_a_dev.stat.exists
@@ -554,7 +554,7 @@
 
 - name: show server type (DEV envi shard1_rs_b)
   debug:
-    msg: "{{ ansible_hostname }} is a SHARDED SERVER"
+    msg: "{{ ansible_hostname }} is part of a SHARDED CLUSTER"
   when:
     - envi.stdout == "dev"
     - config_file_shard1_rs_b_dev.stat.exists
@@ -564,7 +564,7 @@
 
 - name: show server type (DEV envi shard1_rs_c)
   debug:
-    msg: "{{ ansible_hostname }} is a SHARDED SERVER"
+    msg: "{{ ansible_hostname }} is part of a SHARDED CLUSTER"
   when:
     - envi.stdout == "dev"
     - config_file_shard1_rs_c_dev.stat.exists
@@ -720,10 +720,10 @@
 
 - name: show server type (PET envi)
   debug:
-    msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
+    msg: "{{ ansible_hostname }} is a STAND ALONE SERVER"
   when:
     - envi.stdout == "pet"
-    - - config_file_rs_c_pet.stat.exists
+    - config_file_rs_c_pet.stat.exists
     - config_petc.stdout == ""
   ignore_errors: yes
   register: replicaset_server_type_c_pet
@@ -733,7 +733,7 @@
 ###### SHARDED SERVER CHECK
 - name: show server type (PET envi shard1_rs_a)
   debug:
-    msg: "{{ ansible_hostname }} is a SHARDED SERVER"
+    msg: "{{ ansible_hostname }} is PART OF A SHARDED CLUSTER"
   when:
     - envi.stdout == "pet"
     - config_file_shard1_rs_a_pet.stat.exists
@@ -743,7 +743,7 @@
 
 - name: show server type (PET envi shard1_rs_b)
   debug:
-    msg: "{{ ansible_hostname }} is a SHARDED SERVER"
+    msg: "{{ ansible_hostname }} is PART OF A  SHARDED CLUSTER"
   when:
     - envi.stdout == "pet"
     - config_file_shard1_rs_b_pet.stat.exists
@@ -753,7 +753,7 @@
 
 - name: show server type (PET envi shard1_rs_c)
   debug:
-    msg: "{{ ansible_hostname }} is a SHARDED SERVER"
+    msg: "{{ ansible_hostname }} is PART OF A SHARDED CLUSTER"
   when:
     - envi.stdout == "pet"
     - config_file_shard1_rs_c_dev.stat.exists
@@ -859,7 +859,7 @@
 ###### SHARDED SERVER CHECK
 - name: show server type (PROD envi shard1_rs_a)
   debug:
-    msg: "{{ ansible_hostname }} is a SHARD SERVER"
+    msg: "{{ ansible_hostname }} is PART OF A SHARDED CLUSTER"
   when:
     - envi.stdout == "prod"
     - config_file_shard1_rs_a_prod.stat.exists
@@ -869,7 +869,7 @@
 
 - name: show server type (PROD envi shard1_rs_b)
   debug:
-    msg: "{{ ansible_hostname }} is a SHARD SERVER"
+    msg: "{{ ansible_hostname }} is PART OF A  SHARDED CLUSTER"
   when:
     - envi.stdout == "prod"
     - config_file_shard1_rs_b_prod.stat.exists
@@ -879,7 +879,7 @@
 
 - name: show server type (PROD envi shard1_rs_c)
   debug:
-    msg: "{{ ansible_hostname }} is a SHARD SERVER"
+    msg: "{{ ansible_hostname }} is a PART OF SHARDED CLUSTER"
   when:
     - envi.stdout == "prod"
     - config_file_shard1_rs_c_prod.stat.exists
@@ -891,7 +891,7 @@
 ##### REPLICASET SERVER CHECK
 - name: show server type (PROD envi)
   debug:
-    msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
+    msg: "{{ ansible_hostname }} is a STAND ALONE MONGODB SERVER"
   when:
     - envi.stdout == "prod"
     - config_file_rs_a_prod.stat.exists
@@ -901,7 +901,7 @@
 
 - name: show server type (PROD envi)
   debug:
-    msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
+    msg: "{{ ansible_hostname }} is a STAND ALONE MONGODB SERVER"
   when:
     - envi.stdout == "prod"
     - config_file_rs_b_prod.stat.exists
@@ -911,7 +911,7 @@
 
 - name: show server type (PROD envi)
   debug:
-    msg: "{{ ansible_hostname }} is a REPLICASET SERVER"
+    msg: "{{ ansible_hostname }} is a STAND ALONE MONGODB SERVER"
   when:
     - envi.stdout == "prod"
     - config_file_rs_c_prod.stat.exists
