@@ -2,7 +2,6 @@
 
 - name: check the difference between the servers
   hosts: "{{ target }}"
-  roles:
-    - role: 
-        - difference
-        - service_test  
+  roles: 
+    - difference
+    - service_test  
