@@ -8,7 +8,7 @@ private_key1: cf95ad25-610c-42fd-acc9-1a1cfaea0de2
 project_id: 642c413a9948ee7556f0267c
 ops_manager_host: "http://ae1rsbxlmdb006.opr.afsiep.net:8080"
 api: "/api/public/v1.0"
-project_name: test_project
+project_name: test_project1
 
 base_packages:
   - mongodb-enterprise-5.0.13-1.el8

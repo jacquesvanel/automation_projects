@@ -71,7 +71,7 @@
   - name: show api_key
     debug:
       var: agent_api_key
-  when: project_name not in project_names_list and ansible_hostname == configsvr_rsa
+  when: project_name not in project_names_list and ansible_hostname in [configsvr_rsa, rs_1]
 ###################################################################
 #get project info and parse out project id 
 - name: Get Project info from MongoDB Ops Manager
@@ -159,7 +159,7 @@
     status_code: 201  # Update the expected status code
   register: host_creation_result
   when: "{{ item.name }} is defined and ansible_hostname == {{ item.name }}"
-  loop: "{{ db_servers }}"
+  with_items: "{{ db_servers }}"
   loop_control:
      label: "{{ item.name }}" 
 

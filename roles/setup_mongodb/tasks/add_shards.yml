@@ -8,7 +8,7 @@
 
   - name: (add_shards.yml) show result
     debug:
-      var: add_shard1a_result.stdout_lines
+      var: add_shard1a_result
 
   - name: (add_shards.yml) add shard2a to cluster
     shell: "mongo {{ ansible_fqdn }}:37018/admin --eval 'sh.addShard(\"sh2_{{ env }}/{{ shard2a }}.opr.afsiep.net:{{ shard2a_port }}\")' -u amkanda -p Qwerty#12345px"
@@ -18,7 +18,7 @@
 
   - name: (add_shards.yml) show result
     debug:
-      var: add_shard2a_result.stdout_lines
+      var: add_shard2a_result
 
   - name: (add_shards.yml) add shard3a to cluster
     shell: "mongo {{ ansible_fqdn }}:37018/admin --eval 'sh.addShard(\"sh3_{{ env }}/{{ shard3a }}.opr.afsiep.net:{{ shard3a_port }}\")' -u amkanda -p Qwerty#12345px"
@@ -28,6 +28,6 @@
 
   - name: (add_shards.yml) show result
     debug:
-      var: add_shard3a_result.stdout_lines
+      var: add_shard3a_result
   ignore_errors: yes
-  when: ansible_hostname == {{ item.name }} and item.name == 'configsvr_rsa' 
+  when: ansible_hostname == {{ item.name }}  

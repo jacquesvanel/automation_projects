@@ -16,11 +16,17 @@
     tmp_dest: /data/
     force: yes
 
-- name: Install RPM
-  shell: rpm -ivh --nodigest --nofiledigest mongodb-mms-automation-agent-manager-12.0.14.7630-1.x86_64.rhel7.rpm
-  args:
-    chdir: /data/mongodb_mms_agent/
-  ignore_errors: yes
+- name: Install RPM package
+  yum:
+    name: /data/mongodb_mms_agent/mongodb-mms-automation-agent-manager-12.0.14.7630-1.x86_64.rhel7.rpm
+    state: present
+    disable_gpg_check: yes
+
+    #- name: Install RPM
+    #shell: rpm -ivh --nodigest --nofiledigest mongodb-mms-automation-agent-manager-12.0.14.7630-1.x86_64.rhel7.rpm
+    #args:
+    #chdir: /data/mongodb_mms_agent/
+    #ignore_errors: yes
 
 - name: enable agent
   systemd:

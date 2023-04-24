@@ -1,0 +1,101 @@
+{
+    "options": {
+        "downloadBase": "/var/lib/mongodb-mms-automation",
+    },
+    "mongoDbVersions": [],
+    "monitoringVersions": [
+  {
+    "hostname": "ae1rsbxlmdb004.opr.afsiep.net",
+    "logPath": "/var/log/mongodb-mms-automation/monitoring-agent.log",
+    "logRotate": {
+      "sizeThresholdMB": 1000,
+      "timeThresholdHrs": 24
+    }
+  }
+]
+    "backupVersions": [],
+    "processes": [
+  {
+    "version": "4.0.6",
+    "name": "rs_a",
+    "hostname": "ae1rsbxlmdb004.opr.afsiep.net",
+    "logRotate": {
+      "sizeThresholdMB": 1000,
+      "timeThresholdHrs": 24
+    },
+    "authSchemaVersion": 5,
+    "featureCompatibilityVersion": "4.0",
+    "processType": "mongod",
+    "args2_6": {
+      "net": {
+        "port": 37018
+      },
+      "storage": {
+        "dbPath": "/data/sbx"
+      },
+      "systemLog": {
+        "path": "/var/log/mongodb/sbx/rs_a.log",
+        "destination": "file"
+        "logAppend": "true"
+        "logRotate": "rename"
+      },
+      "replication": {
+        "replSetName": "rs_1_sbx"
+      }
+    "version": "4.0.6",
+    "name": "rs_a",
+    "hostname": "ae1rsbxlmdb005.opr.afsiep.net",
+    "logRotate": {
+      "sizeThresholdMB": 1000,
+      "timeThresholdHrs": 24
+    },
+    "authSchemaVersion": 5,
+    "featureCompatibilityVersion": "4.0",
+    "processType": "mongod",
+    "args2_6": {
+      "net": {
+        "port": 37018
+      },
+      "storage": {
+        "dbPath": "/data/sbx"
+      },
+      "systemLog": {
+        "path": "/var/log/mongodb/sbx/rs_a.log",
+        "destination": "file"
+        "logAppend": "true"
+        "logRotate": "rename"
+      },
+      "replication": {
+        "replSetName": "rs_1_sbx"
+      }
+    "version": "4.0.6",
+    "name": "rs_a",
+    "hostname": "ae1rsbxlmdb006.opr.afsiep.net",
+    "logRotate": {
+      "sizeThresholdMB": 1000,
+      "timeThresholdHrs": 24
+    },
+    "authSchemaVersion": 5,
+    "featureCompatibilityVersion": "4.0",
+    "processType": "mongod",
+    "args2_6": {
+      "net": {
+        "port": 37018
+      },
+      "storage": {
+        "dbPath": "/data/sbx"
+      },
+      "systemLog": {
+        "path": "/var/log/mongodb/sbx/rs_a.log",
+        "destination": "file"
+        "logAppend": "true"
+        "logRotate": "rename"
+      },
+      "replication": {
+        "replSetName": "rs_1_sbx"
+      }
+    }
+  },
+]
+    "replicaSets": [],
+    "sharding": []
