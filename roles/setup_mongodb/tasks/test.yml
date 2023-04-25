@@ -55,8 +55,8 @@
 #get status of services
 - name: (service_files.yml) status of all services
   debug:
-    msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
-  loop: "{{ service_status | list }}"
+    msg: "The status of {{ item.Names }} on {{ ansible_hostname }} is {{ item.ActiveState }}"
+  loop: "{{ service_status.status | list }}"
 
 #fail if task if service is in innactive or failed state
 - name: (service_files.yml) fail module for services
