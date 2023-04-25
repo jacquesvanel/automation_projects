@@ -18,12 +18,6 @@
 - name: Checking config file name and nature of each servers in PROD
   import_tasks: prod.yml
 
-- name: Checking status of the OPS MANAGER AGENT
-  import_tasks: ops_manager.yml
-
-- name: checking and displaying status of database pre patching
-  import_tasks: service_status.yml
-
 - name: Outputing database pre patching processes and post patching status
   import_tasks: pre_post_patching.yml
 
