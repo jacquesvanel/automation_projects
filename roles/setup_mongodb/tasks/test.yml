@@ -2,18 +2,6 @@
 - name: find all automation files associated with mongo
   find:
     paths:
-      #- "/data/{{ env }}/config/rs_a/"
-      #- "/data/{{ env }}/config/rs_b/"
-      #- "/data/{{ env }}/config/rs_c/"
-      #- "/data/{{ env }}/shard1/rs_a/"
-      #- "/data/{{ env }}/shard1/rs_b/"
-      #- "/data/{{ env }}/shard1/rs_c/"
-      #- "/data/{{ env }}/shard2/rs_a/"
-      #- "/data/{{ env }}/shard2/rs_b/"
-      #- "/data/{{ env }}/shard2/rs_c/"
-      #- "/data/{{ env }}/shard3/rs_a/"
-      #- "/data/{{ env }}/shard3/rs_b/"
-      #- "/data/{{ env }}/shard3/rs_c/"
       - "/data/{{ env }}/"
     patterns: "*.conf"
     recurse: yes
@@ -27,7 +15,7 @@
   shell:
     cmd: "cat {{ item }} | grep clusterRole | sed 's/clusterRole: //g'"
   register: server_role
-  with_items: "{{ conf_files.files | map(attribute='path') | list | first }}"
+  with_items: "{{ conf_files.files | map(attribute='path') | list  }}"
   #map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| map('regex_replace','\\/etc\\/systemd\\/system\\/','') | list }}"
   ignore_errors: yes
 
@@ -39,7 +27,7 @@
 
 - name: show server type (SBX envi)
   debug:
-    msg: |
+    msg: |>
        "{{ ansible_hostname }}"
        {% if 'shardsvr' in cluster_role %} is a SHARD SERVER
        {% elif 'configsvr' in cluster_role %} is a CONFIG SERVER
@@ -69,7 +57,7 @@
     {% if 'shardsvr' in cluster_role %}
       ps -ef | grep mongod.conf | awk -F " " '{print $10}' | awk -F  "/" '{print $6}'
     {% elif 'configsvr' in cluster_role %}
-      ps -ef | grep mongod.conf | awk -F " " '{print $10}' | awk -F "/" '{print $6}' | awk 'NR<=3'
+      ps -ef | grep mongod.conf | head -1 | awk -F " " '{print $10}' | awk -F "/" '{print $6}' 
     {% else %}
       ps -ef | grep mongod.conf | head -1 | awk -F " " '{print $10}' | awk -F "/" '{print $4}'
     {% endif %}
