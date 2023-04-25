@@ -1,7 +1,7 @@
 ---
 - name: Check if "pre_mongo_process" file exist
   stat:
-    path: /tmp/Mongo_processes_{{ ansible_date_time.date }}/pre_mongo_services_status{{ ansible_date_time.date }}
+    path: /tmp/Mongo_processes_{{ ansible_date_time.date }}/pre_mongo_services_status_{{ ansible_date_time.date }}
   register: pre_file
 
 - name: Check if "post_mongo_process" file exist
