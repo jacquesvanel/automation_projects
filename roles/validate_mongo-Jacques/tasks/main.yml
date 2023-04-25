@@ -13,7 +13,7 @@
     import_tasks: dsit.yml
 
 - name: Checking config file name and nature of each servers in PETE
-   import_tasks: pet.yml
+    import_tasks: pet.yml
 
 - name: Checking config file name and nature of each servers in PROD
     import_tasks: prod.yml
