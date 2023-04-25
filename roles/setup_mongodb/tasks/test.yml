@@ -23,13 +23,13 @@
     msg: "{{ conf_files.files | map(attribute='path') | list }}"
 
 
-    #- name: Check type of host (for SBX envi)
-    #  shell:
-    #    cmd: "cat {{ items }} |  grep -i 'clusterRole'"
-    #register: config_sbxa
-    #when:
-    #- envi.stdout == "sbx"
-    #- config_file_rs_a_sbx.stat.exists
-    #with_items: "{{ conf_files.files | map(attribute='path') | list }}"
+- name: Check type of host (for SBX envi)
+  shell:
+    cmd: "cat {{ items }} |  grep -i 'clusterRole'"
+  register: config_sbxa
+  #when:
+  #- envi.stdout == "sbx"
+  #- config_file_rs_a_sbx.stat.exists
+  with_items: "{{ conf_files.files | map(attribute='path') | list }}"
   #map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| map('regex_replace','\\/etc\\/systemd\\/system\\/','') | list }}"
-  #ignore_errors: yes
+  ignore_errors: yes
