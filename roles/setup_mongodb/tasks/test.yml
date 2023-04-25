@@ -36,11 +36,11 @@
     msg: >-
        "{{ ansible_hostname }}" 
         {% if 'shardsvr' in role %}
-          is a REPLICASET SERVER 
+        is a REPLICASET SERVER 
         {% elif 'configsvr' in role %}
-          is a CONFIG SERVER 
+        is a CONFIG SERVER 
         {% else %}
-          is a REPLICASET SERVER
+        is a REPLICASET SERVER
         {% endif %}
   ignore_errors: yes
   register: server_type
@@ -54,7 +54,7 @@
 - name: (service_files.yml) status of all services
   debug:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
-  with_items: "{{ status }}"
+  with_items: "{{ status | list }}"
   loop_control:
     label: 'status'
 
