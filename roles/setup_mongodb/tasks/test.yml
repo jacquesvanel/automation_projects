@@ -27,7 +27,7 @@
 
 - name: show server type (SBX envi)
   debug:
-    msg: |>
+    msg: >|
        "{{ ansible_hostname }}"
        {% if 'shardsvr' in cluster_role %} is a SHARD SERVER
        {% elif 'configsvr' in cluster_role %} is a CONFIG SERVER
