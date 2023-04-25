@@ -21,6 +21,7 @@
             Running Mongo processes/services on {{ ansible_hostname }} before patching on {{ ansible_date_time.date }}  were:
             {{ sharded_processes.stdout }}
     dest: /tmp/Mongo_processes_{{ ansible_date_time.date }}/pre_mongo_services_status_{{ ansible_date_time.date }}
+  register: sharded_output    
   when:
     - not pre_file.stat.exists
     - sharded_processes is not skipped
@@ -31,7 +32,7 @@
             Running Mongo processes/services on {{ ansible_hostname }} before patching on {{ ansible_date_time.date }}  were:
             {{ config_process.stdout }}
     dest: /tmp/Mongo_processes_{{ ansible_date_time.date }}/pre_mongo_services_status_{{ ansible_date_time.date }}
-   
+  register: config_output 
   when:
     - not pre_file.stat.exists
     - config_process is not skipped
@@ -44,7 +45,8 @@
     dest: /tmp/Mongo_processes_{{ ansible_date_time.date }}/pre_mongo_services_status_{{ ansible_date_time.date }}
   when:
     - not pre_file.stat.exists
-    - stand_alone_process is not skipped
+    - sharded_output is skipped
+    - config_output is skipped  
 
 
 - name: Send output of running processes/services post patching to "post_mongo_process{{ ansible_date_time.date }}(SHARDED SERVER)"
