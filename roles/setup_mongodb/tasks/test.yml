@@ -31,15 +31,19 @@
   #map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| map('regex_replace','\\/etc\\/systemd\\/system\\/','') | list }}"
   ignore_errors: yes
 
+- name: Extract clusterRole from output
+  set_fact:
+    cluster_role: "{{ server_role.results | map(attribute='stdout') | list | first }}"
 - debug:
-    msg: "{{ server_role.stdout }}"
+    var: cluster_role
+
 - name: show server type (SBX envi)
   debug:
     msg: >-
        "{{ ansible_hostname }}" 
-        {% if 'shardsvr' in server_role.stdout %}
+        {% if 'shardsvr' in cluster_role %}
         is a REPLICASET SERVER 
-        {% elif 'configsvr' in server_role.stdout %}
+        {% elif 'configsvr' in cluster_role %}
         is a CONFIG SERVER 
         {% else %}
         is a REPLICASET SERVER
@@ -66,9 +70,9 @@
 
 - name: Run shell to check the mongo services present (SHARDED CLUSTER)
   shell: >-
-    {% if 'shardsvr' in server_role.stdout %}
+    {% if 'shardsvr' in cluster_role %}
       ps -ef | grep mongod.conf | awk -F " " '{print $10}' | awk 'NR<=3' | awk -F  "/" '{print $4}'
-    {% elif 'configsvr' in server_role.stdout %}
+    {% elif 'configsvr' in cluster_role %}
       ps -ef | grep mongod | awk -F " " '{print $10}' | awk -F "/" '{print $6}' | awk 'NR<=3'
     {% else %}
       ps -ef | grep mongod.conf | head -1 | awk -F " " '{print $10}' | awk -F "/" '{print $4}'
