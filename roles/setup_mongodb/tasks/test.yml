@@ -50,20 +50,16 @@
     name: mongodb-mms-automation-agent
   register: service_status
 
-- debug:
-    var: service_status.status.Names  
 #get status of services
 - name: (service_files.yml) status of all services
   debug:
-    msg: "The status of {{ item.Names }} on {{ ansible_hostname }} is {{ item.ActiveState }}"
-  loop: "{{ service_status.status | list }}"
+    msg: "The status of {{ service_status.status.Names }} on {{ ansible_hostname }} is {{ service_status.status.ActiveState }}"
 
 #fail if task if service is in innactive or failed state
 - name: (service_files.yml) fail module for services
   fail:
-    msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
-  when: item.status.ActiveState == 'failed'
-  loop: "{{ status }}"
+    msg: "The status of {{ service_status.status.Names }} on {{ ansible_hostname }} is {{ service_status.status.ActiveState }}"
+  when: service_status.status.ActiveState == 'failed'
 
 
 - name: Run shell to check the mongo services present (SHARDED CLUSTER)
@@ -78,6 +74,6 @@
   register: processes
 
 - debug:
-    msg: "{{ processes }}"
+    var: processes
 
 
