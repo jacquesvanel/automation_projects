@@ -25,7 +25,7 @@
 
 - name: Check type of host (for SBX envi)
   shell:
-    cmd: "cat {{ items }} |  grep -i 'clusterRole'"
+    cmd: "cat {{ item }} |  grep -i 'clusterRole'"
   register: config_sbxa
   #when:
   #- envi.stdout == "sbx"
