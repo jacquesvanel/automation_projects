@@ -54,7 +54,7 @@
 - name: (service_files.yml) status of all services
   debug:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
-  with_items: "{{ status.results }}"
+  with_items: "{{ status.status }}"
   loop_control:
     label: 'status'
 
@@ -63,7 +63,7 @@
   fail:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
   when: item.status.ActiveState == 'failed'
-  loop: "{{ status.results }}"
+  loop: "{{ status.status }}"
   loop_control:
     label: 'status'
 
