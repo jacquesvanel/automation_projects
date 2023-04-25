@@ -26,18 +26,20 @@
 - name: Check type of host 
   shell:
     cmd: "cat {{ item }} |  grep -i 'clusterRole'"
-  register: role
+  register: server_role
   with_items: "{{ conf_files.files | map(attribute='path') | list }}"
   #map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| map('regex_replace','\\/etc\\/systemd\\/system\\/','') | list }}"
   ignore_errors: yes
 
+- debug:
+    msg: "{{ server_role.stdout }}"
 - name: show server type (SBX envi)
   debug:
     msg: >-
        "{{ ansible_hostname }}" 
-        {% if 'shardsvr' in role.stdout %}
+        {% if 'shardsvr' in server_role.stdout %}
         is a REPLICASET SERVER 
-        {% elif 'configsvr' in role.stdout %}
+        {% elif 'configsvr' in server_role.stdout %}
         is a CONFIG SERVER 
         {% else %}
         is a REPLICASET SERVER
@@ -64,9 +66,9 @@
 
 - name: Run shell to check the mongo services present (SHARDED CLUSTER)
   shell: >-
-    {% if 'shardsvr' in role.stdout %}
+    {% if 'shardsvr' in server_role.stdout %}
       ps -ef | grep mongod.conf | awk -F " " '{print $10}' | awk 'NR<=3' | awk -F  "/" '{print $4}'
-    {% elif 'configsvr' in role.stdout %}
+    {% elif 'configsvr' in server_role.stdout %}
       ps -ef | grep mongod | awk -F " " '{print $10}' | awk -F "/" '{print $6}' | awk 'NR<=3'
     {% else %}
       ps -ef | grep mongod.conf | head -1 | awk -F " " '{print $10}' | awk -F "/" '{print $4}'
