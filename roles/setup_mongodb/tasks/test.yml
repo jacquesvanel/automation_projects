@@ -82,11 +82,13 @@
 - debug:
     var: processes.stdout_lines
 
-- name: Run shell to check the mongo services present (SHARDED CLUSTER)
-  shell:  ps -ef | grep /var/lib/mongodb-mms-automation/mongodb-linux-x86_64-5.0.13-ent/bin/mongos | awk -F " " '{print $10}' | awk -F "/" '{print $6}' | awk 'NR<=3'
-  register: mongos_processes
+- block:
+  - name: Run shell to check the mongo services present (SHARDED CLUSTER)
+    shell:  ps -ef | grep /var/lib/mongodb-mms-automation/mongodb-linux-x86_64-5.0.13-ent/bin/mongos | awk -F " " '{print $10}' | awk -F "/" '{print $6}' | awk 'NR<=3'
+    register: mongos_processes
 
 ####### show output from that command #####
-- debug:
-    var: mongos_processes.stdout_lines
+  - debug:
+      var: mongos_processes.stdout_lines
+  when: 'configsvr' in cluster_role
 
