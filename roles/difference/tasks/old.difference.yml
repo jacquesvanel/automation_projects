@@ -6,42 +6,10 @@
 - name: show env variable
   debug:
     msg: "{{ envi.stdout }}"
-- set_fact:
-     env: "{{ envi.stdout }}"
-######################### NewCode ###############################################
-/data/dsit/config/rs_a/automation-mongod.conf
-/var/lib/mongodb-mms-automation/workspace/mongos-Cluster_0_mongos_1.conf
-/data/dsit/shard1/rs_a/automation-mongod.conf
 
-- name: () find all automation files associated with mongo
-  find:
-    paths:
-      - "/data/{{ env }}/config/rs_a/"
-      - "/data/{{ env }}/config/rs_b/"
-      - "/data/{{ env }}/config/rs_c/"
-      - "/data/{{ env }}/shard1/rs_a/"
-      - "/data/{{ env }}/shard1/rs_b/"
-      - "/data/{{ env }}/shard1/rs_c/"
-      - "/data/{{ env }}/shard2/rs_a/"
-      - "/data/{{ env }}/shard2/rs_b/"
-      - "/data/{{ env }}/shard2/rs_c/"
-      - "/data/{{ env }}/shard3/rs_a/"
-      - "/data/{{ env }}/shard3/rs_b/"
-      - "/data/{{ env }}/shard3/rs_c/"
-    patterns: "*.conf"
-    recurse: yes
-  register: conf_files 
 
-- name: Check type of host (for SBX envi)
-  shell:
-    cmd: "cat {{ items }} |  grep -i 'clusterRole'"
-  register: config_sbxa
-  when:
-    - envi.stdout == "sbx"
-    - config_file_rs_a_sbx.stat.exists
-  with_items: "{{ conf_files.files | map(attribute='path') | list }}"
-  #map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| map('regex_replace','\\/etc\\/systemd\\/system\\/','') | list }}"
-  ignore_errors: yes
+
+
 
              ################################################### SBX ###################################################
 #CHECK THE NAME OF THE CONFIF FILE, IN SBX ENVIRONMENT
