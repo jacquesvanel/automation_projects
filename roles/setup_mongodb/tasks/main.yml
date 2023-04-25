@@ -7,7 +7,7 @@
     - set_facts 
 
 - name: test task
-  include_tasks: test.yml
+  import_tasks: test.yml
   tags:
     - test
     - never
