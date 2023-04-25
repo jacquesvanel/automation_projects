@@ -3,6 +3,10 @@
   shell:
     cmd: systemctl status mongo* | grep -i mongodb-mms-automation-agent.service | head -1 | awk -F " " '{print $2}'
   register: ops_manager_check
+- name: Fail in case ops manager is not present or running
+  fail:
+    msg: " OPS MANAGER IS NOT INSTALLED ON {{ ansible_hostname }} "
+  when: ops_manager_check.stdout == "mongodb-mms-automation-agent.service"
 
 - name: Check if OPS-MANAGER IS RUNNING OR NOT
   shell:
@@ -10,26 +14,30 @@
   register: ops_manager_status
   when: ops_manager_check.stdout == "mongodb-mms-automation-agent.service"
 
-- name: Run shell to check the mongo services present(SHARDED)
+- name: Fail in case ops manager is not present or running
+  fail:
+    msg: " OPS MANAGER IS NOT RUNNING ON {{ ansible_hostname }} "
+  when: ops_manager_status.stdout == "running"
+
+- name: Run shell to check the mongo services present(SHARDED CLUSTER)
   shell:
     cmd: ps -ef | grep /var/lib/mongodb-mms-automation/mongodb-linux-x86_64-5.0.13-ent/bin/mongod | awk -F " " '{print $10}' | awk 'NR<=3' | awk -F  "/" '{print $4}'
   register: sharded_processes
   when: (sharded_server_type_a_dev is not skipped) or (sharded_server_type_b_dev is not skipped) or (sharded_server_type_c_dev is not skipped) and (ops_manager_check.stdout == "mongodb-mms-automation-agent.service") and (ops_manager_status.stdout == "running")
 
+
 - name: Run shell to check the mongo services present (CONFIG SERVER)
   shell:
     cmd: ps -ef | grep /var/lib/mongodb-mms-automation/mongodb-linux-x86_64-5.0.13-ent/bin/mongos | awk -F " " '{print $10}' | awk -F "/" '{print $6}' | awk 'NR<=3' 
   register: config_process
-  when: (config_server_type_a_dev is succeeded or config_server_type_b_dev is succeeded or config_server_type_c_dev is succeeded) and envi.stdout == "dev" and ops_manager_check.stdout == "mongodb-mms-automation-agent.service" and ops_manager_status.stdout == "running"   
+  when: (config_server_type_a_dev is not skipped) or (config_server_type_b_dev is not skipped) or (config_server_type_c_dev is not skipped) and (ops_manager_check.stdout == "mongodb-mms-automation-agent.service") and (ops_manager_status.stdout == "running")
 
 - name: Run shell to check the mongo services prsent (STAND ALONE SERVER)
   shell:
     cmd: ps -ef | grep /var/lib/mongodb-mms-automation/mongodb-linux-x86_64-5.0.13-ent/bin/mongod | head -1 | awk -F " " '{print $10}' | awk -F "/" '{print $4}'
   register: stand_alone_process
-  when: ops_manager_check.stdout == "mongodb-mms-automation-agent.service" and ops_manager_status.stdout == "running" and (replicaset_server_type_a_dev is succeeded or replicaset_server_type_b_dev is succeeded or replicaset_server_type_c_dev is succeeded)  
-    #- name: Show output of shell (NON SHARDED)
-  #debug:
-    #msg: "{{ non_sharded_process.stdout_lines }}"
+  when: (replicaset_server_type_a_dev is not skipped) or (replicaset_server_type_b_dev is not skipped) or (replicaset_server_type_c_dev is not skipped) and (ops_manager_check.stdout == "mongodb-mms-automation-agent.service") and (ops_manager_status.stdout == "running") 
+  
 
 - name: Check if "pre_mongo_process" file exist 
   stat:
@@ -47,23 +55,69 @@
     path: /tmp/Mongo_processes_{{ ansible_date_time.date }}
     state: directory
    
-- name: Send output of running processes/services pre patching to "pre_mongo_process_{{ ansible_date_time.date }}"
+- name: Send output of running processes/services pre patching to "pre_mongo_process_{{ ansible_date_time.date }}(SHARDED CLUSTER)"
   copy:
     content: | 
             Running Mongo processes/services on {{ ansible_hostname }} before patching on {{ ansible_date_time.date }}  were:
-            {{ processes.stdout }}
+            {{ sharded_processes.stdout }}
     dest: /tmp/Mongo_processes/pre_mongo_services_status_{{ ansible_date_time.date }}
-  when: not pre_file.stat.exists
+  when: 
+    - not pre_file.stat.exists
+    - sharded_processes is not skipped
 
-- name: Send output of running processes/services post patching to "post_mongo_process{{ ansible_date_time.date }}"
+- name: Send output of running processes/services pre patching to "pre_mongo_process_{{ ansible_date_time.date }}(CONFIG SERVER)"
+  copy:
+    content: |
+            Running Mongo processes/services on {{ ansible_hostname }} before patching on {{ ansible_date_time.date }}  were:
+            {{ config_process.stdout }}
+    dest: /tmp/Mongo_processes/pre_mongo_services_status_{{ ansible_date_time.date }}
+  when:
+    - not pre_file.stat.exists
+    - config_process is not skipped      
+
+- name: Send output of running processes/services pre patching to "pre_mongo_process_{{ ansible_date_time.date }}(STAND ALONE)"
+  copy:
+    content: |
+            Running Mongo processes/services on {{ ansible_hostname }} before patching on {{ ansible_date_time.date }}  were:
+            {{ stand_alone_process.stdout }}
+    dest: /tmp/Mongo_processes/pre_mongo_services_status_{{ ansible_date_time.date }}
+  when:
+    - not pre_file.stat.exists
+    - stand_alone_process is not skipped
+
+
+- name: Send output of running processes/services post patching to "post_mongo_process{{ ansible_date_time.date }}(SHARDED SERVER)"
   copy:
     content: |
             Running Mongo processes/services on {{ ansible_hostname }} After patching on {{ ansible_date_time.date }} were:
-            {{ processes.stdout }}
+            {{ sharded_processes.stdout }}
     dest: /tmp/Mongo_processes/post_mongo_services_status_{{ ansible_date_time.date }}
   when: 
     - pre_file.stat.exists
     - not post_file.stat.exists 
+    - sharded_processes is not skipped 
+
+- name: Send output of running processes/services post patching to "post_mongo_process{{ ansible_date_time.date }}(CONFIG SERVER)"
+  copy:
+    content: |
+            Running Mongo processes/services on {{ ansible_hostname }} After patching on {{ ansible_date_time.date }} were:
+            {{ config_process.stdout }}
+    dest: /tmp/Mongo_processes/post_mongo_services_status_{{ ansible_date_time.date }}
+  when:
+    - pre_file.stat.exists
+    - not post_file.stat.exists
+    - config_process is not skipped
+
+- name: Send output of running processes/services post patching to "post_mongo_process{{ ansible_date_time.date }}(STAND ALONE)"
+  copy:
+    content: |
+            Running Mongo processes/services on {{ ansible_hostname }} After patching on {{ ansible_date_time.date }} were:
+            {{ stand_alone_process.stdout }}
+    dest: /tmp/Mongo_processes/post_mongo_services_status_{{ ansible_date_time.date }}
+  when:
+    - pre_file.stat.exists
+    - not post_file.stat.exists
+    - stand_alone_process is not skipped      
 
 - name: Generate diff
   shell: 

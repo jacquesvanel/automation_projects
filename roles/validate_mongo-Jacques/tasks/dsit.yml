@@ -1,0 +1,150 @@
+---
+#CHECING THE TYPE OF MONGODB IN DSIT
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: " cat /etc/mongo/rs_a.cfg | grep -i 'clusterRole: configsvr' "
+  register: config_dsita
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_a_dsit.stat.exists
+  ignore_errors: yes
+
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: "cat /etc/mongo/shard1_rs_a.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_dsita
+  when:
+    - envi.stdout == "dsit"
+    - config_file_shard1_rs_a_dsit.stat.exists
+  ignore_errors: yes
+
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: " cat /etc/mongo/rs_b.cfg | grep -i 'clusterRole: configsvr' "
+  register: config_dsitb
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_b_dsit.stat.exists
+  ignore_errors: yes
+
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: "cat /etc/mongo/shard1_rs_b.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_dsitb
+  when:
+    - envi.stdout == "dsit"
+    - config_file_shard1_rs_b_dsit.stat.exists
+  ignore_errors: yes
+
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: " cat /etc/mongo/rs_c.cfg | grep -i 'clusterRole: configsvr' "
+  register: config_dsitc
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_c_dsit.stat.exists
+  ignore_errors: yes
+
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: "cat /etc/mongo/shard1_rs_c.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_dsitc
+  when:
+    - envi.stdout == "dsit"
+    - config_file_shard1_rs_c_dsit.stat.exists
+  ignore_errors: yes
+
+
+
+##### REPLICASET SERVER CHECK
+- name: show server type (DSIT envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a STAND ALONE SERVER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_a_dsit.stat.exists
+    - config_dsita.stdout == ""
+  ignore_errors: yes
+  register: replicaset_server_type_a_dsit
+
+- name: show server type (DSIT envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a STAND ALONE SERVER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_b_dsit.stat.exists
+    - config_dsitb.stdout == ""
+  ignore_errors: yes
+  register: replicaset_server_type_b_dsit
+
+- name: show server type (DSIT envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a STAND ALONE SERVER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_c_dsit.stat.exists
+    - config_dsitc.stdout == ""
+  ignore_errors: yes
+  register: replicaset_server_type_c_dsit
+
+ ###### SHARDED SERVER CHECK
+- name: show server type (DSIT envi shard1_rs_a)
+  debug:
+    msg: "{{ ansible_hostname }} is part of a SHARDED CLUSTER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_shard1_rs_a_dsit.stat.exists
+    - "'shardsvr' in shard_dsita.stdout"
+  ignore_errors: yes
+  register: sharded_server_type_a_dsit
+
+- name: show server type (DSIT envi shard1_rs_b)
+  debug:
+    msg: "{{ ansible_hostname }} is part of a SHARDED CLUSTER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_shard1_rs_b_dsit.stat.exists
+    - "'shardsvr' in shard_dsitb.stdout"
+  ignore_errors: yes
+  register: sharded_server_type_b_dsit
+
+- name: show server type (DSIT envishard1_rs_c)
+  debug:
+    msg: "{{ ansible_hostname }} is part of a SHARDED CLUSTER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_shard1_rs_c_dsit.stat.exists
+    - "'shardsvr' in shard_dsitc.stdout"
+  ignore_errors: yes
+  register: sharded_server_type_c_dsit
+
+
+##### CONFIG SERVER CHECK
+- name: show server type (DSIT envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_a_dsit.stat.exists
+    - "'configsvr' in config_dsita.stdout"
+  ignore_errors: yes
+  register: config_server_type_a_dsit
+
+- name: show server type (DSIT envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_b_dsit.stat.exists
+    - "'configsvr' in config_dsitb.stdout"
+  ignore_errors: yes
+  register: config_server_type_b_dsit
+
+- name: show server type (DSIT envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_c_dsit.stat.exists
+    - "'configsvr' in config_dsitc.stdout"
+  ignore_errors: yes

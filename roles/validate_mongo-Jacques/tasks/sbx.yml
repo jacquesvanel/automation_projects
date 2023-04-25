@@ -1,0 +1,145 @@
+---
+#CHECING THE TYPE OF MONGODB IN SBX
+- name: Check type of host (for SBX envi)
+  shell:
+    cmd: "cat /etc/mongo/sbx/rs_a.cfg |  grep -i 'clusterRole: configsvr'"
+  register: config_sbxa
+  when:
+    - envi.stdout == "sbx"
+    - config_file_rs_a_sbx.stat.exists
+  ignore_errors: yes
+- name: Check type of host (for SBX envi)
+  shell:
+    cmd: "cat /etc/mongo/sbx/shard1_rs_a.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_sbxa
+  when:
+    - envi.stdout == "sbx"
+    - config_file_shard1_rs_a_sbx.stat.exists
+- name: Check type of host (for SBX envi)
+  shell:
+    cmd: "cat /etc/mongo/sbx/rs_b.cfg |  grep -i 'clusterRole: configsvr'"
+  register: config_sbxb
+  when:
+    - envi.stdout == "sbx"
+    - config_file_rs_b_sbx.stat.exists
+  ignore_errors: yes
+- name: Check type of host (for SBX envi)
+  shell:
+    cmd: "cat /etc/mongo/sbx/shard1_rs_b.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_sbxb
+  when:
+    - envi.stdout == "sbx"
+    - config_file_shard1_rs_b_sbx.stat.exists
+- name: Check type of host (for SBX envi)
+  shell:
+    cmd: "cat /etc/mongo/sbx/rs_c.cfg |  grep -i 'clusterRole: configsvr'"
+  register: config_sbxc
+  when:
+    - envi.stdout == "sbx"
+    - config_file_rs_c_sbx.stat.exists
+  ignore_errors: yes
+- name: Check type of host (for SBX envi)
+  shell:
+    cmd: "cat /etc/mongo/sbx/shard1_rs_c.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_sbxc
+  when:
+    - envi.stdout == "sbx"
+    - config_file_shard1_rs_c_sbx.stat.exists
+
+
+### CONFIG SERVER CHECK
+- name: show server type (SBX envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
+  when:
+    - envi.stdout == "sbx"
+    - config_file_rs_a_sbx.stat.exists
+    - "'configsvr' in config_sbxa.stdout"
+  ignore_errors: yes
+  register: config_server_type_a_sbx
+
+- name: show server type (SBX envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
+  when:
+    - envi.stdout == "sbx"
+    - config_file_rs_b_sbx.stat.exists
+    - "'configsvr' in config_sbxb.stdout"
+  ignore_errors: yes
+  register: config_server_type_b_sbx
+
+- name: show server type (SBX envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
+  when:
+    - envi.stdout == "sbx"
+    - config_file_rs_c_sbx.stat.exists
+    - "'configsvr' in config_sbxc.stdout"
+  ignore_errors: yes
+  register: config_server_type_c_sbx
+
+
+
+##### REPLICASET SERVER CHECK
+- name: show server type (SBX envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a STAND ALONE SERVER"
+  when:
+    - envi.stdout == "sbx"
+    - config_file_rs_a_sbx.stat.exists
+    - config_sbxa.stdout == ""
+  ignore_errors: yes
+  register: replicaset_server_type_a_sbx
+
+- name: show server type (SBX envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a STAND ALONE SERVER"
+  when:
+    - envi.stdout == "sbx"
+    - config_file_rs_b_sbx.stat.exists
+    - config_sbxb.stdout == ""
+  ignore_errors: yes
+  register: replicaset_server_type_b_sbx
+
+- name: show server type (SBX envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a STAND ALONE SERVER"
+  when:
+    - envi.stdout == "sbx"
+    - config_file_rs_c_sbx.stat.exists
+    - config_sbxc.stdout == ""
+  ignore_errors: yes
+  register: replicaset_server_type_c_sbx
+
+
+
+#### SHARDED
+- name: show server type (SBX envi shard1_rs_a)
+  debug:
+    msg: "{{ ansible_hostname }} is part of a SHARDED CLUSTER"
+  when:
+    - envi.stdout == "sbx"
+    - config_file_shard1_rs_a_sbx.stat.exists
+    - "'shardsvr' in shard_sbxa.stdout"
+  ignore_errors: yes
+  register: sharded_server_type_a_sbx
+
+- name: show server type (SBX envi shard1_rs_b)
+  debug:
+    msg: "{{ ansible_hostname }} is part of a SHARDED CLUSTER"
+  when:
+    - envi.stdout == "sbx"
+    - config_file_shard1_rs_b_sbx.stat.exists
+    - "'shardsvr' in shard_sbxb.stdout"
+  ignore_errors: yes
+  register: sharded_server_type_b_sbx
+
+- name: show server type (SBX envi shard1_rs_c)
+  debug:
+    msg: "{{ ansible_hostname }} is a part of a SHARDED CLUSTER"
+  when:
+    - envi.stdout == "sbx"
+    - config_file_shard1_rs_c_sbx.stat.exists
+    - "'shardsvr' in shard_sbxc.stdout"
+  ignore_errors: yes
+  register: sharded_server_type_c_sbx
