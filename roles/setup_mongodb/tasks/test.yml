@@ -35,9 +35,9 @@
   debug:
     msg: >-
        "{{ ansible_hostname }}" 
-        {% if 'shardsvr' in role %}
+        {% if 'shardsvr' in role.stdout %}
         is a REPLICASET SERVER 
-        {% elif 'configsvr' in role %}
+        {% elif 'configsvr' in role.stdout %}
         is a CONFIG SERVER 
         {% else %}
         is a REPLICASET SERVER
@@ -64,9 +64,9 @@
 
 - name: Run shell to check the mongo services present (SHARDED CLUSTER)
   shell: >-
-    {% if 'shardsvr' in role %}
+    {% if 'shardsvr' in role.stdout %}
       ps -ef | grep mongod.conf | awk -F " " '{print $10}' | awk 'NR<=3' | awk -F  "/" '{print $4}'
-    {% elif 'configsvr' in role %}
+    {% elif 'configsvr' in role.stdout %}
       ps -ef | grep mongod | awk -F " " '{print $10}' | awk -F "/" '{print $6}' | awk 'NR<=3'
     {% else %}
       ps -ef | grep mongod.conf | head -1 | awk -F " " '{print $10}' | awk -F "/" '{print $4}'
