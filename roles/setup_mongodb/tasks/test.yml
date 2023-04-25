@@ -1,5 +1,5 @@
 ---
-- name: () find all automation files associated with mongo
+- name: find all automation files associated with mongo
   find:
     paths:
       - "/data/{{ env }}/config/rs_a/"
@@ -23,13 +23,10 @@
     msg: "{{ conf_files.files | map(attribute='path') | list }}"
 
 
-- name: Check type of host (for SBX envi)
+- name: Check type of host 
   shell:
     cmd: "cat {{ item }} |  grep -i 'clusterRole'"
-  register: config_sbxa
-  #when:
-  #- envi.stdout == "sbx"
-  #- config_file_rs_a_sbx.stat.exists
+  register: role
   with_items: "{{ conf_files.files | map(attribute='path') | list }}"
   #map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| map('regex_replace','\\/etc\\/systemd\\/system\\/','') | list }}"
   ignore_errors: yes
@@ -37,8 +34,52 @@
 - name: show server type (SBX envi)
   debug:
     msg: >-
-       "{{ ansible_hostname }} {% if 'shardsvr' in config_sbxa %} is a REPLICASET SERVER 
-        {% elif 'configsvr' in config_sbxa %} is a CONFIG SERVER 
-        {% else %} is a REPLICASET SERVER{% endif %}"
+       "{{ ansible_hostname }}" 
+        {% if 'shardsvr' in role %}
+          is a REPLICASET SERVER 
+        {% elif 'configsvr' in role %}
+          is a CONFIG SERVER 
+        {% else %}
+          is a REPLICASET SERVER
+        {% endif %}
   ignore_errors: yes
-  register: replicaset_server_type_a_sbx
+  register: server_type
+
+- name: (service_files.yml) checking mongo config service
+  systemd:
+    name: mongodb-mms-automation-agent
+  register: status
+
+#get status of services
+- name: (service_files.yml) status of all services
+  debug:
+    msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
+  with_items: "{{ status.results }}"
+  loop_control:
+    label: 'status'
+
+#fail if task if service is in innactive or failed state
+- name: (service_files.yml) fail module for services
+  fail:
+    msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
+  when: item.status.ActiveState == 'failed'
+  loop: "{{ status.results }}"
+  loop_control:
+    label: 'status'
+
+
+- name: Run shell to check the mongo services present (SHARDED CLUSTER)
+  shell: >-
+    {% if 'shardsvr' in role %}
+      ps -ef | grep mongod.conf | awk -F " " '{print $10}' | awk 'NR<=3' | awk -F  "/" '{print $4}'
+    {% elif 'configsvr' in role %}
+      ps -ef | grep mongod | awk -F " " '{print $10}' | awk -F "/" '{print $6}' | awk 'NR<=3'
+    {% else %}
+      ps -ef | grep mongod.conf | head -1 | awk -F " " '{print $10}' | awk -F "/" '{print $4}'
+    {% endif %}
+  register: processes
+
+- debug:
+    msg: "{{ processes }}"
+
+
