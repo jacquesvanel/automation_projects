@@ -12,8 +12,10 @@
          "THERE HAS BEEN A CHANGE IN THE LIST OF MONGO PROCESSES FROM PRE PATCHING ON:
            - {{ ansible_hostname }}"
            "{{ processes_diff.stdout_lines }}"
-    when: processes_diff.rc !=0
-  when: pre_file.stat.exists and post_file.stat.exists
+  when: 
+    - processes_diff is not skipped 
+    - pre_file.stat.exists 
+    - post_file.stat.exists
 
 # delete old files older than 90 days
 - name: Find files older the 90 days old
