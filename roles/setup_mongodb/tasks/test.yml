@@ -33,3 +33,12 @@
   with_items: "{{ conf_files.files | map(attribute='path') | list }}"
   #map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| map('regex_replace','\\/etc\\/systemd\\/system\\/','') | list }}"
   ignore_errors: yes
+
+- name: show server type (SBX envi)
+  debug:
+    msg: >-
+       "{{ ansible_hostname }} {% if 'shardsvr' in config_sbxa.stdout %} is a REPLICASET SERVER 
+        {% elif 'configsvr' in config_sbxa.stdout %} is a CONFIG SERVER 
+        {% elif config_sbxa.stdout == "" %} is a REPLICASET SERVER{% endif %}"
+  ignore_errors: yes
+  register: replicaset_server_type_a_sbx
