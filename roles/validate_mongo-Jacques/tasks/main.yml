@@ -4,7 +4,7 @@
   import_tasks: facts_stats.yml
 
 - name: Checking config file name and nature of each servers in SBX
-    import_tasks: sbx.yml
+  import_tasks: sbx.yml
 
 - name: Checking config file name and nature of each servers in DEV
   import_tasks: dev.yml
