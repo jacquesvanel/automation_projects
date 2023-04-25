@@ -7,9 +7,19 @@
     patterns: "*.conf"
     recurse: yes
   register: conf_files
-####### show the list to ensure you got the proper files #######
+
 - debug:
     msg: "{{ conf_files.files | map(attribute='path') | list }}"
+
+    #- name: find mongos files
+    #  find:
+    #paths: 
+    #   - "/var/lib/mongodb-mms-automation/workspace/" #mongos-Cluster_0_mongos_4.conf
+    #patterns: "mongos*.conf"
+    #register: mongos_files
+
+    #- debug:
+    #msg: "{{ mongos_files.files | map(attribute='path') | list }}"
 
 ####### run shell command against every entry in the list ########
 - name: Check type of host 
@@ -35,7 +45,7 @@
        "{{ ansible_hostname }}"
        {% if 'shardsvr' in cluster_role %} is a SHARD SERVER
        {% elif 'configsvr' in cluster_role %} is a CONFIG SERVER
-       {% else %} is a REPLICASET SERVER{% endif %}
+       {% else %} is a REPLICASET SERVER{% endif %} 
   ignore_errors: yes
   register: server_type
 
@@ -72,4 +82,11 @@
 - debug:
     var: processes.stdout_lines
 
+- name: Run shell to check the mongo services present (SHARDED CLUSTER)
+  shell:  ps -ef | grep /var/lib/mongodb-mms-automation/mongodb-linux-x86_64-5.0.13-ent/bin/mongos | awk -F " " '{print $10}' | awk -F "/" '{print $6}' | awk 'NR<=3'
+  register: mongos_processes
+
+####### show output from that command #####
+- debug:
+    var: mongos_processes.stdout_lines
 
