@@ -19,7 +19,7 @@
   register: conf_files
 
 - debug:
-    msg: "{{ conf.files }}"
+    msg: "{{ conf_files }}"
 
 
     #- name: Check type of host (for SBX envi)
