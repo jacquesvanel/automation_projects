@@ -1,0 +1,201 @@
+---
+#CHECING THE TYPE OF MONGODB IN DSIT
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: " cat /etc/mongo/rs_a.cfg | grep -i 'clusterRole: configsvr' "
+  register: config_dsita
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_a_dsit.stat.exists
+  ignore_errors: yes
+
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: "cat /etc/mongo/shard1_rs_a.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_dsita
+  when:
+    - envi.stdout == "dsit"
+    - config_file_shard1_rs_a_dsit.stat.exists
+  ignore_errors: yes
+
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: " cat /etc/mongo/rs_b.cfg | grep -i 'clusterRole: configsvr' "
+  register: config_dsitb
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_b_dsit.stat.exists
+  ignore_errors: yes
+
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: "cat /etc/mongo/shard1_rs_b.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_dsitb
+  when:
+    - envi.stdout == "dsit"
+    - config_file_shard1_rs_b_dsit.stat.exists
+  ignore_errors: yes
+
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: " cat /etc/mongo/rs_c.cfg | grep -i 'clusterRole: configsvr' "
+  register: config_dsitc
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_c_dsit.stat.exists
+  ignore_errors: yes
+
+- name: Check type of host (for DSIT envi)
+  shell:
+    cmd: "cat /etc/mongo/shard1_rs_c.cfg |  grep -i 'clusterRole: shardsvr'"
+  register: shard_dsitc
+  when:
+    - envi.stdout == "dsit"
+    - config_file_shard1_rs_c_dsit.stat.exists
+  ignore_errors: yes
+
+
+
+##### REPLICASET SERVER CHECK
+- name: show server type (DSIT envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a STAND ALONE SERVER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_a_dsit.stat.exists
+    - config_dsita.stdout == ""
+  ignore_errors: yes
+  register: replicaset_server_type_a_dsit
+
+- name: show server type (DSIT envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a STAND ALONE SERVER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_b_dsit.stat.exists
+    - config_dsitb.stdout == ""
+  ignore_errors: yes
+  register: replicaset_server_type_b_dsit
+
+- name: show server type (DSIT envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a STAND ALONE SERVER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_c_dsit.stat.exists
+    - config_dsitc.stdout == ""
+  ignore_errors: yes
+  register: replicaset_server_type_c_dsit
+
+ ###### SHARDED SERVER CHECK
+- name: show server type (DSIT envi shard1_rs_a)
+  debug:
+    msg: "{{ ansible_hostname }} is part of a SHARDED CLUSTER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_shard1_rs_a_dsit.stat.exists
+    - "'shardsvr' in shard_dsita.stdout"
+  ignore_errors: yes
+  register: sharded_server_type_a_dsit
+
+- name: show server type (DSIT envi shard1_rs_b)
+  debug:
+    msg: "{{ ansible_hostname }} is part of a SHARDED CLUSTER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_shard1_rs_b_dsit.stat.exists
+    - "'shardsvr' in shard_dsitb.stdout"
+  ignore_errors: yes
+  register: sharded_server_type_b_dsit
+
+- name: show server type (DSIT envishard1_rs_c)
+  debug:
+    msg: "{{ ansible_hostname }} is part of a SHARDED CLUSTER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_shard1_rs_c_dsit.stat.exists
+    - "'shardsvr' in shard_dsitc.stdout"
+  ignore_errors: yes
+  register: sharded_server_type_c_dsit
+
+
+##### CONFIG SERVER CHECK
+- name: show server type (DSIT envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_a_dsit.stat.exists
+    - "'configsvr' in config_dsita.stdout"
+  ignore_errors: yes
+  register: config_server_type_a_dsit
+
+- name: show server type (DSIT envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_b_dsit.stat.exists
+    - "'configsvr' in config_dsitb.stdout"
+  ignore_errors: yes
+  register: config_server_type_b_dsit
+
+- name: show server type (DSIT envi)
+  debug:
+    msg: "{{ ansible_hostname }} is a CONFIG SERVER"
+  when:
+    - envi.stdout == "dsit"
+    - config_file_rs_c_dsit.stat.exists
+    - "'configsvr' in config_dsitc.stdout"
+  ignore_errors: yes
+
+
+  #### OPS MANAGER CHECK #####
+
+- name: Checking if OPS-MANAGER IS INSTALLED OR NOT
+  shell:
+    cmd: systemctl status mongo* | grep -i mongodb-mms-automation-agent.service | head -1 | awk -F " " '{print $2}'
+  register: ops_manager_check
+- name: Fail in case ops manager is not present
+  fail:
+    msg: " OPS MANAGER AGENT IS NOT INSTALLED ON {{ ansible_hostname }} "
+  when: "'mongodb-mms-automation-agent.service' not in ops_manager_check.stdout"
+
+- name: Check if OPS-MANAGER AGENT IS RUNNING OR NOT
+  shell:
+    cmd: systemctl status mongodb-mms-automation-agent.service | awk 'NR<=3' | grep -i running | awk -F " " '{print $3}' | sed 's/(//g' | sed 's/)//g'
+  register: ops_manager_status
+  when: ops_manager_check.stdout == "mongodb-mms-automation-agent.service"
+
+- name: Fail in case ops manager is not present or running
+  fail:
+    msg: " OPS MANAGER AGENT IS NOT RUNNING ON {{ ansible_hostname }} "
+  when: "'running' not in ops_manager_status.stdout"
+
+
+
+    ##### CHECKING MONGO PROCESSES STATUS ######
+
+- name: Run shell to check the mongo services present(SHARDED CLUSTER)
+  shell:
+    cmd: ps -ef | grep /var/lib/mongodb-mms-automation/mongodb-linux-x86_64-5.0.13-ent/bin/mongod | awk -F " " '{print $10}' | awk 'NR<=3' | awk -F  "/" '{print $4}'
+  register: sharded_processes_dsit
+  when: (sharded_server_type_a_dsit is not skipped) or (sharded_server_type_b_dsit is not skipped) or (sharded_server_type_c_dsit is not skipped) and (ops_manager_check.stdout == "mongodb-mms-automation-agent.service") and (ops_manager_status.stdout == "running")
+
+
+- name: Run shell to check the mongo services present (CONFIG SERVER)
+  shell:
+    cmd: ps -ef | grep /var/lib/mongodb-mms-automation/mongodb-linux-x86_64-5.0.13-ent/bin/mongos | awk -F " " '{print $10}' | awk -F "/" '{print $6}' | awk 'NR<=3'
+  register: config_process_dsit
+  when: (config_server_type_a_dsit is not skipped) or (config_server_type_b_dsit is not skipped) or (config_server_type_c_dsit is not skipped) and (ops_manager_check.stdout == "mongodb-mms-automation-agent.service") and (ops_manager_status.stdout == "running")
+
+- name: Run shell to check the mongo services prsent (STAND ALONE SERVER)
+  shell:
+    cmd: ps -ef | grep /var/lib/mongodb-mms-automation/mongodb-linux-x86_64-5.0.13-ent/bin/mongod | head -1 | awk -F " " '{print $10}' | awk -F "/" '{print $4}'
+  register: stand_alone_process_dsit
+  when:
+    - sharded_processes_dsit is not skipped
+    - config_process_dsit is not skipped
+    - ops_manager_check.stdout == "mongodb-mms-automation-agent.service"
+    - ops_manager_status.stdout == "running"
+    - envi.stdout == "dsit"   

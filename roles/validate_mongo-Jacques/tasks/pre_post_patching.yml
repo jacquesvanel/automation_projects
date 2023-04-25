@@ -1,0 +1,83 @@
+---
+- name: Check if "pre_mongo_process" file exist
+  stat:
+    path: /tmp/Mongo_processes_{{ ansible_date_time.date }}/pre_mongo_services_status_{{ ansible_date_time.date }}
+  register: pre_file
+
+- name: Check if "post_mongo_process" file exist
+  stat:
+    path: /tmp/Mongo_processes_{{ ansible_date_time.date }}/post_mongo_services_status_{{ ansible_date_time.date }}
+  register: post_file
+
+
+- name: Creating directory "Mongo_processes"
+  file:
+    path: /tmp/Mongo_processes_{{ ansible_date_time.date }}
+    state: directory
+
+- name: Send output of running processes/services pre patching to "pre_mongo_process_{{ ansible_date_time.date }}(SHARDED CLUSTER)"
+  copy:
+    content: |
+            Running Mongo processes/services on {{ ansible_hostname }} before patching on {{ ansible_date_time.date }}  were:
+            {{ sharded_processes.stdout }}
+    dest: /tmp/Mongo_processes_{{ ansible_date_time.date }}/pre_mongo_services_status_{{ ansible_date_time.date }}
+  register: pre_sharded_output    
+  when:
+    - not pre_file.stat.exists
+    - sharded_processes is not skipped
+
+- name: Send output of running processes/services pre patching to "pre_mongo_process_{{ ansible_date_time.date }}(CONFIG SERVER)"
+  copy:
+    content: |
+            Running Mongo processes/services on {{ ansible_hostname }} before patching on {{ ansible_date_time.date }}  were:
+            {{ config_process.stdout }}
+    dest: /tmp/Mongo_processes_{{ ansible_date_time.date }}/pre_mongo_services_status_{{ ansible_date_time.date }}
+  register: pre_config_output 
+  when:
+    - not pre_file.stat.exists
+    - config_process is not skipped
+
+- name: Send output of running processes/services pre patching to "pre_mongo_process_{{ ansible_date_time.date }}(STAND ALONE)"
+  copy:
+    content: |
+            Running Mongo processes/services on {{ ansible_hostname }} before patching on {{ ansible_date_time.date }}  were:
+            {{ stand_alone_process.stdout }}
+    dest: /tmp/Mongo_processes_{{ ansible_date_time.date }}/pre_mongo_services_status_{{ ansible_date_time.date }}
+  when:
+    - not pre_file.stat.exists
+    - pre_sharded_output is skipped
+    - pre_config_output is skipped  
+
+
+- name: Send output of running processes/services post patching to "post_mongo_process{{ ansible_date_time.date }}(SHARDED SERVER)"
+  copy:
+    content: |
+            Running Mongo processes/services on {{ ansible_hostname }} After patching on {{ ansible_date_time.date }} were:
+            {{ sharded_processes.stdout }}
+    dest: /tmp/Mongo_processes_{{ ansible_date_time.date }}/post_mongo_services_status_{{ ansible_date_time.date }}
+  register: post_sharded_output    
+  when:
+    - pre_file.stat.exists
+    - sharded_processes is not skipped
+
+- name: Send output of running processes/services post patching to "post_mongo_process{{ ansible_date_time.date }}(CONFIG SERVER)"
+  copy:
+    content: |
+            Running Mongo processes/services on {{ ansible_hostname }} After patching on {{ ansible_date_time.date }} were:
+            {{ config_process.stdout }}
+    dest: /tmp/Mongo_processes_{{ ansible_date_time.date }}/post_mongo_services_status_{{ ansible_date_time.date }}
+  register: post_config_output  
+  when:
+    - pre_file.stat.exists
+    - config_process is not skipped
+
+- name: Send output of running processes/services post patching to "post_mongo_process{{ ansible_date_time.date }}(STAND ALONE)"
+  copy:
+    content: |
+            Running Mongo processes/services on {{ ansible_hostname }} After patching on {{ ansible_date_time.date }} were:
+            {{ stand_alone_process.stdout }}
+    dest: /tmp/Mongo_processes_{{ ansible_date_time.date }}/post_mongo_services_status_{{ ansible_date_time.date }}
+  when:
+    - pre_file.stat.exists
+    - post_sharded_output is skipped
+    - post_config_output is skipped
