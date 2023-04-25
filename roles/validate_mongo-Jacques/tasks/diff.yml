@@ -4,7 +4,7 @@
     cmd: diff "/tmp/Mongo_processes_{{ ansible_date_time.date }}/pre_mongo_services_status_{{ ansible_date_time.date }}" "/tmp/Mongo_processes_{{ ansible_date_time.date }}/post_mongo_services_status_{{ ansible_date_time.date }}"
   register: processes_diff
   when: pre_file.stat.exists and post_file.stat.exists
-
+  ignore_errors: yes
 
 - name: Fail module for processes
   fail:
