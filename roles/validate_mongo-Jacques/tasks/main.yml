@@ -1,33 +1,33 @@
 ---
 # tasks file for validate_mongo-Jacques
 - name: Setting facts on each environment
-    import_tasks: facts_stats.yml
+  import_tasks: facts_stats.yml
 
 - name: Checking config file name and nature of each servers in SBX
     import_tasks: sbx.yml
 
 - name: Checking config file name and nature of each servers in DEV
-    import_tasks: dev.yml
+  import_tasks: dev.yml
 
 - name: Checking config file name and nature of each servers in DSIT
-    import_tasks: dsit.yml
+  import_tasks: dsit.yml
 
 - name: Checking config file name and nature of each servers in PETE
-    import_tasks: pet.yml
+  import_tasks: pet.yml
 
 - name: Checking config file name and nature of each servers in PROD
-    import_tasks: prod.yml
+  import_tasks: prod.yml
 
 - name: Checking status of the OPS MANAGER AGENT
-    import_tasks: ops_manager.yml
+  import_tasks: ops_manager.yml
 
 - name: checking and displaying status of database pre patching
-    import_tasks: service_status.yml
+  import_tasks: service_status.yml
 
 - name: Outputing database pre patching processes and post patching status
-    import_tasks: pre_post_patching.yml
+  import_tasks: pre_post_patching.yml
 
 - name: Checking if mongo processes are still up and running after patching
-    import_tasks: diff.yml  
+  import_tasks: diff.yml  
 
       
