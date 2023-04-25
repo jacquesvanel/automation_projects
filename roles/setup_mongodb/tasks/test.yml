@@ -1,4 +1,5 @@
 ---
+####### find all conf files and place them in a list ###########
 - name: find all automation files associated with mongo
   find:
     paths:
@@ -6,11 +7,11 @@
     patterns: "*.conf"
     recurse: yes
   register: conf_files
-
+####### show the list to ensure you got the proper files #######
 - debug:
     msg: "{{ conf_files.files | map(attribute='path') | list }}"
 
-
+####### run shell command against every entry in the list ########
 - name: Check type of host 
   shell:
     cmd: "cat {{ item }} | grep clusterRole | sed 's/clusterRole: //g'"
@@ -19,13 +20,16 @@
   #map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| map('regex_replace','\\/etc\\/systemd\\/system\\/','') | list }}"
   ignore_errors: yes
 
+######  map the stdout to a variable and only choose the first entry #######
 - name: Extract clusterRole from output
   set_fact:
     cluster_role: "{{ server_role.results | map(attribute='stdout') | list | first }}"
+###### show the entry #######
 - debug:
     var: cluster_role
 
-- name: show server type (SBX envi)
+##### print debug msg using conditional #####
+- name: show server type 
   debug:
     msg: |
        "{{ ansible_hostname }}"
@@ -35,23 +39,24 @@
   ignore_errors: yes
   register: server_type
 
-- name: (service_files.yml) checking mongo config service
+##### check status og ops_manager_agent ####
+- name: checking mongo config service
   systemd:
     name: mongodb-mms-automation-agent
   register: service_status
 
-#get status of services
-- name: (service_files.yml) status of all services
+##### get status of service
+- name: status of service
   debug:
     msg: "The status of {{ service_status.status.Names }} on {{ ansible_hostname }} is {{ service_status.status.ActiveState }}"
 
-#fail if task if service is in innactive or failed state
-- name: (service_files.yml) fail module for services
+#fail task if service is in failed state
+- name:  fail module for services
   fail:
     msg: "The status of {{ service_status.status.Names }} on {{ ansible_hostname }} is {{ service_status.status.ActiveState }}"
   when: service_status.status.ActiveState == 'failed'
 
-
+###### run shell command depending on the output thats in cluster_role #######
 - name: Run shell to check the mongo services present (SHARDED CLUSTER)
   shell: >-
     {% if 'shardsvr' in cluster_role %}
@@ -63,6 +68,7 @@
     {% endif %}
   register: processes
 
+####### show output from that command #####
 - debug:
     var: processes.stdout_lines
 
