@@ -48,15 +48,15 @@
 - name: (service_files.yml) checking mongo config service
   systemd:
     name: mongodb-mms-automation-agent
-  register: status
+  register: service_status
 
+- debug:
+    var: service_status  
 #get status of services
 - name: (service_files.yml) status of all services
   debug:
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
-  with_items: "{{ status | list }}"
-  loop_control:
-    label: 'status'
+  loop: "{{ service_status.status }}"
 
 #fail if task if service is in innactive or failed state
 - name: (service_files.yml) fail module for services
@@ -64,8 +64,6 @@
     msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
   when: item.status.ActiveState == 'failed'
   loop: "{{ status }}"
-  loop_control:
-    label: 'status'
 
 
 - name: Run shell to check the mongo services present (SHARDED CLUSTER)
