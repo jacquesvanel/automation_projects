@@ -39,6 +39,6 @@
     msg: >-
        "{{ ansible_hostname }} {% if 'shardsvr' in config_sbxa %} is a REPLICASET SERVER 
         {% elif 'configsvr' in config_sbxa %} is a CONFIG SERVER 
-        {% elif '' in config_sbxa %} is a REPLICASET SERVER{% endif %}"
+        {% else %} is a REPLICASET SERVER{% endif %}"
   ignore_errors: yes
   register: replicaset_server_type_a_sbx
