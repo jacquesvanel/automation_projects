@@ -12,8 +12,8 @@
 
 - name: Creating directory "Mongo_processes"
   file:
-    path: /tmp/Mongo_processes_{{ ansible_date_time.date }}
-    state: directory
+    path: /tmp/Mongo_processes_{{ ansible_date_time.date }}/pre_mongo_services_status_{{ ansible_date_time.date }}
+    state: touch
 
 - name: Send output of running processes/services pre patching to "pre_mongo_process_{{ ansible_date_time.date }}(SHARDED CLUSTER)"
   copy:
