@@ -51,7 +51,7 @@
   register: service_status
 
 - debug:
-    var: service_status  
+    var: service_status.status.Names  
 #get status of services
 - name: (service_files.yml) status of all services
   debug:
