@@ -64,6 +64,6 @@
   register: processes
 
 - debug:
-    var: processes.stdout.split(/n)
+    var: processes.stdout_lines
 
 
