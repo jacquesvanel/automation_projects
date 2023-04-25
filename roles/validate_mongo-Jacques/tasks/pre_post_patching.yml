@@ -12,8 +12,8 @@
 
 - name: Creating directory "Mongo_processes"
   file:
-    path: /tmp/Mongo_processes_status/pre_mongo_services_status_{{ ansible_date_time.date }}
-    state: touch
+    path: /tmp/Mongo_processes_status_{{ ansible_date_time.date }}
+    state: directory
 
 - name: Send output of running processes/services pre patching to "pre_mongo_process_{{ ansible_date_time.date }}(SHARDED CLUSTER)"
   copy:
@@ -31,6 +31,7 @@
             Running Mongo processes/services on {{ ansible_hostname }} before patching on {{ ansible_date_time.date }}  were:
             {{ config_process.stdout }}
     dest: /tmp/Mongo_processes/pre_mongo_services_status_{{ ansible_date_time.date }}
+    state: touch  
   when:
     - not pre_file.stat.exists
     - config_process is not skipped
@@ -63,6 +64,7 @@
             Running Mongo processes/services on {{ ansible_hostname }} After patching on {{ ansible_date_time.date }} were:
             {{ config_process.stdout }}
     dest: /tmp/Mongo_processes/post_mongo_services_status_{{ ansible_date_time.date }}
+    state: touch  
   when:
     - pre_file.stat.exists
     - not post_file.stat.exists
