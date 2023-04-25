@@ -1,7 +1,7 @@
 ---
 # tasks file for validate_mongo-Jacques
 - name: Setting facts on each environment
-   import_tasks: facts_stats.yml
+    import_tasks: facts_stats.yml
 
 - name: Checking config file name and nature of each servers in SBX
     import_tasks: sbx.yml
