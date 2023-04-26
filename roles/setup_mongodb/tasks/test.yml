@@ -70,11 +70,11 @@
 - name: Run shell to check the mongo services present (SHARDED CLUSTER)
   shell: >-
     {% if 'shardsvr' in cluster_role %}
-      ps -ef | grep mongod.conf | awk -F " " '{print $10}' 
+      ps -ef | grep mongod.conf | awk -F " " '{print $10}' | head -n -1 
     {% elif 'configsvr' in cluster_role %}
-      ps -ef | grep mongod.conf | head -1 | awk -F " " '{print $10}'  
+      ps -ef | grep mongod.conf | head -1 | awk -F " " '{print $10}' | head -n -1 
     {% else %}
-      ps -ef | grep mongod.conf | head -1 | awk -F " " '{print $10}' 
+      ps -ef | grep mongod.conf | head -1 | awk -F " " '{print $10}' | head -n -1
     {% endif %}
   register: processes
 
