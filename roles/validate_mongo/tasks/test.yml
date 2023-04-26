@@ -15,10 +15,10 @@
   - debug:
       msg: "{{ health.stdout.split('\n') }}"
 
-  #- name: Check health and stateStr values
-  #  fail:
-  #  msg: "Health check failed"
-  #when: "'health: 0' in health.msg "
+  - name: Check health and stateStr values
+    fail:
+      msg: "Health check failed"
+    when: "'health: 0' in health.msg "
 
       #  - name: Fail if MongoDB health check fails
       #    fail:
