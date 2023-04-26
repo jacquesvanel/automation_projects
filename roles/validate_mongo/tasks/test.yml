@@ -1,6 +1,33 @@
 ---
+- name: find all automation files associated with mongo
+  find:
+    paths:
+      - "/data/{{ env }}/"
+    patterns: "*.conf"
+    recurse: yes
+  register: conf_files
+
+- debug:
+    msg: "{{ conf_files.files | map(attribute='path') | list }}"
+
+####### run shell command against every entry in the list ########
+- name: Check type of host
+  shell:
+    cmd: "cat {{ item }} | grep port: | awk -F " " '{print $2}'"
+  register: get_port
+  with_items: "{{ conf_files.files | map(attribute='path') | list  }}"
+  ignore_errors: yes
+
+######  map the stdout to a variable and only choose the first entry #######
+- name: Extract clusterRole from output
+  set_fact:
+    port: "{{ get_port.results | map(attribute='stdout') | list | first }}"
+###### show the entry #######
+- debug:
+    var: port
+
 - name: check if server is primary or secondary
-  shell: mongo "{{ ansible_hostname }}".opr.afsiep.net:37018/admin -u amkanda -p Qwerty#12345px  --eval 'rs.isMaster().secondary' | sort -r | head -1
+  shell: mongo "{{ ansible_fqdn }}":{{ port }}/admin -u amkanda -p Qwerty#12345px  --eval 'rs.isMaster().secondary' | sort -r | head -1
   register: secondary
 
 - debug:
@@ -8,7 +35,7 @@
 
 - block:
   - name: get health of repset
-    shell: "mongosh {{ ansible_hostname }}.opr.afsiep.net:37018/admin -u amkanda -p Qwerty#12345px --eval 'db.adminCommand( { replSetGetStatus: 1 } ).members' | less | grep 'stateStr:\\|health:\\|name:'"
+    shell: "mongosh {{ ansible_fqdn }}:{{ port }}/admin -u amkanda -p Qwerty#12345px --eval 'db.adminCommand( { replSetGetStatus: 1 } ).members' | less | grep 'stateStr:\\|health:\\|name:'"
     register: health
     #when: not secondary.stdout == 'true'
 
@@ -19,12 +46,5 @@
     fail:
       msg: "Health check failed"
     when: "'health: 0' in health.msg "
-
-      #  - name: Fail if MongoDB health check fails
-      #    fail:
-      #      msg: "MongoDB health check failed"
-      #    when: "0 in health_output"
-      #  vars:
-      #    health_output:  "{{ health.stdout_lines | select('match', '(health):') | list }}"
   when: not secondary.stdout == 'true'
 
