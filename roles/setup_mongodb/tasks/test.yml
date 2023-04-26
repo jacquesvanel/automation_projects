@@ -58,7 +58,8 @@
 
 ###### run shell command depending on the output thats in cluster_role #######
 - name: Run shell to check the mongo services present 
-  shell: ps -ef | grep mongod.conf | head -n -1 | awk -F " " '{print $10}'
+  shell: 
+    cmd: ps -ef | grep mongod.conf | head -n -1 | awk -F " " '{print $10}'
   #>-
   #  {% if 'shardsvr' in cluster_role %}
   #    ps -ef | grep mongod.conf | head -n -1 | awk -F " " '{print $10}' 
@@ -75,7 +76,8 @@
 
 - block:
   - name: Run shell to check the mongo services present (SHARDED CLUSTER)
-    shell:  ps -ef | grep mongos | head -n -1 | awk -F " " '{print $10}'
+    shell:
+      cmd:  ps -ef | grep mongos | head -n -1 | awk -F " " '{print $10}'
     register: mongos_processes
 
 ####### show output from that command #####
