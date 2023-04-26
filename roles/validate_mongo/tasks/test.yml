@@ -13,7 +13,7 @@
 ####### run shell command against every entry in the list ########
 - name: Check type of host
   shell:
-    cmd: "cat {{ item }} | grep port: | awk -F " " '{print $2}'"
+    cmd: "cat {{ item }} | grep port: | awk -F ' ' '{print $2}'"
   register: get_port
   with_items: "{{ conf_files.files | map(attribute='path') | list  }}"
   ignore_errors: yes
