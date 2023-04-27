@@ -11,25 +11,3 @@
 #    path: /etc/logrotate.d/mongo
 #    state: absent
 
-- name: create a working directory
-  file:
-    path: /opt/mongodb/mms/mongodb-releases
-    state: directory
-    owner: mongodb-mms
-    group: mongodb-mms
-
-- name: Copy mongodb-mms software
-  ansible.builtin.get_url:
-    url: "{{ item }}"
-    dest: /opt/mongodb/mms/mongodb-releases
-    tmp_dest: /data/
-    owner: mongodb-mms
-    group: mongodb-mms
-  with_items:
-     - "https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Mongo-DB/mongodb-database-tools-rhel80-x86_64-100.6.0.tgz"
-     #--5.0.8
-     - "https://va1imgtlmvn0001.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-linux-x86_64-enterprise-rhel80-5.0.8.tgz"
-     #--5.0.13
-     - "https://va1imgtlmvn0001.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-linux-x86_64-enterprise-rhel80-5.0.13.tgz"
-     #--6.0.5
-     - "https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-linux-x86_64-enterprise-rhel80-6.0.5.tgz"
