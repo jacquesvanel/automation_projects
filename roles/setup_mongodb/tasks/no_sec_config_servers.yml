@@ -48,4 +48,5 @@
     loop: "{{ config_servers }}"
     loop_control:
       label: "{{ item.name }}"
-  when: "ansible_hostname in [configsvr_rsa, configsvr_rsb, configsvr_rsc] and ansible_hostname == {{ item.name }}"
+  when: ansible_hostname == {{ item.name }}
+  #when: "ansible_hostname in [configsvr_rsa, configsvr_rsb, configsvr_rsc] and ansible_hostname == {{ item.name }}"

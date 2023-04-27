@@ -8,7 +8,7 @@
       mode: '2775'
       owner: "{{ owner }}"
       group: "{{ group }}"
-    loop: "{{ single_repset_servers }}"
+    loop: "{{ servers }}"
     loop_control:
        label: "{{ item.name }}"
     ignore_errors: yes
@@ -22,7 +22,7 @@
       mode: '0644'
       force: yes
     ignore_errors: yes
-    loop: "{{ single_repset_servers }}"
+    loop: "{{ servers }}"
     loop_control:
       label: "{{ item.name }}"
 
@@ -34,7 +34,7 @@
       group: "{{ group }}"
       mode: '0640'
       force: yes
-    loop: "{{ single_repset_servers }}"
+    loop: "{{ servers }}"
     loop_control:
       label: "{{ item.name }}"
 
@@ -45,7 +45,7 @@
       enabled: yes
       daemon_reload: yes
     ignore_errors: yes
-    loop: "{{ single_repset_servers }}"
+    loop: "{{ servers }}"
     loop_control:
       label: "{{ item.name }}"
   when: item.name is defined and ansible_hostname == {{ item.name }}
