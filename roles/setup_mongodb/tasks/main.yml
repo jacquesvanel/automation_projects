@@ -7,7 +7,7 @@
     - set_facts 
 
 - name: test task
-  import_tasks: api_test.yml
+  import_playbook: api_test.yml
   tags:
     - test
     - never
