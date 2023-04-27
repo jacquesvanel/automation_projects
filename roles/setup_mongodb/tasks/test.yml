@@ -1,16 +1,30 @@
 ---
+#- name: add cronjob for logrotate
+#  cron:
+#    name: "logrotate for mongodb logs"
+#    minute: "23"
+#    job: "/usr/sbin/logrotate /etc/logrotate.d/mongo"
+#    state: absent
+
+#- name: remove files
+#  file:
+#    path: /etc/logrotate.d/mongo
+#    state: absent
+
 - name: create a working directory
   file:
     path: /opt/mongodb/mms/mongodb-releases
     state: directory
     owner: mongodb-mms
-    group: "{{ group }}"
+    group: mongodb-mms
 
 - name: Copy mongodb-mms software
   ansible.builtin.get_url:
     url: "{{ item }}"
     dest: /opt/mongodb/mms/mongodb-releases
     tmp_dest: /data/
+    owner: mongodb-mms
+    group: mongodb-mms
   with_items:
      - "https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Mongo-DB/mongodb-database-tools-rhel80-x86_64-100.6.0.tgz"
      #--5.0.8
