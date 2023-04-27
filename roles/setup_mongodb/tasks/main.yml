@@ -1,7 +1,7 @@
 ---
 ################################  testing  ################################
 - name: set facts
-  include_tasks: set_fact.yml
+  import_tasks: set_fact.yml
   when: env is not defined
   tags:
     - set_facts 
@@ -14,106 +14,91 @@
 
 ##########start of config##################################################
 - name: add mongo service file
-  include_tasks: mongo_service.yml
+  import_tasks: mongo_service.yml
   tags:
-    - reinstall
     - mongo_service
 
 - name: add configsvr config/service files 
-  include_tasks: no_sec_config_servers.yml
+  import_tasks: no_sec_config_servers.yml
   when: "ansible_hostname in [configsvr_rsa, configsvr_rsb, configsvr_rsc]"
   tags:
-    - reinstall
     - no_sec_config_servers
 
 - name: add shardsvr config/service files
-  include_tasks: no_sec_shard_servers.yml
+  import_tasks: no_sec_shard_servers.yml
   when: "ansible_hostname in [shard1a, shard1b, shard1c, shard2a, shard2b, shard2c, shard3a, shard3b, shard3c]"
   tags:
-    - reinstall
     - no_sec_shard_servers
 
 - name: add single_repset_svr config/service files
-  include_tasks: no_sec_single_repset_servers.yml
+  import_tasks: no_sec_single_repset_servers.yml
   when: "ansible_hostname in [rs_1, rs_2, rs_3]" 
   tags:
-    - reinstall
     - no_sec_single_repset_servers
 
 - name: add mongos config/service files
-  include_tasks: mongos.yml
+  import_tasks: mongos.yml
   when: "ansible_hostname in [configsvr_rsa, configsvr_rsb, configsvr_rsc]"
   tags: 
-    - reinstall
     - mongos
 
 - name: setup users
-  include_tasks: setup_users.yml
+  import_tasks: setup_users.yml
   when: "ansible_hostname in [configsvr_rsa, shard1a, shard2a, shard3a, rs_1]"
   tags: 
-    - reinstall
     - setup_users
 
 - name: create role
-  include_tasks: create_role.yml
+  import_tasks: create_role.yml
   when: "ansible_hostname in [configsvr_rsa, shard1a, shard2a, shard3a, rs_1]"
   tags: 
-    - reinstall
     - create_role
     
 - name: change ldap interval
-  include_tasks: ldap_interval.yml
+  import_tasks: ldap_interval.yml
   when: "ansible_hostname in [configsvr_rsa, shard1a, shard2a, shard3a, rs_1]"
   tags:
-    - reinstall
     - ldap_interval  
 
 - name: start mongos
-  include_tasks: start_mongos.yml
+  import_tasks: start_mongos.yml
   when: "ansible_hostname in [configsvr_rsa, configsvr_rsb, configsvr_rsc]"
   tags:
-    - reinstall
     - start_mongos
 
 - name: add configsvr config/service files
-  include_tasks: config_servers.yml
+  import_tasks: config_servers.yml
   when: "ansible_hostname in [configsvr_rsa, configsvr_rsb, configsvr_rsc]"
   tags:
-    - reinstall
     - config_servers
 
 - name: add shardsvr config/service files
-  include_tasks: shard_servers.yml
+  import_tasks: shard_servers.yml
   when: "ansible_hostname in [shard1a, shard1b, shard1c, shard2a, shard2b, shard2c, shard3a, shard3b, shard3c]"
   tags:
-    - reinstall
     - shard_servers
 
 - name: add single_repset_svr config/service files
-  include_tasks: single_repset_servers.yml
+  import_tasks: single_repset_servers.yml
   when: "ansible_hostname in [rs_1, rs_2, rs_3]"
   tags:
-    - reinstall
     - single_repset_servers
 
 - name: initiate clusters
-  include_tasks: initiate_clusters.yml
+  import_tasks: initiate_clusters.yml
   when: "ansible_hostname in [configsvr_rsa, shard1a, shard2a, shard3a, rs_1]"
   tags:
-    - reinstall
     - initiate_clusters
 
 - name: add keep alive line to sysctl.conf
-  include_tasks: add_line_to_sys.yml
+  import_tasks: add_line_to_sys.yml
   tags:
-    - reinstall
     - keepalive
 
 - name: add shards to cluster
-  include_tasks: add_shards.yml
+  import_tasks: add_shards.yml
   when: "ansible_hostname in [configsvr_rsa]"
   tags:
-    - reinstall
     - add_shards
 
 - name: start mongo
@@ -124,6 +109,5 @@
 - name: mms agent
   import_tasks: mms_agent.yml
   tags:
-    - reinstall
     - mms_agent
 #####################################################################

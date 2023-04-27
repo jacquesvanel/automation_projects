@@ -3,7 +3,7 @@ systemLog:
   destination: file
   path: "{{ item.log_path }}"
   logAppend: true
-  logRotate: reopen
+  logRotate: rename
 processManagement:
   fork: true
   pidFilePath: "{{ item.pid_path }}"
