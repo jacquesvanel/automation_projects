@@ -26,10 +26,10 @@
 
 #Check if server is primary or secondary server
 - name: check if server is primary or secondary
-  import_tasks: server_state.yml
-  
+  include_tasks: server_state.yml
+
 - name: shell script
-  import_tasks: shell_script.yml
+  include_tasks: shell_script.yml
   when: not secondary.stdout == 'true'
   tags:
     - shell
