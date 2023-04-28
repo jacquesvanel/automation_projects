@@ -100,30 +100,35 @@
   copy:
     content: |
             EXISTING PROCESSES ON {{ ansible_hostname }} SERVER ARE
-            {{ processes.stdout_lines.split(\n) }}
+            {{ processes.stdout_lines | split('\n') }}
             {% if 'configsvr' in cluster_role %}
-            {{ mongos_processes.stdout_lines.split(\n) }}
+            {{ mongos_processes.stdout_lines | split('\n') }}
             {% endif %}
-    dest: "/etc/mongo/{{ env }}/scripts/pre_mongodb_validate_processes{{ ansible_date_time.date }}.txt"
-  when: not file.stat.exists
+    dest: >
+          {% if not file.stat.exists %}
+          "/etc/mongo/{{ env }}/scripts/pre_mongodb_validate_processes{{ ansible_date_time.date }}.txt"
+          {% elif file.stat.exists %}
+          "/etc/mongo/{{ env }}/scripts/post_mongodb_validate_processes{{ ansible_date_time.date }}.txt"
+          {% endif %}
+  #when: not file.stat.exists
 
-- name: (processes.yml) Copy the output of the process check into /etc/mongo
-  copy:
-    content: |
-            EXISTING PROCESSES ON {{ ansible_hostname }} SERVER ARE
-            {{ processes.stdout_lines.split(\n) }}
-            {% if 'configsvr' in cluster_role %}
-            {{ mongos_processes.stdout_lines.split(\n) }}
-            {% endif %}
-    dest: "/etc/mongo/{{ env }}/scripts/post_mongodb_validate_processes{{ ansible_date_time.date }}.txt"
-  when: file.stat.exists
+#- name: (processes.yml) Copy the output of the process check into /etc/mongo
+#  copy:
+#    content: |
+#            EXISTING PROCESSES ON {{ ansible_hostname }} SERVER ARE
+#            {{ processes.stdout_lines.split(\n) }}
+#            {% if 'configsvr' in cluster_role %}
+#            {{ mongos_processes.stdout_lines.split(\n) }}
+#            {% endif %}
+#    dest: "/etc/mongo/{{ env }}/scripts/post_mongodb_validate_processes{{ ansible_date_time.date }}.txt"
+#  when: file.stat.exists
 
 - debug:
     msg: |
           EXISTING PROCESSES ON {{ ansible_hostname }} SERVER ARE
-          {{ processes.stdout_lines.split(\n) }}
+          {{ processes.stdout_lines | split('\n') }}
           {% if 'configsvr' in cluster_role %}
-          {{ mongos_processes.stdout_lines.split(\n) }}
+          {{ mongos_processes.stdout_lines | split('\n') }}
           {% endif %}
 
 - name: (processes.yml) check if pre validate file exists
