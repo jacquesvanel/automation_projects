@@ -1,7 +1,8 @@
 ---
 - name: find all automation files associated with mongo
   find:
-    paths: "{% if service_status.status.ActiveState == 'active' %}'/data/{{ env }}/'{% else %}'/etc/mongo/{{ env }}/'{% endif %}"
+    paths: 
+      - "{% if service_status.status.ActiveState == 'active' %}/data/{{ env }}/{% else %}/etc/mongo/{{ env }}/{% endif %}"
     patterns: "*.conf, *.cfg"
     recurse: yes
   register: conf_files
