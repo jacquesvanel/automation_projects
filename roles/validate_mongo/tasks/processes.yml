@@ -104,7 +104,7 @@
             {% if 'configsvr' in cluster_role %}
             {{ mongos_processes.stdout_lines }}
             {% endif %}
-    dest: >
+    dest: |
           {% if not file.stat.exists %}
           "/etc/mongo/{{ env }}/scripts/pre_mongodb_validate_processes{{ ansible_date_time.date }}.txt"
           {% elif file.stat.exists %}
