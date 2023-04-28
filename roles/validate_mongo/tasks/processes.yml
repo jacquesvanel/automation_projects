@@ -1,4 +1,20 @@
 ---
+- name: checking mongo config service
+  systemd:
+    name: mongodb-mms-automation-agent
+  register: service_status
+
+##### get status of service
+- name: status of service
+  debug:
+    msg: "The status of {{ service_status.status.Names }} on {{ ansible_hostname }} is {{ service_status.status.ActiveState }}"
+
+#fail task if service is in failed state
+- name:  fail module for services
+  fail:
+    msg: "The status of {{ service_status.status.Names }} on {{ ansible_hostname }} is {{ service_status.status.ActiveState }}"
+  when: service_status.status.ActiveState == 'failed'
+
 ####### find all conf files and place them in a list ###########
 - name: find all automation files associated with mongo
   find:
@@ -38,23 +54,6 @@
        {% else %} is a REPLICASET SERVER{% endif %} 
   ignore_errors: yes
   register: server_type
-
-##### check status og ops_manager_agent ####
-- name: checking mongo config service
-  systemd:
-    name: mongodb-mms-automation-agent
-  register: service_status
-
-##### get status of service
-- name: status of service
-  debug:
-    msg: "The status of {{ service_status.status.Names }} on {{ ansible_hostname }} is {{ service_status.status.ActiveState }}"
-
-#fail task if service is in failed state
-- name:  fail module for services
-  fail:
-    msg: "The status of {{ service_status.status.Names }} on {{ ansible_hostname }} is {{ service_status.status.ActiveState }}"
-  when: service_status.status.ActiveState == 'failed'
 
 ###### run shell command depending on the output thats in cluster_role #######
 - name: Run shell to check the mongo services present 

@@ -5,9 +5,9 @@
     - always
 
 - name:
-  import_tasks: service_files.yml
+  import_tasks: processes.yml
   tags:
-    - service
+    - processes
 
 - name:
   import_tasks: check_disk.yml
@@ -16,7 +16,7 @@
 
 #Check if server is primary or secondary server
 - name: check if server is primary or secondary
-  shell: mongo "{{ ansible_hostname }}".opr.afsiep.net:37018/admin -u amkanda -p Qwerty#12345px  --eval 'rs.isMaster().secondary' | sort -r | head -1
+  shell: mongo "{{ ansible_fqdn }}":37018/admin -u amkanda -p Qwerty#12345px  --eval 'rs.isMaster().secondary' | sort -r | head -1
   register: secondary
 
 - debug:
