@@ -4,25 +4,25 @@
   tags:
     - always
 
+- name: check disk state
+  import_tasks: check_disk.yml
+  tags:
+    - disk
+
 - name: check status of mms agent
   import_tasks: agent_state.yml
   tags:
     - agent
 
 - name: check mms agent active process
-  import_tasks: processes.yml
+  include_tasks: processes.yml
   when: service_status.status.ActiveState == 'active'
   tags:
     - processes
 
 - name: check standard processes
-  import_tasks: standard_processes.yml
+  include_tasks: standard_processes.yml
   when: service_status.status.ActiveState == 'inactive'
-
-- name: check disk state
-  import_tasks: check_disk.yml
-  tags:
-    - disk
 
 #Check if server is primary or secondary server
 - name: check if server is primary or secondary
