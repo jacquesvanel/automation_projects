@@ -100,9 +100,9 @@
   copy:
     content: |
             EXISTING PROCESSES ON {{ ansible_hostname }} SERVER ARE
-            {{ processes.stdout_lines.split('\n') }}
+            {{ processes.stdout_lines }}
             {% if 'configsvr' in cluster_role %}
-            {{ mongos_processes.stdout_lines.split('\n') }}
+            {{ mongos_processes.stdout_lines }}
             {% endif %}
     dest: >
           {% if not file.stat.exists %}
@@ -126,9 +126,9 @@
 - debug:
     msg: |
           EXISTING PROCESSES ON {{ ansible_hostname }} SERVER ARE
-          {{ processes.stdout_lines | split('\n') }}
+          {{ processes.stdout_lines }}
           {% if 'configsvr' in cluster_role %}
-          {{ mongos_processes.stdout_lines | split('\n') }}
+          {{ mongos_processes.stdout_lines }}
           {% endif %}
 
 - name: (processes.yml) check if pre validate file exists

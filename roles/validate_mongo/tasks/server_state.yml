@@ -6,7 +6,7 @@
     patterns: "*.conf, *.cfg"
     recurse: yes
   register: conf_files
-  when: service_status.status.ActiveState == 'active'
+  #when: service_status.status.ActiveState == 'active'
 
 - debug:
     msg: "{{ conf_files.files | map(attribute='path') | list }}"

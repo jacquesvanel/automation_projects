@@ -14,13 +14,13 @@
   tags:
     - agent
 
-- name: check mms agent active process
+- name: check active processes if mms agent active
   include_tasks: processes.yml
   when: service_status.status.ActiveState == 'active'
   tags:
     - processes
 
-- name: check standard processes
+- name: check standard processes if mms agent is inactive
   include_tasks: standard_processes.yml
   when: service_status.status.ActiveState == 'inactive'
 
@@ -28,7 +28,7 @@
 - name: check if server is primary or secondary
   include_tasks: server_state.yml
 
-- name: shell script
+- name: get databases and collections
   include_tasks: shell_script.yml
   when: secondary.stdout == 'false'
   tags:
