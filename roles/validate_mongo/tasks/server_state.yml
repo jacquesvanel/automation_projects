@@ -1,45 +1,33 @@
 ---
-- block:
-  - name: find all automation files associated with mongo
-    find:
-      paths:
-        - "/data/{{ env }}/"
-      patterns: "*.conf"
-      recurse: yes
-    register: conf_files
-  
-  - debug:
-      msg: "{{ conf_files.files | map(attribute='path') | list }}"
-  
-  ####### run shell command against every entry in the list ########
-  - name: Check type of host
-    shell:
-      cmd: "cat {{ item }} | grep port: | awk -F ' ' '{print $2}'"
-    register: get_port
-    with_items: "{{ conf_files.files | map(attribute='path') | list  }}"
-    ignore_errors: yes
+- name: find all automation files associated with mongo
+  find:
+    paths:
+      - "/data/{{ env }}/"
+    patterns: "*.conf"
+    recurse: yes
+  register: conf_files
   when: service_status.status.ActiveState == 'active'
 
-- block:
-  - name: find all automation files associated with mongo
-    find:
-      paths:
-        - "/etc/mongo/{{ env }}/"
-      patterns: "*.cfg"
-      recurse: yes
-    register: conf_files
-  
-  - debug:
-      msg: "{{ conf_files.files | map(attribute='path') | list }}"
-  
-  ####### run shell command against every entry in the list ########
-  - name: Check type of host
-    shell:
-      cmd: "cat {{ item }} | grep port: | awk -F ' ' '{print $2}'"
-    register: get_port
-    with_items: "{{ conf_files.files | map(attribute='path') | list  }}"
-    ignore_errors: yes
+- name: find all automation files associated with mongo
+  find:
+    paths:
+      - "/etc/mongo/{{ env }}/"
+    patterns: "*.cfg"
+    recurse: yes
+  register: conf_files
   when: service_status.status.ActiveState == 'inactive'
+
+- debug:
+    msg: "{{ conf_files.files | map(attribute='path') | list }}"
+
+####### run shell command against every entry in the list ########
+- name: Check type of host
+  shell:
+    cmd: "cat {{ item }} | grep port: | awk -F ' ' '{print $2}'"
+  register: get_port
+  with_items: "{{ conf_files.files | map(attribute='path') | list  }}"
+  ignore_errors: yes
+
 ######  map the stdout to a variable and only choose the first entry #######
 - name: Extract clusterRole from output
   set_fact:
