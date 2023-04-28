@@ -29,7 +29,7 @@
     var: port
 
 - name: check if server is primary or secondary
-  shell: mongo "{{ ansible_fqdn }}":{{ port }}/admin  --eval 'rs.isMaster().secondary' | grep 'true\|false'
+  shell: mongo "{{ ansible_fqdn }}":"{{ port }}"/admin  --eval 'rs.isMaster().secondary' | grep 'true\|false'
   register: secondary
 
 - debug:
