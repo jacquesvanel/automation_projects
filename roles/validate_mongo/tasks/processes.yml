@@ -12,7 +12,7 @@
     msg: "{{ conf_files.files | map(attribute='path') | list }}"
 
 ####### run shell command against every entry in the list ########
-- name: Check type of host 
+- name: Check type of host
   shell:
     cmd: "cat {{ item }} | grep clusterRole | sed 's/clusterRole: //g'"
   register: server_role
@@ -29,20 +29,20 @@
     var: cluster_role
 
 ##### print debug msg using conditional #####
-- name: show server type 
+- name: show server type
   debug:
     msg: >
        "{{ ansible_hostname }}"
        {% if 'shardsvr' in cluster_role %} is a SHARD SERVER
        {% elif 'configsvr' in cluster_role %} is a CONFIG SERVER
-       {% else %} is a REPLICASET SERVER{% endif %} 
+       {% else %} is a REPLICASET SERVER{% endif %}
   ignore_errors: yes
   register: server_type
 
 ###### run shell command depending on the output thats in cluster_role #######
 - block:
-  - name: Run shell to check the mongo services present 
-    shell: 
+  - name: Run shell to check the mongo services present
+    shell:
       cmd: ps -ef | grep mongod.conf | grep -v grep | awk -F " " '{print $10}'
     register: processes
     #>-
@@ -60,7 +60,7 @@
   when: service_status.status.ActiveState == 'active'
 
 - block:
-  - name: Run shell to check the mongo services present 
+  - name: Run shell to check the mongo services present
     shell:
       cmd:  ps -ef | grep mongos | grep -v grep | awk -F " " '{print $10}'
     register: mongos_processes
@@ -98,18 +98,13 @@
 
 - name: (processes.yml) Copy the output of the process check into /etc/mongo
   copy:
-    content: |
+    content: |-
             EXISTING PROCESSES ON {{ ansible_hostname }} SERVER ARE
             {{ processes.stdout_lines }}
             {% if 'configsvr' in cluster_role %}
             {{ mongos_processes.stdout_lines }}
             {% endif %}
-    dest: |
-          {% if not file.stat.exists %}
-          "/etc/mongo/{{ env }}/scripts/pre_mongodb_validate_processes{{ ansible_date_time.date }}.txt"
-          {% elif file.stat.exists %}
-          "/etc/mongo/{{ env }}/scripts/post_mongodb_validate_processes{{ ansible_date_time.date }}.txt"
-          {% endif %}
+    dest: "{% if not file.stat.exists %}/etc/mongo/{{ env }}/scripts/pre_mongodb_validate_processes{{ ansible_date_time.date }}.txt{% elif file.stat.exists %}/etc/mongo/{{ env }}/scripts/post_mongodb_validate_processes{{ ansible_date_time.date }}.txt{% endif %}"
   #when: not file.stat.exists
 
 #- name: (processes.yml) Copy the output of the process check into /etc/mongo
@@ -124,7 +119,7 @@
 #  when: file.stat.exists
 
 - debug:
-    msg: |
+    msg: |-
           EXISTING PROCESSES ON {{ ansible_hostname }} SERVER ARE
           {{ processes.stdout_lines }}
           {% if 'configsvr' in cluster_role %}
