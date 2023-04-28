@@ -60,7 +60,7 @@
   when: service_status.status.ActiveState == 'active'
 
 - block:
-  - name: Run shell to check the mongo services present (SHARDED CLUSTER)
+  - name: Run shell to check the mongo services present 
     shell:
       cmd:  ps -ef | grep mongos | grep -v grep | awk -F " " '{print $10}'
     register: mongos_processes
@@ -100,9 +100,9 @@
   copy:
     content: |
             EXISTING PROCESSES ON {{ ansible_hostname }} SERVER ARE
-            {{ processes.stdout_lines | split('\n') }}
+            {{ processes.stdout_lines.split('\n') }}
             {% if 'configsvr' in cluster_role %}
-            {{ mongos_processes.stdout_lines | split('\n') }}
+            {{ mongos_processes.stdout_lines.split('\n') }}
             {% endif %}
     dest: >
           {% if not file.stat.exists %}
