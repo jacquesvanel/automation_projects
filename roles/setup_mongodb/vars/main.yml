@@ -78,7 +78,6 @@ config_servers:
     port: 57040
     cluster: configsvr
     repset: config_{{ env }}
-    host_config: config-rs_a
     db: "{{ appname }}_{{ env }}_db"
     description: MongoDB Config Server
 
