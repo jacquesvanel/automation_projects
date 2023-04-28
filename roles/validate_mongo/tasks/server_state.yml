@@ -1,24 +1,25 @@
 ---
 - name: find all automation files associated with mongo
   find:
-    paths:
-      - "/data/{{ env }}/"
-    patterns: "*.conf"
+    paths: "{% if service_status.status.ActiveState == 'active' %} /data/{{ env }}/ {% else %} /etc/mongo/{{ env }}/ {% endif %}"
+    patterns: "*.conf, *.cfg"
     recurse: yes
   register: conf_files
   when: service_status.status.ActiveState == 'active'
 
-- name: find all automation files associated with mongo
-  find:
-    paths:
-      - "/etc/mongo/{{ env }}/"
-    patterns: "*.cfg"
-    recurse: yes
-  register: conf_files
-  when: service_status.status.ActiveState == 'inactive'
-
+#- name: find all automation files associated with mongo
+#  find:
+#    paths:
+#      - "/etc/mongo/{{ env }}/"
+#    patterns: "*.cfg"
+#    recurse: yes
+#  register: conf_files
+#  when: service_status.status.ActiveState == 'inactive'
+- debug:
+    var: conf_files
 - debug:
     msg: "{{ conf_files.files | map(attribute='path') | list }}"
+  when: conf_files is defined
 
 ####### run shell command against every entry in the list ########
 - name: Check type of host
@@ -29,7 +30,7 @@
   ignore_errors: yes
 
 ######  map the stdout to a variable and only choose the first entry #######
-- name: Extract clusterRole from output
+- name: Extract port from output
   set_fact:
     port: "{{ get_port.results | map(attribute='stdout') | list | first }}"
 ###### show the entry #######
