@@ -30,7 +30,7 @@
 
 - name: shell script
   include_tasks: shell_script.yml
-  when: not secondary.stdout == 'true'
+  when: secondary.stdout == 'false'
   tags:
     - shell
 

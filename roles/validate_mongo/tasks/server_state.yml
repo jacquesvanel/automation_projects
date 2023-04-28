@@ -8,16 +8,6 @@
   register: conf_files
   when: service_status.status.ActiveState == 'active'
 
-#- name: find all automation files associated with mongo
-#  find:
-#    paths:
-#      - "/etc/mongo/{{ env }}/"
-#    patterns: "*.cfg"
-#    recurse: yes
-#  register: conf_files
-#  when: service_status.status.ActiveState == 'inactive'
-- debug:
-    var: conf_files
 - debug:
     msg: "{{ conf_files.files | map(attribute='path') | list }}"
   when: conf_files is defined
