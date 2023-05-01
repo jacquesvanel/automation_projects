@@ -23,12 +23,12 @@
 #make sure directory exists
 - name: (shell_script.yml) check if dir exists
   stat:
-    path: /etc/mongo/{{ env }}/scripts/
+    path: /etc/mongo/
   register: dir
 
 - name: (shell_script.yml) make file directory
   file:
-    path: /etc/mongo/{{ env }}/scripts/
+    path: /etc/mongo/
     state: directory
     #    mode: "{{ item.mode }}"
     #    owner: "{{ owner }}"
@@ -37,12 +37,12 @@
 
 - name: (shell_script.yml) check if pre validate file exists
   stat:
-    path: /etc/mongo/{{ env }}/scripts/pre_MongoDB_Validate{{ ansible_date_time.date }}.txt
+    path: /etc/mongo/pre_MongoDB_Validate{{ ansible_date_time.date }}.txt
   register: file
 
 - name: (shell_script.yml) check if post validate file exists
   stat:
-    path: /etc/mongo/{{ env }}/scripts/post_MongoDB_Validate{{ ansible_date_time.date }}.txt
+    path: /etc/mongo/post_MongoDB_Validate{{ ansible_date_time.date }}.txt
   register: file2
 ###########################################################################
 #copy output to file and display in ansible output 
@@ -54,7 +54,7 @@
             {{ shell_result.stdout }}
             COLLECTIONS EXIST ON {{ ansible_hostname }} DATABASE ARE
             {{ shell2_result.stdout }}
-    dest: "/etc/mongo/{{ env }}/scripts/pre_MongoDB_Validate{{ ansible_date_time.date }}.txt"
+    dest: "/etc/mongo/pre_MongoDB_Validate{{ ansible_date_time.date }}.txt"
   when: not file.stat.exists
 
 - name: (shell_script.yml) Copy the output of the data check into /etc/mongo
@@ -64,7 +64,7 @@
             {{ shell_result.stdout }}
             COLLECTIONS EXIST ON {{ ansible_hostname }} DATABASE ARE
             {{ shell2_result.stdout }}
-    dest: "/etc/mongo/{{ env }}/scripts/post_MongoDB_Validate{{ ansible_date_time.date }}.txt"
+    dest: "/etc/mongo/post_MongoDB_Validate{{ ansible_date_time.date }}.txt"
   when: file.stat.exists
 
 - debug:
@@ -76,17 +76,17 @@
 
 - name: (shell_script.yml) check if pre validate file exists
   stat:
-    path: /etc/mongo/{{ env }}/scripts/pre_MongoDB_Validate{{ ansible_date_time.date }}.txt
+    path: /etc/mongo/pre_MongoDB_Validate{{ ansible_date_time.date }}.txt
   register: file
 
 - name: (shell_script.yml) check if post validate file exists
   stat:
-    path: /etc/mongo/{{ env }}/scripts/post_MongoDB_Validate{{ ansible_date_time.date }}.txt
+    path: /etc/mongo/post_MongoDB_Validate{{ ansible_date_time.date }}.txt
   register: file2
 
 - block:
   - name: (shell_script.yml) Generate diff
-    shell: diff  /etc/mongo/{{ env }}/scripts/pre_MongoDB_Validate{{ ansible_date_time.date }}.txt  /etc/mongo/{{ env }}/scripts/post_MongoDB_Validate{{ ansible_date_time.date }}.txt
+    shell: diff  /etc/mongo/pre_MongoDB_Validate{{ ansible_date_time.date }}.txt  /etc/mongo/post_MongoDB_Validate{{ ansible_date_time.date }}.txt
     register: diff_result
     ignore_errors: yes
 
@@ -105,7 +105,7 @@
 # delete old files older than 90 days
 - name: (shell_script.yml) find files older the 90 days old
   find:
-    paths: "/etc/mongo/{{ env }}/scripts/"
+    paths: "/etc/mongo/"
     patterns: "*MongoDB_Validate*"
     age: 90d
     recurse: yes
