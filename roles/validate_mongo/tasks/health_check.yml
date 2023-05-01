@@ -4,7 +4,9 @@
     shell: "mongosh {{ ansible_fqdn }}:{{ port }}/admin -u {{ svc_ansible_automation }} -p {{ svc_ansible_automation_password }} --eval 'db.adminCommand( { replSetGetStatus: 1 } ).members' | less | grep 'stateStr:\\|health:\\|name:'"
     register: health
     #when: not secondary.stdout == 'true'
-
+  - debug:
+      var: health
+      
   - debug:
       msg: "{{ health.stdout.split('\n') }}"
 
