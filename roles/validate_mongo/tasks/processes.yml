@@ -1,66 +1,23 @@
 ---
-####### find all conf files and place them in a list ###########
-- name: find all automation files associated with mongo
-  find:
-    paths:
-      - "/data/{{ env }}/"
-    patterns: "*.conf"
-    recurse: yes
-  register: conf_files
-
-- debug:
-    msg: "{{ conf_files.files | map(attribute='path') | list }}"
-
-####### run shell command against every entry in the list ########
-- name: Check type of host
-  shell:
-    cmd: "cat {{ item }} | grep clusterRole | sed 's/clusterRole: //g'"
-  register: server_role
-  with_items: "{{ conf_files.files | map(attribute='path') | list  }}"
-  #map('regex_replace','\\/usr\\/lib\\/systemd\\/system\\/','')| map('regex_replace','\\/etc\\/systemd\\/system\\/','') | list }}"
-  ignore_errors: yes
-
-######  map the stdout to a variable and only choose the first entry #######
-- name: Extract clusterRole from output
-  set_fact:
-    cluster_role: "{{ server_role.results | map(attribute='stdout') | list | first }}"
-###### show the entry #######
-- debug:
-    var: cluster_role
-
-##### print debug msg using conditional #####
-- name: show server type
-  debug:
-    msg: >
-       "{{ ansible_hostname }}"
-       {% if 'shardsvr' in cluster_role %} is a SHARD SERVER
-       {% elif 'configsvr' in cluster_role %} is a CONFIG SERVER
-       {% else %} is a REPLICASET SERVER{% endif %}
-  ignore_errors: yes
-  register: server_type
-
 ###### run shell command depending on the output thats in cluster_role #######
-- block:
-  - name: Run shell to check the mongo services present
-    shell:
-      cmd: ps -ef | grep mongod.conf | grep -v grep | awk -F " " '{print $10}'
-    register: processes
-    #>-
-    #  {% if 'shardsvr' in cluster_role %}
-    #    ps -ef | grep mongod.conf | head -n -1 | awk -F " " '{print $10}' 
-    #  {% elif 'configsvr' in cluster_role %}
-    #    ps -ef | grep mongod.conf | head -n -1 | awk -F " " '{print $10}' 
-    #  {% else %}
-    #    ps -ef | grep mongod.conf | head -n -1 | awk -F " " '{print $10}' 
-    #  {% endif %}
-    
-####### show output from that command #####
-  - debug:
-      var: processes.stdout_lines
+- name: Run shell to check the mongo services present
+  shell:
+    cmd: ps -ef | grep mongod.conf | grep -v grep | awk -F " " '{print $10}'
+  register: processes
   when: service_status.status.ActiveState == 'active'
 
+- name: Run shell to check the mongo services present
+  shell:
+    cmd: ps -ef | grep mongo | grep -v grep | awk -F " " '{print $10}'
+  when: service_status.status.ActiveState == 'inactive'
+  register: processes
+    
+####### show output from that command #####
+- debug:
+    var: processes.stdout_lines
+
 - block:
-  - name: Run shell to check the mongo services present
+  - name: Run shell to check the mongos services present
     shell:
       cmd:  ps -ef | grep mongos | grep -v grep | awk -F " " '{print $10}'
     register: mongos_processes
@@ -70,75 +27,55 @@
       var: mongos_processes.stdout_lines
   when: "'configsvr' in cluster_role and service_status.status.ActiveState == 'active'"
 
-- name: (processes.yml) check if dir exists
-  stat:
-    path: /etc/mongo/
-  register: dir
-
-- name: (processes.yml) make file directory
-  file:
-    path: /etc/mongo/
-    state: directory
-    #    mode: "{{ item.mode }}"
-    #    owner: "{{ owner }}"
-    #    group: "{{ group }}"
-  when: not dir.stat.exists
+- block:
+  - name: (shell_script.yml) run shell command
+    shell: mongo "{{ ansible_fqdn }}":"{{ port }}"/admin -u "{{ svc_ansible_automation }}" -p "{{ svc_ansible_automation_password }}" --authenticationDatabase admin --eval 'db.getMongo().getDBNames()' | sed -e '1,4d'| tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
+    register: shell_result
+  
+  - name: (shell_script.yml) show cmd output
+    debug:
+      var: shell_result.stdout
+###########################################################################
+#run cmd that gets collection names    
+  - name: (shell_script.yml) run 2nd command
+    shell: mongo "{{ ansible_fqdn }}":"{{ port }}"/admin -u "{{ svc_ansible_automation }}" -p "{{ svc_ansible_automation_password }}" --authenticationDatabase admin --eval 'db.getCollectionNames()' | grep '\"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
+    register: shell2_result
+  
+  - name: (shell_script.yml) show cmd output
+    debug:
+      var: shell2_result.stdout
+  when: secondary.stdout == 'false'
 
 - name: (processes.yml) check if pre validate file exists
   stat:
-    path: /etc/mongo/pre_mongodb_validate_processes{{ ansible_date_time.date }}.txt
+    path: /etc/mongo/pre_mongodb_validate_{{ ansible_date_time.date }}.txt
   register: file
 
 - name: (processes.yml) check if post validate file exists
   stat:
-    path: /etc/mongo/post_mongodb_validate_processes{{ ansible_date_time.date }}.txt
+    path: /etc/mongo/post_mongodb_validate_{{ ansible_date_time.date }}.txt
   register: file2
 ###########################################################################
 #copy output to file and display in ansible output 
-
 - name: (processes.yml) Copy the output of the process check into /etc/mongo
-  copy:
-    content: |-
-            EXISTING PROCESSES ON {{ ansible_hostname }} SERVER ARE
-            {{ processes.stdout_lines }}
-            {% if 'configsvr' in cluster_role %}
-            {{ mongos_processes.stdout_lines }}
-            {% endif %}
-    dest: "{% if not file.stat.exists %}/etc/mongo/pre_mongodb_validate_processes{{ ansible_date_time.date }}.txt{% elif file.stat.exists %}/etc/mongo/post_mongodb_validate_processes{{ ansible_date_time.date }}.txt{% endif %}"
-  #when: not file.stat.exists
-
-#- name: (processes.yml) Copy the output of the process check into /etc/mongo
-#  copy:
-#    content: |
-#            EXISTING PROCESSES ON {{ ansible_hostname }} SERVER ARE
-#            {{ processes.stdout_lines.split(\n) }}
-#            {% if 'configsvr' in cluster_role %}
-#            {{ mongos_processes.stdout_lines.split(\n) }}
-#            {% endif %}
-#    dest: "/etc/mongo/{{ env }}/scripts/post_mongodb_validate_processes{{ ansible_date_time.date }}.txt"
-#  when: file.stat.exists
-
-- debug:
-    msg: |-
-          EXISTING PROCESSES ON {{ ansible_hostname }} SERVER ARE
-          {{ processes.stdout_lines }}
-          {% if 'configsvr' in cluster_role %}
-          {{ mongos_processes.stdout_lines }}
-          {% endif %}
+  template:
+    src:  mongodb_validate.txt.j2
+    dest: "{% if not file.stat.exists %}/etc/mongo/pre_mongodb_validate_{{ ansible_date_time.date }}.txt{% elif file.stat.exists %}/etc/mongo/post_mongodb_validate_{{ ansible_date_time.date }}.txt{% endif %}"
+    force: yes
 
 - name: (processes.yml) check if pre validate file exists
   stat:
-    path: /etc/mongo/pre_mongodb_validate_processes{{ ansible_date_time.date }}.txt
+    path: /etc/mongo/pre_mongodb_validate_{{ ansible_date_time.date }}.txt
   register: file
 
 - name: (processes.yml) check if post validate file exists
   stat:
-    path: /etc/mongo/post_mongodb_validate_processes{{ ansible_date_time.date }}.txt
+    path: /etc/mongo/post_mongodb_validate_{{ ansible_date_time.date }}.txt
   register: file2
 
 - block:
   - name: (processes.yml) Generate diff
-    shell: diff  /etc/mongo/pre_mongodb_validate_processes{{ ansible_date_time.date }}.txt  /etc/mongo/post_mongodb_validate_processes{{ ansible_date_time.date }}.txt
+    shell: diff  /etc/mongo/pre_mongodb_validate_{{ ansible_date_time.date }}.txt  /etc/mongo/post_mongodb_validate_{{ ansible_date_time.date }}.txt
     register: diff_result
     ignore_errors: yes
 
