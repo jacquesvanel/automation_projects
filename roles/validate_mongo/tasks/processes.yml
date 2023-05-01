@@ -1,20 +1,28 @@
 ---
 ###### run shell command depending on the output thats in cluster_role #######
-- name: Run shell to check the mongo services present
-  shell:
-    cmd: ps -ef | grep mongod.conf | grep -v grep | awk -F " " '{print $10}'
-  register: processes
+- block:
+  - name: Run shell to check the mongo services present
+    shell:
+      cmd: ps -ef | grep mongod.conf | grep -v grep | awk -F " " '{print $10}'
+    register: processes
+  
+  - debug:
+      var: processes.stdout
   when: service_status.status.ActiveState == 'active'
 
-- name: Run shell to check the mongo services present
-  shell:
-    cmd: ps -ef | grep mongo | grep -v grep | awk -F " " '{print $10}'
+- block:
+  - name: Run shell to check the mongo services present
+    shell:
+      cmd: ps -ef | grep mongo | grep -v grep | awk -F " " '{print $10}'
+    register: processes
+  
+  - debug:
+      var: processes.stdout
   when: service_status.status.ActiveState == 'inactive'
-  register: processes
+  
     
 ####### show output from that command #####
-- debug:
-    var: processes.stdout_lines
+
 
 - block:
   - name: Run shell to check the mongos services present

@@ -1,5 +1,5 @@
 EXISTING PROCESSES ON {{ ansible_hostname }} SERVER ARE
-    {{ processes.stdout_lines }}
+    {{ processes.stdout }}
 {% if 'configsvr' in cluster_role %}
     {{ mongos_processes.stdout_lines }}
 {% endif %}
