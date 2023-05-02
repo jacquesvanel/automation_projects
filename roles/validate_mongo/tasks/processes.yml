@@ -35,7 +35,7 @@
 
 - block:
   - name: (shell_script.yml) run shell command
-    shell: mongo "{{ ansible_fqdn }}":"{{ port }}"/admin -u "{{ svc_ansible_automation }}" -p "{{ svc_ansible_automation_password }}" --authenticationDatabase admin --eval 'db.getMongo().getDBNames()' | tail -n +5 | tr -d '[],' | awk NF #| sed -e '1,4d'| tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
+    shell: mongo "{{ ansible_fqdn }}":"{{ port }}"/admin -u "{{ svc_ansible_automation }}" -p "{{ svc_ansible_automation_password }}" --authenticationDatabase admin --eval 'db.getMongo().getDBNames()' | sed -e '1,4d'| tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
     register: shell_result
   
   - name: (shell_script.yml) show cmd output
@@ -44,7 +44,7 @@
 ###########################################################################
 #run cmd that gets collection names    
   - name: (shell_script.yml) run 2nd command
-    shell: mongo "{{ ansible_fqdn }}":"{{ port }}"/admin -u "{{ svc_ansible_automation }}" -p "{{ svc_ansible_automation_password }}" --authenticationDatabase admin --eval 'db.getCollectionNames()' | sed -n 's/.*"\(.*\)".*/\1/p' | grep -v UUID #| grep '\"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
+    shell: mongo "{{ ansible_fqdn }}":"{{ port }}"/admin -u "{{ svc_ansible_automation }}" -p "{{ svc_ansible_automation_password }}" --authenticationDatabase admin --eval 'db.getCollectionNames()' | grep '\"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
     register: shell2_result
   
   - name: (shell_script.yml) show cmd output
