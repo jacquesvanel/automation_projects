@@ -11,7 +11,7 @@
  #     var: health
  #   failed_when: "'health: 0' in health.stdout"
  #   changed_when: false
-  - name: Check health and stateStr values
+  - name: Check health values
     fail:
       msg: "Health check failed"
     when: "'health: 0' in health.stdout"
