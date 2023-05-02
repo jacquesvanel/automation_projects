@@ -70,10 +70,10 @@
 #    force: yes
 - debug:
     msg: 
-      - "{{ processes.stdout }}"
-      - "{{ mongos_processes.stdout }}"
-      - "{{ shell_result.stdout }}"
-      - "{{ shell2_result.stdout }}"
+      - "{{ processes }}"
+      - "{{ mongos_processes }}"
+      - "{{ shell_result }}"
+      - "{{ shell2_result }}"
 - name: (processes.yml) Copy the output of the process check into /etc/mongo
   copy:
     content: |-
