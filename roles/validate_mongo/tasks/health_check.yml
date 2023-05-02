@@ -6,7 +6,8 @@
     #when: not secondary.stdout == 'true'
  
   - debug:
-      msg: "{{ health.stdout.splitlines() | join(' ') | replace('\t', '') | regex_replace(',', '\n') }}"
+      msg: "{{ health.stdout.split('\n') }}"
+      #msg: "{{ health.stdout.splitlines() | join(' ') | replace('\t', '') | regex_replace(',', '\n') }}"
  
  # - debug:
  #     var: health
