@@ -54,6 +54,8 @@
 - name: check if server is primary or secondary
   shell: mongo "{{ ansible_fqdn }}":"{{ port }}"/admin  --eval 'rs.isMaster().secondary' | grep 'true\|false'
   register: secondary
+  ignore_errors: yes
 
 - debug:
     msg: "{{ secondary.stdout }}"
+  ignore_errors: yes

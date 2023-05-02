@@ -15,4 +15,4 @@
     fail:
       msg: "Health check failed"
     when: "'health: 0' in health.stdout"
-  when: secondary.stdout == 'false'
+  #when: secondary.stdout == 'false'
