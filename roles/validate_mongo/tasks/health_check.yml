@@ -6,7 +6,7 @@
     #when: not secondary.stdout == 'true'
  
   - debug:
-      var: health.stdout.split('\n')|replace('\t', '') 
+      var: health.stdout | split('\n') | replace('\t', '') 
  # - debug:
  #     var: health
  #   failed_when: "'health: 0' in health.stdout"
