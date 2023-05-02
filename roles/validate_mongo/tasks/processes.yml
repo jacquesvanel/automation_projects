@@ -14,10 +14,10 @@
   - name: Run shell to check the mongo services present
     shell:
       cmd: ps -ef | grep mongo | grep -v grep | awk -F " " '{print $10}'
-    register: processes
+    register: processes2
   
   - debug:
-      var: processes.stdout
+      var: processes2.stdout
   when: service_status.status.ActiveState == 'inactive'
   
     
@@ -70,15 +70,19 @@
 #    force: yes
 - debug:
     msg: 
-      - "{{ processes }}"
-      - "{{ mongos_processes }}"
-      - "{{ shell_result }}"
-      - "{{ shell2_result }}"
+      - "{{ processes.stdout }}"
+      - "{{ mongos_processes.stdout }}"
+      - "{{ shell_result.stdout }}"
+      - "{{ shell2_result.stdout }}"
 - name: (processes.yml) Copy the output of the process check into /etc/mongo
   copy:
     content: |-
       EXISTING PROCESSES ON "{{ ansible_hostname }}" SERVER ARE
+      {% if service_status.status.ActiveState == 'active'%}
       "{{ processes.stdout }}"
+      {% elif service_status.status.ActiveState == 'inactive' %}
+      "{{ processes2.stdout }}"
+      {% endif %}
       {% if 'configsvr' in cluster_role %}
       "{{ mongos_processes.stdout }}"
       {% endif %}
@@ -89,7 +93,7 @@
       "{{ shell2_result.stdout }}"
       {% endif %}
     dest: "{% if not file.stat.exists %}/etc/mongo/pre_mongodb_validate_{{ ansible_date_time.date }}.txt{% elif file.stat.exists %}/etc/mongo/post_mongodb_validate_{{ ansible_date_time.date }}.txt{% endif %}"
-  when: service_status.status.ActiveState == 'active'
+  #when: service_status.status.ActiveState == 'active'
 
 - name: (processes.yml) check if pre validate file exists
   stat:
