@@ -1,7 +1,6 @@
 ---
-###### run shell command depending on the output thats in cluster_role #######
 - block:
-  - name: Run shell to check the mongo services present
+  - name: Run shell cmd to check the mongo services present
     shell:
       cmd: ps -ef | grep mongod.conf | grep -v grep | awk -F " " '{print $10}'
     register: processes
@@ -11,7 +10,7 @@
   when: service_status.status.ActiveState == 'active'
 
 - block:
-  - name: Run shell to check the mongo services present
+  - name: Run shell cmd to check the mongo services present
     shell:
       cmd: ps -ef | grep mongo | grep -v grep | awk -F " " '{print $10}'
     register: processes2
@@ -20,63 +19,55 @@
       var: processes2.stdout
   when: service_status.status.ActiveState == 'inactive'
   
-    
-####### show output from that command #####
 - block:
-  - name: Run shell to check the mongos services present
+  - name: Run shell cmd to check the mongos services present
     shell:
       cmd:  ps -ef | grep mongos | grep -v grep | awk -F " " '{print $10}'
     register: mongos_processes
 
-####### show output from that command #####
   - debug:
       var: mongos_processes.stdout_lines
   when: "'configsvr' in cluster_role and service_status.status.ActiveState == 'active'"
 
 - block:
-  - name: (shell_script.yml) run shell command
+  - name: run shell cmd to get database names
     shell: mongo "{{ ansible_fqdn }}":"{{ port }}"/admin -u "{{ svc_ansible_automation }}" -p "{{ svc_ansible_automation_password }}" --authenticationDatabase admin --eval 'db.getMongo().getDBNames()' | sed -e '1,4d'| tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
     register: shell_result
   
-  - name: (shell_script.yml) show cmd output
+  - name:  show cmd output
     debug:
       var: shell_result.stdout
 ###########################################################################
 #run cmd that gets collection names    
-  - name: (shell_script.yml) run 2nd command
+  - name:  run shell cmd to get collection names
     shell: mongo "{{ ansible_fqdn }}":"{{ port }}"/admin -u "{{ svc_ansible_automation }}" -p "{{ svc_ansible_automation_password }}" --authenticationDatabase admin --eval 'db.getCollectionNames()' | grep '\"'| sed '/UUID/d' | tr ' ' '\n' | sed 's/\[//g' | sed 's/\]//g' | sed 's/\,//g'| sed '/^[[:space:]]*$/d'
     register: shell2_result
   
-  - name: (shell_script.yml) show cmd output
+  - name:  show cmd output
     debug:
       var: shell2_result.stdout
   when: secondary.stdout == 'false'
 
-- name: (processes.yml) check if pre validate file exists
+- name:  check if pre validate file exists
   stat:
     path: /etc/mongo/pre_mongodb_validate_{{ ansible_date_time.date }}.txt
   register: file
 
-- name: (processes.yml) check if post validate file exists
+- name:  check if post validate file exists
   stat:
     path: /etc/mongo/post_mongodb_validate_{{ ansible_date_time.date }}.txt
   register: file2
 ###########################################################################
-#copy output to file and display in ansible output 
-#- name: (processes.yml) Copy the output of the process check into /etc/mongo
-#  template:
-#    src:  mongodb_validate.txt.j2
-#    dest: "{% if not file.stat.exists %}/etc/mongo/pre_mongodb_validate_{{ ansible_date_time.date }}.txt{% elif file.stat.exists %}/etc/mongo/post_mongodb_validate_{{ ansible_date_time.date }}.txt{% endif %}"
-#    force: yes
-- debug:
-    var: processes.stdout
-- debug:
-    var: mongos_processes.stdout
-- debug:
-    var: shell_result.stdout
-- debug:
-    var: shell2_result.stdout
-- name: (processes.yml) Copy the output of the process check into /etc/mongo
+#- debug:
+#    var: processes.stdout
+#- debug:
+#    var: mongos_processes.stdout
+#- debug:
+#    var: shell_result.stdout
+#- debug:
+#    var: shell2_result.stdout
+
+- name:  Copy the output of the process check into /etc/mongo validate file
   copy:
     content: |-
       EXISTING PROCESSES ON "{{ ansible_hostname }}" SERVER ARE
@@ -97,27 +88,27 @@
     dest: "{% if not file.stat.exists %}/etc/mongo/pre_mongodb_validate_{{ ansible_date_time.date }}.txt{% elif file.stat.exists %}/etc/mongo/post_mongodb_validate_{{ ansible_date_time.date }}.txt{% endif %}"
   #when: service_status.status.ActiveState == 'active'
 
-- name: (processes.yml) check if pre validate file exists
+- name:  check if pre validate file exists
   stat:
     path: /etc/mongo/pre_mongodb_validate_{{ ansible_date_time.date }}.txt
   register: file
 
-- name: (processes.yml) check if post validate file exists
+- name:  check if post validate file exists
   stat:
     path: /etc/mongo/post_mongodb_validate_{{ ansible_date_time.date }}.txt
   register: file2
 
 - block:
-  - name: (processes.yml) Generate diff
+  - name:  Generate diff
     shell: diff  /etc/mongo/pre_mongodb_validate_{{ ansible_date_time.date }}.txt  /etc/mongo/post_mongodb_validate_{{ ansible_date_time.date }}.txt
     register: diff_result
     ignore_errors: yes
 
-  - name: (processes.yml) Show diff result
+  - name:  Show diff result
     debug:
       msg: "{{ diff_result.stdout_lines }}"
 
-  - name: (processes.yml) fail module
+  - name:  fail module
     fail:
       msg: |-
            "Mongodb files are different from eachother"
@@ -126,7 +117,7 @@
   when: file.stat.exists and file2.stat.exists
 
 # delete old files older than 90 days
-- name: (processes.yml) find files older the 90 days old
+- name:  find files older the 90 days old
   find:
     paths: "/etc/mongo/"
     patterns: "*mongodb_validate*"
@@ -134,7 +125,7 @@
     recurse: yes
   register: validate
 
-- name: (processes.yml) remove files more then 90days old
+- name:  remove files more then 90days old
   file: 
     path: "{{ item.path }}"
     state: absent
