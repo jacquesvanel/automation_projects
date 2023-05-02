@@ -22,8 +22,6 @@
   
     
 ####### show output from that command #####
-
-
 - block:
   - name: Run shell to check the mongos services present
     shell:
@@ -65,12 +63,32 @@
   register: file2
 ###########################################################################
 #copy output to file and display in ansible output 
+#- name: (processes.yml) Copy the output of the process check into /etc/mongo
+#  template:
+#    src:  mongodb_validate.txt.j2
+#    dest: "{% if not file.stat.exists %}/etc/mongo/pre_mongodb_validate_{{ ansible_date_time.date }}.txt{% elif file.stat.exists %}/etc/mongo/post_mongodb_validate_{{ ansible_date_time.date }}.txt{% endif %}"
+#    force: yes
 - name: (processes.yml) Copy the output of the process check into /etc/mongo
-  template:
-    src:  mongodb_validate.txt.j2
+  copy:
+    content: |-
+            EXISTING PROCESSES ON {{ ansible_hostname }} SERVER ARE
+            {{ processes.stdout }}
+            {% if 'configsvr' in cluster_role %}
+            {{ mongos_processes.stdout_lines }}
+            {% endif %}
+            {% if secondary.stdout == 'false'%}
+            EXISTING DATABASES ON {{ ansible_hostname }} SERVER ARE
+            {{ shell_result.stdout }}
+            COLLECTIONS EXIST ON {{ ansible_hostname }} DATABASE ARE
+            {{ shell2_result.stdout }}
+            {% endif %}
+            EXISTING PROCESSES ON {{ ansible_hostname }} SERVER ARE
+            {{ processes.stdout_lines }}
+            {% if 'configsvr' in cluster_role %}
+            {{ mongos_processes.stdout_lines }}
+            {% endif %}
     dest: "{% if not file.stat.exists %}/etc/mongo/pre_mongodb_validate_{{ ansible_date_time.date }}.txt{% elif file.stat.exists %}/etc/mongo/post_mongodb_validate_{{ ansible_date_time.date }}.txt{% endif %}"
-    force: yes
-
+  #when: not file.stat.exists
 - name: (processes.yml) check if pre validate file exists
   stat:
     path: /etc/mongo/pre_mongodb_validate_{{ ansible_date_time.date }}.txt
