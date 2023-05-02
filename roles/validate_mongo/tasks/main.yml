@@ -1,21 +1,21 @@
 ---
 - name: set facts for env var
-  import_tasks: set_fact.yml
+  include_tasks: set_fact.yml
   tags:
     - always
 
 - name: check status of mms agent
-  import_tasks: agent_state.yml
+  include_tasks: agent_state.yml
   tags:
     - agent
 
 - name: check status of server
-  import_tasks: server_state.yml
+  include_tasks: server_state.yml
   tags:
     - server_state
 
 - name: check status of server
-  import_tasks: health_check.yml
+  include_tasks: health_check.yml
   tags:
     - health
 
