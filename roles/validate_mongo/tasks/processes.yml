@@ -70,8 +70,8 @@
 #    force: yes
 - debug:
     msg: 
-      - "{{ process.stdout }}"
-      - "{{ mongos_processes.stdout_lines }}"
+      - "{{ processes.stdout }}"
+      - "{{ mongos_processes.stdout }}"
       - "{{ shell_result.stdout }}"
       - "{{ shell2_result.stdout }}"
 - name: (processes.yml) Copy the output of the process check into /etc/mongo
@@ -80,7 +80,7 @@
       EXISTING PROCESSES ON "{{ ansible_hostname }}" SERVER ARE
       "{{ processes.stdout }}"
       {% if 'configsvr' in cluster_role %}
-      "{{ mongos_processes.stdout_lines }}"
+      "{{ mongos_processes.stdout }}"
       {% endif %}
       {% if secondary.stdout == 'false'%}
       EXISTING DATABASES ON "{{ ansible_hostname }}" SERVER ARE
