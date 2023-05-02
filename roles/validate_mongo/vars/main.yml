@@ -1,12 +1,9 @@
 ---
 # vars file for validate_mongo
-{% if 'sbx' in env  %}
-  svc_ansible_automation: amkanda #svc_ansible_automation
-  svc_ansible_automation_password: "Qwerty#12345px"
-{% else %}
-  svc_ansible_automation: superUserAdmin #amkanda #svc_ansible_automation
-  svc_ansible_automation_password: "Asdfgh#12345" #"Qwerty#12345px"
-{% endif %}
+#svc_ansible_automation: amkanda #svc_ansible_automation
+#svc_ansible_automation_password: "Qwerty#12345px"
+svc_ansible_automation: superUserAdmin #amkanda #svc_ansible_automation
+svc_ansible_automation_password: "Asdfgh#12345" #"Qwerty#12345px"
 
 disk_total: "{{ (item.size_total / 1000000000)| round(1, 'common') }}"
 disk_available: "{{ (item.size_available / 1000000000) | round(1, 'common') }}"
