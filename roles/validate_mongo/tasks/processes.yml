@@ -68,14 +68,14 @@
 #    src:  mongodb_validate.txt.j2
 #    dest: "{% if not file.stat.exists %}/etc/mongo/pre_mongodb_validate_{{ ansible_date_time.date }}.txt{% elif file.stat.exists %}/etc/mongo/post_mongodb_validate_{{ ansible_date_time.date }}.txt{% endif %}"
 #    force: yes
-#- debug:
-#    var: processes.stdout
-#- debug:
-#    var: mongos_processes.stdout
-#- debug:
-#    var: shell_result.stdout
-#- debug:
-#    var: shell2_result.stdout
+- debug:
+    var: processes.stdout
+- debug:
+    var: mongos_processes.stdout
+- debug:
+    var: shell_result.stdout
+- debug:
+    var: shell2_result.stdout
 - name: (processes.yml) Copy the output of the process check into /etc/mongo
   copy:
     content: |-
