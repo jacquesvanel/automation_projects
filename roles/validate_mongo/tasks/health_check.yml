@@ -6,13 +6,16 @@
     #when: not secondary.stdout == 'true'
   - debug:
       var: health
-      
+
   - debug:
       msg: "{{ health.stdout.split('\n') }}"
-
-  - name: Check health and stateStr values
-    fail:
-      msg: "Health check failed"
-    when: item.health == 0
-    with_items: "{{ health | list }}"
+  - debug:
+      var: health
+    failed_when: "'health: 0' in health.stdout"
+    changed_when: false
+  #- name: Check health and stateStr values
+  #  fail:
+  #    msg: "Health check failed"
+  #  when: item.health == 0
+  #  with_items: "{{ health | list }}"
   when: secondary.stdout == 'false'
