@@ -4,18 +4,15 @@
     shell: "mongosh {{ ansible_fqdn }}:{{ port }}/admin -u {{ svc_ansible_automation }} -p {{ svc_ansible_automation_password }} --eval 'db.adminCommand( { replSetGetStatus: 1 } ).members' | less | grep 'stateStr:\\|health:\\|name:'"
     register: health
     #when: not secondary.stdout == 'true'
-  - debug:
-      var: health
-
+ 
   - debug:
       msg: "{{ health.stdout.split('\n') }}"
-  - debug:
-      var: health
-    failed_when: "'health: 0' in health.stdout"
-    changed_when: false
-  #- name: Check health and stateStr values
-  #  fail:
-  #    msg: "Health check failed"
-  #  when: item.health == 0
-  #  with_items: "{{ health | list }}"
+ # - debug:
+ #     var: health
+ #   failed_when: "'health: 0' in health.stdout"
+ #   changed_when: false
+  - name: Check health and stateStr values
+    fail:
+      msg: "Health check failed"
+    when: "'health: 0' in health.stdout"
   when: secondary.stdout == 'false'
