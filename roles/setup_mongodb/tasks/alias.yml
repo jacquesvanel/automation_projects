@@ -8,7 +8,7 @@
   lineinfile:
     path: /root/.bashrc
     line: 'alias md="sudo -u mongod -s"'
-    insertafter: '\nalias*'
+    insertafter: '^alias\s+\w+=.*$'
   when: "'alias md' not in grep_result.stdout"
 
 - name: Reload .bashrc file
