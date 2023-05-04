@@ -7,8 +7,8 @@
 - name: Add md alias to .bashrc
   lineinfile:
     path: /root/.bashrc
-    line: 'alias md="sudo -u mongod -s"'
-    insertbefore: '# Source global definitions\n'
+    line: 'alias md="sudo -u mongod -s"\n'
+    insertafter: '\nalias.*'
   when: "'alias md' not in grep_result.stdout"
 
 - name: Reload .bashrc file
