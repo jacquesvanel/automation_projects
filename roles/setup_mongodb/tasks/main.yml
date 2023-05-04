@@ -13,6 +13,10 @@
     - test
     - never
 
+- name: add alias
+  import_tasks: alias.yml
+  tags: alias
+
 ##########start of config##################################################
 - name: add mongo service file
   import_tasks: mongo_service.yml
