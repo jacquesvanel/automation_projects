@@ -98,6 +98,6 @@
 
 - name: add conf-mms.properties
   template:
-    src: conf-mms.properties.js
+    src: conf-mms.properties.js.j2
     dest: /opt/mongodb/mms/conf/conf-mms.properties
     force: yes
