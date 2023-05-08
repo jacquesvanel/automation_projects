@@ -46,7 +46,7 @@
     state: absent
   loop: "{{ validate.files }}"
   loop_control:
-    label: 'validate'
+    label: "{{ item.path }}"
 
     #- name: remove files
     #  file:
