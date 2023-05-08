@@ -1,18 +1,23 @@
 ---
-- name: layout templates
-  template:
-    src:  logrotate.conf.j2
-    dest: "/etc/logrotate.d/mongo"
-    owner: root
-    group: root
-    mode: '0640'
-    force: yes
+#- name: layout templates
+#  template:
+#    src:  logrotate.conf.j2
+#    dest: "/etc/logrotate.d/mongo"
+#    owner: root
+#    group: root
+#    mode: '0640'
+#    force: yes
+- name: remove files
+  file:
+    path: "/etc/logrotate.d/mongo" 
+    state: absent
 
 - name: add cronjob for logrotate
   cron:
     name: "logrotate for mongodb logs"
     minute: "23"
     job: "/usr/sbin/logrotate /etc/logrotate.d/mongo"
+    state: absent
 
     #- name: add cronjob for diagnostic.data
     #  cron:
