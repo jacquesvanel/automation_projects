@@ -30,8 +30,23 @@
     #  shell: "find /var/log/mongodb/*/*.diagnostic.data/  -type f -mtime +5 -delete"
     #  ignore_errors: yes
 
-    #- name: delete old log files
-    #  shell: "find /var/log/mongodb/*/*.log*  -type f -mtime +5 -delete"
+#- name: delete old log files
+#  shell: "find /var/log/mongodb/*/*.log*  -type f -mtime +5 -delete"
+- name:  find files older the 10 days old
+  find:
+    paths: "/var/log/mongodb/"
+    patterns: "*/*.log*"
+    age: 10d
+    recurse: yes
+  register: validate
+
+- name:  remove files more then 90days old
+  file: 
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ validate.files }}"
+  loop_control:
+    label: 'validate'
 
     #- name: remove files
     #  file:
