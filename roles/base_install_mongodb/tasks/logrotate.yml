@@ -40,6 +40,9 @@
     recurse: yes
   register: validate
 
+- debug:
+    msg: "{{ validate.files | map(attribute='path') | list }}"
+
 - name:  remove files more then 90days old
   file: 
     path: "{{ item.path }}"
