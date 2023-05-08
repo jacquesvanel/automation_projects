@@ -21,25 +21,25 @@
   shell: openssl x509 -enddate -noout -in  '/var/lib/mongodb/cert/CA_Root_Inter.pem'
   register: shell3
 
-- name: Get certificate expiration date
-  openssl_certificate:
-    path: "{{ item }}"
-    provider: assertonly
-    #provider: selfsigned 
-    #has_expired: no
-  register: cert_info
-  with_items: 
-    - '/var/lib/mongodb/cert/KeyWCert.pem'
-    - '/etc/openldap/certs/iep_root_intermediate.pem'
-    - '/var/lib/mongodb/cert/CA_Root_Inter.pem'
-
-- name: Print certificate expiration date
-  debug:
-    msg: "Certificate expires on {{ cert_info.not_after }}"
-  with_items: "{{ cert_info | list }}"
+#- name: Get certificate expiration date
+#  openssl_certificate:
+#    path: "{{ item }}"
+#    provider: assertonly
+#    #provider: selfsigned 
+#    #has_expired: no
+#  register: cert_info
+#  with_items: 
+#    - '/var/lib/mongodb/cert/KeyWCert.pem'
+#    - '/etc/openldap/certs/iep_root_intermediate.pem'
+#    - '/var/lib/mongodb/cert/CA_Root_Inter.pem'
+#
+#- name: Print certificate expiration date
+#  debug:
+#    msg: "Certificate expires on {{ cert_info.not_after }}"
+#  with_items: "{{ cert_info | list }}"
 
 - debug:
     msg: 
-      - "{{ shell1.stdout }}"
-      - "{{ shell2.stdout }}"
-      - "{{ shell3.stdout }}"
+      - "KeyWCert.pem expires on {{ shell1.stdout }}"
+      - "iep_root_intermediate.pem expires on {{ shell2.stdout }}"
+      - "CA_Root_Inter.pem expires on {{ shell3.stdout }}"
