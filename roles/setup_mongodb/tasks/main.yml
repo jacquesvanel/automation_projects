@@ -8,9 +8,16 @@
 
 - name: test task
   import_tasks: api_test.yml
-  delegate_to: 'localhost'
+  #delegate_to: 'localhost'
   tags:
     - test
+    - never
+
+- name: test ssl task
+  import_tasks: ssl_testing.yml
+  #delegate_to: 'localhost'
+  tags:
+    - ssl
     - never
 
 - name: add alias
