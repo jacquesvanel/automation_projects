@@ -70,20 +70,20 @@
 - name:  Copy the output of the process check into /etc/mongo validate file
   copy:
     content: |-
-      EXISTING PROCESSES ON "{{ ansible_hostname }}" SERVER ARE
+      EXISTING PROCESSES ON {{ ansible_hostname }} SERVER ARE
       {% if service_status.status.ActiveState == 'active'%}
-      "{{ processes.stdout }}"
+      {{ processes.stdout }}
       {% elif service_status.status.ActiveState == 'inactive' %}
-      "{{ processes2.stdout }}"
+      {{ processes2.stdout }}
       {% endif %}
       {% if 'configsvr' in cluster_role %}
-      "{{ mongos_processes.stdout }}"
+      {{ mongos_processes.stdout }}
       {% endif %}
       {% if secondary.stdout == 'false'%}
-      EXISTING DATABASES ON "{{ ansible_hostname }}" SERVER ARE
-      "{{ shell_result.stdout }}
-      COLLECTIONS EXIST ON "{{ ansible_hostname }}" DATABASE ARE
-      "{{ shell2_result.stdout }}"
+      EXISTING DATABASES ON {{ ansible_hostname }} SERVER ARE
+      {{ shell_result.stdout }}
+      COLLECTIONS EXIST ON {{ ansible_hostname }} DATABASE ARE
+      {{ shell2_result.stdout }}
       {% endif %}
     dest: "{% if not file.stat.exists %}/etc/mongo/pre_mongodb_validate_{{ ansible_date_time.date }}.txt{% elif file.stat.exists %}/etc/mongo/post_mongodb_validate_{{ ansible_date_time.date }}.txt{% endif %}"
   #when: service_status.status.ActiveState == 'active'
