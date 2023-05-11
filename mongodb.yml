@@ -36,15 +36,5 @@
         mms_agent, alias, ssl, \
         test]
 
-      #    - name: setup shard servers
-      #      include_role:
-      #        name: shard_servers
-      #      when: "ansible_hostname in [shard1a, shard1b, shard1c, shard2a, shard2b, shard2c, shard3a, shard3b, shard3c]"
-      #      tags: [ mongo_service, no_sec_servers, setup_users, create_role, ldap_interval, servers, initiate_clusters, keepalive, add_shards, mms_agent, test ]
 
-      #    - name: setup single repset servers
-      #      include_role:
-      #        name: single_repset_servers
-      #      when: "ansible_hostname in [rs_1, rs_2, rs_3]"
-      #      tags: [ mongo_service, no_sec_servers, setup_users, create_role, ldap_interval, servers, initiate_clusters, keepalive, mms_agent, test ]
 

@@ -13,39 +13,12 @@ dbtools:
   - mongodb-enterprise-database-tools-extra
   - mongodb-enterprise-tools
   - mongodb-database-tools
-version: -5.0.13-1.el8
-mongomms:
-  - https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz
-  - https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz.sig
-  - https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/opsmanager-5.0.asc
 
+version: -5.0.13-1.el8
 owner: mongod
 group: opr-db-admin
-
-# placing keyfile cert #
-keyfile_dest: '/data/{{ env }}/keyfile.pem' 
-        # placing keywcert cert #
-keycert_dest: '/var/lib/mongodb/cert/KeyWCert.pem' 
-        # placing ieproot cert #
-ieproot_dest: '/etc/openldap/certs/iep_root_intermediate.pem' 
-        # placing ldap.conf #
-ldap_dest: '/etc/openldap/ldap.conf' 
-        # placing CA cert #
-cacert_dest: '/var/lib/mongodb/cert/CA_Root_Inter.pem' 
-
-
-
-#prod_query_user: "svc_mdbprd_ldap@opr.afsiep.net"
-#prod_query_password: "MI!iseji7ubope"
-
-#nonprod_query_user: "svc_mdbnprd_ldap@opr.afsiep.net"
-#nonprod_query_password: "36W=qR*AeoI0:h"
-
-
 keyfile: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/keys/keyfile.pem
 keycert: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/KeyWCert.pem
-#OLD#https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/keys/KeyWCert.pem
-#tls_password: 22w#SBR5nfvZOt23
 ldap: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/ldap.conf
 ieproot: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/iep_root_intermediate.pem 
 cacert: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/CA_Root_Inter.pem

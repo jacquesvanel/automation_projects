@@ -1,7 +1,18 @@
 Role Name
+base_install_mongodb
 =========
+This is an Ansible role for installing needed content for a base install of mongodb.
 
-A brief description of the role goes here.
+Tasks included in this role
+  add_certs.yml: Adds SSL certificates on the target server
+  hugepages.yml: Configures hugepages on the target server
+  install_base.yml: Installs base packages and dependencies on the target server
+  install_dbtools.yml: Installs database tools on the target server
+  install_mms_agent.yml: Installs the MongoDB monitoring agent on the target server
+  logrotate.yml: Configures logrotate on the target server
+  make_file.yml: Creates all needed directories on the target server
+  set_fact.yml: Sets a fact on the target server
+  uninstall.yml: Uninstalls all packages and dependencies from the target server
 
 Requirements
 ------------
@@ -10,8 +21,16 @@ Any pre-requisites that may not be covered by Ansible itself or the role should 
 
 Role Variables
 --------------
+base_packages: base mongodb packages
+dbtools: dbtool packages 
+owner: mongod
+group: opr-db-admin
+keyfile: url location for keyfile.pem
+keycert: url location for KeyWCert.pem
+ldap: url location for ldap.conf
+ieproot: url location for iep_root_intermediate.pem 
+cacert: url location for CA_Root_Inter.pem
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
 Dependencies
 ------------
@@ -20,12 +39,52 @@ A list of other roles hosted on Galaxy should go here, plus any details in regar
 
 Example Playbook
 ----------------
+---
+# tasks file for base_install_mongodb
+- name: set facts
+  include_tasks: set_fact.yml
+  when: env is not defined
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+- name: uninstall
+  import_tasks: uninstall.yml
+  tags:
+    - uninstall
+    - never
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+- name: install base mongodb
+  import_tasks: install_base.yml
+  tags:
+    - base
+
+- name: install mongodb tools
+  import_tasks: install_dbtools.yml
+  tags:
+    - dbtools
+
+- name: make directories
+  import_tasks: make_file.yml
+  tags:
+    - make_file
+
+- name: add certs
+  import_tasks: add_certs.yml
+  tags:
+    - add_certs
+
+- name: add logrotate file
+  import_tasks: logrotate.yml
+  tags:
+    - logrotate
+
+- name: add hugepages fix
+  import_tasks: hugepages.yml
+  tags:
+    - hugepages
+
+- name: install mongodb_mms_agent
+  import_tasks: install_mms_agent.yml
+  tags:
+    - mms_agent
 
 License
 -------
