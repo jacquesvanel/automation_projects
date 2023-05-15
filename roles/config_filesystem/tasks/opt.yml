@@ -20,3 +20,13 @@
   when: opt_size|int <= 9.00
   ignore_errors: yes
 
+- name: Extend / logical volume
+  lvol:
+    vg: "{{ vgs_name }}"
+    lv: root 
+    size: 5G
+    resizefs: true 
+  #when: item.value.size_g|int <= 4.00
+  #with_dict: "{{ ansible_lvm.lvs }}"
+  #when: item.key == "opt"
+  ignore_errors: yes

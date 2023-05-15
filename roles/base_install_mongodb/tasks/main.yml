@@ -41,6 +41,7 @@
   tags:
     - reinstall
     - logrotate
+    - never
 
 - name: add hugepages fix
   import_tasks: hugepages.yml
