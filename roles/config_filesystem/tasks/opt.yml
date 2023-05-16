@@ -8,8 +8,16 @@
   with_dict: "{{ ansible_lvm.lvs }}"
   when: item.key == "opt"
 
+- set_fact:
+    root_size: "{{ item.value.size_g }}"
+  with_dict: "{{ ansible_lvm.lvs }}"
+  when: item.key == "root"
+
 - debug:
     var: opt_size
+
+- debug:
+    var: root_size
 
 - name: Extend Opt logical volume
   lvol:
@@ -20,13 +28,11 @@
   when: opt_size|int <= 9.00
   ignore_errors: yes
 
-- name: Extend / logical volume
+- name: Extend root logical volume
   lvol:
     vg: "{{ vgs_name }}"
     lv: root 
     size: 5G
     resizefs: true 
-  #when: item.value.size_g|int <= 4.00
-  #with_dict: "{{ ansible_lvm.lvs }}"
-  #when: item.key == "opt"
+  when: root_size|int <= 4.00
   ignore_errors: yes
