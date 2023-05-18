@@ -114,7 +114,7 @@
   tags:
     - initiate_clusters
 
-- name: add keep alive line to sysctl.conf
+- name: add lines to /etc/sysctl.conf
   import_tasks: add_line_to_sys.yml
   tags:
     - keepalive

@@ -1,6 +1,16 @@
 ---
-- name: line insert
-  lineinfile:
-    path: /etc/sysctl.conf
-    line: 'net.ipv4.tcp_keepalive_time = 120'
+#- name: line insert
+#  lineinfile:
+#    path: /etc/sysctl.conf
+#    line: 'net.ipv4.tcp_keepalive_time = 120'
+
+- name: Add lines to sysctl.conf
+  blockinfile:
+    dest: /etc/sysctl.conf
+    block: |
+      net.ipv4.tcp_keepalive_time = 120
+      # setting for Mongodb 6.0
+      vm.max_map_count=102400
+      vm.swapiness = 1
+    marker: ""
     
