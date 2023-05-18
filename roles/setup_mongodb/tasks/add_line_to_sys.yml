@@ -24,20 +24,29 @@
     state: absent
     regexp: '^net\.ipv4.tcp_keepalive_time ='
 
-- name: Remove net.ipv4.tcp_keepalive_time line if exists
+- name: Remove \# setting for Mongodb 6.0 line if exists
   lineinfile:
     dest: /etc/sysctl.conf
     line: '# setting for Mongodb 6.0'
     state: absent
     regexp: '^# setting for Mongodb 6.0'
 
+- name: Remove \# Mongodb Settings line if exists
+  lineinfile:
+    dest: /etc/sysctl.conf
+    line: '# Mongodb Settings'
+    state: absent
+    regexp: '^# Mongodb Settings'
+
 - name: Add lines to sysctl.conf
   blockinfile:
     dest: /etc/sysctl.conf
     block: |
+      # Mongodb Settings
       net.ipv4.tcp_keepalive_time = 120
       # setting for Mongodb 6.0
       vm.max_map_count=102400
       vm.swapiness = 1
     marker: ""
+    insertafter: '^.*$'
     
