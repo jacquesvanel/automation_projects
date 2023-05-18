@@ -50,5 +50,5 @@
     marker: ""
 
 - name: reset sysctl
-  shell: sysctl –p
+  command: sysctl –p
     
