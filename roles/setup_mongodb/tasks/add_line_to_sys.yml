@@ -44,9 +44,9 @@
     block: |
       # Mongodb Settings
       net.ipv4.tcp_keepalive_time = 120
-      # setting for Mongodb 6.0
       vm.max_map_count=102400
       vm.swapiness = 1
+    #insertafter: '^.*$'
     marker: ""
-    insertafter: '^.*$'
+    
     
