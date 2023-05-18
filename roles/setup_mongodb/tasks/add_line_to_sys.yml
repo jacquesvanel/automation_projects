@@ -3,6 +3,26 @@
 #  lineinfile:
 #    path: /etc/sysctl.conf
 #    line: 'net.ipv4.tcp_keepalive_time = 120'
+- name: Remove vm.max_map_count line if exists
+  lineinfile:
+    dest: /etc/sysctl.conf
+    line: 'vm.max_map_count='
+    state: absent
+    regexp: '^vm\.max_map_count='
+
+- name: Remove vm.swapiness line if exists
+  lineinfile:
+    dest: /etc/sysctl.conf
+    line: 'vm.swapiness ='
+    state: absent
+    regexp: '^vm\.swapiness ='
+
+- name: Remove net.ipv4.tcp_keepalive_time line if exists
+  lineinfile:
+    dest: /etc/sysctl.conf
+    line: 'net.ipv4.tcp_keepalive_time ='
+    state: absent
+    regexp: '^vm\.max_map_count='
 
 - name: Add lines to sysctl.conf
   blockinfile:
