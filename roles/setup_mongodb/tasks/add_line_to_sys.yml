@@ -46,7 +46,7 @@
       net.ipv4.tcp_keepalive_time = 120
       vm.max_map_count=102400
       vm.swapiness = 1
-    insertafter: '^.*$'
+    insertafter: '^.*\S.*$'
     marker: ""
     
     
