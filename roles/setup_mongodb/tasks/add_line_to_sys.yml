@@ -13,9 +13,9 @@
 - name: Remove vm.swapiness line if exists
   lineinfile:
     dest: /etc/sysctl.conf
-    line: 'vm.swapiness ='
+    line: 'vm.swappiness ='
     state: absent
-    regexp: '^vm\.swapiness ='
+    regexp: '^vm\.swappiness ='
 
 - name: Remove net.ipv4.tcp_keepalive_time line if exists
   lineinfile:
@@ -45,8 +45,10 @@
       # Mongodb Settings
       net.ipv4.tcp_keepalive_time = 120
       vm.max_map_count=102400
-      vm.swapiness = 1
+      vm.swappiness = 1
     insertafter: '^.*\S.*$'
     marker: ""
-    
+
+- name: reset sysctl
+  shell: sysctl –p
     
