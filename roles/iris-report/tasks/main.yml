@@ -127,6 +127,8 @@
       - athumani.r.mkanda@accenturefederal.com
       - ganga.mani@accenturefederal.com
       - PIVOT.Database@accenturefederal.com
+      - donna.ngai@accenturefederal.com
+      - juan.c.guajardo@accenturefederal.com
     subject: IRIS PROD FORM AND TRANSMISSION DATA COUNT
     sender: athumani.r.mkanda@accenturefederal.com
     #"{{ email_address | default(tower_user_email) }}"
