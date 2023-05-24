@@ -16,7 +16,7 @@
       include_role:
         name: base_install_mongodb
       when: "base_install == 'yes'"
-      tags: [ uninstall, base, dbtools, make_file, add_certs, logrotate, hugepages, mms_agent, test]
+      tags: [ uninstall, base, dbtools, make_file, add_certs, logrotate, hugepages, install_mms_agent, test]
 
     - name: install ops manager
       include_role: 
@@ -28,13 +28,7 @@
       include_role:
         name: setup_mongodb
       tags: |
-        [ mongo_service, no_sec_config_servers, no_sec_shard_servers, \
-        no_sec_single_repset_servers, mongos, setup_users, \
-        create_role, ldap_interval, start_mongos, \
-        config_servers, shard_servers, single_repset_servers, \
-        initiate_clusters, keepalive, add_shards, \
-        mms_agent, alias, ssl, \
-        test]
+        [ mongo_service, no_sec_config_servers, no_sec_shard_servers, no_sec_single_repset_servers, mongos, setup_users, create_role, ldap_interval, start_mongos, config_servers, shard_servers, single_repset_servers, initiate_clusters, keepalive, add_shards, mms_agent, alias, ssl, test]
 
 
 
