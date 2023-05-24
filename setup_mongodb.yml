@@ -1,5 +1,0 @@
----
-- name: Configure MongoDB
-  hosts: "{{ target }}"
-  roles:
-     - role: setup_mongodb

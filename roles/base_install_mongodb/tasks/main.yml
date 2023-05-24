@@ -41,6 +41,7 @@
   tags:
     - reinstall
     - logrotate
+    - never
 
 - name: add hugepages fix
   import_tasks: hugepages.yml
@@ -52,4 +53,4 @@
   import_tasks: install_mms_agent.yml
   tags:
     - reinstall
-    - mms_agent
+    - install_mms_agent

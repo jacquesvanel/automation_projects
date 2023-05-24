@@ -100,7 +100,7 @@
 
 - block:
   - name:  Generate diff
-    shell: diff  <(sort /etc/mongo/pre_mongodb_validate_{{ ansible_date_time.date }}.txt)  <(sort /etc/mongo/post_mongodb_validate_{{ ansible_date_time.date }}.txt)
+    shell: "/bin/bash -c 'diff  <(sort /etc/mongo/pre_mongodb_validate_{{ ansible_date_time.date }}.txt)  <(sort /etc/mongo/post_mongodb_validate_{{ ansible_date_time.date }}.txt)'"
     register: diff_result
     ignore_errors: yes
 

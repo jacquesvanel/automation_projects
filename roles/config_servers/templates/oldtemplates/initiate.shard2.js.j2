@@ -1,9 +1,0 @@
-config = { _id: "sh2_{{ env }}",
-        members:[
-         { _id : 0, host : "{{ shard2a }}.opr.afsiep.net:{{ shard2a_port }}", priority: 100 },
-         { _id : 1, host : "{{ shard2b }}.opr.afsiep.net:{{ shard2b_port }}" },
-         { _id : 2, host : "{{ shard2c }}.opr.afsiep.net:{{ shard2c_port }}" }
-        ]
-};
-var output = rs.initiate(config);
-printjson(output)
