@@ -1,0 +1,10 @@
+---
+- name: Creating Backup for teh cert key
+  shell:
+    cmd: cp -R  /var/lib/mongodb/cert/KeyWCert.pem /var/lib/mongodb/cert/KeyWCert.pem_BACKUP
+
+- name: Parsing out the certificate key
+  shell:
+    cmd: less /etc/pki/ca-trust/source/anchors/opr-Server-Certificate-2023.crt | grep -Pzo '(?s)(?<=-----BEGIN CERTIFICA---END CERTIFICATE-----)'
+  register: key_output
+    

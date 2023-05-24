@@ -13,7 +13,7 @@
            - {{ ansible_hostname }}"
            "{{ processes_diff.stdout_lines }}"
   when: 
-    - processes_diff is not skipped 
+    - processes_diff.rc !=0 
     - pre_file.stat.exists 
     - post_file.stat.exists
 
