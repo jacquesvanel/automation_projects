@@ -1,7 +1,9 @@
 ---
 - name: Creating Backup for teh cert key
-  shell:
-    cmd: cp -R  /var/lib/mongodb/cert/KeyWCert.pem /var/lib/mongodb/cert/KeyWCert.pem_BACKUP
+  copy:
+    src: /var/lib/mongodb/cert/KeyWCert.pem
+    dest:  /var/lib/mongodb/cert/KeyWCert.pem_BACKUP
+    remote_src: yes
 
 - name: Parsing out the certificate key
   shell:
