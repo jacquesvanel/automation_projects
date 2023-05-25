@@ -7,6 +7,6 @@
 
 - name: Parsing out the certificate key
   shell:
-    cmd: less /etc/pki/ca-trust/source/anchors/opr-Server-Certificate-2023.crt | grep -Pzo '(?s)(?<=-----BEGIN CERTIFICA---END CERTIFICATE-----)'
+    cmd: sed -n '/-----BEGIN CERTIFICATE-----/,/-----END CERTIFICATE-----/p' /etc/pki/ca-trust/source/anchors/opr-Server-Certificate-2023.crt
   register: key_output
     
