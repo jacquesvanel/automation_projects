@@ -14,9 +14,9 @@
     cmd: sed -n '/-----BEGIN CERTIFICATE-----/,/-----END CERTIFICATE-----/p' /etc/pki/ca-trust/source/anchors/{{certificate}}
   register: key_output      
 
-    #- name: Updating the certificate key (KeyWCert.pem}}
-    # lineinfile:
-    # path: /var/lib/mongodb/cert/KeyWCert.pem_BACKUP{{ansible_date_time.date}}
-    # line: "{{ key_output.stdout_lines }}"
-    #insertafter: EOF
+- name: Updating the certificate key (KeyWCert.pem}}
+  lineinfile:
+    path: /var/lib/mongodb/cert/KeyWCert.pem_BACKUP{{ansible_date_time.date}}
+    line: "{{ key_output.stdout_lines }}"
+    insertafter: EOF
     
