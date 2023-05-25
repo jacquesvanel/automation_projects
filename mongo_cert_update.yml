@@ -1,0 +1,5 @@
+---
+- name: Updating the certificate key
+  hosts: "{{ target }}"
+  roles:
+    - role: Mongo_Cert_updates   
