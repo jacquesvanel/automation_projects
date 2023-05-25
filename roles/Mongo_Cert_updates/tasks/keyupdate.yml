@@ -2,11 +2,21 @@
 - name: Creating Backup for teh cert key
   copy:
     src: /var/lib/mongodb/cert/KeyWCert.pem
-    dest:  /var/lib/mongodb/cert/KeyWCert.pem_BACKUP
+    dest:  /var/lib/mongodb/cert/KeyWCert.pem_BACKUP{{ansible_date_time.date}}
     remote_src: yes
+
+- name: Removing the expired certificate key from the KeyWCert.pem
+  shell:
+    cmd: sed -i '/-----BEGIN CERTIFICATE-----/,/-----END CERTIFICATE-----/d' /var/lib/mongodb/cert/KeyWCert.pem_BACKUP{{ansible_date_time.date}}
 
 - name: Parsing out the certificate key
   shell:
-    cmd: sed -n '/-----BEGIN CERTIFICATE-----/,/-----END CERTIFICATE-----/p' /etc/pki/ca-trust/source/anchors/opr-Server-Certificate-2023.crt
-  register: key_output
+    cmd: sed -n '/-----BEGIN CERTIFICATE-----/,/-----END CERTIFICATE-----/p' /etc/pki/ca-trust/source/anchors/{{certificate}}
+  register: key_output      
+
+    #- name: Updating the certificate key (KeyWCert.pem}}
+    # lineinfile:
+    # path: /var/lib/mongodb/cert/KeyWCert.pem_BACKUP{{ansible_date_time.date}}
+    # line: "{{ key_output.stdout_lines }}"
+    #insertafter: EOF
     
