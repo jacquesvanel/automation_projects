@@ -1,0 +1,7 @@
+---
+- name: Creating Backup for the cert key
+  copy:
+    src: /var/lib/mongodb/cert/KeyWCert.pem
+    dest:  /var/lib/mongodb/cert/KeyWCert.pem_BACKUP{{ansible_date_time.date}}
+    remote_src: yes
+    mode: "0600"

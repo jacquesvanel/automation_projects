@@ -1,4 +1,11 @@
 ---
 # tasks file for Mongo_Cert_updates
-- name: Update the certificate key
+
+- name: Creating the cert back up file (KeyWCert.pem_BACKUP)
+  import_tasks: backup.yml
+
+- name: Downloading the Mongo cert key from its repo/Artifact
+  import_tasks: keydownload.yml
+
+- name: Update the server certificate key
   import_tasks: keyupdate.yml 

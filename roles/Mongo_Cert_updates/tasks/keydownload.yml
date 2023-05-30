@@ -1,0 +1,32 @@
+---
+- name: Check if unzip package is installed
+  shell:
+    cmd: yum list installed unzip
+  register: unzip_status
+  ignore_errors: true
+
+- name: Install unzip package
+  yum:
+    name: unzip
+    state: present
+  when: "'unzip' not in unzip_status.stdout_lines"
+
+- name: Downloading the mongo Private Key
+    get_url:
+      url: # waiting on the repo
+      dest: /var/lib/mongodb/cert/KeyWCert.zip
+
+- name: Unzipping the KeyWCert.zip (Assuming the unzip package has been installed)
+  unarchive:
+    src: /var/lib/mongodb/cert/KeyWCert.zip
+    dest: /var/lib/mongodb/cert/
+  remote_src: yes
+
+
+- name: Rename file
+  file:
+    src: /var/lib/mongodb/cert/  # Path to the after unzipping KeyWCert.zip
+    dest: /var/lib/mongodb/cert/KeyWCert.pem_BACKUP{{ansible_date_time.date}} #USING THIS 'KEYWCERT_BACKUP JUST FOR TESTING, MAKE SURE TO CHANGE IT
+    state: hard
+    force: yes
+    mode: "0600"  
