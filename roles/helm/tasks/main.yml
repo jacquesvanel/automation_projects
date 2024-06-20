@@ -1,0 +1,101 @@
+---
+# tasks file for helm
+############################# Install tasks ###########################
+- name: Installing HELM 
+  block:
+    - name: Check if software Already exist
+      shell:
+        cmd: helm version --short
+      register: software_version
+      ignore_errors: true
+
+    - name: Fail if there is a version of helm on this machine
+      fail:
+        msg: "A VERIONS OF HELM WAS FOUND IN {{ ansible_hostname }}"
+      when: software_version.rc == 0
+
+    - name: Downloading HELM zip file into the /usr/local/bin area
+      get_url:
+        url: "{{ artifactory_path_helm }}" #You will find and mofidy the value of the artificat path in the /roles/versions/defaults/main.yml
+        dest: /usr/local/bin  
+
+    #- name: Unzipping the helm.zip in the /usr/local/bin (Assuming the unzip package has been installed)
+    #  shell:
+    #     cmd: tar -xzf /usr/local/bin/helm-v3.14.1-linux-amd64.tar.gz 
+      
+    #- name: Removing the helm.zip files
+    #  shell:
+    #    cmd: rm -rf /usr/local/bin/helm-v3.14.1-linux-amd64.tar.gz
+
+    #- name: Moving the helm binary into /usr/local/bin
+    #  shell:
+    #    cmd: mv /usr/local/bin/linux-amd64/helm /usr/local/bin/     
+
+    #- name: setting the correct permissions
+    #  shell:
+    #    cmd: chmod +x /usr/local/bin/helm    
+
+
+ 
+  when: state == "install"
+
+  ############################# Uninstall tasks ###########################
+- name: Uninstalling HELM
+  block:   
+    - name: Check if HELM exist
+      shell:
+        cmd: helm version --short
+      register: software_version
+      ignore_errors: true
+
+    - name: Fail if there is no version of helm on this machine
+      fail:
+        msg: "NO VERIONS OF HELM WAS FOUND IN {{ ansible_hostname }}"
+      when: software_version.rc != 0
+
+    - name: Removing the binary file
+      file:
+        path: /usr/local/bin/helm
+        state: absent
+  when: state == "uninstall"  
+ ############################# Update tasks ###########################
+   
+- name: Updating HELM
+  block:
+    - name: Check if HELM exist
+      shell:
+        cmd: helm version --short
+      register: software_version
+      ignore_errors: true
+
+    - name: Fail if there is no version of helm on this machine
+      fail:
+        msg: "NO VERIONS OF HELM WAS FOUND IN {{ ansible_hostname }}"
+      when: software_version.rc != 0
+
+    - name: Removing the binary file for helm
+      file:
+        path: /usr/local/bin/helm
+        state: absent 
+
+    ####### Installing Helm ############
+    - name: Downloading HELM zip file into the /usr/local/bin area
+      get_url:
+        url: "{{ artifactory_path_helm }}" #You will find and mofidy the value of the artificat path in the /roles/versions/defaults/main.yml
+        dest: /usr/local/bin   
+
+    - name: Unzipping the helm.zip in the /usr/local/bin (Assuming the unzip package has been installed)
+      shell:
+         cmd: tar xzf /usr/local/bin/helm-v3.14.1-linux-amd64.tar.gz 
+
+    - name: Removing the helm.zip files
+      shell:
+        cmd: rm -rf /usr/local/bin/helm-v3.14.1-linux-amd64.tar.gz
+
+    #- name: setting the correct permissions
+    #  shell:
+    #    cmd: chmod +x /usr/local/bin/helm     
+ 
+  when: state == "update"
+
+

@@ -1,0 +1,63 @@
+---
+# tasks file for kubectl-1.27.9 
+- name: Installing Kubectl V1.27.9 
+  block:
+    - name: Downloading kubectl-1.27.9 into the /usr/local/bin area
+      get_url:
+        url: "{{ artifactory_kubectl_V1_27_9 }}" #You will find and mofidy the value of the artificat path in the /roles/versions/defaults/main.yml
+        dest: /usr/local/bin 
+
+    - name: setting the correct permissions
+      shell:
+        cmd: chmod +x /usr/local/bin/kubectl-1.27.9    
+  when: state == "install"
+
+  ### Uninstall
+
+- name: Uninstalling Kubectl_V1.27.9 
+  block:
+    - name: Check if Kubectl_V1.27.9 has been installed
+      shell:
+        cmd: kubectl version --short | awk '/Client/{print $3}'
+      register: software_version
+      ignore_errors: true
+
+    - name: Fail if Kubectl_V1.27.9 has not been installed
+      fail:
+        msg: "kubectl was not found on {{ ansible_hostname }}"
+      when: software_version.rc != 0
+      
+    - name: Removing the binary
+      shell:
+        cmd: rm -rf /usr/local/bin/kubectl*
+  when: state == "uninstall"
+     
+
+###### Update
+- name: Updating Kubectl_V1.27.9 
+  block:
+    - name: Check if Kubectl_V1.27.9 has been installed
+      shell:
+        cmd: kubectl version --short | awk '/Client/{print $3}'
+      register: software_version
+      ignore_errors: true
+
+    - name: Fail if Kubectl_V1.27.9 has not been installed
+      fail:
+        msg: "kubectl was not found on {{ ansible_hostname }}"
+      when: software_version.rc != 0
+
+    #- name: Removing the binary
+    #  shell:
+    #    cmd: rm -rf /usr/local/bin/kubectl*  
+    
+    - name: Downloading kubectl-1.27.9 into the /usr/local/bin area
+      get_url:
+        url: "{{ artifactory_kubectl_V1_27_9 }}" #You will find and mofidy the value of the artificat path in the /roles/versions/defaults/main.yml
+        dest: /usr/local/bin 
+
+    - name: setting the correct permissions
+      shell:
+        cmd: chmod +x /usr/local/bin/kubectl-1.27.9    
+      
+  when: state == "update"

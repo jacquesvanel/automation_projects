@@ -1,0 +1,113 @@
+---
+# tasks file for eksctl
+#You have to have a variable called state in your survey on Ansible platform
+#Everytime the user running the template chooses install, the value of state is install
+#And the "Installing EKSCTL" block will be executed
+
+############################# Install tasks ###########################
+- name: Installing EKSCTL
+  block:
+    - name: Check if eksctl has been installed
+      shell:
+        cmd: eksctl version
+      register: software_version
+      ignore_errors: true
+
+    - name: Fail if eksctl is already install
+      fail:
+        msg: "eksctl is already install on {{ ansible_hostname }}"
+      when: software_version.rc == 0
+
+    - name: Downloading eksctl into the /usr/bin area
+      get_url:
+        url: "{{ artifactory_eksctl }}" #You will find and mofidy the value of the artificat path in the /roles/versions/defaults/main.yml
+        dest: /usr/local/bin
+      register: eksctlzip  
+
+    - name: Unzipping the eksctl.zip in the /usr/local/bin (Assuming the unzip package has been installed)
+      unarchive:
+        src: "{{ eksctlzip.dest }}"
+        dest: /usr/local/bin
+        remote_src: true
+
+    - name: Removing the eksctl.zip files
+      shell:
+        cmd: rm -rf "{{ eksctlzip.dest }}"
+
+    - name: check the version 
+      shell:
+        cmd: eksctl version
+      register: eksctl_version
+      ignore_errors: true
+
+    - name: Displaying the current version
+      debug:
+        msg: "{{ eksctl_version.stdout }}" 
+  when: state == "install"
+
+  ############################# Uninstall tasks ###########################
+- name: Uninstalling EKSCTL
+  block:   
+    - name: Check if eksctl has been installed
+      shell:
+        cmd: eksctl version
+      register: software_version
+      ignore_errors: true
+
+    - name: Fail if eksctl has not been installed
+      fail:
+        msg: "eksctl was not found on {{ ansible_hostname }}"
+      when: software_version.rc != 0
+
+    - name: Removing the binary file
+      file:
+        path: /usr/local/bin/eksctl
+        state: absent
+  when: state == "uninstall"  
+
+############################# Update tasks ###########################
+- name: Updating EKSCTL
+  block:
+    - name: Check if eksctl has been installed
+      shell:
+        cmd: eksctl version
+      register: software_version
+      ignore_errors: true
+
+    - name: Fail if eksctl has not been installed
+      fail:
+        msg: "eksctl was not found on {{ ansible_hostname }}"
+      when: software_version.rc != 0
+
+    - name: Removing the binary file
+      file:
+        path: /usr/local/bin/eksctl
+        state: absent
+
+    - name: Downloading eksctl into the /usr/bin area
+      get_url:
+        url: "{{ artifactory_eksctl }}" #You will find and mofidy the value of the artificat path in the /roles/versions/defaults/main.yml
+        dest: /usr/local/bin
+      register: eksctlzip  
+
+    - name: Unzipping the eksctl.zip in the /usr/local/bin (Assuming the unzip package has been installed)
+      unarchive:
+        src: "{{ eksctlzip.dest }}"
+        dest: /usr/local/bin
+        remote_src: true
+
+    - name: Removing the eksctl.zip files
+      shell:
+        cmd: rm -rf "{{ eksctlzip.dest }}"
+
+    - name: check the version 
+      shell:
+        cmd: eksctl version
+      register: eksctl_version
+      ignore_errors: true
+
+    - name: Displaying the current version
+      debug:
+        msg: "{{ eksctl_version.stdout }}"  
+  when: state == "update" 
+

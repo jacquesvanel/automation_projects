@@ -1,0 +1,72 @@
+---
+# tasks file for kubectl-1.26.12
+- name: Installing Kubectl V1.26.12 
+  block:
+    - name: Downloading kubectl-1.26.12 into the /usr/local/bin area
+      get_url:
+        url: "{{ artifactory_kubectl_V1_26_12 }}" #You will find and mofidy the value of the artificat path in the /roles/versions/defaults/main.yml
+        dest: /usr/local/bin
+
+    - name: setting the correct permissions
+      shell:
+        cmd: chmod +x /usr/local/bin/kubectl-1.26.12    
+
+    - name: Creating symlink
+      shell:
+        cmd: ln -s /usr/local/bin/kubectl-1.26.12 /usr/local/bin/kubectl  
+
+  when: state == "install"
+
+  ### Uninstall
+
+- name: Uninstalling Kubectl_V1.26.12
+  block:
+    - name: Check if Kubectl_V1.26.12 has been installed
+      shell:
+        cmd: kubectl version --short | awk '/Client/{print $3}'
+      register: software_version
+      ignore_errors: true
+
+    - name: Fail if Kubectl_V1.26.12 has not been installed
+      fail:
+        msg: "kubectl was not found on {{ ansible_hostname }}"
+      when: software_version.rc != 0
+      
+    - name: Removing the binary
+      shell:
+        cmd: rm -rf /usr/local/bin/kubectl*
+  when: state == "uninstall"
+     
+
+###### Update
+- name: Updating Kubectl_V1.26.12 
+  block:
+    - name: Check if Kubectl_V1.26.12 has been installed
+      shell:
+        cmd: kubectl version --short | awk '/Client/{print $3}'
+      register: software_version
+      ignore_errors: true
+
+    - name: Fail if Kubectl_V1.26.12 has not been installed
+      fail:
+        msg: "kubectl was not found on {{ ansible_hostname }}"
+      when: software_version.rc != 0
+
+    - name: Removing the binary
+      shell:
+        cmd: rm -rf /usr/local/bin/kubectl*  
+     ##Installing
+    - name: Downloading kubectl-1.26.12 into the /usr/local/bin area
+      get_url:
+        url: "{{ artifactory_kubectl_V1_26_12 }}" #You will find and mofidy the value of the artificat path in the /roles/versions/defaults/main.yml
+        dest: /usr/local/bin
+
+    - name: setting the correct permissions
+      shell:
+        cmd: chmod +x /usr/local/bin/kubectl-1.26.12    
+
+    - name: Creating symlink
+      shell:
+        cmd: ln -s /usr/local/bin/kubectl-1.26.12 /usr/local/bin/kubectl  
+
+  when: state == "update"

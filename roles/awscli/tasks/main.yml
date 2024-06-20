@@ -1,0 +1,123 @@
+---
+# tasks file for awscli
+#You have to have a variable called state in your survey on Ansible platform
+#Everytime the user running the template chooses install, the value of state is install
+#And the "Installing AWS" block will be executed
+
+############################# Install tasks ###########################
+- name: Installing AWS 
+  block:
+    - name: Check if software Already exist
+      shell:
+        cmd: aws --version
+      register: software_version
+      ignore_errors: true
+
+    - name: Fail if there is a version of aws on this machine
+      fail:
+        msg: "A VERIONS OF AWS WAS FOUND IN {{ ansible_hostname }}"
+      when: software_version.rc == 0
+
+    - name: Downloading AWS-CLI zip file into the /usr/bin area
+      get_url:
+        url: "{{ artifactory_path_aws }}" #You will find and mofidy the value of the artificat path in the /roles/versions/defaults/main.yml
+        dest: /usr/bin/awscli.zip
+
+    - name: Unzipping the awscli.zip in the /usr/bin (Assuming the unzip package has been installed)
+      unarchive:
+        src: /usr/bin/awscli.zip
+        dest: /usr/bin
+        remote_src: true
+
+    - name: Run the aws installation
+      shell:
+        cmd: /usr/bin/aws/install
+
+    - name: Removing the aws installation files
+      shell:
+        cmd: rm -rf awscli.zip
+        chdir: /usr/bin
+  when: state == "install"
+  
+    
+############################# Uninstall tasks ###########################
+- name: Uninstalling AWS
+  block: 
+    - name: Check if software is installed
+      shell:
+        cmd: aws --version
+      register: software_version
+      ignore_errors: true
+
+    - name: Fail if there is no version of aws on this machine
+      fail:
+        msg: "NO VERIONS OF AWS WAS FOUND IN {{ ansible_hostname }}"
+      when: software_version.rc != 0
+
+    - name: Removing the symlink aws
+      file:
+        path: /usr/local/bin/aws
+        state: absent
+
+    - name: Removing the symlink aws_completer  
+      file:
+        path: /usr/local/bin/aws_completer
+        state: absent
+
+    - name: Removing the the install directory aws-cli
+      file:
+        path: /usr/local/aws-cli
+        state: absent  
+  when: state == "uninstall"
+
+ 
+############################# Update tasks ###########################
+- name: Upadating AWS
+  block: 
+    - name: Check if software is installed
+      command: aws --version
+      register: software_version
+      ignore_errors: true
+
+    - name: Fail if there is no version of aws on this machine
+      fail:
+        msg: "NO VERIONS OF AWS WAS FOUND IN {{ ansible_hostname }}"
+      when: software_version.rc != 0
+    
+    ### Uninstalling the current version
+    - name: Removing the symlink aws
+      file:
+        path: /usr/local/bin/aws
+        state: absent
+
+    - name: Removing the symlink aws_completer  
+      file:
+        path: /usr/local/bin/aws_completer
+        state: absent
+
+    - name: Removing the the install directory aws-cli
+      file:
+        path: /usr/local/aws-cli
+        state: absent
+
+    ### Installing the latest version
+    - name: Downloading AWS-CLI zip file into the /usr/bin area
+      get_url:
+        url: "{{ artifactory_path_aws }}" #You will find and mofidy the value of the artificat path in the /roles/versions/defaults/main.yml
+        dest: /usr/bin/awscli.zip
+
+    - name: Unzipping the awscli.zip in the /usr/bin (Assuming the unzip package has been installed)
+      unarchive:
+        src: /usr/bin/awscli.zip
+        dest: /usr/bin
+        remote_src: true
+
+    - name: Run the aws installation
+      shell:
+        cmd: /usr/bin/aws/install
+
+    - name: Removing the aws installation files
+      shell:
+        cmd: rm -rf awscli.zip
+        chdir: /usr/bin
+  when: state == "update"

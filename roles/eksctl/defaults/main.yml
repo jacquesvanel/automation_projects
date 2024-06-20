@@ -1,0 +1,3 @@
+---
+# defaults file for eksctl
+artifactory_eksctl: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/CloudJump/eksctl/current/eksctl_Linux_amd64V0.173.0.tar.gz

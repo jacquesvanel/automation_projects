@@ -1,0 +1,86 @@
+---
+# tasks file for istio-1.19.3
+- name: INstalling istio-1.19.3
+  block:
+    - name: Downloading istio-1.19.3 into the /usr/local/bin area
+      get_url:
+        url: "{{ artifactory_istio_V1_19_3 }}" #You will find and mofidy the value of the artificat path in the /roles/versions/defaults/main.yml
+        dest: /usr/local/bin
+      register: istio_V1_19_3
+
+    - name: Unzipping the istio-1.19.3.zip in the /usr/local/bin (Assuming the unzip package has been installed)
+      unarchive:
+        src: "{{ istio_V1_19_3.dest }}"
+        dest: /usr/local/bin
+        remote_src: yes  
+
+    - name: Removing the istio-1.19.3.zip files
+      shell:
+        cmd: rm -rf "{{ istio_V1_19_3.dest }}"
+
+    - name: Setting permissions
+      shell:
+        cmd: chmod -R 0755 /usr/local/bin/istio-1.19.3
+
+    - name: Creating the symlink
+      shell:
+        cmd: ln -s /usr/local/bin/istio-1.19.3/bin/istioctl /usr/local/bin/istioctl 
+  when: state == "install"
+
+#Uninstalling
+- name: Uninstall istio-1.19.3
+  block:
+    - name: Removing istio binary
+      shell:
+        cmd: rm -rf /usr/local/bin/"{{ type }}"
+      ignore_errors: true  
+
+    #- name: Delete current executable /usr/local/bin/istioctl
+     # shell:
+     #   cmd: rm -rf /usr/local/bin/istioctl
+     # ignore_errors: true     
+  when: state == "uninstall"
+#Update
+
+- name: Updating the binary file
+  block:
+    - name: Removing istio-1.18.2 binary
+      shell:
+        cmd: rm -rf /usr/local/bin/istio-1.18.2
+      ignore_errors: true
+
+    - name: Delete current executable /usr/local/bin/istioctl
+      shell:
+        cmd: rm -rf /usr/local/bin/istioctl
+      ignore_errors: true  
+
+    - name: Downloading istio-1.19.3 into the /usr/local/bin area
+      get_url:
+        url: "{{ artifactory_istio_V1_19_3 }}" #You will find and mofidy the value of the artificat path in the /roles/versions/defaults/main.yml
+        dest: /usr/local/bin
+      register: istio_V1_19_3
+
+    - name: Unzipping the istio-1.19.3.zip in the /usr/local/bin (Assuming the unzip package has been installed)
+      unarchive:
+        src: "{{ istio_V1_19_3.dest }}"
+        dest: /usr/local/bin
+        remote_src: yes  
+
+    - name: Removing the istio-1.19.3.zip files
+      shell:
+        cmd: rm -rf "{{ istio_V1_19_3.dest }}"
+
+    - name: Setting permissions
+      shell:
+        cmd: chmod -R 0755 /usr/local/bin/istio-1.19.3
+
+    - name: Creating the symlink
+      shell:
+        cmd: ln -s /usr/local/bin/istio-1.19.3/bin/istioctl /usr/local/bin/istioctl    
+  when: state == "update"      
+
+
+
+
+
+
