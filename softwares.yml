@@ -1,0 +1,43 @@
+---
+- name: Installation/Uninstall/Update of softwares
+  hosts: "{{ target }}"
+  tasks:
+    - name: Include kubectl-1.26.12 role
+      include_role:
+        name: kubectl-1.26.12
+      when: type == "all" or type == "kubectl-1.26.12"
+
+    - name: Include kubectl-1.27.9 role
+      include_role:
+        name: kubectl-1.27.9
+      when: type == "all" or type == "kubectl-1.27.9"
+
+    - name: Include kubectl-1.25.16 role
+      include_role:
+        name: kubectl-1.25.16
+      when: type == "all" or type == "kubectl-1.25.16"     
+
+    - name: Include istio-1.19.3 role
+      include_role:
+        name: istio-1.19.3
+      when: type == "all" or type == "istio-1.19.3"
+
+    - name: Include istio-1.20.2 role
+      include_role:
+        name: istio-1.20.2
+      when: type == "all" or type == "istio-1.20.2"
+
+    - name: Include awscli role
+      include_role:
+        name: awscli
+      when: type == "all" or type == "awscli"
+
+    - name: Include eksctl role
+      include_role:
+        name: eksctl
+      when: type == "all" or type == "eksctl"
+
+    - name: Include helm role
+      include_role:
+        name: helm
+      when: type == "all" or type == "helm"           
