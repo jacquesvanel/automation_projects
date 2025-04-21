@@ -1,6 +1,0 @@
----
-- name: sadi service test
-  hosts: "{{ target}}"
-  roles:
-    - role: sadi_service  
-

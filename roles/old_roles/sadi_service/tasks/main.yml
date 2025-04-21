@@ -1,5 +1,0 @@
----
-# tasks file for sadi_service
-
-- name: sadi service test
-  import_tasks: test.yml

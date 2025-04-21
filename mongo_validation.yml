@@ -1,5 +1,0 @@
----
-- name: Validation of MongoDB server
-  hosts: "{{ target }}"
-  roles:
-    - validate_mongo-Jacques

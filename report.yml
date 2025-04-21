@@ -1,5 +1,0 @@
----
-- name: get DB counts 
-  hosts: "{{ target }}"
-  roles:
-    - role: iris-report

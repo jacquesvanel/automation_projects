@@ -1,6 +1,0 @@
----
-- name: Logs 
-  hosts: "{{ target }}"
-  roles:
-    - role: mongo_logs  
-

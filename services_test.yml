@@ -1,6 +1,0 @@
----
-- name: Checking mongo services
-  hosts: "{{ target }}"
-  roles:
-    - role: services_test  
-  

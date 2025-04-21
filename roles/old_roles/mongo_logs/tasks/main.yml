@@ -1,4 +1,0 @@
----
-# tasks file for mongologs
-- name: Check the existence of the file
-  import_tasks: logs.yml
