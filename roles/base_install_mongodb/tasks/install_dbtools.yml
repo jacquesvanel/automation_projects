@@ -3,7 +3,7 @@
   yum:
     name: '{{ dbtools }}'
     state: installed
-    enablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
-    disablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
+    enablerepo: 000_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
+    disablerepo: 000_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
     skip_broken: yes
 
