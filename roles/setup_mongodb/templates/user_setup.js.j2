@@ -1,0 +1,136 @@
+db.createUser(
+{       user: "xxxxxx",x
+        pwd: "xxxxxxxxx",
+"roles" : [
+    { "role" : "readWrite",
+      "db" : "{{ item.db }}"
+    },
+    { "role" : "userAdminAnyDatabase",
+      "db" : "admin"
+    },
+    { "role" : "clusterAdmin",
+      "db" : "admin"
+    },
+    { "role" : "root",
+      "db" : "admin"
+    }
+]});
+
+db.createUser(
+{       user: "xxxxxxx",
+        pwd: "xxxxxxxxxx",
+"roles" : [
+    { "role" : "readWrite",
+      "db" : "{{ item.db }}"
+    },
+    { "role" : "userAdminAnyDatabase",
+      "db" : "admin"
+    },
+    { "role" : "clusterAdmin",
+      "db" : "admin"
+    },
+    { "role" : "root",
+      "db" : "admin"
+    }
+]});
+
+db.createUser(
+{       user: "xxxxxxxxxx",
+        pwd: "xxxxxxxxxxxx",
+"roles" : [
+    { "role" : "userAdminAnyDatabase",
+      "db" : "admin"
+    }
+]});
+
+db.createUser(
+{       user: "svxxxxxxxxxxg",
+        pwd: "xxxxxxxxx",
+"roles" : [
+    { "role" : "read",
+      "db" : "{{ item.db }}"
+    },
+    { "role" : "clusterMonitor",
+      "db" : "admin"
+    }
+]});
+
+db.createUser(
+{       user: "xxxxxxxxxxxxx",
+        pwd: "xxxxxxxxxxxx",
+"roles" : [
+    { "role" : "readWrite",
+      "db" : "{{ item.db }}"
+    },
+    { "role" : "userAdminAnyDatabase",
+      "db" : "admin"
+    },
+    { "role" : "clusterAdmin",
+      "db" : "admin"
+    },
+    { "role" : "root",
+      "db" : "admin"
+    }
+]});
+
+db.createUser(
+{    user: "xxxxx",
+     pwd: "xxxxxxxxxx",
+"roles" : ['root']
+
+});
+
+db.createUser(
+{    user: "xxxx",
+     pwd: "xxxxxxxxxxxx",
+"roles" : [
+    { db: "admin",
+      role: "readWriteAnyDatabase"
+    }, 
+    { db: "admin",
+      role: "dbAdminAnyDatabase"
+    },
+    { db: "admin",
+      role: "clusterMonitor"
+    }
+]});
+
+db.createUser(
+{   user: "xxxxxxx",
+    pwd: "xxxxxxxxxxxxx",
+"roles" : [
+    { db: "admin",
+      role: "readWriteAnyDatabase"
+    },
+    { db: "admin",
+      role: "dbAdminAnyDatabase"
+    },
+    { db: "admin",
+      role: "clusterMonitor"
+    }
+]});
+
+db.createUser(
+{  user: "xxxxxxxx",
+   pwd: "xxxxxxxxxxxxx",
+"roles" : [
+    { db: "admin",
+      role: "readWriteAnyDatabase"
+    },
+    { db: "admin",
+      role: "dbAdminAnyDatabase"
+    },
+    { db: "admin",
+      role: "clusterAdmin"
+    }, 
+    { db: "admin",
+      role: "userAdminAnyDatabase"
+    }, 
+    { db: "admin",
+      role: "backup"
+    },
+    { db: "admin",
+      role: "restore"
+    }
+]})
+

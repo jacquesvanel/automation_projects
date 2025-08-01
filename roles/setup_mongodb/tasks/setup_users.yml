@@ -1,0 +1,38 @@
+---
+- name: (setup_users.yml) make directory for /etc/mongo/{{ env }}/scripts/
+  file:
+    dest: /etc/mongo/{{ env }}/scripts/
+    state: directory
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+
+- name: (setup_users.yml) layout user template for server
+  template:
+    src: user_setup.js.j2
+    dest: "/etc/mongo/{{ env }}/scripts/user_setup.js"
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+    mode: '0644'
+    force: yes
+  when: ansible_hostname == {{ item.name }}
+  with_items: "{{ db_servers }}"
+  loop_control:
+     label: "{{ item.name }}"
+  ignore_errors: yes
+
+- name: (setup_users.yml) set up users on config server
+  shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/user_setup.js
+  register: user_result
+  when: ansible_hostname == {{ item.name }}
+  with_items: "{{ db_servers }}"
+  loop_control:
+    label: "{{ item.name }}"
+  ignore_errors: yes
+
+- name: (setup_users.yml) show user result
+  debug:
+    msg: "{{ user_result }}"
+  ignore_errors: yes
+      #  when: ansible_hostname == {{ item.name }} 
+
+

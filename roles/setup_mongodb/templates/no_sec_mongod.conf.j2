@@ -1,0 +1,18 @@
+#jinja2: lstrip_blocks: "True"
+systemLog:
+  destination: file
+  path: "{{ item.log_path }}"
+  logAppend: true
+  logRotate: rename
+processManagement:
+  fork: true
+  pidFilePath: "{{ item.pid_path }}"
+net:
+  port: {{ item.port }}
+  bindIp: localhost,{{ ansible_fqdn }}
+storage:
+  dbPath: {{ item.db_path }}
+  # wiredTiger:
+  #   engineConfig:
+  #     cacheSizeGB: 5
+

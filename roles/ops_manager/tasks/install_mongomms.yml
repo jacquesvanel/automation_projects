@@ -1,0 +1,103 @@
+---
+#sudo useradd mongodb-mms
+#Update the following entry in passwd file from /bin/bash to /bin/false:  mongodb-mms:x:1001:1002::/home/mongodb-mms:/bin/false
+#vi /etc/passwd    
+- name: Add the user 'mongodb-mms' 
+  user:
+    name: mongodb-mms
+    shell: /bin/false
+    uid: 1001
+    #guid: 1002
+
+#Copy the OPS MMS software to /opt
+#As root:
+#mkdir -p /opt/mongodb/mms
+#chown -R mongodb-mms:mongodb-mms /opt/mongodb/mms
+- name: create a working directory 
+  file:
+    path: /opt/mongodb/mms
+    state: directory
+    owner: mongodb-mms
+    group: mongodb-mms
+    recurse: true
+
+- name: create a working directory
+  file:
+    path: /data/mongo_software
+    state: directory
+    owner: mongodb-mms
+    group: mongodb-mms
+
+- name: layout mongoddb-mms.service template on the server
+  template:
+    src: mongodb_mms.service.j2
+    dest: "/usr/lib/systemd/system/mongodb-mms.service"
+    owner: mongodb-mms
+    group: mongodb-mms
+    mode: '0640'
+    force: yes
+
+- name: Copy mongodb-mms software
+  ansible.builtin.get_url:
+    url: "https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-mms-6.0.6.100.20221102T1837Z.tar.gz"
+    dest: /data/mongo_software
+    tmp_dest: /data/
+
+- name: Unarchive  file 
+  unarchive:
+    src: /data/mongo_software/mongodb-mms-6.0.6.100.20221102T1837Z.tar.gz
+    dest: /data/mongo_software/
+    remote_src: yes
+  ignore_errors: yes
+#Mongodb-releases
+#mkdir /opt/mongodb/mms/mongodb-releases 
+
+- name: create a working directory
+  file:
+    path: /opt/mongodb/mms/mongodb-releases
+    state: directory
+    owner: mongodb-mms
+    group: mongodb-mms
+
+#--mongosh ( as of 12/6/2022 latest is mongosh….tgz ) 
+- name: Copy mongodb-mms software
+  ansible.builtin.get_url:
+    url: "{{ item }}"
+    dest: /opt/mongodb/mms/mongodb-releases
+    tmp_dest: /data/
+    owner: mongodb-mms
+    group: mongodb-mms
+  with_items:
+     #--Mongotools
+     - "https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Mongo-DB/mongodb-database-tools-rhel80-x86_64-100.6.0.tgz"
+     #--5.0.8
+     - "https://va1imgtlmvn0001.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-linux-x86_64-enterprise-rhel80-5.0.8.tgz"
+     #--5.0.13
+     - "https://va1imgtlmvn0001.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-linux-x86_64-enterprise-rhel80-5.0.13.tgz"
+     #--6.0.5
+     - "https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Mongo-DB/Mongo-Binaries/mongodb-linux-x86_64-enterprise-rhel80-6.0.5.tgz"
+
+#cp -r /data/mongo_software/mongodb-mms/* /opt/mongodb/mms
+- name: Copy file 
+  copy:
+    src: /data/mongo_software/mongodb-mms/
+    dest: /opt/mongodb/mms/
+    remote_src: true
+
+- name: Run credentialstool command with input
+  shell: |
+    /opt/mongodb/mms/bin/credentialstool --username mms --password
+  args:
+    stdin: 'Qwerty#12345px'
+  register: credentialstool_output
+
+- name: Extract username and password
+  set_fact:
+    mongo_username: "{{ credentialstool_output.stdout | regex_search('Username: (.+)', '\\1') | first }}"
+    mongo_password: "{{ credentialstool_output.stdout | regex_search('Password: (.+)', '\\1') | first }}"
+
+- name: add conf-mms.properties
+  template:
+    src: conf-mms.properties.js.j2
+    dest: /opt/mongodb/mms/conf/conf-mms.properties
+    force: yes

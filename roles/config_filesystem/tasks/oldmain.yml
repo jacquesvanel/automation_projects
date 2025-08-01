@@ -1,0 +1,114 @@
+---
+- name: show VGS
+  debug:
+    msg: "{{ansible_lvm }}"
+  tags:
+    - test
+
+- name: list volume groups
+  debug:
+    msg: |
+       "volume group is  {{ item.key }}"
+       "free_g is {{ item.value.free_g }}"
+       "size is {{ item.value.size_g }}"
+       "num_lvs is {{ item.value.num_lvs }}"
+       "num_pvs is {{ item.value.num_pvs }}"
+  with_dict: "{{ ansible_lvm.vgs }}"
+  tags:
+    - vgs
+    - test
+
+- name: list lvs
+  debug:
+    msg: |
+       "lvs is {{ item.key }}"
+       "size_g is {{ item.value.size_g }}"
+       "vg is {{ item.value.vg }}"
+  with_dict: "{{ ansible_lvm.lvs }}"
+  tags:
+    - lvs
+    - test
+
+- name: list physical volume groups
+  debug:
+    msg: |
+       "pvs is {{ item.key }}"
+       "free_g is {{ item.value.free_g }}"
+       "size_g is {{ item.value.size_g }}"
+       "vg is {{ item.value.vg }}"
+  with_dict: "{{ ansible_lvm.pvs }}"
+  tags:
+    - pvs
+    - test
+
+- name: show all values for selected devices
+  debug:
+    msg: |
+     device is "{{ item.device }}"
+     mount point is "{{ item.mount }}"
+     filesystem is "{{ item.fstype }}"
+  loop: "{{ ansible_mounts | list }}"
+  tags: never
+
+      
+- name: create partitions
+  parted:
+    device: /dev/nvme0n1
+    state: present
+    number: "{{ item.numb }}"
+    part_start: "{{ item.start }}"
+    part_end: "{{ item.end }}"
+  loop: "{{ partitions }}"
+  tags: 
+    - partitions
+    - never
+
+- name: create volume groups
+  lvg:
+    vg: "{{ item.name }}"
+    pvs: "{{ item.devices }}"
+  loop: "{{ volume_groups }}"
+  tags: volgroup
+
+- name: create logical volume
+  lvol:
+    vg: "{{ item.v_group }}"
+    lv: "{{ item.name }}"
+    size: "{{ item.size }}"
+    pvs: "{{ item.devices }}"
+    force: yes
+    state: "{{ item.state }}" 
+  loop: "{{ logical_volumes }}"
+  #  when: item.name not in ansible_lvm["lvs"]
+  tags: logvolume
+
+- name: create filesystem
+  filesystem:
+    dev: "/dev/{{ item.v_group }}/{{ item.name }}"
+    fstype: xfs
+  loop: "{{ logical_volumes }}"
+  tags: filesystem
+
+- name: ensure the correct size of LV and resize the filesystems
+  lvol:
+    vg: "{{ item.v_group }}"
+    lv: "{{ item.name }}"
+    size: "{{ item.size }}"
+    resizefs: yes
+    force: yes
+  loop: "{{ logical_volumes }}"
+  tags: resize
+
+- name: mount volumes
+  mount:
+    path: "{{ item.mount_path }}"
+    src: "/dev/{{ item.v_group }}/{{ item.name }}"
+    fstype: xfs
+    opts: noatime
+    state: mounted
+  loop: "{{ logical_volumes }}"
+  tags: mount
+
+- name: get devices
+  import_tasks: devices.yml
+  tags: devices

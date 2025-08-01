@@ -1,5 +1,0 @@
----
-- name:  Install MongoDB
-  hosts: "{{ target }}"
-  roles:
-    - role: base_install_mongodb

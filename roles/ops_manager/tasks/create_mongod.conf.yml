@@ -1,0 +1,15 @@
+---
+#place mongodb.conf
+- name: layout template for mongod.conf
+  template:
+    src:  mongod.conf.j2
+    dest: "/etc/mongod.conf"
+#sudo systemctl restart mongod
+#sudo systemctl enable mongod
+- name: restart mongod
+  systemd:
+    name: mongod
+    enabled: yes
+    state: restarted
+#sudo systemctl status mongod
+

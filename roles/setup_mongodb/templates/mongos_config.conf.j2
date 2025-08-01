@@ -1,0 +1,72 @@
+systemLog:
+  destination: file
+{% if item is defined and item == 'mongos0' %}
+  path: "/var/log/mongodb/{{ env }}/mongos0.log"
+{% endif %}
+{% if item is defined and item == 'mongos1' %}
+  path: "/var/log/mongodb/{{ env }}/mongos1.log"
+{% endif %}
+{% if item is defined and item == 'mongos2' %}
+  path: "/var/log/mongodb/{{ env }}/mongos2.log"
+{% endif %}
+  logAppend: true
+  logRotate: reopen
+processManagement:
+  fork: true
+{% if item is defined and item == 'mongos0' %}
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongos-{{ mongos0_port }}.pid"
+{% endif %}
+{% if item is defined and item == 'mongos1' %}
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongos-{{ mongos1_port }}.pid"
+{% endif %}
+{% if item is defined and item == 'mongos2' %}
+  pidFilePath: "/var/run/mongodb/{{ env }}/mongos-{{ mongos2_port }}.pid"
+{% endif %}
+security:
+   clusterAuthMode: x509
+   ldap:
+      servers: "o000000000000000"
+      bind:
+{% if env is defined and env == 'prod' %}
+         queryUser: {{ prod_user }}
+         queryPassword: {{ prod_pw }}
+{% else %}
+         queryUser: {{ nonprod_user }}
+         queryPassword: {{ nonprod_pw }}
+{% endif %}
+      transportSecurity: tls
+      userToDNMapping:
+         '[
+            {
+               match : "(.+)",
+               ldapQuery: "ou=IRS,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
+            },
+            {
+               match : "(.+)",
+               ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
+            }
+         ]'
+setParameter:
+   authenticationMechanisms: PLAIN, SCRAM-SHA-1, SCRAM-SHA-256
+   ocspEnabled: false
+   ldapConnectionPoolMaximumConnectionsPerHost: 2147483647
+   ldapConnectionPoolMaximumConnectionsInProgressPerHost: 2147483647
+net:
+{% if item is defined and item == 'mongos0' %}
+  port: {{ mongos0_port }}
+{% endif %}
+{% if item is defined and item == 'mongos1' %}
+  port: {{ mongos1_port }}
+{% endif %}
+{% if item is defined and item == 'mongos2' %}
+  port: {{ mongos2_port }}
+{% endif %}
+  bindIp: localhost,{{ ansible_fqdn }}
+  tls:
+   mode: preferTLS
+   CAFile: /var/lib/mongodb/cert/CA_Root_Inter.pem
+   allowConnectionsWithoutCertificates: true
+   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
+   certificateKeyFilePassword: {{ cert_password }}
+sharding:
+  configDB: config_{{ env }}/{{ configsvr_rsa }}.opr.afsiep.net:{{ configsvr_rsa_port }},{{ configsvr_rsb }}.opr.afsiep.net:{{ configsvr_rsb_port }},{{ configsvr_rsc }}.opr.afsiep.net:{{ configsvr_rsc_port }}

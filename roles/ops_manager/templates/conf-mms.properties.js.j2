@@ -1,0 +1,20 @@
+mms.ignoreInitialUiSetup=true
+mms.centralUrl=xxxxxxxxxxxxxxxxxxxxxxx
+mms.https.ClientCertificateMode=none
+mms.adminEmailAddr=firstname.lastname@xxxxxxxxxx.local
+mms.fromEmailAddr=firstname.lastname@xxxxxxxxxxx.local
+mms.replyToEmailAddr=firstname.lastname@d11111111111.local
+mms.mail.hostname=localhost
+mms.mail.port=00
+mms.mail.ssl=false
+mms.mail.transport=xxxp
+mms.publicApi.whitelistEnabled=true
+mongo.mongoUri=mongodb://{{ mongo_username }}:{{ mongo_password }}@{{ ops_server_1 }}.xxxxxxxxxx{% if ops_server_2 is defined and ops_server_2|length %},{{ ops_server_2 }}xxxxxxxxxx{% elif ops_server_3 is defined and ops_server_3|length %},{{ ops_server_3 }}xxxxx{% endif %}/?maxPoolSize=150{% if ops_server_2|length or ops_server_3|length %}&replicaSet=appdbRS{% endif %}  
+mongo.encryptedCredentials=true
+automation.versions.source=local
+mongo.ssl=false
+mongodb.ssl.CAFile=/var/lib/mongodb/cert/CA_Root_Inter.pem
+mongodb.ssl.PEMKeyFile=/var/lib/mongodb/cert/KeyWCert.pem
+mongodb.ssl.PEMKeyFilePassword=xxxxxxxxx
+mms.user.bypassInviteForExistingUsers=xxxx
+

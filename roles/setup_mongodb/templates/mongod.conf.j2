@@ -1,0 +1,65 @@
+#jinja2: lstrip_blocks: "True"
+systemLog:
+  destination: file
+  path: "{{ item.log_path }}"
+  logAppend: true
+  logRotate: rename
+processManagement:
+  fork: true
+  pidFilePath: "{{ item.pid_path }}"
+security:
+   authorization: "enabled"
+   clusterAuthMode: x509
+   ldap:
+      servers: "opr.afsiep.net:636"
+      bind:
+{% if env is defined and env == 'prod' %}
+         queryUser: {{ prod_user }}
+         queryPassword: {{ prod_pw }}
+{% else %}
+         queryUser: {{ nonprod_user }}
+         queryPassword: {{ nonprod_pw }}
+{% endif %}
+      transportSecurity: tls
+      userToDNMapping:
+         '[
+            {
+               match : "(.+)",
+               ldapQuery: "ou=IRS,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
+            },
+            {
+               match : "(.+)",
+               ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
+            }
+         ]'
+      authz:
+         queryTemplate: "{USER}?memberOf?base"
+setParameter:
+   authenticationMechanisms: PLAIN, SCRAM-SHA-1, SCRAM-SHA-256
+   ocspEnabled: false
+net:
+  port: {{ item.port }}
+  bindIp: localhost,{{ ansible_fqdn }}
+  tls:
+   mode: preferTLS
+   CAFile: /var/lib/mongodb/cert/CA_Root_Inter.pem
+   allowConnectionsWithoutCertificates: true
+   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
+   certificateKeyFilePassword: {{ cert_password }}
+{% if item.name == 'rs_1' or item.name == 'rs_2' or item.name == 'rs_3'%}
+replication:
+  replSetName: {{ item.repset }}
+storage:
+  dbPath: {{ item.db_path }}
+{% else %}
+sharding:
+  clusterRole: {{ item.cluster }}
+replication:
+  replSetName: {{ item.repset }}
+storage:
+  dbPath: {{ item.db_path }}
+{% endif %}
+  # wiredTiger:
+  #   engineConfig:
+  #     cacheSizeGB: 5
+

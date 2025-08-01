@@ -1,0 +1,138 @@
+---
+################################  testing  ################################
+- name: set facts
+  import_tasks: set_fact.yml
+  when: env is not defined
+  tags:
+    - set_facts 
+
+- name: test task
+  import_tasks: api_test.yml
+  #delegate_to: 'localhost'
+  tags:
+    - test
+    - never
+
+- name: test ssl task
+  import_tasks: ssl_testing.yml
+  #delegate_to: 'localhost'
+  tags:
+    - ssl
+    - never
+
+- name: add alias
+  import_tasks: alias.yml
+  tags: alias
+
+##########start of config##################################################
+- name: add mongo service file
+  import_tasks: mongo_service.yml
+  tags:
+    - mongo_service
+
+- name: add configsvr config/service files 
+  import_tasks: no_sec_servers.yml
+  when: "ansible_hostname in [configsvr_rsa, configsvr_rsb, configsvr_rsc]"
+  tags:
+    - no_sec_config_servers
+  vars:
+    - servers: "{{ config_servers }}"
+
+- name: add shardsvr config/service files
+  import_tasks: no_sec_servers.yml
+  when: "ansible_hostname in [shard1a, shard1b, shard1c, shard2a, shard2b, shard2c, shard3a, shard3b, shard3c]"
+  tags:
+    - no_sec_shard_servers
+  vars: 
+    - servers: "{{ shard_servers }}"
+
+- name: add single_repset_svr config/service files
+  import_tasks: no_sec_servers.yml
+  when: "ansible_hostname in [rs_1, rs_2, rs_3]" 
+  tags:
+    - no_sec_single_repset_servers
+  vars:
+    - servers: "{{ single_repset_servers }}"
+
+- name: add mongos config/service files
+  import_tasks: mongos.yml
+  when: "ansible_hostname in [configsvr_rsa, configsvr_rsb, configsvr_rsc]"
+  tags: 
+    - mongos
+
+- name: setup users
+  import_tasks: setup_users.yml
+  when: "ansible_hostname in [configsvr_rsa, shard1a, shard2a, shard3a, rs_1]"
+  tags: 
+    - setup_users
+
+- name: create role
+  import_tasks: create_role.yml
+  when: "ansible_hostname in [configsvr_rsa, shard1a, shard2a, shard3a, rs_1]"
+  tags: 
+    - create_role
+    
+- name: change ldap interval
+  import_tasks: ldap_interval.yml
+  when: "ansible_hostname in [configsvr_rsa, shard1a, shard2a, shard3a, rs_1]"
+  tags:
+    - ldap_interval  
+
+- name: start mongos
+  import_tasks: start_mongos.yml
+  when: "ansible_hostname in [configsvr_rsa, configsvr_rsb, configsvr_rsc]"
+  tags:
+    - start_mongos
+
+- name: add configsvr config/service files
+  import_tasks: servers.yml
+  when: "ansible_hostname in [configsvr_rsa, configsvr_rsb, configsvr_rsc]"
+  tags:
+    - config_servers
+  vars:
+    - servers: "{{ config_servers }}"
+
+- name: add shardsvr config/service files
+  import_tasks: servers.yml
+  when: "ansible_hostname in [shard1a, shard1b, shard1c, shard2a, shard2b, shard2c, shard3a, shard3b, shard3c]"
+  tags:
+    - shard_servers
+  vars:
+    - servers: "{{ shard_servers }}"
+
+- name: add single_repset_svr config/service files
+  import_tasks: servers.yml
+  when: "ansible_hostname in [rs_1, rs_2, rs_3]"
+  tags:
+    - single_repset_servers
+  vars:
+    - servers: "{{ single_repset_servers }}"
+
+- name: initiate clusters
+  import_tasks: initiate_clusters.yml
+  when: "ansible_hostname in [configsvr_rsa, shard1a, shard2a, shard3a, rs_1]"
+  tags:
+    - initiate_clusters
+
+- name: add lines to /etc/sysctl.conf
+  import_tasks: add_line_to_sys.yml
+  tags:
+    - keepalive
+
+- name: add shards to cluster
+  import_tasks: add_shards.yml
+  when: "ansible_hostname in [configsvr_rsa]"
+  tags:
+    - add_shards
+
+- name: start mongo
+  systemd:
+    name: mongo
+    state: restarted
+
+- name: mms agent
+  import_tasks: mms_agent.yml
+  tags:
+    - mms_agent
+    - never
+#####################################################################

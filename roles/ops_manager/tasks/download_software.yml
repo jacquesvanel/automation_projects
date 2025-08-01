@@ -1,0 +1,22 @@
+---
+- name: create a working directory /usr/local/bin/
+  file:
+    path: /data/mongodb-tools/
+    state: directory
+    owner: root
+    group: root
+
+
+- name: copy mongo mms and opsmanager files into temp
+  get_url:
+    url: "{{ item }}"
+    dest: /data/mongodb-tools/
+    url_username: 'gabriel.larios'
+    url_password: '!QAZxcvbnmko0987'
+    tmp_dest: /data/
+    force: yes
+  with_items:
+    - https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz
+    - https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/mongodb-mms-5.0.14.100.20220802T1010Z-1.x86_64.tar.gz.sig
+    - https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/opsmanager-5.0.asc
+    #    tar -xvf mongodb-mms-6.0.6.100.20221102T1837Z.tar.gz

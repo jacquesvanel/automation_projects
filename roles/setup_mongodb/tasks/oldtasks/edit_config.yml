@@ -1,0 +1,32 @@
+---
+- name: stop mongo.service
+  systemd:
+    name: mongo
+    state: stopped
+    
+- name: find config files on server
+  find:
+    paths: "/etc/mongo/{{ env }}/"
+    patterns: "*.cfg"
+    recurse: yes
+  register: cfgs
+
+- name: replace security line in config file
+  replace:
+    path: "{{ item }}"
+    regexp: '#security'
+    replace: 'security'
+  with_items: "{{cfgs.files | map(attribute='path')| list }}"
+
+- name: replace  line in config file
+  replace:
+    path: "{{ item }}"
+    regexp: '#  keyFile: "/data/{{ env }}/keyfile.pem"'
+    replace: '  keyFile: "/data/{{ env }}/keyfile.pem"'
+  with_items: "{{cfgs.files | map(attribute='path')| list }}"
+
+- name: start mongo.service
+  systemd:
+    name: mongo
+    state: restarted
+    

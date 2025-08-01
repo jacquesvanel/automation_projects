@@ -1,0 +1,65 @@
+---
+# vars file for mongo_config
+repset: xxxxxxxxxxx
+#public_key: xxxxxxxxx
+#private_key: xxxxxxxxxxxxxxxxx
+#project_id: xxxxxxxxxxxxxxxx
+#ops_manager_host: "xxxxxxxxxxxxxxx"
+#api: "/api/xxxxxxxxxxxx"
+#project_name: xxxxxxxxxxxxx
+
+
+
+mongomms:
+  - https://xxxxxxxxxxxxxxxxxxxx/MongoDB/moxxxxxxxxxxxxxxx-1.x86_64.tar.gz
+  - xxxxx//xxxxxxxxxxxxxxxxxxxxxngodb-mxxxxxxxx010Zxxxxxxxxr.gz.sig
+  - https://vxxxxxxxxxxxxxxxx
+owner: mongod
+group: xxxxxx
+
+configsvr_rsa_port: 0000
+configsvr_rsb_port: 00001
+configsvr_rsc_port: 0000
+
+shard1a_port: 00000
+shard1b_port: 0000
+shard1c_port: 3002
+
+shard2a_port: 0000
+shard2b_port: 00000
+shard2c_port: 00000
+
+shard3a_port: 434317
+shard3b_port: 0000008
+shard3c_port: 500000
+
+mongos0_port: 0000
+mongos1_port: 00000
+mongos2_port: 00000
+
+   # placing keyfile cert #
+keyfile_dest: '/data/{{ env }}/keyfile.pem' 
+        # placing keywcert cert #
+keycert_dest: '/var/lib/mongodb/cert/KeyWCert.pem' 
+        # placing ieproot cert #
+ieproot_dest: '/etc/openldap/certs/iep_root_intermediate.pem' 
+        # placing ldap.conf #
+ldap_dest: '/etc/openldap/ldap.conf' 
+        # placing CA cert #
+cacert_dest: '/var/lib/mongodb/cert/CA_Root_Inter.pem' 
+
+
+
+#prod_query_user: "000000000000000000"
+#prod_query_password: "000000000000"
+
+#nonprod_query_user: "00000000000000"
+#nonprod_query_password: "000000000"
+
+
+keyfile: xxxxxxxxxxxxxxx/MongoDB/keys/keyfile.pem
+keycert: xxxxxxxxxxxxxxxxxxMongoDB/keys/KeyWCert.pem
+#tls_password: xxxxxxxxxxx
+ldap: xxxxxxxxxxxxxxxxxxxxx/MongoDB/keys/ldap.conf
+ieproot: xxxxxxxxxxxxxxxxxxx/MongoDB/iep_root_intermediate.pem 
+cacert: xxxxxxxxxxxxx/MongoDB/keys/CA_Root_Inter.pem

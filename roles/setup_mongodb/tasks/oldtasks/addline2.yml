@@ -1,0 +1,51 @@
+---
+- block:
+  - name: find shard files on server
+    find:
+      paths: "/etc/mongo/{{ env }}/"
+      patterns: "*sh*.cfg"
+      recurse: yes
+    register: cfgs
+
+  - name: add lines
+    lineinfile:
+      path: "{{ item }}"
+      line: '   ldapConnectionPoolMaximumConnectionsInProgressPerHost: 2147483647'
+      insertafter:    'ocspEnabled: false'
+    with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+  - name: add lines
+    lineinfile:
+      path: "{{ item }}"
+      line: '   ldapConnectionPoolMaximumConnectionsPerHost: 2147483647'
+      insertafter: 'ocspEnabled: false'
+    with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+  - name: add lines
+    lineinfile:
+      path: "{{ item }}"
+      line: '   ldapUserCacheInvalidationInterval: 86400'
+      insertafter:    'ocspEnabled: false'
+    with_items: "{{ cfgs.files | map(attribute='path')| list }}"
+
+- block:
+  - name: find mongos files on server
+    find:
+      paths: "/etc/mongo/{{ env }}/"
+      patterns: "*mongo[sS]*.cfg"
+      recurse: yes
+    register: cfgs1
+
+  - name: add lines
+    lineinfile:
+      path: "{{ item }}"
+      line: '   ldapConnectionPoolMaximumConnectionsInProgressPerHost: 2147483647'
+      insertafter: 'ocspEnabled: false'
+    with_items: "{{ cfgs1.files | map(attribute='path')| list }}"
+
+  - name: add lines
+    lineinfile:
+      path: "{{ item }}"
+      line: '   ldapConnectionPoolMaximumConnectionsPerHost: 2147483647'
+      insertafter: 'ocspEnabled: false'
+    with_items: "{{ cfgs1.files | map(attribute='path')| list }}"

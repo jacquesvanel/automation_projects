@@ -17,8 +17,8 @@ dbtools:
 version: -5.0.13-1.el8
 owner: mongod
 group: opr-db-admin
-keyfile: https://va1artifactoryirs.mgt.afsiep.net/artifactory/Linux-Shared/MongoDB/keys/keyfile.pem
-keycert: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/KeyWCert.pem
-ldap: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/ldap.conf
-ieproot: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/iep_root_intermediate.pem 
-cacert: https://va1artifactoryirs.mgt.afsiep.net:443/artifactory/Linux-Shared/MongoDB/keys/CA_Root_Inter.pem
+keyfile: xxxxxxxxxxxxxxxxxMongoDB/keys/keyfile.pem
+keycert: xxxxxxxxxxxxxxxx/MongoDB/KeyWCert.pem
+ldap: https:xxxxxxxxxxxxxxxx/MongoDB/keys/ldap.conf
+ieproot: httxxxxxxxxxxxxxxxxxx/MongoDB/iep_root_intermediate.pem 
+cacert: htxxxxxxxxxxx/MongoDB/keys/CA_Root_Inter.pem

@@ -1,0 +1,15 @@
+- name: Initiate MongoDB Replica Set
+  community.mongodb.mongodb_shell:
+    login_host: "{{ ansible_facts['default_ipv4']['address'] }}"
+    login_port: 27017
+    script: |
+      rs.initiate({
+        _id: "rs0",
+        members: [
+          { _id: 0, host: "mongo1:27017" },
+          { _id: 1, host: "mongo2:27017" },
+          { _id: 2, host: "mongo3:27017" }
+        ]
+      })
+  register: repl_init
+  ignore_errors: yes  # So the task doesn't fail if the replica set is already initiated

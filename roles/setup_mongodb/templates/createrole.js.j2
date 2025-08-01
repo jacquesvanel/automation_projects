@@ -1,0 +1,16 @@
+db.createRole(
+{role:"CN=--Admin,OU=xxx,OU=Groups,OU=xxx,DC=xxx,DC=xxx,DC=xxx",privileges:[],
+"roles" : [
+    { "role" : "readWrite",
+      "db" : "{{ item.db }}"
+    },
+    { "role" : "userAdminAnyDatabase",
+      "db" : "admin"
+    },
+    { "role" : "clusterAdmin",
+      "db" : "admin"
+    },
+    { "role" : "root",
+      "db" : "admin"
+    }
+]});

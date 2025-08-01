@@ -1,0 +1,22 @@
+---
+#partition_data:
+device: '/dev/nvme1n1'
+partition: '1'
+      #      filesystem: 'xfs'
+      #      size: '100G' 
+
+      #    - { device: '/dev/sdb', partition: '1', filesystem: 'xfs', size: '50G' }
+vg_name: VolGroup 
+lv_name: data 
+lv_size: 10G
+
+extend_data:
+  - vg_name: VolGroup
+    lv_name: opt
+    size: 9G
+    resizefs: true
+
+  - vg_name: VolGroup
+    lv_name: data
+    size: +100%FREE
+    resizefs: true 

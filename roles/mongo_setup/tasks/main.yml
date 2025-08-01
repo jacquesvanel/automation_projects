@@ -1,0 +1,10 @@
+# tasks file for mongo_setup
+---
+- name: mongo installation
+  include_tasks: install.yml
+
+- name: configuration steps
+  include_tasks: configure.yml
+
+- name: replica set setup
+  include_tasks: replica_setup.yml

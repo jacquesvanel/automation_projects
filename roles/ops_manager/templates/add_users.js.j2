@@ -1,0 +1,116 @@
+db.createUser({
+    user: "root",
+    pwd: "xxxxxxxxx",
+    roles: ['root']
+});
+
+db.auth('root', 'xxxxxxx'); 
+
+db.createUser(
+{     user: "mms",
+      pwd: "xxxxxx",
+"roles" : [
+    { "db": "admin",
+      "role": "readWriteAnyDatabase"
+    },
+    { "db": "admin",
+      "role": "dbAdminAnyDatabase"
+    },
+    { "db": "admin",
+      "role": "clusterMonitor"
+    }
+]});
+
+
+db.createUser(
+{       user: "gmani",
+        pwd: "xxxxxxxx",
+"roles" : [
+    { "role" : "readWrite",
+      "db" : "{{ appname }}_{{ env }}_db"
+    },
+    { "role" : "userAdminAnyDatabase",
+      "db" : "admin"
+    },
+    { "role" : "clusterAdmin",
+      "db" : "admin"
+    },
+    { "role" : "root",
+      "db" : "admin"
+    }
+]});
+
+db.createUser(
+{       user: "xxxxxxxx",
+        pwd: "xxxxxx",
+"roles" : [
+    { "role" : "readWrite",
+      "db" : "{{ appname }}_{{ env }}_db"
+    },
+    { "role" : "userAdminAnyDatabase",
+      "db" : "admin"
+    },
+    { "role" : "clusterAdmin",
+      "db" : "admin"
+    },
+    { "role" : "root",
+      "db" : "admin"
+    }
+]});
+
+db.createUser(
+{       user: "svc_ansible_automation",
+        pwd: "xxxxxxxxx",
+"roles" : [
+    { "role" : "readWrite",
+      "db" : "{{ appname }}_{{ env }}_db"
+    },
+    { "role" : "userAdminAnyDatabase",
+      "db" : "admin"
+    },
+    { "role" : "clusterAdmin",
+      "db" : "admin"
+    },
+    { "role" : "root",
+      "db" : "admin"
+    }
+]})
+
+db.createUser(
+{   user: "mxxxxx",
+    pwd: "xxxxxxxxxxxxxxx",
+"roles" : [
+    { db: "admin",
+      role: "readWriteAnyDatabase"
+    },
+    { db: "admin",
+      role: "dbAdminAnyDatabase"
+    },
+    { db: "admin",
+      role: "clusterMonitor"
+    }
+]});
+
+db.createUser(
+{  user: "mms-automation",
+   pwd: "xxxxxxxxxxxx",
+"roles" : [
+    { db: "admin",
+      role: "readWriteAnyDatabase"
+    },
+    { db: "admin",
+      role: "dbAdminAnyDatabase"
+    },
+    { db: "admin",
+      role: "clusterAdmin"
+    },
+    { db: "admin",
+      role: "userAdminAnyDatabase"
+    },
+    { db: "admin",
+      role: "backup"
+    },
+    { db: "admin",
+      role: "restore"
+    }
+]})

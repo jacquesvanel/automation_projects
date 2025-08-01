@@ -1,0 +1,116 @@
+---
+#Get MongoDB Ops Manager Info
+#Get organization info and parse out org_id
+- name: Get Org
+  uri:
+    url: "{{ ops_manager_host }}{{ api }}/orgs" #groups/{{ project_id }}/hosts?pretty=true"
+    method: GET
+    url_username: "{{ public_key }}"
+    url_password: "{{ private_key }}"
+    headers:
+       Accept: "application/json"
+    return_content: true
+  register: ops_manager_org
+
+- name: Print Response
+  debug:
+    var: ops_manager_org.json
+
+- set_fact:
+    org_id: "{{ ops_manager_org.json.results[0].id }}"
+  
+- debug:
+    var: org_id
+##################################################################
+#  - block:
+#    - name: Create a new Project in MongoDB Ops Manager
+#      uri:
+#        url: "{{ ops_manager_host }}{{ api }}/groups?pretty=true"
+#        method: POST
+#        user: "{{ public_key }}"
+#        password: "{{ private_key }}"
+#        headers:
+#          Content-Type: "application/json"
+#        body_format: json
+#        body:
+#          name: "{{ project_name }}"
+#          orgId: "{{ org_id }}"
+#        status_code: 201  # Update the expected status code
+#      register: project_creation_result
+#      ignore_errors: yes
+#
+#  - name: Print the result of creating a new group
+#    debug:
+#      var: project_creation_result.json
+#
+#  - set_fact:
+#      agent_api_key: "{{ project_creation_result.json.agentApiKey }}"
+#
+#  - name: show api_key
+#    debug:
+#      var: agent_api_key
+####################################################################
+##get project info and parse out project id 
+#- name: Get Project info from MongoDB Ops Manager
+#  uri:
+#    url: "{{ ops_manager_host }}{{ api }}/groups/byName/{{ project_name }}?pretty=true"
+#    method: GET
+#    user: "{{ public_key }}"
+#    password: "{{ private_key }}"
+#    headers:
+#      Content-Type: "application/json"
+#    return_content: true
+#  register: project_info_result
+#  ignore_errors: yes
+#
+#- name: Print the result of creating a new group
+#  debug:
+#    var: project_info_result.json
+#
+#- set_fact:
+#    project_id: "{{ project_info_result.json.id }}"
+#
+#- debug:
+#    var: project_id
+#
+####################################################################
+##get project info and parse out project id
+#- name: Get automation from MongoDB Ops Manager
+#  uri:
+#    url: "{{ ops_manager_host }}{{ api }}/groups/{{ project_id }}/automationConfig?pretty=true"
+#    method: GET
+#    user: "{{ public_key }}"
+#    password: "{{ private_key }}"
+#    headers:
+#      Content-Type: "application/json"
+#    return_content: true
+#  register: config_info_result
+#  ignore_errors: yes
+#
+#- name: Print the result of creating a new group
+#  debug:
+#    var: config_info_result.json
+#
+###########################################################################
+## Update Automation Config
+#- name: PUT request to update Automation Config
+#  uri:
+#    url: "{{ ops_manager_host }}{{ api }}/groups/{{ project_id }}/automationConfig?pretty=true"
+#    method: PUT
+#    user: "{{ public_key }}"
+#    password: "{{ private_key }}"
+#    headers:
+#      Content-Type: "application/json"
+#    body_format: json
+#    #body:
+#    remote_src: true
+#    src: role/setup_mongodb/files/currentAutomationConfig.json
+#    timeout: 60
+#  register: result
+#  ignore_errors: yes
+#
+#- name: Display Response
+#  debug:
+#    var: result.json
+#
+#

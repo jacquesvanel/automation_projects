@@ -1,0 +1,29 @@
+---
+#get unpartitioned nvme device
+- set_fact:
+    device_name: "{{ item.key }}"
+  with_dict: "{{ ansible_devices }}"    
+  when: item.key.startswith('nvme') and item.value.partitions == {}
+
+- debug:
+    var:  device_name
+
+#creates new lvm partition  
+- name: Create partitions
+  parted:
+    device: "/dev/{{ device_name }}"
+    number: 1
+    flags: [ lvm ]
+    state: present
+  register: part_create
+  when: device_name is defined
+
+
+#creates new pvs and extends existing vg to newly created partiton
+- name: Create physical volume
+  lvg:
+    vg: "{{ vgs_name }}"
+    pvs: "/dev/{{ device_name }}p1,/dev/nvme0n1p2"
+  when: part_create.changed
+  register: pv_create
+  ignore_errors: yes

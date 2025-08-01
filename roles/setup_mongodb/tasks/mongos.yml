@@ -1,0 +1,27 @@
+---
+- block:
+  - name: (mongos.yml) layout template on the server
+    template:
+      src:  mongos.conf.j2
+      dest: "{{ item.dest }}"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0644'
+      force: yes
+    loop: "{{ mongos_servers }}"
+    loop_control:
+      label: "{{ item.name }}"
+
+  - name: (mongos.yml) Ensure mongos.service file exists
+    template:
+      src: mongod.service.j2
+      dest: "{{ item.dest2 }}"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0640'
+      force: yes
+    loop: "{{ mongos_servers }}"
+    loop_control:
+      label: "{{ item.name }}"
+      #when: ansible_hostname == 'configsvr_rsa' or  ansible_hostname == 'configsvr_rsb' or  ansible_hostname == 'configsvr_rsc' 
+  when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa) or (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb) or (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)

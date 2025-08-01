@@ -1,0 +1,36 @@
+---
+- name: Create logical volume
+  command: lvcreate -L {{ lv_size }} -n {{ lv_name }} {{ vg_name }}
+  when: vg_create.changed
+  register: lv_create
+  ignore_errors: yes
+
+- name: Format logical volume
+  command: mkfs -t xfs /dev/{{ vg_name }}/{{ lv_name }}
+  when: lv_create.changed
+  register: lv_format
+  ignore_errors: yes
+
+- name: Creates directory
+  file:
+    path: /{{ lv_name }}
+    state: directory
+  when: lv_format.changed
+
+- name: Mount logical volume
+  mount:
+    path: /{{ lv_name }}
+    src: /dev/{{ vg_name }}/{{ lv_name }}
+    fstype: xfs
+    state: mounted
+  when: lv_format.changed
+  register: lv_mount
+  ignore_errors: yes
+
+  #- name: Mount filesystems
+  #  mount:
+  #    path: "/mnt/{{ item.filesystem }}"
+  #    src: "{{ item.device }}{{ item.partition }}"
+  #    fstype: "{{ item.filesystem }}"
+  #    state: mounted
+  #  with_items: "{{ partition_data }}"

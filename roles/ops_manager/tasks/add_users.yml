@@ -1,0 +1,31 @@
+---
+- name: make directory for /etc/mongo/{{ env }}/scripts/
+  file:
+    dest: /etc/mongo/{{ env }}/scripts/
+    state: directory
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+  tags: setup_users
+
+- name: layout user template for the server
+  template:
+    src:  add_users.js.j2
+    dest: "/etc/mongo/{{ env }}/scripts/user_setup.js"
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+    mode: '0644'
+    force: yes
+  tags: setup_users
+
+- block:
+  - name: set up users on config server
+    shell: mongo "{{ ansible_fqdn }}":37019/admin /etc/mongo/{{ env }}/scripts/user_setup.js
+    register: config_result
+    ignore_errors: yes
+
+  - name: show config shell result
+    debug:
+      var: config_result.stdout_lines
+  
+    ignore_errors: yes
+  when: (ops_server_1 is defined) and (ansible_hostname == ops_server_1)

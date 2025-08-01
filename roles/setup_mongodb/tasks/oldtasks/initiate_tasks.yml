@@ -1,0 +1,29 @@
+---
+- name: initiate clusters
+  include_tasks: initiate_clusters.yml
+  when: 'primary'
+  loop:
+    - (shard1a is defined) and (ansible_hostname == shard1a)
+    - (shard2a is defined) and (ansible_hostname == shard2a)
+    - (shard3a is defined) and (ansible_hostname == shard3a)
+    - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
+  loop_control:
+    loop_var: primary
+  tags: initiate_db
+
+- name: start mongos
+  include_tasks: start_mongos.yml
+  when: 'start_mongos'
+  loop:
+    - (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
+    - (configsvr_rsb is defined) and (ansible_hostname == configsvr_rsb)
+    - (configsvr_rsc is defined) and (ansible_hostname == configsvr_rsc)
+  loop_control:
+    loop_var: start_mongos
+  tags: start_mongos
+
+- name: add shards to cluster
+  include_tasks: add_shards_to_cluster.yml
+  when: (configsvr_rsa is defined) and (ansible_hostname == configsvr_rsa)
+  tags: add_shards
+

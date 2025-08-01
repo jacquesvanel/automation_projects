@@ -1,0 +1,26 @@
+---
+- name: make directory for /etc/mongo/{{ env }}/scripts/
+  file:
+    dest: /etc/mongo/{{ env }}/scripts/
+    state: directory
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+
+- block:
+  - name: layout template for /etc/mongo/{{ env }}/scripts/initiate.rs.js the ops_server_1
+    template:
+      src:  initiate.rs.js.j2
+      dest: "/etc/mongo/{{ env }}/scripts/initiate.rs.js"
+      owner: root
+      group: root
+      mode: '0644'
+      force: yes
+
+  - name: initiate shard replica set
+    shell: mongo "{{ ansible_fqdn }}":37019/admin /etc/mongo/{{ env }}/scripts/initiate.rs.js
+    register: shell_result
+
+  - debug:
+      var: shell_result.stdout_lines
+  when: (ops_server_1 is defined) and (ansible_hostname == ops_server_1)
+  ignore_errors: yes

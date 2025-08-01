@@ -1,0 +1,38 @@
+---
+- name: Check partition
+  debug:
+#    msg: "{{ ansible_devices[item] }}"
+    msg: "{{ ansible_devices[item] }}"
+  register: part  
+  when: item.startswith('nvme')
+  loop: "{{ ansible_devices.keys()|list }}"
+
+- name: debug
+  debug:
+    msg: "{{ item.key }}"
+  loop: "{{  ansible_devices | subelements('partitions') | list }}"
+          #    msg: "{{ ansible_devices[partitions] | list }}"
+
+- name: Find disk without partition
+  debug:
+    msg: "{{ item }} doesn't have a partition"
+  loop: "{{  part | selectattr('partitions', '==', {}) | list }}"
+  #  when: item.device.startswith('/dev/nvme')
+
+- name: Find disk without partition
+  set_fact:
+    unpartitioned_disk: "{{ ansible_devices | selectattr('partitions', 'equals', {}) | selectattr('holders', 'equals', []) | selectattr('size', 'gt', 0) | list }}"
+  when: unpartitioned_disk | length > 0
+
+  #- name: Create partition on unpartitioned disk
+  #  blockinfile:
+  #    path: /tmp/partition_disk.sh
+  #    block: |
+  #      echo "Creating partition on {{ unpartitioned_disk[0].device }}"
+  #      parted {{ unpartitioned_disk[0].device }} mklabel gpt
+  #      parted {{ unpartitioned_disk[0].device }} mkpart primary ext4 0% 100%
+  #  when: unpartitioned_disk | length > 0
+
+  #- name: Run partition script
+  #  command: sh /tmp/partition_disk.sh
+  #  when: unpartitioned_disk | length > 0

@@ -1,0 +1,51 @@
+---
+#Configure MongoDB config servers
+- block:
+  - name: (no_sec_servers.yml) make dbpath file directory 
+    file:
+      path: "{{ item.db_path }}"
+      state: directory
+      mode: '2775'
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+    loop: "{{ shard_servers }}"
+    loop_control:
+      label: "{{ item.name }}"
+    #ignore_errors: yes
+
+  - name: (no_sec_servers.yml) layout mongod.conf template on the server
+    template:
+      src: no_sec_mongod.conf.j2
+      dest: "{{ item.dest }}"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0644'
+      force: yes
+    #ignore_errors: yes
+    loop: "{{ shard_servers }}"
+    loop_control:
+      label: "{{ item.name }}"
+
+  - name: (no_sec_servers.yml) layout mongod.service template on the server
+    template:
+      src: mongod.service.j2
+      dest: "{{ item.dest2 }}"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0640'
+      force: yes
+    loop: "{{ shard_servers }}"
+    loop_control:
+      label: "{{ item.name }}"
+
+  - name: (no_sec_servers.yml) start mongod service
+    systemd:
+      name: "{{ item.service }}"
+      state: restarted
+      enabled: yes
+      daemon_reload: yes
+    #ignore_errors: yes
+    loop: "{{ shard_servers }}"
+    loop_control:
+      label: "{{ item.name }}"
+  when: item.name is defined and ansible_hostname == {{ item.name }}

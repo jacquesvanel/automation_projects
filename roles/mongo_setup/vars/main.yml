@@ -1,0 +1,5 @@
+---
+# vars file for mongo_setup
+---
+mongodb_repo_url: https://repo.mongodb.org/yum/xxxxxxxxxxx
+mongodb_gpg_key: https://www.mongodb.org/xxxxxxxxxxxx

@@ -1,0 +1,28 @@
+---
+- name: get app name
+  shell: cat /etc/serverinfo.conf | grep IrsApplicationName | sed 's/IrsApplicationName=//g' | tr [:upper:] [:lower:]
+  args:
+    warn: no
+  register: app_name
+
+- set_fact:
+    app_name: "{{ app_name.stdout }}"
+
+- debug:
+    var: app_name
+
+- name: get env
+  shell: cat /etc/serverinfo.conf | grep Environment | sed 's/Environment=//g' | tr [:upper:] [:lower:]
+  args:
+    warn: no
+  register: env
+
+- set_fact:
+    env: "{{ env.stdout }}"
+
+- debug:
+    var: env
+
+ 
+#- debug:
+#    msg: "{{ ansible_facts }}"

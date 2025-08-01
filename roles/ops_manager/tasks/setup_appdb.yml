@@ -1,0 +1,21 @@
+---
+#Prestep:  Update /data to be owned by mongod:
+#sudo mkdir /data/appdb
+##sudo mkdir /data/logs
+#sudo chown mongod:mongod /data
+#sudo chown mongod:mongod /data/appdb
+#sudo chown mongod:mongod /data/logs
+#mkdir /var/log/mongodb/prod
+#sudo chown mongod:mongod /var/log/mongodb/prod
+- name: make file directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    #    mode:
+    owner: mongod
+    group: mongod
+  loop:
+    - /data/appdb
+    - /data/logs 
+    - "/var/log/mongodb/{{ env }}"  
+    - /data

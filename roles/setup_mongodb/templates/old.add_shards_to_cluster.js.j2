@@ -1,0 +1,9 @@
+{% if shard1a is defined and shard1a|length %}
+db.adminCommand( { addshard : "sh1_{{ env }}/"+"{{ shard1a }}xxxxxxxxxx:{{ shard1a_port }}" } );
+{% endif %}
+{% if shard2a is defined and shard2a|length %}
+db.adminCommand( { addshard : "sh2_{{ env }}/"+"{{ shard2a }}.xxxxxxxxxx:{{ shard2a_port }}" } );
+{% endif %}
+{% if shard3a is defined and shard3a|length %}
+db.adminCommand( { addshard : "sh3_{{ env }}/"+"{{ shard3a }}.xxxxxxxx{{ shard3a_port }}" } );
+{% endif %}

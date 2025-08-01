@@ -1,0 +1,54 @@
+---
+#- name: line insert
+#  lineinfile:
+#    path: /etc/sysctl.conf
+#    line: 'net.ipv4.tcp_keepalive_time = 120'
+- name: Remove vm.max_map_count line if exists
+  lineinfile:
+    dest: /etc/sysctl.conf
+    line: 'vm.max_map_count='
+    state: absent
+    regexp: '^vm\.max_map_count='
+
+- name: Remove vm.swapiness line if exists
+  lineinfile:
+    dest: /etc/sysctl.conf
+    line: 'vm.swappiness ='
+    state: absent
+    regexp: '^vm\.swappiness ='
+
+- name: Remove net.ipv4.tcp_keepalive_time line if exists
+  lineinfile:
+    dest: /etc/sysctl.conf
+    line: 'net.ipv4.tcp_keepalive_time ='
+    state: absent
+    regexp: '^net\.ipv4.tcp_keepalive_time ='
+
+- name: Remove \# setting for Mongodb 6.0 line if exists
+  lineinfile:
+    dest: /etc/sysctl.conf
+    line: '# setting for Mongodb 6.0'
+    state: absent
+    regexp: '^# setting for Mongodb 6.0'
+
+- name: Remove \# Mongodb Settings line if exists
+  lineinfile:
+    dest: /etc/sysctl.conf
+    line: '# Mongodb Settings'
+    state: absent
+    regexp: '^# Mongodb Settings'
+
+- name: Add lines to sysctl.conf
+  blockinfile:
+    dest: /etc/sysctl.conf
+    block: |
+      # Mongodb Settings
+      net.ipv4.tcp_keepalive_time = 120
+      vm.max_map_count=102400
+      vm.swappiness = 1
+    insertafter: '^.*\S.*$'
+    marker: ""
+
+- name: reset sysctl
+  command: /sbin/sysctl --system
+    

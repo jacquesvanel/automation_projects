@@ -1,0 +1,40 @@
+---
+- block:
+  - set_fact:
+      vgs_name: "{{ item.key }}"
+    with_dict: "{{ ansible_lvm.vgs }}"
+
+  - debug:
+      var: vgs_name
+  tags: always
+
+- name: create partition
+  import_tasks: partitions.yml
+  tags:
+    - partition
+
+- name: create logical volume
+  import_tasks: lvm.yml
+  tags:
+    - lvm
+
+################################################################
+
+- name: extend opt volume
+  import_tasks: opt.yml
+  tags:
+    - opt
+    
+
+- name: extend data volume
+  import_tasks: data.yml
+  tags:
+    - data
+   
+
+- name: testing playbook
+  import_tasks: test1.yml
+  tags:
+   - test
+   - never
+

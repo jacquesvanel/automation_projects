@@ -1,0 +1,15 @@
+---
+- debug:
+    msg: "{{ item.device }}"
+  loop: "{{ ansible_mounts }}"  
+  register: device
+
+- name: Read device information (always use unit when probing)
+  parted:
+    device: "{{ item.value.device }}" 
+    unit: GB
+  register: sdb_info
+  with_dict: "{{ device.results }}"
+
+  #- debug:
+  #    msg: "{{ sdb_info.partitions }}"

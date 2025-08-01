@@ -1,0 +1,22 @@
+---
+- name: Create partitions
+  parted:
+    device: "{{ item.device }}"
+    number: "{{ item.partition }}"
+    flags: [ "{{ item.partition }}" ]
+    state: present
+  with_items: "{{ partition_data }}"
+
+- name: Create filesystems
+  filesystem:
+    fstype: "{{ item.filesystem }}"
+    dev: "{{ item.device }}{{ item.partition }}"
+    opts: -F
+  with_items: "{{ partition_data }}"
+  #- name: Mount filesystems
+  #  mount:
+  #    path: "/mnt/{{ item.filesystem }}"
+  #    src: "{{ item.device }}{{ item.partition }}"
+  #    fstype: "{{ item.filesystem }}"
+  #    state: mounted
+  #  with_items: "{{ partition_data }}"

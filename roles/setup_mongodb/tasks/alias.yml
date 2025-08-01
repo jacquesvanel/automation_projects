@@ -1,0 +1,17 @@
+- name: Check if md command is already used
+  shell: |
+    grep -r "alias md" /root/.bashrc /etc/bashrc /etc/profile.d/*.sh
+  register: grep_result
+  ignore_errors: true
+
+- name: Add md alias to .bashrc
+  lineinfile:
+    path: /root/.bashrc
+    line: "alias md='sudo -u mongod -s'"
+    insertafter: '^alias\s+\w+=.*$'
+  when: "'alias md' not in grep_result.stdout"
+
+- name: Reload .bashrc file
+  shell: source ~/.bashrc
+  args:
+    executable: /bin/bash

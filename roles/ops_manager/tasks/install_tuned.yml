@@ -1,0 +1,49 @@
+---
+#sudo mkdir -p /etc/tuned/mongodb
+- name: make file directory
+  file:
+    path: /etc/tuned/mongodb
+    state: directory
+    mode: 
+    owner: 
+    group: 
+
+#place tuned.conf template
+- name: layout template for tuned.conf
+  template:
+    src:  tuned.conf.j2
+    dest: "/etc/tuned/mongodb/tuned.conf"
+      #      owner: "{{ owner }}"
+      #      group: "{{ group }}"
+      #      mode: '0644'
+    force: yes
+#sudo tee /etc/tuned/mongodb/tuned.conf
+#yum install tuned
+- name: install tuned
+  yum:
+    name: tuned 
+    state: installed
+    enablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
+    disablerepo: AFSIEP_MongoDB_Enterprise_MongoDB5-RHEL8-x86_64
+    skip_broken: yes
+    #    autoremove: yes
+  register: yum_result
+  ignore_errors: yes
+
+- debug:
+    msg: "{{ yum_result.results }}"
+
+#systemctl enable --now tuned
+- name: enable tuned
+  systemd:
+    name: tuned
+    enabled: yes
+
+- name: Pause for 5 minutes to build app cache
+  ansible.builtin.pause:
+    minutes: 1
+
+#sudo tuned-adm profile mongodb
+- name: set mongodb profile
+  shell: tuned-adm profile mongodb
+  become: yes

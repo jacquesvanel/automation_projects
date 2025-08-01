@@ -1,0 +1,161 @@
+---
+#Get MongoDB Ops Manager Info
+#Get organization info and parse out org_id
+- name: Get Org 
+  uri:
+    url: "{{ ops_manager_host }}{{ api }}/orgs" #groups/{{ project_id }}/hosts?pretty=true"
+    method: GET
+    url_username: "{{ public_key }}" 
+    url_password: "{{ private_key }}"
+    headers:
+       Accept: "application/json"
+    return_content: true
+  register: ops_manager_org
+
+- name: Print Response
+  debug:
+    var: ops_manager_org.json
+
+- set_fact:
+    org_id: "{{ ops_manager_org.json.results[0].id }}"
+    
+- debug:
+    var: org_id
+#################################################################
+- name: Get Projects
+  uri:
+    url: "{{ ops_manager_host }}{{ api }}/groups/" #{{ project_id }}/hosts?pretty=true"
+    method: GET
+    url_username: "{{ public_key }}"
+    url_password: "{{ private_key }}"
+    headers:
+       Accept: "application/json"
+    return_content: true
+  register: ops_manager_projects
+
+- name: Print Response
+  debug:
+    var: ops_manager_projects.json
+
+- name: Extract project names
+  set_fact:
+    project_names_list: "{{ ops_manager_projects.json.results | map(attribute='name') | list }}"
+
+- debug:
+    msg: "{{ project_names_list }}"
+###################################################################
+- block:
+  - name: Create a new Project in MongoDB Ops Manager
+    uri:
+      url: "{{ ops_manager_host }}{{ api }}/groups?pretty=true"
+      method: POST
+      user: "{{ public_key }}"
+      password: "{{ private_key }}"
+      headers:
+        Content-Type: "application/json"
+      body_format: json
+      body:
+        name: "{{ project_name }}"
+        orgId: "{{ org_id }}"
+      status_code: 201  # Update the expected status code
+    register: project_creation_result
+    ignore_errors: yes
+
+  - name: Print the result of creating a new group
+    debug:
+      var: project_creation_result.json
+
+  - set_fact:
+      agent_api_key: "{{ project_creation_result.json.agentApiKey }}"
+
+  - name: show api_key
+    debug:
+      var: project_api_key
+  when: project_name not in project_names_list
+#####################################################################
+#get project info and parse out project id 
+- block:
+  - name: Get Project info from MongoDB Ops Manager
+    uri:
+      url: "{{ ops_manager_host }}{{ api }}/groups/byName/{{ project_name }}?pretty=true"
+      method: GET
+      user: "{{ public_key }}"
+      password: "{{ private_key }}"
+      headers:
+        Content-Type: "application/json"
+      return_content: true
+    register: project_info_result
+    ignore_errors: yes
+
+  - name: Print the result of creating a new group
+    debug:
+      var: project_info_result.json
+
+  - set_fact:
+      project_id: "{{ project_info_result.json.id }}"
+
+  - debug:
+      var: project_id
+
+##########################################################################
+# create new api key for existing project
+  - name: Create Agent API Key for project
+    uri:
+      url: "{{ ops_manager_host }}{{ api }}/groups/{{ project_id }}/agentapikeys?pretty=true"
+      method: POST
+      user: "{{ public_key }}"
+      password: "{{ private_key }}"
+      headers:
+        Content-Type: "application/json"
+      body_format: json
+      body:
+        desc: "New agent API Key for project"
+      return_content: yes
+      status_code: 201  # Update the expected status code
+    register: new_api_key_result
+
+  - name: Print response
+    debug:
+      var: new_api_key_result.json
+
+  - set_fact:
+      agent_api_key: "{{ new_api_key_result.json.key }}"
+
+  - name: show api key
+    debug:
+      var: agent_api_key
+  when: project_name in project_names_list
+
+- name: layout template for /etc/mongodb-mms/automation-agent.config
+  template:
+    src:  mongomms_automation_agent.config.j2
+    dest: "/etc/mongodb-mms/automation-agent.config"
+    owner: mongod
+    group: mongod
+    mode: '0600'
+    force: yes
+
+- name: restart mongodb-mms-agent
+  systemd:
+     name: mongodb-mms-automation-agent
+     state: restarted
+     enabled: true
+
+- name: Create a new host in MongoDB Ops Manager
+  uri:
+    url: "{{ ops_manager_host }}{{ api }}/groups/{{ project_id }}/hosts?pretty=true"
+    method: POST
+    user: "{{ public_key }}"
+    password: "{{ private_key }}"
+    headers:
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      hostname: "{{ ansible_fqdn }}"
+      port: "27017"
+    status_code: 201  # Update the expected status code
+  register: host_creation_result
+
+- name: Print the result of creating a new group
+  debug:
+    var: host_creation_result.json

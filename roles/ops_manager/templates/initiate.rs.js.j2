@@ -1,0 +1,14 @@
+#jinja2: lstrip_blocks: "True"
+config = { _id: "{{ repset }}",
+        members:[
+         { _id : 0, host : "{{ ops_server_1 }}.xxxxxxxxx" },
+{% if ops_server_2 is defined and ops_server_2|length %}
+         { _id : 1, host : "{{ ops_server_2 }}.xxxxxxxxxx" },
+{% endif %}
+{% if ops_server_3 is defined and ops_server_3|length%}
+         { _id : 2, host : "{{ ops_server_3 }}.xxxxxxxxx" }
+{% endif %}
+        ]
+};
+var output = rs.initiate(config);
+printjson(output)

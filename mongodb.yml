@@ -1,0 +1,34 @@
+---
+- name: Configure MongoDB
+  hosts: "{{ target }}"
+  tasks:
+    - name: set_fact
+      import_tasks: roles/setup_mongodb/tasks/set_fact.yml
+      tags: always
+
+    - name: config_filesystem
+      include_role:
+        name: config_filesystem
+      when: "config_filesystem == 'yes'"
+      tags: [ partitions, lvm, opt, data, test]
+
+    - name: base install
+      include_role:
+        name: base_install_mongodb
+      when: "base_install == 'yes'"
+      tags: [ uninstall, base, dbtools, make_file, add_certs, logrotate, hugepages, install_mms_agent, test]
+
+    - name: install ops manager
+      include_role: 
+        name: ops_manager
+      when: "ansible_hostname in [ops_server_1, ops_server_2, ops_server_3]"
+      tags: [ tuned, appdb, no_sec_mongod, repset, users, ops_manager, mongod, test]
+
+    - name: setup mongodb servers
+      include_role:
+        name: setup_mongodb
+      tags: |
+        [ mongo_service, no_sec_config_servers, no_sec_shard_servers, no_sec_single_repset_servers, mongos, setup_users, create_role, ldap_interval, start_mongos, config_servers, shard_servers, single_repset_servers, initiate_clusters, keepalive, add_shards, mms_agent, alias, ssl, test]
+
+
+

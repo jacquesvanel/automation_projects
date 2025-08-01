@@ -1,0 +1,41 @@
+---
+- set_fact:
+    lvs_name: "{{ item }}"
+  loop: "{{ ansible_lvm.lvs | list }}"
+  when: item == "data"
+
+- debug:
+    var: lvs_name
+
+#creates data lvm
+- name: Create logical volume
+  lvol:
+    vg: "{{ vgs_name }}"
+    lv: "{{ lv_name }}" 
+    size: "{{ lv_size }}"
+  register: lv_create
+  when: lvs_name is undefined
+  ignore_errors: yes
+
+- name: Format logical volume
+  filesystem:
+    fstype: xfs
+    dev: "/dev/{{ vgs_name }}/{{ lv_name }}"
+  when: lv_create.changed
+  register: lv_format
+  ignore_errors: yes
+
+- name: Creates directory
+  file:
+    path: /{{ lv_name }}
+    state: directory
+    #when: lv_format.changed
+
+- name: Mount logical volume
+  mount:
+    path: /{{ lv_name }}
+    src: /dev/{{ vgs_name }}/{{ lv_name }}
+    fstype: xfs
+    state: mounted
+    #when: lv_format.changed
+  ignore_errors: yes

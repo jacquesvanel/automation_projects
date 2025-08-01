@@ -1,0 +1,54 @@
+---
+#Configure MongoDB config servers
+- block:
+  - name: (servers.yml) make dbpath file directory 
+    file:
+      path: "{{ item.db_path }}"
+      state: directory
+      mode: '2775'
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+    loop: "{{ servers }}"
+    loop_control:
+      label: "{{ item.name }}"
+    #when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
+    ignore_errors: yes
+
+  - name: (servers.yml) layout mongod.conf template on the server
+    template:
+      src: mongod.conf.j2
+      dest: "{{ item.dest }}"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0644'
+      force: yes
+    #when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
+    ignore_errors: yes
+    loop: "{{ servers }}"
+    loop_control:
+      label: "{{ item.name }}"
+
+  - name: (servers.yml) layout mongod.service template on the server
+    template:
+      src: mongod.service.j2
+      dest: "{{ item.dest2 }}"
+      owner: "{{ owner }}"
+      group: "{{ group }}"
+      mode: '0640'
+      force: yes
+    loop: "{{ servers }}"
+    loop_control:
+      label: "{{ item.name }}"
+
+  - name: (servers.yml) start mongod service
+    systemd:
+      name: "{{ item.service }}"
+      state: restarted
+      enabled: yes
+      daemon_reload: yes
+    #when: "configsvr_{{ item.name }} is defined and ansible_hostname == configsvr_{{ item.name }}"
+    ignore_errors: yes
+    loop: "{{ servers }}"
+    loop_control:
+      label: "{{ item.name }}"
+  when: "{{ item.name }} is defined and ansible_hostname == {{ item.name }}"

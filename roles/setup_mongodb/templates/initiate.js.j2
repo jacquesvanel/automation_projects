@@ -1,0 +1,72 @@
+#jinja2: lstrip_blocks: "True"
+{% if configsvr_rsa is defined and ansible_hostname == configsvr_rsa %}
+config = { _id: "{{ item.repset }}",
+        members:[
+         { _id : 0, host : "{{ configsvr_rsa }}.xxxxxxxxxx:{{ configsvr_rsa_port }}", priority: 100 },
+{% if configsvr_rsb is defined and configsvr_rsb|length %}
+         { _id : 1, host : "{{ configsvr_rsb }}.xxxxxxxxxxx:{{ configsvr_rsb_port }}" },
+{% endif %}
+{% if configsvr_rsc is defined and configsvr_rsc|length %}
+         { _id : 2, host : "{{ configsvr_rsc }}.xxxxxxxxx:{{ configsvr_rsc_port }}" }
+{% endif %}
+        ]
+};
+var output = rs.initiate(config);
+printjson(output)
+{% elif shard1a is defined and ansible_hostname == shard1a %}
+config = { _id: "{{ item.repset }}",
+        members:[
+         { _id : 0, host : "{{ shard1a }}.xxxxxxxxx{{ shard1a_port }}", priority: xxx},
+{% if shard1b is defined and shard1b|length %}
+         { _id : 1, host : "{{ shard1b }}.xxxxxx:{{ shard1b_port }}" },
+{% endif %}
+{% if shard1c is defined and shard1c|length %}
+         { _id : 2, host : "{{ shard1c }}.opr.afsiep.net:{{ shard1c_port }}" }
+{% endif %}
+        ]
+};
+var output = rs.initiate(config);
+printjson(output)
+{% elif shard2a is defined and ansible_hostname == shard2a %}
+config = { _id: "{{ item.repset }}",
+        members:[
+         { _id : 0, host : "{{ shard2a }}.opr.afsiep.net:{{ shard2a_port }}", priority: 100 },
+{% if shard2b is defined and shard2b|length %}
+         { _id : 1, host : "{{ shard2b }}.opr.afsiep.net:{{ shard2b_port }}" },
+{% endif %}
+{% if shard2c is defined and shard2c|length %}
+         { _id : 2, host : "{{ shard2c }}.opr.afsiep.net:{{ shard2c_port }}" }
+{% endif %}
+        ]
+};
+var output = rs.initiate(config);
+printjson(output)
+{% elif shard3a is defined and ansible_hostname == shard3a %}
+config = { _id: "{{ item.repset }}",
+        members:[
+         { _id : 0, host : "{{ shard3a }}.opr.afsiep.net:{{ shard3a_port }}", priority: 100 },
+{% if shard3b is defined and shard3b|length %}
+         { _id : 1, host : "{{ shard3b }}.opr.afsiep.net:{{ shard3b_port }}" },
+{% endif %}
+{% if shard3c is defined and shard3c|length %}
+         { _id : 2, host : "{{ shard3c }}.opr.afsiep.net:{{ shard3c_port }}" }
+{% endif %}
+        ]
+};
+var output = rs.initiate(config);
+printjson(output)
+{% elif rs_1 is defined and ansible_hostname == rs_1 %}
+config = { _id: "{{ item.repset }}",
+        members:[
+         { _id : 0, host : "{{ rs_1 }}.opr.afsiep.net:37018", priority: 100 },
+{% if rs_2 is defined and rs_2|length %}
+         { _id : 1, host : "{{ rs_2 }}.opr.afsiep.net:37018" },
+{% endif %}
+{% if rs_3 is defined and rs_3|length %}
+         { _id : 2, host : "{{ rs_3 }}.opr.afsiep.net:37018" }
+{% endif %}
+        ]
+};
+var output = rs.initiate(config);
+printjson(output)
+{% endif %}

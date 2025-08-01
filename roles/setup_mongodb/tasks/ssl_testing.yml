@@ -1,0 +1,45 @@
+---
+#- name: send CPU utilization report from mail.
+#  mail:
+#    host: mail01.mgt.afsiep.net
+#    port: 25
+#    to: gabriel.larios@accenturefederal.com
+#    subject: CPU utilization report
+#    body: System hostname - "{{ ansible_hostname }}"
+#    sender: "{{ email_address | default(tower_user_email) }}"
+    #  delegate_to: localhost
+    #
+- name: check ssl cert exp date
+  shell: openssl x509 -enddate -noout -in  '/var/lib/mongodb/cert/KeyWCert.pem'
+  register: shell1
+
+- name: check ssl cert exp date
+  shell: openssl x509 -enddate -noout -in  '/etc/openldap/certs/iep_root_intermediate.pem'
+  register: shell2
+  
+- name: check ssl cert exp date
+  shell: openssl x509 -enddate -noout -in  '/var/lib/mongodb/cert/CA_Root_Inter.pem'
+  register: shell3
+
+#- name: Get certificate expiration date
+#  openssl_certificate:
+#    path: "{{ item }}"
+#    provider: assertonly
+#    #provider: selfsigned 
+#    #has_expired: no
+#  register: cert_info
+#  with_items: 
+#    - '/var/lib/mongodb/cert/KeyWCert.pem'
+#    - '/etc/openldap/certs/iep_root_intermediate.pem'
+#    - '/var/lib/mongodb/cert/CA_Root_Inter.pem'
+#
+#- name: Print certificate expiration date
+#  debug:
+#    msg: "Certificate expires on {{ cert_info.not_after }}"
+#  with_items: "{{ cert_info | list }}"
+
+- debug:
+    msg: 
+      - "KeyWCert.pem expires on {{ shell1.stdout }}"
+      - "iep_root_intermediate.pem expires on {{ shell2.stdout }}"
+      - "CA_Root_Inter.pem expires on {{ shell3.stdout }}"

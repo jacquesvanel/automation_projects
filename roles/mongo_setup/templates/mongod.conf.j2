@@ -1,0 +1,13 @@
+# mongod.conf
+
+storage:
+  dbPath: /var/lib/mongo
+  journal:
+    enabled: true
+
+net:
+  port: 27017
+  bindIp: 0.0.0.0
+
+replication:
+  replSetName: rs0

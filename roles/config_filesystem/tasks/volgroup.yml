@@ -1,0 +1,13 @@
+---
+#- name: Create volume group
+#  command: vgcreate {{ vg_name }} {{ device }}
+#  when: pv_create.changed
+#  register: vg_create
+#  ignore_errors: yes
+
+- name: Extend volume group
+#  command: "vgextend {{ vg_name }} {{ device }}p1"
+  command: vgextend Volgroup /dev/nvme1n1p1
+#  when: pv_create.changed
+  register: vg_extend
+  ignore_errors: yes

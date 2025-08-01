@@ -1,0 +1,30 @@
+---
+- name: get app name
+  shell: cat /etc/serverinfo.conf | grep IrsApplicationName | sed 's/IrsApplicationName=//g' | tr [:upper:] [:lower:]
+  args:
+    warn: no
+  register: app_name
+  when: app_name is not defined
+
+- set_fact:
+    appname: "{{ app_name.stdout }}"
+  when: app_name.changed
+
+- debug:
+    var: appname
+  when: app_name.changed
+
+- name: get env
+  shell: cat /etc/serverinfo.conf | grep Environment | sed 's/Environment=//g' | tr [:upper:] [:lower:]
+  args:
+    warn: no
+  register: env1
+  when: env is not defined
+
+- set_fact:
+    env: "{{ env1.stdout }}"
+  when: env1.changed
+
+- debug:
+    var: env
+  when: env1.changed

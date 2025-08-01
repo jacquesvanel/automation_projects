@@ -1,0 +1,56 @@
+---
+# tasks file for mongodb-mms
+- name: set fact
+  import_tasks: set_fact.yml
+  #  when: env is not defined
+  #  tags:
+          #    - always
+
+- name: install and configure tuned
+  import_tasks: install_tuned.yml
+  tags:
+    - tuned
+
+- name: setup AppDB
+  import_tasks: setup_appdb.yml
+  tags:
+    - appdb
+
+- name: setup mongod.conf
+  import_tasks: create_mongod.conf.yml
+  tags:
+    - no_sec_mongod
+
+- name: initiate repset
+  import_tasks: initiate_rs.yml
+  tags:
+    - repset
+ 
+- name: add users
+  import_tasks: add_users.yml
+  tags:
+    - users
+
+- name: Ops manager software install
+  import_tasks: install_mongomms.yml
+  tags: 
+    - ops_manager
+
+- name: test
+  import_tasks: test.yml
+  tags:
+    - test
+    - never
+
+- name: start ops manager
+  shell: /opt/mongodb/mms/bin/mongodb-mms start
+  register: start_ops
+
+- debug:
+    var: start_ops
+#Setup TLS / Certs on ops manager servers
+#- name: tls
+#  import_tasks: tls.yml
+  
+#  Conf-mms.properties? this will possibly need an api call
+

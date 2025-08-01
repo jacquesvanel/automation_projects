@@ -1,0 +1,29 @@
+---
+#- name: add cronjob for logrotate
+#  cron:
+#    name: "logrotate for mongodb logs"
+#    minute: "23"
+#    job: "/usr/sbin/logrotate /etc/logrotate.d/mongo"
+#    state: absent
+
+#- name: remove files
+#  file:
+#    path: /etc/logrotate.d/mongo
+#    state: absent
+#- name: Debug port value for configsvr_rsa
+#  debug:
+#    msg: "Port value is {{ db_servers | selectattr('name', 'equalto', 'configsvr_rsa') | map(attribute='port') }}"
+
+#- name: start hugepagesfix
+#  systemd:
+#    name: mongodb-hugepage-fix
+#  register: status
+
+#get status of services
+#- name: (service_files.yml) status of all services
+#  debug:
+#    msg: "{{ status.results }}"
+          #msg: "The status of {{ item.status.Names }} on {{ ansible_hostname }} is {{ item.status.ActiveState }}"
+          #
+
+ 

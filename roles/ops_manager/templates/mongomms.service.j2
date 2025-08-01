@@ -1,0 +1,34 @@
+[Unit]
+Description=MongoDB-User 
+Documentation=https://docs.mongodb.org/manual
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=mongodb-mms
+Group=opr-db-admin
+Environment="OPTIONS=-f /opt/mongodb/mms/bin/mongodb-mms"
+EnvironmentFile=-/etc/sysconfig/mongod-mms
+ExecStart=/usr/bin/mongod $OPTIONS
+PermissionsStartOnly=true
+Type=forking
+# file size
+LimitFSIZE=infinity
+# cpu time
+LimitCPU=infinity
+# virtual memory size
+LimitAS=infinity
+# open files
+LimitNOFILE=0000
+# processes/threads
+LimitNPROC=64000
+# locked memory
+LimitMEMLOCK=infinity
+# total threads (user+kernel)
+TasksMax=infinity
+TasksAccounting=false
+# Recommended limits for mongod as specified in
+# https://docs.mongodb.com/manual/reference/ulimit/#recommended-ulimit-settings
+
+[Install]
+WantedBy=multi-user.target

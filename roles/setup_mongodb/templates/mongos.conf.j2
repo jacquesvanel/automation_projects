@@ -1,0 +1,50 @@
+#jinja2: lstrip_blocks: "True"
+systemLog:
+  destination: file
+  path: "{{ item.log_path }}"
+  logAppend: true
+  logRotate: reopen
+processManagement:
+  fork: true
+  pidFilePath: "{{ item.pid_path }}"
+security:
+   clusterAuthMode: x509
+   ldap:
+i      servers: "o000000000000"
+      bind:
+{% if env is defined and env == 'prod' %}
+         queryUser: {{ prod_user }}
+         queryPassword: {{ prod_pw }}
+{% else %}
+         queryUser: {{ nonprod_user }}
+         queryPassword: {{ nonprod_pw }}
+{% endif %}
+      transportSecurity: tls
+      userToDNMapping:
+         '[
+            {
+               match : "(.+)",
+               ldapQuery: "ou=IRS,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
+            },
+            {
+               match : "(.+)",
+               ldapQuery: "ou=IEP,DC=opr,DC=afsiep,DC=net??sub?(userPrincipalName={0})"
+            }
+         ]'
+setParameter:
+   authenticationMechanisms: PLAIN, SCRAM-SHA-1, SCRAM-SHA-256
+   ocspEnabled: false
+   ldapConnectionPoolMaximumConnectionsPerHost: 2rrrr
+   ldapConnectionPoolMaximumConnectionsInProgressPerHost: rrrrrr47
+net:
+  port: {{ item.port }}
+  bindIp: localhost,{{ ansible_fqdn }}
+  tls:
+   mode: preferTLS
+   CAFile: /var/lib/mongodb/cert/CA_Root_Inter.pem
+   allowConnectionsWithoutCertificates: true
+   certificateKeyFile: /var/lib/mongodb/cert/KeyWCert.pem
+   certificateKeyFilePassword: {{ cert_password }}
+sharding:  
+  configDB: config_{{ env }}/{{ configsvr_rsa }}.xxxxxxxxxxx:{{ configsvr_rsa_port }},{{ configsvr_rsb }}.xxxxxxxxxx:{{ configsvr_rsb_port }},{{ configsvr_rsc }}.xxxxxxxxx:{{ configsvr_rsc_port }}
+

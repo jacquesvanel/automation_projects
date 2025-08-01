@@ -1,0 +1,20 @@
+---
+- name: show all values for selected devices
+  debug: 
+    msg: |
+     device is "{{ item.device }}"
+     mount point is "{{ item.mount }}"
+     filesystem is "{{ item.fstype }}"
+  loop: "{{ ansible_mounts | list }}"
+  tags: never
+
+- name: show VGS
+  debug:
+    msg: "{{ansible_lvm }}"
+
+- debug:
+    msg: |
+      "{{ansible_lvm.lvs}}"
+      #      "{{ansible_lvm.pvs}}"
+      #      "{{ansible_lvm.vgs}}"
+  with_dict: "{{ansible_lvm}}"

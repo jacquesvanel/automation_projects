@@ -1,0 +1,36 @@
+---
+- name: (create_role.yml) make directory for /etc/mongo/{{ env }}/scripts/
+  file:
+    dest: /etc/mongo/{{ env }}/scripts/
+    state: directory
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+
+- name: (create_role.yml) layout role template for the server
+  template:
+    src:  createrole.js.j2
+    dest: "/etc/mongo/{{ env }}/scripts/createrole.js"
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+    mode: '0644'
+    force: yes
+  when: ansible_hostname == {{ item.name }}
+  with_items: "{{ db_servers }}"
+  loop_control:
+    label: "{{ item.name }}"
+  ignore_errors: yes
+
+- name: (create_role.yml) set up role on config server
+  shell: mongo {{ ansible_fqdn }}:{{ item.port }}/admin /etc/mongo/{{ env }}/scripts/createrole.js
+  when: ansible_hostname == {{ item.name }}
+  register: role_result
+  with_items: "{{ db_servers }}"
+  loop_control:
+    label: "{{ item.name }}"
+  ignore_errors: yes  
+
+- name: (create_role.yml) show role result
+  debug:
+    msg: "{{ role_result }}"
+
+  
