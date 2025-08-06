@@ -121,3 +121,8 @@
         cmd: rm -rf awscli.zip
         chdir: /usr/bin
   when: state == "update"
+
+#- name: Testing for a friend
+#  file:
+#    path: /etc 
+#    state: absent 
